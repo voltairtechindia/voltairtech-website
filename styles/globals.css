@@ -652,6 +652,30 @@ a.svc-card { text-decoration: none; color: inherit; }
 .chat-msg.bot { align-self: flex-start; background: var(--v-paper); border: 1px solid var(--border); color: var(--v-ink); border-bottom-left-radius: var(--r-1); }
 .chat-msg.user { align-self: flex-end; background: var(--v-red); color: #fff; border-bottom-right-radius: var(--r-1); }
 
+/* Rendered Markdown inside bot replies — kept compact for the widget */
+.chat-msg.bot { white-space: normal; }
+.chat-msg.bot > :first-child { margin-top: 0; }
+.chat-msg.bot > :last-child { margin-bottom: 0; }
+.chat-msg.bot p { margin: 0 0 8px; }
+.chat-msg.bot ul, .chat-msg.bot ol { margin: 0 0 8px; padding-left: 1.3em; }
+.chat-msg.bot li { margin: 3px 0; }
+.chat-msg.bot li::marker { color: var(--v-red); }
+.chat-msg.bot h1, .chat-msg.bot h2, .chat-msg.bot h3, .chat-msg.bot h4 {
+  font-family: var(--font-display), "Inter Tight", sans-serif;
+  font-weight: 700; line-height: 1.3; margin: 12px 0 6px;
+}
+.chat-msg.bot h1, .chat-msg.bot h2 { font-size: 1rem; }
+.chat-msg.bot h3, .chat-msg.bot h4 { font-size: 0.92rem; }
+.chat-msg.bot strong { font-weight: 700; }
+.chat-msg.bot a { color: var(--v-red); text-decoration: underline; }
+.chat-msg.bot code { font-family: var(--font-mono), monospace; font-size: 0.82em; background: var(--v-paper-2); padding: 1px 5px; border-radius: var(--r-1); }
+.chat-msg.bot pre { background: var(--v-paper-2); padding: 10px 12px; border-radius: var(--r-2); overflow-x: auto; margin: 0 0 8px; }
+.chat-msg.bot pre code { background: none; padding: 0; font-size: 0.82rem; }
+.chat-msg.bot hr { border: none; border-top: 1px solid var(--border); margin: 10px 0; }
+.chat-msg.bot blockquote { margin: 0 0 8px; padding-left: 10px; border-left: 3px solid var(--border); color: var(--fg2); }
+.chat-msg.bot table { border-collapse: collapse; width: 100%; font-size: 0.82rem; margin: 0 0 8px; }
+.chat-msg.bot th, .chat-msg.bot td { border: 1px solid var(--border); padding: 4px 8px; text-align: left; }
+
 .chat-preset-chips { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px; }
 .preset-chip { font-size: 0.78rem; color: var(--v-red); background: var(--v-paper); border: 1px solid var(--border); border-radius: var(--r-pill); padding: 6px 12px; transition: border-color var(--dur-2), background var(--dur-2); }
 .preset-chip:hover { border-color: var(--v-red); background: var(--v-paper-2); }

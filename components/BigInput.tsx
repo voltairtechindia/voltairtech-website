@@ -5,20 +5,33 @@ import { Kicker } from "./atoms/Kicker";
 import { Arr } from "./atoms/Arr";
 
 type Status = "idle" | "sending" | "done" | "error";
+type Channel = "whatsapp" | "email";
+
+const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
 export function BigInput() {
   const [name, setName] = useState("");
+  const [whatsapp, setWhatsapp] = useState("");
   const [email, setEmail] = useState("");
   const [val, setVal] = useState("");
   const [website, setWebsite] = useState(""); // honeypot
-  const [chan, setChan] = useState<"whatsapp" | "email">("whatsapp");
+  const [chan, setChan] = useState<Channel>("whatsapp");
   const [status, setStatus] = useState<Status>("idle");
   const [error, setError] = useState<string | null>(null);
 
   const submit = async () => {
     setError(null);
-    if (!name.trim() || !email.trim() || !val.trim()) {
-      setError("Please add your name, email, and one line about what you want.");
+    const contact = chan === "whatsapp" ? whatsapp.trim() : email.trim();
+    if (!name.trim() || !contact || !val.trim()) {
+      setError(
+        chan === "whatsapp"
+          ? "Please add your name, WhatsApp number, and one line about what you want."
+          : "Please add your name, email, and one line about what you want.",
+      );
+      return;
+    }
+    if (chan === "email" && !EMAIL_RE.test(contact)) {
+      setError("Please enter a valid email address.");
       return;
     }
     setStatus("sending");
@@ -28,7 +41,8 @@ export function BigInput() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           name,
-          email,
+          email: chan === "email" ? email : "",
+          phone: chan === "whatsapp" ? whatsapp : "",
           message: val,
           channel: chan,
           website, // honeypot — bots fill it, humans don't
@@ -83,14 +97,26 @@ export function BigInput() {
                   onChange={(e) => setName(e.target.value)}
                   autoComplete="name"
                 />
-                <input
-                  className="bi__input"
-                  type="email"
-                  placeholder="Your email"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  autoComplete="email"
-                />
+                {chan === "whatsapp" ? (
+                  <input
+                    className="bi__input"
+                    type="tel"
+                    inputMode="tel"
+                    placeholder="WhatsApp number (with country code)"
+                    value={whatsapp}
+                    onChange={(e) => setWhatsapp(e.target.value)}
+                    autoComplete="tel"
+                  />
+                ) : (
+                  <input
+                    className="bi__input"
+                    type="email"
+                    placeholder="Your email"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    autoComplete="email"
+                  />
+                )}
               </div>
 
               {/* Honeypot: visually hidden, off-screen; real users never fill it. */}

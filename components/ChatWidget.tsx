@@ -2,6 +2,8 @@
 
 import { useEffect, useRef, useState } from "react";
 
+import Markdown from "./Markdown";
+
 const PRESETS = [
   "What can you build in 48 hours?",
   "How does a RAG system work?",
@@ -176,7 +178,7 @@ export default function ChatWidget() {
           </div>
           {messages.map((m, i) => (
             <div key={i} className={`chat-msg ${m.from}`}>
-              {m.text}
+              {m.from === "bot" && !m.error ? <Markdown>{m.text}</Markdown> : m.text}
               {m.error && <FallbackForm />}
             </div>
           ))}

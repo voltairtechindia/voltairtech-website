@@ -69,7 +69,8 @@ export async function POST(req: Request) {
   const phone = str(body.phone);
   const email = str(body.email);
   const message = str(body.message);
-  const channel = str(body.channel);
+  // Reply channel drives which contact field is required. Default to WhatsApp.
+  const channel = str(body.channel) === "email" ? "email" : "whatsapp";
   const pageUrl = str(body.page_url) || null;
 
   if (!name || name.length > 200) {
@@ -78,11 +79,30 @@ export async function POST(req: Request) {
       { status: 400 },
     );
   }
-  if (!email || email.length > 320 || !EMAIL_RE.test(email)) {
-    return NextResponse.json(
-      { detail: "A valid email is required." },
-      { status: 400 },
-    );
+  if (channel === "whatsapp") {
+    if (!phone || phone.length > 50) {
+      return NextResponse.json(
+        { detail: "A valid WhatsApp number is required." },
+        { status: 400 },
+      );
+    }
+    // Email is optional on WhatsApp; validate only if provided.
+    if (email && (email.length > 320 || !EMAIL_RE.test(email))) {
+      return NextResponse.json(
+        { detail: "Please provide a valid email or leave it blank." },
+        { status: 400 },
+      );
+    }
+  } else {
+    if (!email || email.length > 320 || !EMAIL_RE.test(email)) {
+      return NextResponse.json(
+        { detail: "A valid email is required." },
+        { status: 400 },
+      );
+    }
+    if (phone.length > 50) {
+      return NextResponse.json({ detail: "phone too long." }, { status: 400 });
+    }
   }
   if (!message || message.length > 5000) {
     return NextResponse.json(
@@ -90,9 +110,9 @@ export async function POST(req: Request) {
       { status: 400 },
     );
   }
-  if (company.length > 200 || phone.length > 50) {
+  if (company.length > 200) {
     return NextResponse.json(
-      { detail: "company/phone too long." },
+      { detail: "company too long." },
       { status: 400 },
     );
   }
@@ -124,7 +144,7 @@ export async function POST(req: Request) {
       message,
       page_url: pageUrl,
       user_agent: req.headers.get("user-agent"),
-      metadata: channel ? { reply_channel: channel } : {},
+      metadata: { reply_channel: channel },
     });
     return NextResponse.json({ ok: true });
   } catch (err) {
