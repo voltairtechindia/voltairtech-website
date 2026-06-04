@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { PageLayout } from "@/components/PageLayout";
 import { Industries } from "@/components/Industries";
 import { Process } from "@/components/Process";
-import { listPublishedIndustries } from "@/lib/industries/db";
+import { listPublishedIndustries, DEFAULT_PER_PAGE } from "@/lib/industries/db";
 import type { IndustryPage } from "@/lib/industries/types";
 
 // Revalidate every 5 min so admin edits appear without a redeploy.
@@ -28,7 +28,7 @@ export default async function IndustriesPage({
 }) {
   const page = Math.max(1, Number(searchParams?.page) || 1);
 
-  let data: IndustryPage = { items: [], total: 0, page, perPage: 12, pageCount: 1 };
+  let data: IndustryPage = { items: [], total: 0, page, perPage: DEFAULT_PER_PAGE, pageCount: 1 };
   try {
     data = await listPublishedIndustries(page);
   } catch {

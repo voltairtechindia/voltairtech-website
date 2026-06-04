@@ -291,6 +291,7 @@ body { background: var(--v-paper); color: var(--v-ink); overflow-x: hidden; }
 .svc-grid--compact .svc-card__bullets li { font-size: 11px; }
 .svc-grid--compact .svc-card__eta { margin-top: var(--s-3); }
 
+
 /* Linked-services block on /industries/<slug>. The cards sit inside .legal-page,
    whose prose rules (h3/li/p colours) would otherwise cascade onto the dark
    cards and make their text dark-on-dark. Re-assert the ink card palette here. */
