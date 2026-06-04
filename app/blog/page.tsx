@@ -6,8 +6,11 @@ import { listPublishedPosts } from "@/lib/blog/db";
 import type { BlogPostCard } from "@/lib/blog/types";
 import { formatDate } from "@/lib/blog/util";
 
-// Revalidate the listing every 5 min so new posts appear without a redeploy.
-export const revalidate = 300;
+// Render per-request: the listing is time-gated (published_at <= now()), and a
+// statically-cached page can't tell that a scheduled post's time has passed. The
+// query is a single cheap Supabase call, so a scheduled post appears the moment
+// it's due instead of waiting out an ISR window.
+export const dynamic = "force-dynamic";
 
 export const metadata: Metadata = {
   title: "Blog — Practical AI Guides for Indian Operators",

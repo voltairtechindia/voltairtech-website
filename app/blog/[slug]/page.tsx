@@ -14,8 +14,9 @@ import { formatDate } from "@/lib/blog/util";
 
 const SITE_URL = "https://voltairtech.com";
 
-// ISR: render once, refresh every 5 min so edits/new posts go live without deploy.
-export const revalidate = 300;
+// Short ISR window + dynamicParams: a scheduled post is never prerendered at
+// build, so its first visit once due renders fresh; edits propagate within ~1 min.
+export const revalidate = 60;
 export const dynamicParams = true;
 
 export async function generateStaticParams() {
