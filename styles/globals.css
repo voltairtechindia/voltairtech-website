@@ -489,6 +489,7 @@ body { background: var(--v-paper); color: var(--v-ink); overflow-x: hidden; }
 /* ====================  LEGAL PAGES  ==================== */
 .legal-page { padding: var(--s-10) 0; }
 .legal-page__inner { max-width: 760px; }
+.legal-page__inner--wide { max-width: 1040px; margin-inline: auto; }
 .legal-page__back { display: inline-flex; align-items: center; gap: 8px; font-family: var(--font-mono), "JetBrains Mono", monospace; font-size: 12px; letter-spacing: 0.04em; color: var(--fg3); margin-bottom: var(--s-7); transition: color var(--dur-2); }
 .legal-page__back:hover { color: var(--v-red); }
 .legal-page h1 { font-family: var(--font-display), "Inter Tight", sans-serif; font-weight: 900; font-size: clamp(2.4rem, 6vw, 4.5rem); line-height: var(--lh-display); letter-spacing: var(--tracking-tight); margin-bottom: var(--s-4); }
@@ -537,6 +538,9 @@ a.svc-card { text-decoration: none; color: inherit; }
 .post-card__cover { flex: 0 0 200px; border-radius: var(--r-2); overflow: hidden; align-self: stretch; border: 1px solid var(--border); }
 .post-card__cover img { width: 100%; height: 100%; min-height: 130px; object-fit: cover; display: block; }
 .post-card__body { min-width: 0; }
+/* Blog index: responsive 2-col grid (collapses to 1 col on phones). */
+.post-list--grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); align-items: start; }
+@media (max-width: 640px) { .post-list--grid { grid-template-columns: 1fr; } }
 @media (max-width: 600px) {
   .post-list a.post-card--media { flex-direction: column; gap: var(--s-4); }
   .post-card__cover { flex-basis: auto; aspect-ratio: 16 / 9; }
@@ -574,6 +578,8 @@ a.svc-card { text-decoration: none; color: inherit; }
 /* On the paper sections, recolor for contrast */
 .section:not(.section--ink) .pagination__btn { border-color: var(--border); color: var(--fg1); }
 .section:not(.section--ink) .pagination__status { color: var(--fg3); }
+.legal-page .pagination__btn { border-color: var(--border); color: var(--fg1); }
+.legal-page .pagination__status { color: var(--fg3); }
 
 /* =========================================================================
    Blog article (DB-backed posts)

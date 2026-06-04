@@ -6,23 +6,40 @@
  */
 import { getSupabase } from "@/lib/rag/supabase";
 
-import type { BlogPost, BlogPostCard, BlogUpsert } from "./types";
+import type { BlogIndex, BlogPost, BlogPostCard, BlogUpsert } from "./types";
 
 const CARD_COLUMNS =
   "slug, title, excerpt, cover_image, tags, author, reading_minutes, published_at";
 
-/** Published posts, newest first, as lightweight listing cards. */
-export async function listPublishedPosts(limit = 50): Promise<BlogPostCard[]> {
+export const DEFAULT_PER_PAGE = 6;
+
+/** Published posts, newest first, as a paginated page of listing cards. */
+export async function listPublishedPosts(
+  page = 1,
+  perPage = DEFAULT_PER_PAGE,
+): Promise<BlogIndex> {
   const sb = getSupabase();
-  const { data, error } = await sb
+  const p = Math.max(1, Math.floor(page));
+  const from = (p - 1) * perPage;
+  const to = from + perPage - 1;
+
+  const { data, error, count } = await sb
     .from("blog_posts")
-    .select(CARD_COLUMNS)
+    .select(CARD_COLUMNS, { count: "exact" })
     .eq("status", "published")
     .lte("published_at", new Date().toISOString())
     .order("published_at", { ascending: false })
-    .limit(limit);
+    .range(from, to);
   if (error) throw error;
-  return (data ?? []) as BlogPostCard[];
+
+  const total = count ?? 0;
+  return {
+    items: (data ?? []) as BlogPostCard[],
+    total,
+    page: p,
+    perPage,
+    pageCount: Math.max(1, Math.ceil(total / perPage)),
+  };
 }
 
 /** Slugs of all published posts (for sitemap + static params). */

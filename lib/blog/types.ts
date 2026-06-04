@@ -56,6 +56,15 @@ export type BlogPostCard = Pick<
   | "published_at"
 >;
 
+/** A page of listing cards plus pagination metadata (blog index). */
+export interface BlogIndex {
+  items: BlogPostCard[];
+  total: number;
+  page: number;
+  perPage: number;
+  pageCount: number;
+}
+
 /** Payload accepted by POST /api/blog (from the admin panel or n8n). */
 export interface BlogUpsert {
   slug: string;

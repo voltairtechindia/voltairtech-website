@@ -2,8 +2,8 @@ import type { Metadata } from "next";
 import Link from "next/link";
 
 import { ProsePage } from "@/components/ProsePage";
-import { listPublishedPosts } from "@/lib/blog/db";
-import type { BlogPostCard } from "@/lib/blog/types";
+import { DEFAULT_PER_PAGE, listPublishedPosts } from "@/lib/blog/db";
+import type { BlogIndex } from "@/lib/blog/types";
 import { formatDate } from "@/lib/blog/util";
 
 // Render per-request: the listing is time-gated (published_at <= now()), and a
@@ -25,14 +25,26 @@ export const metadata: Metadata = {
   },
 };
 
-export default async function BlogIndexPage() {
-  let posts: BlogPostCard[] = [];
+export default async function BlogIndexPage({
+  searchParams,
+}: {
+  searchParams: { page?: string };
+}) {
+  const page = Math.max(1, Number(searchParams?.page) || 1);
+
+  let data: BlogIndex = {
+    items: [],
+    total: 0,
+    page,
+    perPage: DEFAULT_PER_PAGE,
+    pageCount: 1,
+  };
   try {
-    posts = await listPublishedPosts();
+    data = await listPublishedPosts(page);
   } catch {
     // DB unavailable (e.g. build before env is set) — render the empty state.
-    posts = [];
   }
+  const posts = data.items;
 
   const jsonLd = {
     "@context": "https://schema.org",
@@ -58,6 +70,7 @@ export default async function BlogIndexPage() {
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
       <ProsePage
+        wide
         crumbs={[
           { label: "Home", href: "/" },
           { label: "Blog" },
@@ -71,35 +84,62 @@ export default async function BlogIndexPage() {
             No posts yet — check back soon.
           </p>
         ) : (
-          <div className="post-list">
-            {posts.map((p) => (
-              <Link
-                key={p.slug}
-                href={`/blog/${p.slug}`}
-                className={p.cover_image?.url ? "post-card--media" : undefined}
-              >
-                {p.cover_image?.url ? (
-                  <div className="post-card__cover">
-                    {/* eslint-disable-next-line @next/next/no-img-element */}
-                    <img
-                      src={p.cover_image.url}
-                      alt={p.cover_image.alt ?? p.title}
-                      loading="lazy"
-                      decoding="async"
-                    />
+          <>
+            <div className="post-list post-list--grid">
+              {posts.map((p) => (
+                <Link
+                  key={p.slug}
+                  href={`/blog/${p.slug}`}
+                  className={p.cover_image?.url ? "post-card--media" : undefined}
+                >
+                  {p.cover_image?.url ? (
+                    <div className="post-card__cover">
+                      {/* eslint-disable-next-line @next/next/no-img-element */}
+                      <img
+                        src={p.cover_image.url}
+                        alt={p.cover_image.alt ?? p.title}
+                        loading="lazy"
+                        decoding="async"
+                      />
+                    </div>
+                  ) : null}
+                  <div className="post-card__body">
+                    <span className="post-kicker">
+                      {p.tags?.[0] ?? "Voltair Tech"}
+                      {p.published_at ? ` · ${formatDate(p.published_at)}` : ""}
+                    </span>
+                    <h2>{p.title}</h2>
+                    {p.excerpt ? <p>{p.excerpt}</p> : null}
                   </div>
-                ) : null}
-                <div className="post-card__body">
-                  <span className="post-kicker">
-                    {p.tags?.[0] ?? "Voltair Tech"}
-                    {p.published_at ? ` · ${formatDate(p.published_at)}` : ""}
-                  </span>
-                  <h2>{p.title}</h2>
-                  {p.excerpt ? <p>{p.excerpt}</p> : null}
-                </div>
-              </Link>
-            ))}
-          </div>
+                </Link>
+              ))}
+            </div>
+
+            {data.pageCount > 1 ? (
+              <nav className="pagination" aria-label="Blog pages">
+                {page > 1 ? (
+                  <Link
+                    className="pagination__btn"
+                    href={page - 1 === 1 ? "/blog" : `/blog?page=${page - 1}`}
+                  >
+                    ← Prev
+                  </Link>
+                ) : (
+                  <span className="pagination__btn is-disabled">← Prev</span>
+                )}
+                <span className="pagination__status">
+                  Page {data.page} of {data.pageCount}
+                </span>
+                {page < data.pageCount ? (
+                  <Link className="pagination__btn" href={`/blog?page=${page + 1}`}>
+                    Next →
+                  </Link>
+                ) : (
+                  <span className="pagination__btn is-disabled">Next →</span>
+                )}
+              </nav>
+            ) : null}
+          </>
         )}
       </ProsePage>
     </>

@@ -9,19 +9,21 @@ export function ProsePage({
   title,
   meta,
   lead,
+  wide,
   children,
 }: {
   crumbs: Crumb[];
   title: ReactNode;
   meta?: string;
   lead?: ReactNode;
+  wide?: boolean;
   children: ReactNode;
 }) {
   return (
     <PageLayout>
       <section className="legal-page">
         <div className="container">
-          <div className="legal-page__inner">
+          <div className={`legal-page__inner${wide ? " legal-page__inner--wide" : ""}`}>
             <nav className="legal-page__crumb" aria-label="Breadcrumb">
               {crumbs.map((c, i) => (
                 <span key={c.label}>
