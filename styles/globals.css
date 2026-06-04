@@ -317,8 +317,8 @@ body { background: var(--v-paper); color: var(--v-ink); overflow-x: hidden; }
 .bi__field { border: 2px solid var(--v-ink); border-radius: var(--r-3); padding: var(--s-6); background: var(--v-paper); transition: border-color var(--dur-2), box-shadow var(--dur-2); }
 .bi__field:focus-within { border-color: var(--v-red); box-shadow: var(--shadow-red); }
 .bi__textarea { width: 100%; resize: none; font-family: var(--font-display), "Inter Tight", sans-serif; font-weight: 500; font-size: clamp(1.2rem, 2.2vw, 1.6rem); line-height: 1.4; color: var(--v-ink); min-height: 92px; }
-.bi__textarea::placeholder { color: var(--fg3); }
-.bi__row { display: flex; align-items: center; justify-content: space-between; gap: var(--s-3); margin-top: var(--s-5); padding-top: var(--s-5); border-top: 1px solid var(--border); flex-wrap: wrap; }
+.bi__textarea::placeholder { color: rgba(10, 10, 10, 0.62); }
+.bi__row { display: flex; align-items: center; justify-content: space-between; gap: var(--s-3); margin-top: var(--s-5); padding-top: var(--s-5); border-top: 1px solid rgba(10, 10, 10, 0.22); flex-wrap: wrap; }
 .bi__channels { display: flex; gap: var(--s-2); align-items: center; flex-wrap: wrap; }
 .bi__channel { display: inline-flex; align-items: center; gap: 6px; padding: 6px 10px; border-radius: var(--r-pill); border: 1px solid var(--border); font-family: var(--font-mono), "JetBrains Mono", monospace; font-size: 11px; color: var(--fg2); }
 .bi__channel.on { background: var(--v-ink); color: var(--v-paper); border-color: var(--v-ink); }
@@ -549,10 +549,10 @@ a.svc-card { text-decoration: none; color: inherit; }
 .bi__identity { display: grid; grid-template-columns: 1fr 1fr; gap: var(--s-3); margin-bottom: var(--s-3); }
 .bi__input {
   width: 100%; padding: 14px 16px; font-size: 1rem;
-  background: var(--v-paper); border: 1px solid var(--border); border-radius: var(--r-2);
+  background: var(--v-paper); border: 1.5px solid rgba(10, 10, 10, 0.28); border-radius: var(--r-2);
   color: var(--v-ink); transition: border-color var(--dur-2), box-shadow var(--dur-2);
 }
-.bi__input::placeholder { color: var(--fg3); }
+.bi__input::placeholder { color: rgba(10, 10, 10, 0.62); }
 .bi__input:focus { border-color: var(--v-red); box-shadow: var(--focus-ring); }
 .bi__hp { position: absolute; left: -9999px; width: 1px; height: 1px; opacity: 0; pointer-events: none; }
 .bi__err { margin-top: var(--s-3); color: var(--v-red-deep); font-size: 0.9rem; }

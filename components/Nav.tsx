@@ -38,7 +38,7 @@ export function Nav() {
             Booking · 1 slot this week
           </span>
           <Link className="btn btn-primary btn-sm" href="/contact">
-            Start a project <Arr />
+            Contact us <Arr />
           </Link>
         </div>
       </div>

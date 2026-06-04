@@ -26,7 +26,7 @@ function Nav() {
         </nav>
         <div className="nav__right">
           <span className="nav__avail"><span className="pulse" />Booking · 1 slot this week</span>
-          <a className="btn btn-primary btn-sm" href="#footer">Start a project <Arr /></a>
+          <a className="btn btn-primary btn-sm" href="#footer">Contact us <Arr /></a>
         </div>
       </div>
     </header>
