@@ -1,0 +1,362 @@
+/**
+ * Client-safe site map for the chat widget.
+ *
+ * Two jobs:
+ *  1. `detectPages()` turns free text (the user's question + the bot's reply)
+ *     into a short list of REAL pages to surface as navigation buttons. It only
+ *     ever returns paths that exist here — the bot can't send people to a route
+ *     that doesn't exist.
+ *  2. `pageContext()` derives a page-aware greeting, quick-question presets and a
+ *     proactive "peek" line from the current path + document title, so the
+ *     assistant can offer help about whatever the visitor is currently reading.
+ *
+ * Pure data + string ops only — no server imports, safe in a client component.
+ */
+
+export interface SitePage {
+  href: string;
+  /** Label shown on the in-chat navigation button. */
+  label: string;
+  /** Lowercase words/phrases that imply this page is relevant. */
+  keywords: string[];
+}
+
+export const SITE_PAGES: SitePage[] = [
+  {
+    href: "/services",
+    label: "See services",
+    keywords: [
+      "services",
+      "service",
+      "what you build",
+      "what do you build",
+      "what can you build",
+      "capabilities",
+      "offerings",
+      "build a website",
+      "build an app",
+      "web development",
+      "app development",
+    ],
+  },
+  {
+    href: "/industries",
+    label: "Browse industries",
+    keywords: [
+      "industries",
+      "industry",
+      "sector",
+      "sectors",
+      "vertical",
+      "fintech",
+      "healthcare",
+      "ecommerce",
+      "e-commerce",
+      "d2c",
+      "real estate",
+      "education",
+      "logistics",
+    ],
+  },
+  {
+    href: "/blog",
+    label: "Read the blog",
+    keywords: [
+      "blog",
+      "article",
+      "articles",
+      "post",
+      "posts",
+      "case study",
+      "case studies",
+      "insights",
+      "read more",
+    ],
+  },
+  {
+    href: "/faq",
+    label: "Open the FAQ",
+    keywords: ["faq", "faqs", "frequently asked", "common questions"],
+  },
+  {
+    href: "/about",
+    label: "About Voltair",
+    keywords: [
+      "about you",
+      "about voltair",
+      "who are you",
+      "who is behind",
+      "your team",
+      "your story",
+      "where are you based",
+      "located",
+      "mumbai office",
+    ],
+  },
+  {
+    href: "/contact",
+    label: "Contact us",
+    keywords: [
+      "contact",
+      "get in touch",
+      "reach you",
+      "reach out",
+      "talk to",
+      "speak to",
+      "book a call",
+      "scoping call",
+      "start a project",
+      "get started",
+      "hire you",
+      "work with you",
+      "get a quote",
+      "quote",
+      "pricing",
+      "cost",
+      "how much",
+      "demo",
+      "schedule a call",
+      "email you",
+    ],
+  },
+  {
+    href: "/dpdp",
+    label: "DPDP compliance",
+    keywords: ["dpdp", "dpdp act", "data protection", "compliance"],
+  },
+  {
+    href: "/privacy",
+    label: "Privacy policy",
+    keywords: ["privacy policy", "privacy"],
+  },
+  {
+    href: "/terms",
+    label: "Terms of service",
+    keywords: ["terms of service", "terms"],
+  },
+];
+
+/** Word-boundary-ish match so "service" doesn't fire inside "disservice". */
+function hit(haystack: string, needle: string): boolean {
+  const escaped = needle.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+  return new RegExp(`(^|[^a-z0-9])${escaped}([^a-z0-9]|$)`).test(haystack);
+}
+
+/**
+ * Pick the pages most relevant to `text`, ranked by how many keywords match.
+ * `exclude` drops the page the visitor is already on; `limit` caps the buttons.
+ */
+export function detectPages(
+  text: string,
+  opts: { exclude?: string; limit?: number } = {},
+): SitePage[] {
+  const hay = ` ${text.toLowerCase()} `;
+  return SITE_PAGES.filter((p) => p.href !== opts.exclude)
+    .map((p) => ({
+      page: p,
+      score: p.keywords.reduce((n, k) => (hit(hay, k) ? n + 1 : n), 0),
+    }))
+    .filter((s) => s.score > 0)
+    .sort((a, b) => b.score - a.score)
+    .slice(0, opts.limit ?? 2)
+    .map((s) => s.page);
+}
+
+export interface PageContext {
+  /** Human topic for the current page, or null on home/unknown. */
+  topic: string | null;
+  /** First bot bubble — may contain Markdown. */
+  greeting: string;
+  /** Quick-question chips tuned to the page. */
+  presets: string[];
+  /** Proactive reach-out line, or null where a peek isn't useful. */
+  peek: string | null;
+  /** How long to dwell before peeking, in ms. */
+  peekDelayMs: number;
+}
+
+const DEFAULT_GREETING =
+  "Hi! I'm the **Voltair AI Specialist**. Ask me about what we build — AI sites in 48 hours, RAG, chatbots, automation, pricing or DPDP compliance. Pick one below or type a question.";
+
+const HOME_PRESETS = [
+  "What can you build in 48 hours?",
+  "How does a RAG system work?",
+  "What does a WhatsApp chatbot cost?",
+  "Are you DPDP Act 2023 compliant?",
+  "What's your tech stack?",
+];
+
+/** Strip the "| Voltair Tech" template + any "— Voltair Tech" fallback suffix. */
+function cleanTitle(raw: string): string {
+  if (!raw) return "";
+  let t = raw.split("|")[0];
+  t = t.replace(/\s*[—–-]\s*Voltair Tech.*$/i, "");
+  return t.trim();
+}
+
+function truncate(s: string, max: number): string {
+  return s.length > max ? `${s.slice(0, max - 1).trimEnd()}…` : s;
+}
+
+/** Page-aware copy for the current route + document title. */
+export function pageContext(pathname: string, rawTitle: string): PageContext {
+  const p = (pathname || "/").replace(/\/+$/, "") || "/";
+  const title = cleanTitle(rawTitle);
+
+  // --- Dynamic detail pages (topic comes from the page title) --------------
+  if (p.startsWith("/blog/")) {
+    const t = title || "this article";
+    return {
+      topic: t,
+      greeting: `I see you're reading **${t}**. Want the gist, or have a question about building something like it?`,
+      presets: [
+        `Give me the gist of "${t}"`,
+        "Can Voltair build something like this?",
+        "What would a project like this cost?",
+      ],
+      peek: `Enjoying "${truncate(t, 40)}"? I can summarise it or answer questions.`,
+      peekDelayMs: 16000,
+    };
+  }
+  if (p.startsWith("/services/")) {
+    const t = title || "this service";
+    return {
+      topic: t,
+      greeting: `Looking at **${t}**? Ask me what's included, how fast we ship it, or what it costs.`,
+      presets: [
+        `What's included in ${t}?`,
+        `How fast can you ship ${t}?`,
+        `What does ${t} cost?`,
+      ],
+      peek: `Questions about ${truncate(t, 40)}? I can break it down.`,
+      peekDelayMs: 16000,
+    };
+  }
+  if (p.startsWith("/industries/")) {
+    const t = title || "this industry";
+    const name = t.replace(/^AI for\s+/i, "");
+    return {
+      topic: t,
+      greeting: `Exploring **${t}**? I can show what Voltair builds for ${name} teams.`,
+      presets: [
+        `How does Voltair help ${name} teams?`,
+        `Which services fit ${name}?`,
+        `What would you build for ${name}?`,
+      ],
+      peek: `Building for ${truncate(name, 34)}? I can suggest where to start.`,
+      peekDelayMs: 16000,
+    };
+  }
+
+  // --- Section pages -------------------------------------------------------
+  switch (p) {
+    case "/services":
+      return {
+        topic: "our services",
+        greeting:
+          "Browsing what we build? Tell me your idea and I'll match it to the right service.",
+        presets: [
+          "What can you build in 48 hours?",
+          "How does pricing work?",
+          "Which service fits my idea?",
+        ],
+        peek: "Want help picking the right service? Just ask.",
+        peekDelayMs: 24000,
+      };
+    case "/industries":
+      return {
+        topic: "the sectors we serve",
+        greeting:
+          "Looking for your sector? Tell me your industry and I'll show what we build for it.",
+        presets: [
+          "Which sectors do you build for?",
+          "Do you work with fintech?",
+          "What can you build for my industry?",
+        ],
+        peek: "Want to see what we build for your sector? Ask away.",
+        peekDelayMs: 24000,
+      };
+    case "/blog":
+      return {
+        topic: "the Voltair blog",
+        greeting:
+          "Looking for something to read? Tell me a topic and I'll point you to the right post.",
+        presets: [
+          "What should I read first?",
+          "Got anything on RAG?",
+          "How does Voltair build AI apps?",
+        ],
+        peek: "Looking for a specific topic? I can find the right post.",
+        peekDelayMs: 26000,
+      };
+    case "/faq":
+      return {
+        topic: "our FAQs",
+        greeting: "Can't find your answer below? Ask me directly.",
+        presets: [
+          "Are you DPDP Act 2023 compliant?",
+          "How does the 48-hour build work?",
+          "What's your tech stack?",
+        ],
+        peek: "Didn't find your answer below? Ask me directly.",
+        peekDelayMs: 22000,
+      };
+    case "/about":
+      return {
+        topic: "Voltair Tech",
+        greeting:
+          "Curious about Voltair? Ask about the team, the process, or how we ship so fast.",
+        presets: [
+          "Who's behind Voltair?",
+          "How do you ship in 48 hours?",
+          "Where are you based?",
+        ],
+        peek: "Want the story behind Voltair? Ask me anything.",
+        peekDelayMs: 24000,
+      };
+    case "/contact":
+      return {
+        topic: "starting a project",
+        greeting:
+          "Ready to start? I can tell you exactly what to expect from a scoping call.",
+        presets: [
+          "What happens on a scoping call?",
+          "What do you need from me to start?",
+          "How fast can we begin?",
+        ],
+        peek: "Ready to start? I can walk you through the first step.",
+        peekDelayMs: 22000,
+      };
+    case "/dpdp":
+    case "/privacy":
+    case "/terms":
+      return {
+        topic: "our policies",
+        greeting:
+          "Questions about how we handle data, or about our terms? Ask away.",
+        presets: [
+          "Are you DPDP Act 2023 compliant?",
+          "How do you handle my data?",
+          "Where is my data stored?",
+        ],
+        peek: "Questions about data or compliance? I can help.",
+        peekDelayMs: 28000,
+      };
+    case "/":
+      return {
+        topic: null,
+        greeting: DEFAULT_GREETING,
+        presets: HOME_PRESETS,
+        peek: "New here? I can show you what Voltair ships in 48 hours.",
+        peekDelayMs: 34000,
+      };
+    default:
+      return {
+        topic: title || null,
+        greeting: DEFAULT_GREETING,
+        presets: HOME_PRESETS,
+        peek: null,
+        peekDelayMs: 30000,
+      };
+  }
+}

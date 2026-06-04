@@ -652,12 +652,55 @@ a.svc-card { text-decoration: none; color: inherit; }
    ========================================================================= */
 .chat-widget-btn {
   position: fixed; right: clamp(16px, 4vw, 28px); bottom: clamp(16px, 4vw, 28px);
-  width: 60px; height: 60px; border-radius: var(--r-pill);
+  height: 56px; padding: 0 20px 0 17px; gap: 9px; border-radius: var(--r-pill);
   background: var(--v-red); color: #fff; display: inline-flex; align-items: center; justify-content: center;
+  font-family: var(--font-display), "Inter Tight", sans-serif; font-weight: 700; font-size: 0.92rem; letter-spacing: -0.01em;
   box-shadow: var(--shadow-red); z-index: 1000;
   transition: transform var(--dur-3) var(--ease-out), opacity var(--dur-2), box-shadow var(--dur-2);
 }
-.chat-widget-btn:hover { transform: translateY(-2px) scale(1.05); box-shadow: var(--shadow-red-strong); }
+.chat-widget-btn-label { white-space: nowrap; }
+.chat-widget-btn:hover { transform: translateY(-2px) scale(1.04); box-shadow: var(--shadow-red-strong); }
+@media (max-width: 480px) {
+  .chat-widget-btn { width: 56px; padding: 0; }
+  .chat-widget-btn-label { display: none; }
+}
+
+/* Proactive "peek" — widens past the launcher to offer page-aware help */
+.chat-peek {
+  position: fixed; right: clamp(16px, 4vw, 28px);
+  bottom: calc(clamp(16px, 4vw, 28px) + 70px);
+  width: min(300px, calc(100vw - 32px));
+  display: flex; align-items: flex-start; gap: 10px;
+  padding: 14px 30px 13px 14px;
+  background: var(--v-paper); color: var(--v-ink);
+  border: 1px solid var(--border); border-radius: var(--r-3);
+  box-shadow: var(--shadow-3); z-index: 1000; cursor: pointer;
+  animation: peekIn var(--dur-3) var(--ease-out) both;
+}
+.chat-peek:hover { border-color: var(--v-red); }
+.chat-peek-avatar { width: 32px; height: 32px; border-radius: var(--r-pill); background: var(--v-red); color: #fff; display: inline-flex; align-items: center; justify-content: center; flex: none; }
+.chat-peek-body { display: flex; flex-direction: column; gap: 5px; min-width: 0; }
+.chat-peek-text { font-size: 0.86rem; line-height: 1.45; }
+.chat-peek-cta { display: inline-flex; align-items: center; gap: 5px; font-size: 0.78rem; font-weight: 700; color: var(--v-red); }
+.chat-peek-close {
+  position: absolute; top: 7px; right: 8px; width: 22px; height: 22px;
+  display: inline-flex; align-items: center; justify-content: center;
+  color: var(--fg3); border-radius: var(--r-pill); transition: color var(--dur-2), background var(--dur-2);
+}
+.chat-peek-close:hover { color: var(--v-ink); background: var(--v-paper-2); }
+.chat-peek-close svg { width: 14px; height: 14px; }
+@keyframes peekIn { from { opacity: 0; transform: translateY(10px) scale(0.96); } to { opacity: 1; transform: none; } }
+
+/* In-chat navigation buttons (deterministic — real routes only) */
+.chat-actions { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 11px; }
+.chat-action {
+  display: inline-flex; align-items: center; gap: 6px;
+  font-size: 0.8rem; font-weight: 600;
+  color: var(--v-red); background: var(--v-paper);
+  border: 1px solid var(--v-red); border-radius: var(--r-pill); padding: 7px 13px;
+  transition: transform var(--dur-2), box-shadow var(--dur-2), background var(--dur-2), color var(--dur-2);
+}
+.chat-action:hover { background: var(--v-red); color: #fff; transform: translateY(-1px); box-shadow: var(--shadow-red); }
 
 .chat-widget-window {
   position: fixed; right: clamp(16px, 4vw, 28px); bottom: clamp(16px, 4vw, 28px);
@@ -735,4 +778,5 @@ a.svc-card { text-decoration: none; color: inherit; }
 @media (prefers-reduced-motion: reduce) {
   .chat-widget-btn, .chat-widget-window { transition: none; }
   .chat-typing span { animation: none; }
+  .chat-peek { animation: none; }
 }

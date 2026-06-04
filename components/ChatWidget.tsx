@@ -1,20 +1,27 @@
 "use client";
 
+import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 
 import Markdown from "./Markdown";
+import {
+  detectPages,
+  pageContext,
+  type PageContext,
+  type SitePage,
+} from "@/lib/site-map";
 
-const PRESETS = [
-  "What can you build in 48 hours?",
-  "How does a RAG system work?",
-  "What does a WhatsApp chatbot cost?",
-  "Are you DPDP Act 2023 compliant?",
-  "What's your tech stack?",
-];
-
-type Msg = { from: "bot" | "user"; text: string; error?: boolean };
+type Msg = {
+  from: "bot" | "user";
+  text: string;
+  error?: boolean;
+  /** Real pages to surface as navigation buttons under a bot reply. */
+  actions?: SitePage[];
+};
 
 const SESSION_KEY = "voltair_chat_session";
+const PEEK_MUTE_KEY = "voltair_peek_muted";
+const PEEK_PATHS_KEY = "voltair_peeked_paths";
 
 /** Stable per-browser session id so a conversation threads together server-side. */
 function getSessionId(): string {
@@ -27,6 +34,38 @@ function getSessionId(): string {
     return id;
   } catch {
     return "sess_ephemeral_" + Date.now().toString(36);
+  }
+}
+
+/* --- proactive-peek session memory (so it informs, never nags) ------------- */
+function isMuted(): boolean {
+  try {
+    return sessionStorage.getItem(PEEK_MUTE_KEY) === "1";
+  } catch {
+    return false;
+  }
+}
+function mutePeeks(): void {
+  try {
+    sessionStorage.setItem(PEEK_MUTE_KEY, "1");
+  } catch {
+    /* ignore */
+  }
+}
+function peekedPaths(): Set<string> {
+  try {
+    return new Set(JSON.parse(sessionStorage.getItem(PEEK_PATHS_KEY) ?? "[]"));
+  } catch {
+    return new Set();
+  }
+}
+function markPeeked(path: string): void {
+  try {
+    const s = peekedPaths();
+    s.add(path);
+    sessionStorage.setItem(PEEK_PATHS_KEY, JSON.stringify(Array.from(s)));
+  } catch {
+    /* ignore */
   }
 }
 
@@ -65,23 +104,93 @@ function IconSend() {
     </svg>
   );
 }
+function IconArrow() {
+  return (
+    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+      <line x1="5" y1="12" x2="19" y2="12" />
+      <polyline points="12 5 19 12 12 19" />
+    </svg>
+  );
+}
+
+const FALLBACK_CTX = pageContext("/", "");
 
 export default function ChatWidget() {
+  const pathname = usePathname();
+  const router = useRouter();
+
   const [open, setOpen] = useState(false);
   const [input, setInput] = useState("");
-  const [showPresets, setShowPresets] = useState(true);
   const [busy, setBusy] = useState(false);
   const [messages, setMessages] = useState<Msg[]>([]);
+  const [ctx, setCtx] = useState<PageContext | null>(null);
+  const [peekOpen, setPeekOpen] = useState(false);
+  const [peekText, setPeekText] = useState("");
+
   const bodyRef = useRef<HTMLDivElement>(null);
+  const peekTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+  // Refs let the dwell timer read live state without re-arming on every change.
+  const openRef = useRef(open);
+  openRef.current = open;
+  const msgCountRef = useRef(messages.length);
+  msgCountRef.current = messages.length;
 
   useEffect(() => {
     if (bodyRef.current) bodyRef.current.scrollTop = bodyRef.current.scrollHeight;
-  }, [messages, busy]);
+  }, [messages, busy, open]);
+
+  /** Read the live page context (path + current document title). */
+  const liveCtx = (): PageContext =>
+    pageContext(pathname || "/", typeof document !== "undefined" ? document.title : "");
+
+  /* --- proactive dwell peek ------------------------------------------------ */
+  useEffect(() => {
+    if (peekTimer.current) {
+      clearTimeout(peekTimer.current);
+      peekTimer.current = null;
+    }
+    const path = pathname || "/";
+    if (open || isMuted() || msgCountRef.current > 0) return;
+    const base = pageContext(path, "");
+    if (!base.peek || peekedPaths().has(path)) return;
+
+    peekTimer.current = setTimeout(() => {
+      if (openRef.current || msgCountRef.current > 0 || isMuted()) return;
+      setPeekText(liveCtx().peek ?? base.peek ?? "");
+      setPeekOpen(true);
+      markPeeked(path);
+    }, base.peekDelayMs);
+
+    return () => {
+      if (peekTimer.current) clearTimeout(peekTimer.current);
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [pathname, open]);
+
+  const openChat = () => {
+    setCtx(liveCtx());
+    setOpen(true);
+    setPeekOpen(false);
+    markPeeked(pathname || "/");
+  };
+
+  const dismissPeek = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    setPeekOpen(false);
+    mutePeeks();
+    markPeeked(pathname || "/");
+  };
+
+  const goTo = (href: string) => {
+    router.push(href);
+    // On phones the open window covers the page — close it so they see where
+    // they landed. On desktop the chat stays open beside the new page.
+    if (typeof window !== "undefined" && window.innerWidth < 640) setOpen(false);
+  };
 
   const submit = async (text: string) => {
     const trimmed = text.trim();
     if (!trimmed || busy) return;
-    setShowPresets(false);
     setMessages((prev) => [...prev, { from: "user", text: trimmed }]);
     setInput("");
     setBusy(true);
@@ -110,7 +219,12 @@ export default function ChatWidget() {
         }
         throw new Error(`Request failed (${res.status})`);
       }
-      setMessages((prev) => [...prev, { from: "bot", text: data?.reply ?? "" }]);
+      const reply = data?.reply ?? "";
+      const actions = detectPages(`${trimmed} ${reply}`, {
+        exclude: pathname || "/",
+        limit: 2,
+      });
+      setMessages((prev) => [...prev, { from: "bot", text: reply, actions }]);
     } catch (err) {
       console.error("[voltair-chat]", err);
       setMessages((prev) => [
@@ -126,17 +240,42 @@ export default function ChatWidget() {
     }
   };
 
+  const view = ctx ?? FALLBACK_CTX;
+
   return (
     <>
+      {peekOpen && !open && (
+        <div
+          className="chat-peek"
+          role="button"
+          tabIndex={0}
+          onClick={openChat}
+          onKeyDown={(e) => {
+            if (e.key === "Enter" || e.key === " ") openChat();
+          }}
+          aria-label="Open chat with the Voltair AI Specialist"
+        >
+          <span className="chat-peek-avatar"><IconBot /></span>
+          <span className="chat-peek-body">
+            <span className="chat-peek-text">{peekText}</span>
+            <span className="chat-peek-cta">Ask the AI Specialist <IconArrow /></span>
+          </span>
+          <button className="chat-peek-close" onClick={dismissPeek} type="button" aria-label="Dismiss">
+            <IconClose />
+          </button>
+        </div>
+      )}
+
       <button
         className="chat-widget-btn"
         title="Chat with the Voltair AI Specialist"
         aria-label="Open chat"
-        onClick={() => setOpen(true)}
+        onClick={openChat}
         type="button"
         style={open ? { transform: "scale(0)", opacity: 0 } : undefined}
       >
         <IconChat />
+        <span className="chat-widget-btn-label">Ask Voltair AI</span>
       </button>
 
       <div className={`chat-widget-window${open ? " active" : ""}`} role="dialog" aria-label="Voltair AI Specialist">
@@ -158,18 +297,11 @@ export default function ChatWidget() {
 
         <div className="chat-body" ref={bodyRef}>
           <div className="chat-msg bot">
-            Hi! I&apos;m the Voltair AI Specialist. Ask me about what we build — AI websites in
-            48 hours, RAG systems, WhatsApp chatbots, automation, pricing, or DPDP compliance.
-            Pick a preset or type your question.
-            {showPresets && (
+            <Markdown>{view.greeting}</Markdown>
+            {messages.length === 0 && (
               <div className="chat-preset-chips">
-                {PRESETS.map((p) => (
-                  <button
-                    key={p}
-                    className="preset-chip"
-                    type="button"
-                    onClick={() => submit(p)}
-                  >
+                {view.presets.map((p) => (
+                  <button key={p} className="preset-chip" type="button" onClick={() => submit(p)}>
                     {p}
                   </button>
                 ))}
@@ -180,6 +312,15 @@ export default function ChatWidget() {
             <div key={i} className={`chat-msg ${m.from}`}>
               {m.from === "bot" && !m.error ? <Markdown>{m.text}</Markdown> : m.text}
               {m.error && <FallbackForm />}
+              {m.from === "bot" && m.actions && m.actions.length > 0 && (
+                <div className="chat-actions">
+                  {m.actions.map((a) => (
+                    <button key={a.href} className="chat-action" type="button" onClick={() => goTo(a.href)}>
+                      {a.label} <IconArrow />
+                    </button>
+                  ))}
+                </div>
+              )}
             </div>
           ))}
           {busy && (
