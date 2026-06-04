@@ -10,7 +10,15 @@ import { IndustryGlyph } from "./atoms/IndustryGlyph";
  * curated subset of services it links to. /services lists everything; this is
  * the sector lens over it.
  */
-export function Industries({ industries }: { industries: IndustryCard[] }) {
+export function Industries({
+  industries,
+  page = 1,
+  pageCount = 1,
+}: {
+  industries: IndustryCard[];
+  page?: number;
+  pageCount?: number;
+}) {
   return (
     <section id="industries" className="section section--ink">
       <div className="container">
@@ -20,10 +28,10 @@ export function Industries({ industries }: { industries: IndustryCard[] }) {
           right={<span className="tag"><span className="pulse" />sector-shaped AI</span>}
         />
         <p className="lead" style={{ maxWidth: 760 }}>
-          We don&apos;t ship a generic template. The same stack — websites, chatbots,
-          RAG, mobile, automation, custom AI — gets shaped to how your sector
-          actually works, in English, Hindi and Marathi. Pick yours to see the
-          services that fit.
+          Get AI built for your industry — not a generic template. We shape the
+          same stack (websites, chatbots, RAG, mobile, automation, custom AI) to
+          how your sector actually works, in English, Hindi and Marathi. Pick
+          yours to see the services that fit.
         </p>
         {industries.length === 0 ? (
           <p className="meta" style={{ marginTop: 24 }}>No industries published yet.</p>
@@ -72,6 +80,22 @@ export function Industries({ industries }: { industries: IndustryCard[] }) {
             ))}
           </div>
         )}
+
+        {pageCount > 1 ? (
+          <nav className="pagination" aria-label="Industries pages">
+            {page > 1 ? (
+              <Link className="pagination__btn" href={`/industries?page=${page - 1}`}>← Prev</Link>
+            ) : (
+              <span className="pagination__btn is-disabled">← Prev</span>
+            )}
+            <span className="pagination__status">Page {page} of {pageCount}</span>
+            {page < pageCount ? (
+              <Link className="pagination__btn" href={`/industries?page=${page + 1}`}>Next →</Link>
+            ) : (
+              <span className="pagination__btn is-disabled">Next →</span>
+            )}
+          </nav>
+        ) : null}
       </div>
     </section>
   );

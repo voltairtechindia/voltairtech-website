@@ -9,9 +9,16 @@ import { ServiceGlyph } from "./atoms/ServiceGlyph";
  * the sector's curated subset. The card number uses the service's own
  * `position` when set, else its index in the grid.
  */
-export function ServiceCardGrid({ services }: { services: ServiceCard[] }) {
+export function ServiceCardGrid({
+  services,
+  compact = false,
+}: {
+  services: ServiceCard[];
+  compact?: boolean;
+}) {
+  const glyphSize = compact ? 40 : 56;
   return (
-    <div className="svc-grid">
+    <div className={`svc-grid${compact ? " svc-grid--compact" : ""}`}>
       {services.map((s, i) => (
         <Link
           key={s.slug}
@@ -32,7 +39,7 @@ export function ServiceCardGrid({ services }: { services: ServiceCard[] }) {
               />
             </div>
           ) : (
-            <div style={{ width: 56, height: 56, marginTop: 22 }}>
+            <div style={{ width: glyphSize, height: glyphSize, marginTop: compact ? 14 : 22 }}>
               <ServiceGlyph kind={s.icon} />
             </div>
           )}

@@ -121,7 +121,7 @@ export default async function IndustryDetailPage({
               The slice of what we build that fits this sector.{" "}
               <Link href="/services">See every service →</Link>
             </p>
-            <ServiceCardGrid services={services} />
+            <ServiceCardGrid services={services} compact />
           </div>
         ) : null}
 

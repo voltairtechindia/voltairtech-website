@@ -282,6 +282,29 @@ body { background: var(--v-paper); color: var(--v-ink); overflow-x: hidden; }
 .svc-card__cover img { width: 100%; height: 100%; object-fit: cover; display: block; }
 .svc-card--media .svc-card__title { margin-top: var(--s-4); }
 
+/* Compact variant — denser cards (used for the linked-services grid on
+   /industries/<slug>, which lives on the light prose page, not a dark section). */
+.svc-grid--compact { gap: var(--s-3); }
+.svc-grid--compact .svc-card { min-height: 0; padding: var(--s-5); }
+.svc-grid--compact .svc-card__title { font-size: 1.15rem; margin-top: var(--s-3); }
+.svc-grid--compact .svc-card__bullets { margin-top: var(--s-3); gap: 3px; }
+.svc-grid--compact .svc-card__bullets li { font-size: 11px; }
+.svc-grid--compact .svc-card__eta { margin-top: var(--s-3); }
+
+/* Linked-services block on /industries/<slug>. The cards sit inside .legal-page,
+   whose prose rules (h3/li/p colours) would otherwise cascade onto the dark
+   cards and make their text dark-on-dark. Re-assert the ink card palette here. */
+.industry-services { margin-top: var(--s-7); }
+.industry-services > h2 { font-size: 1.5rem; line-height: 1.15; margin: 0 0 4px; }
+.industry-services > .meta { margin-bottom: var(--s-5); }
+.industry-services .svc-card__title { color: var(--v-ink-fg); }
+.industry-services .svc-card__bullets li { color: var(--v-ink-fg-2); }
+.industry-services .svc-card__bullets li::before { color: var(--v-red); }
+.industry-services .svc-card__num { color: var(--v-red); }
+.industry-services .svc-card__arrow { color: var(--v-ink-fg-3); }
+.industry-services .svc-card__eta { color: var(--v-ink-fg-3); }
+.industry-services .svc-card__eta b { color: var(--v-paper); }
+
 /* ====================  TIMELINE  ==================== */
 .tl { position: relative; }
 .tl__rail { position: absolute; left: 0; right: 0; top: 56px; height: 2px; background: var(--v-paper-line); }

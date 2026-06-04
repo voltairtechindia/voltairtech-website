@@ -3,7 +3,7 @@ import { PageLayout } from "@/components/PageLayout";
 import { Industries } from "@/components/Industries";
 import { Process } from "@/components/Process";
 import { listPublishedIndustries } from "@/lib/industries/db";
-import type { IndustryCard } from "@/lib/industries/types";
+import type { IndustryPage } from "@/lib/industries/types";
 
 // Revalidate every 5 min so admin edits appear without a redeploy.
 export const revalidate = 300;
@@ -21,11 +21,16 @@ export const metadata: Metadata = {
   },
 };
 
-export default async function IndustriesPage() {
-  let industries: IndustryCard[] = [];
+export default async function IndustriesPage({
+  searchParams,
+}: {
+  searchParams: { page?: string };
+}) {
+  const page = Math.max(1, Number(searchParams?.page) || 1);
+
+  let data: IndustryPage = { items: [], total: 0, page, perPage: 12, pageCount: 1 };
   try {
-    const data = await listPublishedIndustries(1, 100);
-    industries = data.items;
+    data = await listPublishedIndustries(page);
   } catch {
     // DB unavailable (e.g. build before env) — render the empty state.
   }
@@ -34,9 +39,9 @@ export default async function IndustriesPage() {
     "@context": "https://schema.org",
     "@type": "ItemList",
     name: "Industries Voltair Tech builds for",
-    itemListElement: industries.map((it, i) => ({
+    itemListElement: data.items.map((it, i) => ({
       "@type": "ListItem",
-      position: i + 1,
+      position: (data.page - 1) * data.perPage + i + 1,
       name: it.title,
       url: `https://voltairtech.com/industries/${it.slug}`,
     })),
@@ -46,7 +51,7 @@ export default async function IndustriesPage() {
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
       <PageLayout>
-        <Industries industries={industries} />
+        <Industries industries={data.items} page={data.page} pageCount={data.pageCount} />
         <Process />
       </PageLayout>
     </>
