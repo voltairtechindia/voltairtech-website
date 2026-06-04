@@ -25,6 +25,8 @@ Originally a static Babel/JSX single-page site; fully migrated to **Next.js 14 A
 | `app/dpdp/page.tsx` | DPDP Act compliance page |
 | `app/contact/page.tsx` | Contact page |
 | `app/services/page.tsx` | Services detail page |
+| `app/industries/page.tsx` | DB-backed industries index (sector lens over services) |
+| `app/industries/[slug]/page.tsx` | Industry detail (ISR) — "what you get" + linked services |
 | `app/work/page.tsx` | Case studies / portfolio page |
 | `app/rag/page.tsx` | RAG showcase page |
 | `app/faq/page.tsx` | FAQ page |
@@ -84,6 +86,15 @@ Ported from the kauntech site; re-themed for Voltair. New Supabase project
   renders by key with a `default` fallback. The 6 original hardcoded services were
   migrated to the DB (`supabase/seed-services.mjs`). `lib/content.ts` `services` is now
   legacy/unused. Service docs are NOT in `knowledge-base.ts` — they sync from the DB.
+- **Industries (DB-backed):** `app/industries/page.tsx` (index) +
+  `app/industries/[slug]/page.tsx` (ISR detail). Engine `lib/industries/*`; glyphs
+  `components/atoms/IndustryGlyph.tsx` (sector SVGs) + `lib/industries/icons.ts`.
+  An industry is a **sector lens over services**: it links a curated, ordered subset
+  via `service_slugs` (array of service slugs) and renders that subset on its detail
+  page (shared `components/ServiceCardGrid.tsx`). `/services` still lists everything.
+  Written via admin-gated `POST /api/industries` (upserts `industries` AND embeds
+  published rows as `doc_type:"industry"` for the bot, enriched with the linked
+  service names). Migrated from the old hardcoded array via `supabase/seed-industries.mjs`.
 - **Inquiries:** `components/BigInput.tsx` → `POST /api/contact` → `contact_submissions`.
 - **Rate limiting:** `lib/rate-limit.ts` + `rl_hit` RPC (chat burst/daily/global,
   contact burst/daily). **Admin auth:** `lib/admin-auth.ts` (`X-Admin-Key`).
@@ -93,8 +104,10 @@ Ported from the kauntech site; re-themed for Voltair. New Supabase project
 - **Model rule:** the Gemini key is new-generation — use `gemini-2.5-flash`
   (thinking disabled) + `gemini-embedding-001` @ 768 dims. Don't revert to
   `gemini-2.0-flash` / `text-embedding-004` (404 on new keys).
-- **Admin panel:** separate app `../voltairtech-admin` (Next 15) — manages posts +
-  reads inquiries; writes proxy to this site's `/api/blog` + `/api/revalidate`.
+- **Admin panel:** separate app `../voltairtech-admin` (Next 15) — manages posts,
+  services + industries, reads inquiries; writes proxy to this site's `/api/blog`,
+  `/api/services`, `/api/industries` + `/api/revalidate`. Its AI copilot
+  (`lib/admin-ai.ts`) can draft blog/service/industry artifacts for the editors.
 - **Security headers:** `next.config.mjs` `headers()` sets CSP/HSTS/etc. CSP allows
   the Supabase origin (blog media) + YouTube/Vimeo embeds.
 

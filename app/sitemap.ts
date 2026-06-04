@@ -2,6 +2,7 @@ import type { MetadataRoute } from "next";
 
 import { listPublishedSlugs } from "@/lib/blog/db";
 import { listPublishedServiceSlugs } from "@/lib/services/db";
+import { listPublishedIndustrySlugs } from "@/lib/industries/db";
 
 const BASE = "https://voltairtech.com";
 
@@ -19,22 +20,31 @@ const FALLBACK_SERVICE_SLUGS = [
   "mobile-apps",
   "custom-ai-software",
 ];
+const FALLBACK_INDUSTRY_SLUGS = [
+  "d2c-ecommerce",
+  "healthcare-clinics",
+  "fintech-payments",
+  "real-estate",
+  "education-edtech",
+  "logistics-supply-chain",
+  "professional-services",
+  "hospitality-travel",
+];
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const now = new Date();
 
   const staticRoutes: MetadataRoute.Sitemap = [
-    { url: `${BASE}/`,         lastModified: now, changeFrequency: "weekly",  priority: 1.0 },
-    { url: `${BASE}/services`, lastModified: now, changeFrequency: "monthly", priority: 0.9 },
-    { url: `${BASE}/timeline`, lastModified: now, changeFrequency: "monthly", priority: 0.8 },
-    { url: `${BASE}/rag`,      lastModified: now, changeFrequency: "monthly", priority: 0.8 },
-    { url: `${BASE}/work`,     lastModified: now, changeFrequency: "monthly", priority: 0.8 },
-    { url: `${BASE}/faq`,      lastModified: now, changeFrequency: "monthly", priority: 0.8 },
-    { url: `${BASE}/blog`,     lastModified: now, changeFrequency: "weekly",  priority: 0.7 },
-    { url: `${BASE}/contact`,  lastModified: now, changeFrequency: "monthly", priority: 0.7 },
-    { url: `${BASE}/privacy`,  lastModified: now, changeFrequency: "yearly",  priority: 0.3 },
-    { url: `${BASE}/terms`,    lastModified: now, changeFrequency: "yearly",  priority: 0.3 },
-    { url: `${BASE}/dpdp`,     lastModified: now, changeFrequency: "yearly",  priority: 0.4 },
+    { url: `${BASE}/`,           lastModified: now, changeFrequency: "weekly",  priority: 1.0 },
+    { url: `${BASE}/about`,      lastModified: now, changeFrequency: "monthly", priority: 0.8 },
+    { url: `${BASE}/industries`, lastModified: now, changeFrequency: "monthly", priority: 0.8 },
+    { url: `${BASE}/services`,   lastModified: now, changeFrequency: "monthly", priority: 0.9 },
+    { url: `${BASE}/faq`,        lastModified: now, changeFrequency: "monthly", priority: 0.8 },
+    { url: `${BASE}/blog`,       lastModified: now, changeFrequency: "weekly",  priority: 0.7 },
+    { url: `${BASE}/contact`,    lastModified: now, changeFrequency: "monthly", priority: 0.7 },
+    { url: `${BASE}/privacy`,    lastModified: now, changeFrequency: "yearly",  priority: 0.3 },
+    { url: `${BASE}/terms`,      lastModified: now, changeFrequency: "yearly",  priority: 0.3 },
+    { url: `${BASE}/dpdp`,       lastModified: now, changeFrequency: "yearly",  priority: 0.4 },
   ];
 
   let serviceSlugs: string[];
@@ -43,6 +53,14 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     if (!serviceSlugs.length) serviceSlugs = FALLBACK_SERVICE_SLUGS;
   } catch {
     serviceSlugs = FALLBACK_SERVICE_SLUGS;
+  }
+
+  let industrySlugs: string[];
+  try {
+    industrySlugs = await listPublishedIndustrySlugs();
+    if (!industrySlugs.length) industrySlugs = FALLBACK_INDUSTRY_SLUGS;
+  } catch {
+    industrySlugs = FALLBACK_INDUSTRY_SLUGS;
   }
 
   let blogSlugs: string[];
@@ -60,6 +78,13 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     priority: 0.8,
   }));
 
+  const industryRoutes: MetadataRoute.Sitemap = industrySlugs.map((slug) => ({
+    url: `${BASE}/industries/${slug}`,
+    lastModified: now,
+    changeFrequency: "monthly",
+    priority: 0.8,
+  }));
+
   const blogRoutes: MetadataRoute.Sitemap = blogSlugs.map((slug) => ({
     url: `${BASE}/blog/${slug}`,
     lastModified: now,
@@ -67,5 +92,5 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     priority: 0.7,
   }));
 
-  return [...staticRoutes, ...serviceRoutes, ...blogRoutes];
+  return [...staticRoutes, ...industryRoutes, ...serviceRoutes, ...blogRoutes];
 }

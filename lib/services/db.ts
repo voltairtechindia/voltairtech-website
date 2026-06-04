@@ -41,6 +41,29 @@ export async function listPublishedServices(
   };
 }
 
+/**
+ * Published service cards for a set of slugs (used by /industries/<slug> to show
+ * the sector's curated subset). Returned in the order the slugs were given —
+ * the admin controls the order via the industry's `service_slugs` array — and
+ * silently drops any slug that's missing or no longer published.
+ */
+export async function getPublishedServiceCardsBySlugs(
+  slugs: string[],
+): Promise<ServiceCard[]> {
+  const wanted = slugs.filter(Boolean);
+  if (!wanted.length) return [];
+  const sb = getSupabase();
+  const { data, error } = await sb
+    .from("services")
+    .select(CARD_COLUMNS)
+    .eq("status", "published")
+    .in("slug", wanted);
+  if (error) throw error;
+
+  const bySlug = new Map((data ?? []).map((r) => [(r as ServiceCard).slug, r as ServiceCard]));
+  return wanted.map((s) => bySlug.get(s)).filter((s): s is ServiceCard => Boolean(s));
+}
+
 /** Slugs of all published services (for sitemap + static params). */
 export async function listPublishedServiceSlugs(): Promise<string[]> {
   const sb = getSupabase();

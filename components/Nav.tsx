@@ -3,10 +3,9 @@ import { VMark } from "./atoms/VMark";
 import { Arr } from "./atoms/Arr";
 
 const NAV_LINKS = [
+  { label: "About us", href: "/about" },
+  { label: "Industries", href: "/industries" },
   { label: "Services", href: "/services" },
-  { label: "Timeline", href: "/timeline" },
-  { label: "RAG", href: "/rag" },
-  { label: "Work", href: "/work" },
   { label: "Blog", href: "/blog" },
   { label: "FAQ", href: "/faq" },
 ];

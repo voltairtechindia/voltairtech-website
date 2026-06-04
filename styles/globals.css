@@ -141,6 +141,7 @@ body { background: var(--v-paper); color: var(--v-ink); overflow-x: hidden; }
 .section--ink { background: var(--v-ink); color: var(--v-ink-fg); }
 .section--ink .mono-lbl, .section--ink .meta { color: var(--v-ink-fg-3); }
 .section--ink .body { color: var(--v-ink-fg-2); }
+.section--ink .lead { color: var(--v-ink-fg-2); }
 
 .section-head { display: flex; align-items: flex-end; justify-content: space-between; gap: var(--s-7); margin-bottom: var(--s-8); flex-wrap: wrap; }
 .section-head__left { max-width: 720px; }

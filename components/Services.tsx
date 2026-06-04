@@ -1,7 +1,7 @@
 import Link from "next/link";
 import type { ServiceCard } from "@/lib/services/types";
 import { SectionHead } from "./atoms/SectionHead";
-import { ServiceGlyph } from "./atoms/ServiceGlyph";
+import { ServiceCardGrid } from "./ServiceCardGrid";
 
 export function Services({
   services,
@@ -23,49 +23,7 @@ export function Services({
         {services.length === 0 ? (
           <p className="meta" style={{ marginTop: 24 }}>No services published yet.</p>
         ) : (
-          <div className="svc-grid">
-            {services.map((s, i) => (
-              <Link
-                key={s.slug}
-                href={`/services/${s.slug}`}
-                className={`svc-card${s.cover_image?.url ? " svc-card--media" : ""}`}
-                aria-label={s.title}
-              >
-                <span className="svc-card__num">[ {String(s.position || i + 1).padStart(2, "0")} ]</span>
-                <span className="svc-card__arrow">↗</span>
-                {s.cover_image?.url ? (
-                  <div className="svc-card__cover">
-                    {/* eslint-disable-next-line @next/next/no-img-element */}
-                    <img
-                      src={s.cover_image.url}
-                      alt={s.cover_image.alt ?? s.title}
-                      loading="lazy"
-                      decoding="async"
-                    />
-                  </div>
-                ) : (
-                  <div style={{ width: 56, height: 56, marginTop: 22 }}>
-                    <ServiceGlyph kind={s.icon} />
-                  </div>
-                )}
-                <h3 className="svc-card__title">{s.title}</h3>
-                {s.bullets?.length ? (
-                  <ul className="svc-card__bullets">
-                    {s.bullets.map((b) => (
-                      <li key={b}>{b}</li>
-                    ))}
-                  </ul>
-                ) : s.summary ? (
-                  <p className="svc-card__bullets">{s.summary}</p>
-                ) : null}
-                {s.eta ? (
-                  <div className="svc-card__eta">
-                    ETA — <b>{s.eta}</b>
-                  </div>
-                ) : null}
-              </Link>
-            ))}
-          </div>
+          <ServiceCardGrid services={services} />
         )}
 
         {pageCount > 1 ? (

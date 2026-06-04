@@ -41,7 +41,7 @@ export const KNOWLEDGE_BASE: IngestDocument[] = [
     title: "Why Voltair Tech vs in-house or freelancers",
     content:
       "Compared to building in-house or hiring on Upwork: time to a live website is 48 hours with Voltair (vs 3–6 months in-house, 2–6 weeks freelance). Indic-language support is native (Hindi/Marathi/English). DPDP Act 2023 readiness is the default. Razorpay / UPI is native from day one. Time-zone overlap covers EU + APAC + IST. Code ownership is 100% yours. Voltair does not sub-contract or share code with third parties.",
-    metadata: { url: "https://voltairtech.com/work" },
+    metadata: { url: "https://voltairtech.com/about" },
   },
   {
     doc_type: "company",
@@ -74,7 +74,7 @@ export const KNOWLEDGE_BASE: IngestDocument[] = [
     title: "The 48-hour delivery process",
     content:
       "Website timeline: Hour 00 — Discovery call (30-min scoping: stack, content, deadline, success metric). Hour 12 — Design + content lock (sections, copy, design tokens, repo created). Hour 36 — Build + integrate (real CMS, real auth, real LLM calls — no mock screens). Hour 48 — Deployed to production on Vercel with custom domain, analytics, error monitoring, and a handover doc. Larger product and mobile builds take longer and get a fixed timeline at scoping.",
-    metadata: { url: "https://voltairtech.com/timeline" },
+    metadata: { url: "https://voltairtech.com/about" },
   },
   {
     doc_type: "process",
@@ -82,7 +82,7 @@ export const KNOWLEDGE_BASE: IngestDocument[] = [
     title: "How we work (scope → ship → hand off)",
     content:
       "Four steps: 1) Scope — a 30-minute call, one success metric, one deadline, no upsell. 2) Lock — architecture, design tokens and repos signed off in writing. 3) Ship — build + integrate + deploy with daily Loom and WhatsApp updates. 4) Hand off — code, docs, dashboards and an on-call window; you own it. The code is 100% yours either way.",
-    metadata: { url: "https://voltairtech.com/timeline" },
+    metadata: { url: "https://voltairtech.com/about" },
   },
 
   // ---------------------------------------------------------------- rag (pipeline)
@@ -92,7 +92,7 @@ export const KNOWLEDGE_BASE: IngestDocument[] = [
     title: "How Voltair builds a RAG pipeline",
     content:
       "Voltair's RAG pipeline, step by step: 1) Document — ingest the whole corpus (PDFs, sites, Notion, Drive, audio transcripts), dedup and normalise. 2) Chunk — recursive splitting at semantic boundaries, overlap tuned per domain (default ~800-token chunks, 200-token overlap). 3) Embed — domain-appropriate embeddings (e.g. OpenAI text-3-large or BGE; Indic content gets Indic-aware encoders). 4) Vector DB — Pinecone (managed) or pgvector/Supabase, with metadata filters for tenant scope. 5) Retrieve — hybrid vector + BM25, re-rank top 20 with a cross-encoder, filter by tenant + recency. 6) LLM — Claude or a GPT-4-class model with a structured prompt, strict tool-use and JSON when needed. 7) Answer — a cited, sourced answer with inline footnotes that link back to the exact chunk and page. Measured RAG accuracy ~94% on eval.",
-    metadata: { url: "https://voltairtech.com/rag" },
+    metadata: { url: "https://voltairtech.com/services/rag-systems" },
   },
   {
     doc_type: "rag",
@@ -100,7 +100,7 @@ export const KNOWLEDGE_BASE: IngestDocument[] = [
     title: "What RAG is and when you need it",
     content:
       "RAG (retrieval-augmented generation) grounds a large language model in your own data instead of letting it guess from training. Use it when you need accurate, citable answers from a fixed corpus — policies, manuals, product docs, patient FAQs. Every answer links back to the source chunk so your team can verify it. RAG usually beats fine-tuning when the knowledge changes often or must be auditable.",
-    metadata: { url: "https://voltairtech.com/rag" },
+    metadata: { url: "https://voltairtech.com/services/rag-systems" },
   },
 
   // ---------------------------------------------------------------- faqs
