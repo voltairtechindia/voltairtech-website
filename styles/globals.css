@@ -306,6 +306,38 @@ body { background: var(--v-paper); color: var(--v-ink); overflow-x: hidden; }
 .industry-services .svc-card__eta { color: var(--v-ink-fg-3); }
 .industry-services .svc-card__eta b { color: var(--v-paper); }
 
+/* Case-studies block on /industries/<slug> — "how we used AI here" proof.
+   Light cards on the paper page (distinct from the dark linked-service cards). */
+.industry-cases { margin-top: var(--s-7); }
+.industry-cases > h2 { font-size: 1.5rem; line-height: 1.15; margin: 0 0 4px; }
+.industry-cases > .meta { margin-bottom: var(--s-5); }
+.case-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--s-4); }
+@media (max-width: 760px) { .case-grid { grid-template-columns: 1fr; } }
+.case-card {
+  display: flex; flex-direction: column; gap: var(--s-4);
+  padding: var(--s-6);
+  border: 1px solid var(--border); border-radius: var(--r-3);
+  background: var(--v-paper-2);
+  border-top: 3px solid var(--v-red);
+}
+.case-card__head { display: flex; flex-direction: column; gap: 4px; }
+.case-card__num { font-family: var(--font-mono), "JetBrains Mono", monospace; font-size: 11px; letter-spacing: 0.06em; color: var(--v-red); }
+.case-card__title { font-family: var(--font-display), "Inter Tight", sans-serif; font-weight: 700; font-size: 1.15rem; line-height: 1.2; letter-spacing: -0.01em; color: var(--v-ink); margin: 0; }
+.case-card__client { font-family: var(--font-mono), "JetBrains Mono", monospace; font-size: 11px; letter-spacing: 0.03em; color: var(--fg3); margin: 0; }
+.case-card__body { display: flex; flex-direction: column; gap: var(--s-3); }
+.case-card__block { display: flex; flex-direction: column; gap: 4px; }
+.case-card__block p { font-size: 0.95rem; line-height: 1.55; color: var(--fg2); margin: 0; }
+.case-card__label { font-family: var(--font-mono), "JetBrains Mono", monospace; font-size: 10px; text-transform: uppercase; letter-spacing: 0.08em; color: var(--fg3); }
+.case-card__metrics { display: flex; flex-wrap: wrap; gap: var(--s-5); padding: var(--s-4) 0; border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
+.case-metric { display: flex; flex-direction: column; gap: 2px; }
+.case-metric__value { font-family: var(--font-display), "Inter Tight", sans-serif; font-weight: 900; font-size: 1.6rem; line-height: 1; color: var(--v-red); }
+.case-metric__label { font-size: 12px; color: var(--fg3); }
+.case-card__stack { display: flex; flex-direction: column; gap: 8px; }
+.case-chips { display: flex; flex-wrap: wrap; gap: 6px; margin: 0; padding: 0; list-style: none; }
+.case-chip { font-family: var(--font-mono), "JetBrains Mono", monospace; font-size: 11px; letter-spacing: 0.02em; color: var(--fg1); background: var(--v-paper); border: 1px solid var(--border); border-radius: var(--r-pill); padding: 5px 11px; }
+.case-card__link { font-family: var(--font-mono), "JetBrains Mono", monospace; font-size: 12px; letter-spacing: 0.02em; color: var(--v-red); margin-top: auto; }
+.case-card__link:hover { text-decoration: underline; }
+
 /* ====================  TIMELINE  ==================== */
 .tl { position: relative; }
 .tl__rail { position: absolute; left: 0; right: 0; top: 56px; height: 2px; background: var(--v-paper-line); }

@@ -95,6 +95,13 @@ Ported from the kauntech site; re-themed for Voltair. New Supabase project
   Written via admin-gated `POST /api/industries` (upserts `industries` AND embeds
   published rows as `doc_type:"industry"` for the bot, enriched with the linked
   service names). Migrated from the old hardcoded array via `supabase/seed-industries.mjs`.
+  Each industry also carries a `case_studies` JSONB array (migration `0013`) —
+  per-sector proof entries: `{ title, client?, challenge?, approach?, outcome?,
+  tech_stack[], metrics[{label,value}], link? }`. They render as a "How we've used
+  AI in <sector>" section on the detail page, are folded into the industry's RAG
+  embedding (so the bot can answer "how have you used AI in X?" / "what stack for X?"),
+  and are edited in the admin's `IndustryEditor` (card list → hidden `case_studies_json`).
+  The admin AI copilot can draft them too (`case_studies` in the `industry-draft` fence).
 - **Inquiries:** `components/BigInput.tsx` → `POST /api/contact` → `contact_submissions`.
 - **Rate limiting:** `lib/rate-limit.ts` + `rl_hit` RPC (chat burst/daily/global,
   contact burst/daily). **Admin auth:** `lib/admin-auth.ts` (`X-Admin-Key`).

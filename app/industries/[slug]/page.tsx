@@ -85,6 +85,22 @@ export default async function IndustryDetailPage({
           },
         }
       : {}),
+    ...(ind.case_studies?.length
+      ? {
+          hasPart: ind.case_studies.map((cs) => ({
+            "@type": "CreativeWork",
+            name: cs.title,
+            ...(cs.challenge || cs.approach || cs.outcome
+              ? {
+                  abstract: [cs.challenge, cs.approach, cs.outcome]
+                    .filter(Boolean)
+                    .join(" "),
+                }
+              : {}),
+            ...(cs.tech_stack.length ? { keywords: cs.tech_stack.join(", ") } : {}),
+          })),
+        }
+      : {}),
   };
 
   return (
@@ -122,6 +138,89 @@ export default async function IndustryDetailPage({
               <Link href="/services">See every service →</Link>
             </p>
             <ServiceCardGrid services={services} compact />
+          </div>
+        ) : null}
+
+        {ind.case_studies?.length ? (
+          <div className="industry-cases">
+            <h2>How we&apos;ve used AI in {ind.title}</h2>
+            <p className="meta">
+              Real builds — the problem, our AI approach, the stack we used, and what changed.
+            </p>
+            <div className="case-grid">
+              {ind.case_studies.map((cs, i) => {
+                const external = /^https?:\/\//i.test(cs.link ?? "");
+                return (
+                  <article key={`${cs.title}-${i}`} className="case-card">
+                    <header className="case-card__head">
+                      <span className="case-card__num">[ {String(i + 1).padStart(2, "0")} ]</span>
+                      <h3 className="case-card__title">{cs.title}</h3>
+                      {cs.client ? <p className="case-card__client">{cs.client}</p> : null}
+                    </header>
+
+                    <div className="case-card__body">
+                      {cs.challenge ? (
+                        <div className="case-card__block">
+                          <span className="case-card__label">Challenge</span>
+                          <p>{cs.challenge}</p>
+                        </div>
+                      ) : null}
+                      {cs.approach ? (
+                        <div className="case-card__block">
+                          <span className="case-card__label">How we used AI</span>
+                          <p>{cs.approach}</p>
+                        </div>
+                      ) : null}
+                      {cs.outcome ? (
+                        <div className="case-card__block">
+                          <span className="case-card__label">Outcome</span>
+                          <p>{cs.outcome}</p>
+                        </div>
+                      ) : null}
+                    </div>
+
+                    {cs.metrics?.length ? (
+                      <div className="case-card__metrics">
+                        {cs.metrics.map((m, j) => (
+                          <div key={`${m.label}-${j}`} className="case-metric">
+                            <span className="case-metric__value">{m.value}</span>
+                            <span className="case-metric__label">{m.label}</span>
+                          </div>
+                        ))}
+                      </div>
+                    ) : null}
+
+                    {cs.tech_stack?.length ? (
+                      <div className="case-card__stack">
+                        <span className="case-card__label">Tech stack</span>
+                        <ul className="case-chips">
+                          {cs.tech_stack.map((t) => (
+                            <li key={t} className="case-chip">{t}</li>
+                          ))}
+                        </ul>
+                      </div>
+                    ) : null}
+
+                    {cs.link ? (
+                      external ? (
+                        <a
+                          className="case-card__link"
+                          href={cs.link}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                        >
+                          Read the full story ↗
+                        </a>
+                      ) : (
+                        <Link className="case-card__link" href={cs.link}>
+                          Read the full story →
+                        </Link>
+                      )
+                    ) : null}
+                  </article>
+                );
+              })}
+            </div>
           </div>
         ) : null}
 

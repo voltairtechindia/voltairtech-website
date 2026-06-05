@@ -30,7 +30,12 @@ import {
   upsertIndustry,
 } from "@/lib/industries/db";
 import { resolveIndustryIcon } from "@/lib/industries/icons";
-import type { Industry, IndustryCover, IndustryUpsert } from "@/lib/industries/types";
+import type {
+  Industry,
+  IndustryCaseStudy,
+  IndustryCover,
+  IndustryUpsert,
+} from "@/lib/industries/types";
 import { getPublishedServiceCardsBySlugs } from "@/lib/services/db";
 import { deleteDocument } from "@/lib/rag/db";
 import { ingest } from "@/lib/rag/ingest";
@@ -58,6 +63,48 @@ function cover(v: unknown): IndustryCover | null {
   if (!url) return null;
   const alt = str((v as Record<string, unknown>).alt);
   return alt ? { url, alt } : { url };
+}
+
+/** Normalise the case-studies array — each entry needs at least a title to count. */
+function caseStudies(v: unknown): IndustryCaseStudy[] {
+  if (!Array.isArray(v)) return [];
+  const out: IndustryCaseStudy[] = [];
+  for (const raw of v) {
+    if (typeof raw !== "object" || raw === null) continue;
+    const p = raw as Record<string, unknown>;
+    const title = str(p.title);
+    if (!title) continue;
+
+    const metrics = Array.isArray(p.metrics)
+      ? p.metrics
+          .map((m) => {
+            if (typeof m !== "object" || m === null) return null;
+            const mm = m as Record<string, unknown>;
+            const label = str(mm.label);
+            const value = str(mm.value);
+            return label || value ? { label, value } : null;
+          })
+          .filter((m): m is { label: string; value: string } => m !== null)
+      : [];
+
+    const cs: IndustryCaseStudy = {
+      title,
+      tech_stack: strArray(p.tech_stack),
+      metrics,
+    };
+    const client = str(p.client);
+    const challenge = str(p.challenge);
+    const approach = str(p.approach);
+    const outcome = str(p.outcome);
+    const link = str(p.link);
+    if (client) cs.client = client;
+    if (challenge) cs.challenge = challenge;
+    if (approach) cs.approach = approach;
+    if (outcome) cs.outcome = outcome;
+    if (link) cs.link = link;
+    out.push(cs);
+  }
+  return out;
 }
 
 function normalize(input: unknown): { row: IndustryUpsert } | { error: string } {
@@ -111,6 +158,7 @@ function normalize(input: unknown): { row: IndustryUpsert } | { error: string } 
       body_md: typeof p.body_md === "string" ? p.body_md : "",
       tags,
       service_slugs: serviceSlugs,
+      case_studies: caseStudies(p.case_studies),
       seo: seo ?? {},
       position,
       status: status as IndustryUpsert["status"],
@@ -139,6 +187,22 @@ async function syncRag(ind: Industry): Promise<void> {
     // best-effort — the page still works without the enrichment
   }
 
+  // Fold each case study into the embedding so the bot can answer
+  // "how have you used AI in <sector>?" and "what stack do you use for <sector>?".
+  const caseStudyLines = (ind.case_studies ?? []).map((cs) => {
+    const bits = [
+      `Case study: ${cs.title}${cs.client ? ` (${cs.client})` : ""}.`,
+      cs.challenge ? `Challenge: ${cs.challenge}` : "",
+      cs.approach ? `How we applied AI: ${cs.approach}` : "",
+      cs.outcome ? `Outcome: ${cs.outcome}` : "",
+      cs.tech_stack.length ? `Tech stack: ${cs.tech_stack.join(", ")}.` : "",
+      cs.metrics.length
+        ? `Results: ${cs.metrics.map((m) => `${m.value} ${m.label}`.trim()).join("; ")}.`
+        : "",
+    ].filter(Boolean);
+    return bits.join(" ");
+  });
+
   const parts = [
     ind.title,
     ind.summary ?? "",
@@ -146,6 +210,7 @@ async function syncRag(ind: Industry): Promise<void> {
     ind.bullets.join(". "),
     markdownToPlainText(ind.body_md),
     serviceLine,
+    ...caseStudyLines,
   ].filter(Boolean);
 
   await ingest([
