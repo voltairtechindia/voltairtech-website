@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { VMark } from "./atoms/VMark";
 import { Arr } from "./atoms/Arr";
+import { NavMenu } from "./NavMenu";
 
 const NAV_LINKS = [
   { label: "About us", href: "/about" },
@@ -39,6 +40,7 @@ export function Nav() {
           <Link className="btn btn-primary btn-sm" href="/contact">
             Contact us <Arr />
           </Link>
+          <NavMenu links={NAV_LINKS} />
         </div>
       </div>
     </header>

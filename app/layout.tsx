@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import { Inter_Tight, JetBrains_Mono } from "next/font/google";
 import ChatWidget from "@/components/ChatWidget";
+import { ScrollReveal } from "@/components/ScrollReveal";
 import "@/styles/globals.css";
 
 const interTight = Inter_Tight({
@@ -18,6 +19,8 @@ const jetbrainsMono = JetBrains_Mono({
 });
 
 export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
   themeColor: "#E63946",
 };
 
@@ -86,6 +89,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <body>
         {children}
         <ChatWidget />
+        <ScrollReveal />
       </body>
     </html>
   );

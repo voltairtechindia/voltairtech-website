@@ -185,6 +185,7 @@ export default function ChatWidget() {
   const [peekText, setPeekText] = useState("");
 
   const bodyRef = useRef<HTMLDivElement>(null);
+  const windowRef = useRef<HTMLDivElement>(null);
   const peekTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
   // Refs let the dwell timer read live state without re-arming on every change.
   const openRef = useRef(open);
@@ -195,6 +196,37 @@ export default function ChatWidget() {
   useEffect(() => {
     if (bodyRef.current) bodyRef.current.scrollTop = bodyRef.current.scrollHeight;
   }, [messages, streaming, busy, open]);
+
+  /* Keep the chat sheet (and its input) above the mobile on-screen keyboard.
+     Feed the VisualViewport's keyboard inset + visible height into CSS vars
+     (--kb / --vvh) that the mobile layout reads; the input stays in view. */
+  useEffect(() => {
+    const el = windowRef.current;
+    const vv = typeof window !== "undefined" ? window.visualViewport : null;
+    if (!el) return;
+
+    const update = () => {
+      if (!open || !vv) {
+        el.style.removeProperty("--kb");
+        el.style.removeProperty("--vvh");
+        return;
+      }
+      const kb = Math.max(0, window.innerHeight - vv.height - vv.offsetTop);
+      el.style.setProperty("--kb", `${kb}px`);
+      el.style.setProperty("--vvh", `${vv.height}px`);
+      if (bodyRef.current) bodyRef.current.scrollTop = bodyRef.current.scrollHeight;
+    };
+
+    update();
+    vv?.addEventListener("resize", update);
+    vv?.addEventListener("scroll", update);
+    return () => {
+      vv?.removeEventListener("resize", update);
+      vv?.removeEventListener("scroll", update);
+      el.style.removeProperty("--kb");
+      el.style.removeProperty("--vvh");
+    };
+  }, [open]);
 
   /** Read the live page context (path + current document title). */
   const liveCtx = (): PageContext =>
@@ -373,7 +405,7 @@ export default function ChatWidget() {
         <span className="chat-widget-btn-label">Ask Voltair AI</span>
       </button>
 
-      <div className={`chat-widget-window${open ? " active" : ""}`} role="dialog" aria-label="Voltair AI Specialist">
+      <div ref={windowRef} className={`chat-widget-window${open ? " active" : ""}`} role="dialog" aria-label="Voltair AI Specialist">
         <div className="chat-header">
           <div className="chat-header-info">
             <div className="chat-avatar"><IconBot /></div>

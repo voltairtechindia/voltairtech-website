@@ -102,7 +102,7 @@ export function BigInput() {
                     className="bi__input"
                     type="tel"
                     inputMode="tel"
-                    placeholder="WhatsApp number (with country code)"
+                    placeholder="WhatsApp number + country code"
                     value={whatsapp}
                     onChange={(e) => setWhatsapp(e.target.value)}
                     autoComplete="tel"

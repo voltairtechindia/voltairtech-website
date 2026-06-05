@@ -90,19 +90,25 @@ export default async function BlogIndexPage({
                 <Link
                   key={p.slug}
                   href={`/blog/${p.slug}`}
-                  className={p.cover_image?.url ? "post-card--media" : undefined}
+                  className="post-card"
                 >
-                  {p.cover_image?.url ? (
-                    <div className="post-card__cover">
-                      {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <div className="post-card__cover">
+                    {p.cover_image?.url ? (
+                      /* eslint-disable-next-line @next/next/no-img-element */
                       <img
                         src={p.cover_image.url}
                         alt={p.cover_image.alt ?? p.title}
                         loading="lazy"
                         decoding="async"
                       />
-                    </div>
-                  ) : null}
+                    ) : (
+                      <div className="post-card__ph" aria-hidden="true">
+                        <span className="post-card__ph-tag">
+                          {p.tags?.[0] ?? "Voltair Tech"}
+                        </span>
+                      </div>
+                    )}
+                  </div>
                   <div className="post-card__body">
                     <span className="post-kicker">
                       {p.tags?.[0] ?? "Voltair Tech"}

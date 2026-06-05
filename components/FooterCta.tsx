@@ -19,7 +19,7 @@ export function FooterCta() {
         <div className="foot__grid">
           <div>
             <Kicker>[&nbsp;09&nbsp;] Start</Kicker>
-            <h2 className="foot__h" style={{ marginTop: 16 }}>
+            <h2 className="foot__h" style={{ marginTop: 16 }} data-reveal="">
               Pick a channel.<br />We reply <em>in under an hour.</em>
             </h2>
             <div style={{ display: "flex", alignItems: "center", gap: 16, marginTop: 28 }}>

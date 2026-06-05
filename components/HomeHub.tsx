@@ -51,11 +51,13 @@ export function HomeHub() {
     <section className="section">
       <div className="container">
         <div className="hub-grid">
-          {HUB_ITEMS.map((item) => (
+          {HUB_ITEMS.map((item, i) => (
             <Link
               key={item.n}
               href={item.href}
               className={"hub-card" + (item.cta ? " hub-card--cta" : "")}
+              data-reveal=""
+              style={{ transitionDelay: `${i * 60}ms` }}
             >
               <div className="hub-card__top">
                 <span className="hub-card__n">[ {item.n} ]</span>
