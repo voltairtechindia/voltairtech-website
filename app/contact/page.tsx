@@ -23,7 +23,7 @@ export default function ContactPage() {
       <main>
         <BigInput />
       </main>
-      <FooterCta />
+      <FooterCta num="02" />
     </div>
   );
 }

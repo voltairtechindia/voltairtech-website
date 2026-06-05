@@ -11,14 +11,14 @@ function Brand({ size = 18 }: { size?: number }) {
   );
 }
 
-export function FooterCta() {
+export function FooterCta({ num }: { num?: string }) {
   return (
     <section id="footer" className="foot">
       <div className="foot__mesh" />
       <div className="container">
         <div className="foot__grid">
           <div>
-            <Kicker>[&nbsp;09&nbsp;] Start</Kicker>
+            <Kicker>{num ? `[ ${num} ] Start` : "Start"}</Kicker>
             <h2 className="foot__h" style={{ marginTop: 16 }} data-reveal="">
               Pick a channel.<br />We reply <em>in under an hour.</em>
             </h2>
@@ -106,7 +106,6 @@ export function FooterCta() {
           <span style={{ display: "flex", gap: 18 }}>
             <Link href="/privacy">privacy</Link>
             <Link href="/terms">terms</Link>
-            <Link href="/dpdp">dpdp</Link>
             <a href="/sitemap.xml">sitemap</a>
           </span>
         </div>

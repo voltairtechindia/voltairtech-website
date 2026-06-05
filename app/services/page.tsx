@@ -50,9 +50,13 @@ export default async function ServicesPage({
   return (
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
-      <PageLayout>
+      <PageLayout footerNum="03">
         <Services services={data.items} page={data.page} pageCount={data.pageCount} />
-        <Process />
+        <Process
+          num="02"
+          title={<>How every<br />build ships.</>}
+          lead="Pick any service above — it runs through the same four steps. Fixed scope, daily Loom and WhatsApp updates, and code that's 100% yours at hand-off."
+        />
       </PageLayout>
     </>
   );

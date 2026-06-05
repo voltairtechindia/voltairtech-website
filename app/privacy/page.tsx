@@ -4,7 +4,7 @@ import { LegalLayout } from "@/components/LegalLayout";
 export const metadata: Metadata = {
   title: "Privacy Policy",
   description:
-    "Voltair Tech's privacy policy — how we collect, use, and protect your personal data under the DPDP Act 2023 and applicable Indian law.",
+    "Voltair Tech's privacy policy — how we collect, use, and protect your personal data under applicable Indian data protection law.",
   alternates: {
     canonical: "https://voltairtech.com/privacy",
   },
@@ -18,8 +18,7 @@ export default function PrivacyPage() {
         Voltair Tech (&quot;we&quot;, &quot;our&quot;, or &quot;us&quot;) is an AI services studio incorporated in Mumbai,
         Maharashtra, India. This Privacy Policy explains how we collect, use, and protect
         personal data when you visit <strong>voltairtech.com</strong> or engage us for
-        services. We comply with India&apos;s Digital Personal Data Protection (DPDP) Act 2023
-        and all other applicable laws.
+        services. We comply with applicable Indian data protection law.
       </p>
 
       <h2>1. Data We Collect</h2>
@@ -43,7 +42,7 @@ export default function PrivacyPage() {
 
       <h2>3. Legal Basis for Processing</h2>
       <p>
-        Under the DPDP Act 2023, we process your personal data on the basis of:
+        We process your personal data on the basis of:
       </p>
       <ul>
         <li><strong>Consent</strong> — when you proactively contact us or fill in a form.</li>
@@ -70,15 +69,15 @@ export default function PrivacyPage() {
         form for statistical purposes only.
       </p>
 
-      <h2>6. Your Rights (DPDP Act 2023)</h2>
-      <p>As a data principal under the DPDP Act 2023, you have the right to:</p>
+      <h2>6. Your Rights</h2>
+      <p>As a data principal, you have the right to:</p>
       <ul>
         <li>Access a summary of the personal data we hold about you.</li>
         <li>Correct inaccurate or incomplete personal data.</li>
         <li>Erase personal data where processing was based on consent, unless retention is required by law.</li>
         <li>Withdraw consent at any time without affecting the lawfulness of prior processing.</li>
         <li>Nominate a representative to exercise your rights on your behalf.</li>
-        <li>Lodge a grievance with our Grievance Officer (see below) or with the Data Protection Board of India.</li>
+        <li>Lodge a grievance with our Grievance Officer (see below) or with the relevant data protection authority.</li>
       </ul>
 
       <h2>7. Data Security</h2>

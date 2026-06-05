@@ -50,9 +50,13 @@ export default async function IndustriesPage({
   return (
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
-      <PageLayout>
+      <PageLayout footerNum="03">
         <Industries industries={data.items} page={data.page} pageCount={data.pageCount} />
-        <Process />
+        <Process
+          num="02"
+          title={<>How we build<br />for your sector.</>}
+          lead="Every sector build runs the same four steps — we just tune the stack and the one success metric to how your industry actually works."
+        />
       </PageLayout>
     </>
   );

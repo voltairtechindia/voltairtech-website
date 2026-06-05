@@ -68,7 +68,7 @@ export function BigInput() {
         <div className="bi">
           <div className="bi__hd">
             <div>
-              <Kicker>[&nbsp;05&nbsp;] Tell us what you want</Kicker>
+              <Kicker>[&nbsp;01&nbsp;] Tell us what you want</Kicker>
               <h2 className="bi__h" style={{ marginTop: 12 }}>
                 We&apos;ll <em>build it.</em>
               </h2>

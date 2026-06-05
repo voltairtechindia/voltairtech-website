@@ -48,7 +48,7 @@ const services = [
 - Headless CMS integration (Sanity, Contentful, or Notion-as-CMS)
 - Custom domain, SSL, Vercel deployment, error monitoring
 - Analytics (Vercel Analytics + optional Mixpanel)
-- DPDP Act 2023 compliant privacy policy and consent flows
+- Privacy policy and consent flows
 - Handover doc + 30-day post-ship support window
 
 ## The 48-hour process
@@ -116,7 +116,7 @@ n8n is open-source, self-hostable, and India-optimised. Unlike Zapier, there's n
 | Pricing model | **Fixed build fee + cheap hosting** | Per task (expensive at scale) | Per operation |
 | Self-hostable | **Yes** | No | No |
 | Custom code nodes | **Full JS / Python** | Limited | Limited |
-| DPDP-compliant hosting | **Indian server option** | US-only | EU / US |
+| Data residency | **Indian server option** | US-only | EU / US |
 | WhatsApp Business API | **Native integration** | Via third-party | Via third-party |
 
 ## What's included in an automation build
@@ -238,7 +238,7 @@ The result: an AI that knows exactly what your organisation knows, never makes t
 - Customer support chatbot grounded in product documentation
 - HR bot that answers policy questions from your employee handbook
 - Legal assistant that searches contracts and flags risk clauses
-- Healthcare clinic FAQ bot trained on treatment protocols (DPDP-compliant)
+- Healthcare clinic FAQ bot trained on treatment protocols
 - Internal knowledge base search across Notion, Confluence, or Google Drive
 - Compliance tool that checks new contracts against regulatory documents
 
@@ -285,7 +285,7 @@ RAG systems from **₹4L** for a single-corpus deployment to **₹8L+** for mult
 
 - Consumer apps (marketplaces, social, D2C shopping, booking)
 - Enterprise tools (field service, internal dashboards, sales apps)
-- Healthcare apps (teleconsultation, medication reminders, DPDP-compliant patient data)
+- Healthcare apps (teleconsultation, medication reminders, secure patient data)
 - Fintech apps (UPI integration, portfolio trackers, loan apps)
 - EdTech apps (AI tutors, video courses, progress tracking)
 

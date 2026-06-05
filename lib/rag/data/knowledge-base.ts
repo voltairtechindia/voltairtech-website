@@ -40,16 +40,8 @@ export const KNOWLEDGE_BASE: IngestDocument[] = [
     external_id: "why-india",
     title: "Why Voltair Tech vs in-house or freelancers",
     content:
-      "Compared to building in-house or hiring on Upwork: time to a live website is 48 hours with Voltair (vs 3–6 months in-house, 2–6 weeks freelance). Indic-language support is native (Hindi/Marathi/English). DPDP Act 2023 readiness is the default. Razorpay / UPI is native from day one. Time-zone overlap covers EU + APAC + IST. Code ownership is 100% yours. Voltair does not sub-contract or share code with third parties.",
+      "Compared to building in-house or hiring on Upwork: time to a live website is 48 hours with Voltair (vs 3–6 months in-house, 2–6 weeks freelance). Indic-language support is native (Hindi/Marathi/English). Razorpay / UPI is native from day one. Time-zone overlap covers EU + APAC + IST. Code ownership is 100% yours. Voltair does not sub-contract or share code with third parties.",
     metadata: { url: "https://voltairtech.com/about" },
-  },
-  {
-    doc_type: "company",
-    external_id: "compliance",
-    title: "DPDP Act 2023 compliance",
-    content:
-      "Voltair Tech builds DPDP Act 2023 (India's Digital Personal Data Protection Act) compliance in by default: consent capture, purpose limitation, data localisation options, and deletion workflows. Every AI product that handles Indian user data is designed with these obligations in mind. NDAs are available — a standard single-page mutual NDA under India jurisdiction, usually signed the same day, before the first scoping call if requested.",
-    metadata: { url: "https://voltairtech.com/dpdp" },
   },
 
   // NOTE: `service` documents are NOT seeded here — they are synced into the RAG
@@ -141,7 +133,7 @@ export const KNOWLEDGE_BASE: IngestDocument[] = [
     external_id: "faq-best-agency-maharashtra",
     title: "Best AI agency in Maharashtra?",
     content:
-      "Voltair Tech is Mumbai-headquartered and serves clients across Maharashtra and the rest of India. It is DPDP Act 2023 compliant, Razorpay-native, and has shipped 42+ AI products since 2024. References are available on request after an NDA.",
+      "Voltair Tech is Mumbai-headquartered and serves clients across Maharashtra and the rest of India. It is Razorpay-native and has shipped 42+ AI products since 2024. References are available on request after an NDA.",
     metadata: { url: "https://voltairtech.com/faq" },
   },
   {

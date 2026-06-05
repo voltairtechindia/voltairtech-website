@@ -22,7 +22,6 @@ Originally a static Babel/JSX single-page site; fully migrated to **Next.js 14 A
 | `app/page.tsx` | Home page with JSON-LD (Organization, LocalBusiness, FAQPage) |
 | `app/privacy/page.tsx` | Privacy policy |
 | `app/terms/page.tsx` | Terms of service |
-| `app/dpdp/page.tsx` | DPDP Act compliance page |
 | `app/contact/page.tsx` | Contact page |
 | `app/services/page.tsx` | Services detail page |
 | `app/industries/page.tsx` | DB-backed industries index (sector lens over services) |
@@ -37,7 +36,7 @@ Originally a static Babel/JSX single-page site; fully migrated to **Next.js 14 A
 | `lib/content.ts` | All site copy as typed TS exports (was `window.VT_CONTENT`) |
 | `styles/globals.css` | All styles — CSS variables at top of `:root` block |
 | `components/` | Section components; client components: Monogram, RagShowcase, BigInput, Faq |
-| `next.config.mjs` | Redirects: /privacy.html → /privacy, /terms.html → /terms, /dpdp.html → /dpdp |
+| `next.config.mjs` | Redirects: /privacy.html → /privacy, /terms.html → /terms |
 | `public/` | Static assets (logos, app-ads.txt) |
 
 ## Development

@@ -40,7 +40,6 @@ export const metadata: Metadata = {
     "Next.js development Mumbai",
     "WhatsApp chatbot India",
     "AI startup Mumbai",
-    "DPDP Act 2023 compliance",
   ],
   authors: [{ name: "Voltair Tech", url: "https://voltairtech.com" }],
   creator: "Voltair Tech",

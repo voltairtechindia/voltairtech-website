@@ -61,7 +61,7 @@ export default function FaqPage() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
-      <PageLayout>
+      <PageLayout footerNum="02">
         <Faq />
       </PageLayout>
     </>

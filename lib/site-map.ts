@@ -140,11 +140,6 @@ export const SITE_PAGES: SitePage[] = [
     ],
   },
   {
-    href: "/dpdp",
-    label: "DPDP compliance",
-    keywords: ["dpdp", "dpdp act", "data protection", "compliance"],
-  },
-  {
     href: "/privacy",
     label: "Privacy policy",
     keywords: ["privacy policy", "privacy"],
@@ -196,13 +191,12 @@ export interface PageContext {
 }
 
 const DEFAULT_GREETING =
-  "Hi! I'm the **Voltair AI Specialist**. Ask me about what we build — AI sites in 48 hours, RAG, chatbots, automation, pricing or DPDP compliance. Pick one below or type a question.";
+  "Hi! I'm the **Voltair AI Specialist**. Ask me about what we build — AI sites in 48 hours, RAG, chatbots, automation or pricing. Pick one below or type a question.";
 
 const HOME_PRESETS = [
   "What can you build in 48 hours?",
   "How does a RAG system work?",
   "What does a WhatsApp chatbot cost?",
-  "Are you DPDP Act 2023 compliant?",
   "What's your tech stack?",
 ];
 
@@ -314,7 +308,7 @@ export function pageContext(pathname: string, rawTitle: string): PageContext {
         topic: "our FAQs",
         greeting: "Can't find your answer below? Ask me directly.",
         presets: [
-          "Are you DPDP Act 2023 compliant?",
+          "How much does an AI app cost?",
           "How does the 48-hour build work?",
           "What's your tech stack?",
         ],
@@ -347,7 +341,6 @@ export function pageContext(pathname: string, rawTitle: string): PageContext {
         peek: "Ready to start? I can walk you through the first step.",
         peekDelayMs: 22000,
       };
-    case "/dpdp":
     case "/privacy":
     case "/terms":
       return {
@@ -355,11 +348,11 @@ export function pageContext(pathname: string, rawTitle: string): PageContext {
         greeting:
           "Questions about how we handle data, or about our terms? Ask away.",
         presets: [
-          "Are you DPDP Act 2023 compliant?",
           "How do you handle my data?",
           "Where is my data stored?",
+          "Do you sign NDAs?",
         ],
-        peek: "Questions about data or compliance? I can help.",
+        peek: "Questions about data or our terms? I can help.",
         peekDelayMs: 28000,
       };
     case "/":
@@ -441,15 +434,15 @@ const FOLLOWUP_RULES: { test: RegExp; qs: string[] }[] = [
   },
   {
     test: /whatsapp|\bvoice\b|chatbot|\bbot\b/i,
-    qs: ["Can it handle payments?", "Is it DPDP compliant?", "How fast can a chatbot launch?"],
+    qs: ["Can it handle payments?", "Can it answer in Hindi & Marathi?", "How fast can a chatbot launch?"],
   },
   {
     test: /automat|workflow|\bn8n\b|integrat/i,
     qs: ["What could you automate for us?", "Do you connect to our tools?", "What does automation cost?"],
   },
   {
-    test: /dpdp|complian|privacy|data protection|\bsecurity\b/i,
-    qs: ["Where is our data stored?", "Do you sign a DPA?", "Is the build DPDP compliant?"],
+    test: /complian|privacy|data protection|\bsecurity\b/i,
+    qs: ["Where is our data stored?", "Do you sign a DPA?", "How do you secure the build?"],
   },
   {
     test: /\bstack\b|\btech\b|next\.?js|supabase|framework|own the code/i,

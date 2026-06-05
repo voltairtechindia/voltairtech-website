@@ -82,7 +82,7 @@ export default function HomePage() {
           <HomeHub />
           <MarqueeSection />
         </main>
-        <FooterCta />
+        <FooterCta num="08" />
       </div>
     </>
   );

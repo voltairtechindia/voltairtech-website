@@ -6,9 +6,9 @@ export function WhyIndia() {
     <section id="work" className="section">
       <div className="container">
         <SectionHead
-          kicker="[ 07 ] Why VOLTAIR TECH / why India"
+          kicker="[ 03 ] Why VOLTAIR TECH / why India"
           title={<>Indian operators,<br />global standards.</>}
-          right={<span className="tag"><span className="pulse" />DPDP Act 2023 · day one</span>}
+          right={<span className="tag"><span className="pulse" />Razorpay-native · day one</span>}
         />
         <div className="cmp">
           <div className="cmp__row cmp__row--head">

@@ -28,11 +28,10 @@ export function Industries({
           right={<span className="tag"><span className="pulse" />sector-shaped AI</span>}
         />
         <p className="lead" style={{ maxWidth: 760 }}>
-          Deploy sector-specific AI agents and systems tailored to your
-          technical requirements. We customize our core stack — high-performance
-          web platforms, low-latency chatbots, RAG vector pipelines, and
-          autonomous workflow automation — to fit your exact operational
-          environment. Select your industry to view services.
+          Every sector runs a little differently, so we don&apos;t ship the same
+          build twice. We take what we already do well — fast websites, chatbots,
+          RAG search, and workflow automation — and shape it around how your
+          industry actually works. Pick yours to see the services that fit.
         </p>
         {industries.length === 0 ? (
           <p className="meta" style={{ marginTop: 24 }}>No industries published yet.</p>

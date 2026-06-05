@@ -103,7 +103,6 @@ window.VT_CONTENT = {
   compare: [
     { label: "Time to website live",     us: "48 hours",       inhouse: "3–6 months",    upwork: "2–6 weeks" },
     { label: "Indic language support",   us: "Native",          inhouse: "Depends",        upwork: "Rare" },
-    { label: "DPDP Act 2023 ready",      us: "Default",         inhouse: "DIY",            upwork: "Unclear" },
     { label: "Razorpay / UPI native",    us: "Day one",         inhouse: "Sprint cost",   upwork: "Sprint cost" },
     { label: "Time-zone overlap",        us: "EU + APAC + IST", inhouse: "Single TZ",     upwork: "Variable" },
     { label: "Ownership of code",        us: "100% yours",      inhouse: "100% yours",    upwork: "Negotiated" },
@@ -123,7 +122,7 @@ window.VT_CONTENT = {
       a: "A production chatbot starts at ₹1.5L. A full RAG system or AI web app starts at ₹4–8L depending on scope, and mobile apps land at ₹8–15L. All quotes are fixed-price and include 30 days of post-ship support." },
 
     { q: "Best AI agency in Maharashtra?",
-      a: "VOLTAIRTECH is Mumbai-headquartered and serves clients across Maharashtra and the rest of India. We're DPDP Act 2023 compliant, Razorpay-native, and have shipped 42+ AI products since 2024. References available on request after an NDA." },
+      a: "VOLTAIRTECH is Mumbai-headquartered and serves clients across Maharashtra and the rest of India. We're Razorpay-native and have shipped 42+ AI products since 2024. References available on request after an NDA." },
 
     { q: "Do you build WhatsApp chatbots?",
       a: "Yes — WhatsApp Business API is one of our most-requested channels. We handle the Meta verification, the conversation flow, payment integrations, and grounding the bot on your own docs. Native support for Hindi, Marathi, and English on the same bot." },

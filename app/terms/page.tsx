@@ -82,7 +82,8 @@ export default function TermsPage() {
       <p>
         Any personal data we process on your behalf in the course of delivering services is
         governed by our <a href="/privacy">Privacy Policy</a> and, where applicable, a Data
-        Processing Agreement. We are compliant with India&apos;s DPDP Act 2023.
+        Processing Agreement. We handle personal data in line with applicable Indian data
+        protection law.
       </p>
 
       <h2>8. Warranties and Limitations</h2>

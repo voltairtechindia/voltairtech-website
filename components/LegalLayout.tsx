@@ -68,7 +68,6 @@ export function LegalLayout({
           <span style={{ display: "flex", gap: 18 }}>
             <Link href="/privacy" style={{ color: "inherit" }}>Privacy</Link>
             <Link href="/terms" style={{ color: "inherit" }}>Terms</Link>
-            <Link href="/dpdp" style={{ color: "inherit" }}>DPDP</Link>
           </span>
         </div>
       </footer>

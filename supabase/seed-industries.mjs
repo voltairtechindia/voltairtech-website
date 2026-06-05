@@ -51,7 +51,7 @@ const industries = [
 
 ## Why brands pick Voltair
 
-Campaigns don't wait for six-week timelines. We ship the landing page before the ad drops, wire the bot to your catalogue, and hand you a stack you fully own — Razorpay-native, DPDP-aware, and built to scale with your next sale.`,
+Campaigns don't wait for six-week timelines. We ship the landing page before the ad drops, wire the bot to your catalogue, and hand you a stack you fully own — Razorpay-native and built to scale with your next sale.`,
   },
   {
     slug: "healthcare-clinics",
@@ -59,30 +59,30 @@ Campaigns don't wait for six-week timelines. We ship the landing page before the
     status: "published",
     position: 2,
     icon: "healthcare",
-    tags: ["healthcare", "clinics", "dpdp", "rag", "appointments"],
+    tags: ["healthcare", "clinics", "rag", "appointments"],
     service_slugs: ["whatsapp-chatbot", "rag-systems", "custom-ai-software"],
     summary:
-      "Appointment bots, patient-FAQ RAG grounded in your protocols, and DPDP-compliant data handling.",
+      "Appointment bots, patient-FAQ RAG grounded in your protocols, and secure patient-data handling.",
     headline: "AI for healthcare & clinics",
     meta: "Industry · Healthcare & clinics",
     lead:
-      "Patient trust is everything. We build appointment bots and patient-FAQ assistants grounded in your own protocols — never guessing — with DPDP Act 2023-compliant data handling from day one.",
-    bullets: ["Appointment & reminder bots", "Protocol-grounded patient FAQ", "DPDP-compliant by default"],
+      "Patient trust is everything. We build appointment bots and patient-FAQ assistants grounded in your own protocols — never guessing — with secure, consent-first patient-data handling from day one.",
+    bullets: ["Appointment & reminder bots", "Protocol-grounded patient FAQ", "Secure patient-data handling"],
     seo: {
-      title: "AI for Healthcare & Clinics India — DPDP-Compliant | Voltair Tech",
+      title: "AI for Healthcare & Clinics India | Voltair Tech",
       description:
-        "Appointment bots, patient-FAQ RAG grounded in your protocols, and DPDP-compliant data handling for clinics and hospitals.",
+        "Appointment bots, patient-FAQ RAG grounded in your protocols, and secure patient-data handling for clinics and hospitals.",
     },
     body_md: `## What we build for healthcare
 
 - **Appointment & reminder bots** on WhatsApp — booking, confirmations, follow-ups, no front-desk overload.
 - **Patient-FAQ assistants** grounded in *your* treatment protocols via RAG, so every answer is cited and safe.
 - **Intake & triage automation** that routes the right query to the right team.
-- **DPDP-compliant data handling** — consent flows, Indian data residency options, audit-ready logs.
+- **Secure patient-data handling** — consent flows, Indian data residency options, audit-ready logs.
 
 ## Built for trust
 
-In healthcare, a hallucinated answer is a liability. Our RAG systems answer only from your approved documents and show their source — and we handle patient data under the DPDP Act 2023 by default, not as an afterthought.`,
+In healthcare, a hallucinated answer is a liability. Our RAG systems answer only from your approved documents and show their source — and we handle patient data securely and with consent by default, not as an afterthought.`,
   },
   {
     slug: "fintech-payments",

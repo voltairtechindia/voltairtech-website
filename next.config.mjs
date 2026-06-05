@@ -53,11 +53,6 @@ const nextConfig = {
         destination: "/terms",
         permanent: true,
       },
-      {
-        source: "/dpdp.html",
-        destination: "/dpdp",
-        permanent: true,
-      },
     ];
   },
 };

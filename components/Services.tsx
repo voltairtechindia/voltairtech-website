@@ -16,7 +16,7 @@ export function Services({
     <section id="services" className="section section--ink">
       <div className="container">
         <SectionHead
-          kicker="[ 02 ] What we build"
+          kicker="[ 01 ] What we build"
           title={<>What we<br />build.</>}
           right={<span className="tag"><span className="pulse" />websites ship in 48 hrs</span>}
         />

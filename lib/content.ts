@@ -105,7 +105,6 @@ export const CONTENT = {
   compare: [
     { label: "Time to website live", us: "48 hours", inhouse: "3–6 months", upwork: "2–6 weeks" },
     { label: "Indic language support", us: "Native", inhouse: "Depends", upwork: "Rare" },
-    { label: "DPDP Act 2023 ready", us: "Default", inhouse: "DIY", upwork: "Unclear" },
     { label: "Razorpay / UPI native", us: "Day one", inhouse: "Sprint cost", upwork: "Sprint cost" },
     { label: "Time-zone overlap", us: "EU + APAC + IST", inhouse: "Single TZ", upwork: "Variable" },
     { label: "Ownership of code", us: "100% yours", inhouse: "100% yours", upwork: "Negotiated" },
@@ -130,7 +129,7 @@ export const CONTENT = {
     },
     {
       q: "Best AI agency in Maharashtra?",
-      a: "Voltair Tech is Mumbai-headquartered and serves clients across Maharashtra and the rest of India. We're DPDP Act 2023 compliant, Razorpay-native, and have shipped 42+ AI products since 2024. References available on request after an NDA.",
+      a: "Voltair Tech is Mumbai-headquartered and serves clients across Maharashtra and the rest of India. We're Razorpay-native and have shipped 42+ AI products since 2024. References available on request after an NDA.",
     },
     {
       q: "Do you build WhatsApp chatbots?",
