@@ -88,13 +88,45 @@ export async function generate(
   return text;
 }
 
-/** Structured JSON completion (used for background analytics extraction). */
+/**
+ * Streaming variant of `generate` — yields text fragments as they arrive so the
+ * widget can render the reply token-by-token. Same model config as `generate`
+ * (thinking disabled), so it costs the same tokens; it just streams them.
+ */
+export async function* generateStream(
+  systemPrompt: string,
+  history: ChatTurn[],
+): AsyncGenerator<string> {
+  const stream = await client().models.generateContentStream({
+    model: config.llmModel,
+    contents: history.map((m) => ({
+      role: m.role,
+      parts: [{ text: m.text }],
+    })),
+    config: {
+      systemInstruction: systemPrompt,
+      temperature: config.llmTemperature,
+      maxOutputTokens: config.llmMaxOutputTokens,
+      thinkingConfig: { thinkingBudget: 0 },
+    },
+  });
+  for await (const chunk of stream) {
+    const text = chunk.text;
+    if (text) yield text;
+  }
+}
+
+/**
+ * Structured JSON completion (used for background analytics extraction).
+ * Defaults to the cheaper analytics model; pass `model` to override.
+ */
 export async function generateJson(
   systemPrompt: string,
   prompt: string,
+  model: string = config.analyticsModel,
 ): Promise<Record<string, unknown>> {
   const res = await client().models.generateContent({
-    model: config.llmModel,
+    model,
     contents: prompt,
     config: {
       systemInstruction: systemPrompt,

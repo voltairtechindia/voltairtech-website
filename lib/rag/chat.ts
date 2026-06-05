@@ -1,12 +1,16 @@
 /**
- * Chat orchestration: retrieve grounded knowledge → build history → generate
- * → persist transcript. Returns the reply plus a handle the route uses to run
- * analytics in the background.
+ * Chat orchestration: retrieve grounded knowledge → build history → STREAM the
+ * reply → persist transcript + cache + analytics after the stream closes.
  *
- * Retrieval + generation are the core and must succeed. Conversation logging
- * is best-effort: if Supabase is unreachable we still answer (statelessly) so
- * a logging blip never takes the bot down.
+ * The response is a plain-text stream of the reply, followed by a single record
+ * separator (U+001E) and a compact JSON trailer ({ sources }) the widget uses
+ * for source deep-links. Retrieval + generation are the core; conversation
+ * logging, caching and analytics are all best-effort and run via `runAfter`
+ * so they never add latency to (or break) the reply.
  */
+import { runAfter } from "@/lib/after";
+
+import { processTurn } from "./analytics";
 import {
   bumpCacheHit,
   getCachedReply,
@@ -20,59 +24,79 @@ import {
   getOrCreateConversation,
   getRecentMessages,
 } from "./db";
-import { generate, type ChatTurn } from "./gemini";
+import { generateStream, type ChatTurn } from "./gemini";
 import { SYSTEM_PROMPT, buildChatTurn } from "./prompts";
 import { buildContext, search } from "./retriever";
-import type { ChatResponseBody, SourceDoc } from "./types";
+import type { PageInfo, SourceDoc } from "./types";
 
-export interface ChatResult {
-  response: ChatResponseBody;
-  // Present only when the turn was logged and is eligible for analytics.
-  analytics: { conversationId: string } | null;
-}
+/** Record separator between the streamed reply text and the JSON trailer. */
+const RS = "\u001E";
 
-export async function handleChat(args: {
+const FALLBACK_REPLY =
+  "I'm sorry, I couldn't put together a response just now. Could you rephrase that?";
+
+/** Deictic questions ("summarise this", "is it right for me") lean on the page. */
+const DEICTIC =
+  /\b(this|that|these|those|it|here|the (article|post|page|service|industry))\b/i;
+
+export interface StreamChatArgs {
   message: string;
   sessionId: string;
   pageUrl?: string | null;
-}): Promise<ChatResult> {
-  // 0. Response cache — if this exact (normalized) question was answered
-  // recently, return it WITHOUT calling Gemini (embed + generate). We still
-  // log the transcript so multi-turn history stays intact for later turns.
+  page?: PageInfo | null;
+}
+
+function trailer(sources: SourceDoc[]): string {
+  return RS + JSON.stringify({ sources });
+}
+
+function sourcesOf(
+  docs: { doc_type: string; title: string | null; external_id: string | null; similarity: number }[],
+): SourceDoc[] {
+  return docs.map((d) => ({
+    doc_type: d.doc_type,
+    title: d.title,
+    external_id: d.external_id,
+    similarity: Math.round(d.similarity * 1000) / 1000,
+  }));
+}
+
+/**
+ * Build the streamed chat response. Awaits retrieval + history up front (so a
+ * hard failure there throws before any bytes are sent and the route can return
+ * a clean 500); generation itself streams inside the ReadableStream.
+ */
+export async function streamChat(
+  args: StreamChatArgs,
+): Promise<ReadableStream<Uint8Array>> {
+  const enc = new TextEncoder();
+  const title = args.page?.title?.trim() ?? "";
+  const topic = args.page?.topic?.trim() ?? "";
+  const path = args.page?.path?.trim() ?? "";
+
+  // 0. Response cache — scoped to the current page so grounded answers don't
+  // bleed across pages. Stream the cached reply instantly and log in the
+  // background.
   const cacheable = isCacheable(args.message);
-  const hash = cacheable ? questionHash(args.message) : "";
+  const hash = cacheable ? questionHash(args.message, path) : "";
   if (cacheable) {
     const cached = await getCachedReply(hash);
     if (cached) {
-      let conversationId: string | null = null;
-      try {
-        conversationId = await getOrCreateConversation(args.sessionId);
-        await addMessages(conversationId, [
-          { role: "user", content: args.message },
-          {
-            role: "assistant",
-            content: cached.reply,
-            metadata: { cache: "hit" },
-          },
-        ]);
-      } catch (err) {
-        console.error("[rag] cache-hit persist failed (continuing)", err);
-      }
       void bumpCacheHit(hash);
-      return {
-        response: {
-          reply: cached.reply,
-          conversation_id: conversationId,
-          sources: cached.sources,
-        },
-        analytics: conversationId ? { conversationId } : null,
-      };
+      runAfter(() => persistTurn(args.sessionId, args.message, cached.reply, { cache: "hit" }));
+      return oneShot(enc, cached.reply, cached.sources);
     }
   }
 
-  // 1. Retrieve grounded knowledge (core path).
-  const docs = await search(args.message);
+  // 1. Retrieve grounded knowledge. For deictic questions, bias the query with
+  // the page title/topic so "summarise this" finds the right document.
+  const query =
+    DEICTIC.test(args.message) && (title || topic)
+      ? `${title || topic}. ${args.message}`
+      : args.message;
+  const docs = await search(query);
   const context = buildContext(docs);
+  const sources = sourcesOf(docs);
 
   // 2. Load conversation history (best-effort).
   let conversationId: string | null = null;
@@ -94,45 +118,89 @@ export async function handleChat(args: {
     history = [];
   }
 
-  history.push({ role: "user", text: buildChatTurn(context, args.message) });
+  const visitor = path
+    ? `The visitor is currently on the ${path} page${title ? ` ("${title}")` : ""}.`
+    : "";
+  history.push({ role: "user", text: buildChatTurn(context, args.message, visitor) });
 
-  // 3. Generate the grounded reply.
-  const reply = await generate(SYSTEM_PROMPT, history);
+  // 3. Stream the grounded reply, then flush the trailer and run the
+  // best-effort persistence/cache/analytics after the bytes are sent.
+  return new ReadableStream<Uint8Array>({
+    async start(controller) {
+      let full = "";
+      try {
+        for await (const piece of generateStream(SYSTEM_PROMPT, history)) {
+          full += piece;
+          controller.enqueue(enc.encode(piece));
+        }
+      } catch (err) {
+        console.error("[rag] stream generation failed", err);
+        if (!full) {
+          full = FALLBACK_REPLY;
+          controller.enqueue(enc.encode(full));
+        }
+      }
+      const reply = full.trim() || FALLBACK_REPLY;
+      controller.enqueue(enc.encode(trailer(sources)));
+      controller.close();
 
-  // 4. Persist the transcript (best-effort).
-  if (conversationId) {
-    try {
-      await addMessages(conversationId, [
-        { role: "user", content: args.message },
-        {
-          role: "assistant",
-          content: reply,
-          metadata: {
-            source_ids: docs
-              .map((d) => d.external_id)
-              .filter((id): id is string => Boolean(id)),
-          },
-        },
-      ]);
-    } catch (err) {
-      console.error("[rag] message persist failed", err);
-    }
+      runAfter(async () => {
+        const sourceIds = docs
+          .map((d) => d.external_id)
+          .filter((id): id is string => Boolean(id));
+        if (conversationId) {
+          try {
+            await addMessages(conversationId, [
+              { role: "user", content: args.message },
+              { role: "assistant", content: reply, metadata: { source_ids: sourceIds } },
+            ]);
+          } catch (err) {
+            console.error("[rag] message persist failed", err);
+          }
+        }
+        if (cacheable) await putCachedReply(hash, args.message, { reply, sources });
+        if (conversationId) {
+          await processTurn({
+            conversationId,
+            userMessage: args.message,
+            assistantReply: reply,
+            pageUrl: args.pageUrl ?? null,
+          });
+        }
+      });
+    },
+  });
+}
+
+/** Stream a ready-made reply (cache hit) in one shot, then the trailer. */
+function oneShot(
+  enc: TextEncoder,
+  reply: string,
+  sources: SourceDoc[],
+): ReadableStream<Uint8Array> {
+  return new ReadableStream<Uint8Array>({
+    start(controller) {
+      controller.enqueue(enc.encode(reply));
+      controller.enqueue(enc.encode(trailer(sources)));
+      controller.close();
+    },
+  });
+}
+
+/** Best-effort transcript log for the cache-hit path. */
+async function persistTurn(
+  sessionId: string,
+  userMessage: string,
+  reply: string,
+  assistantMeta: Record<string, unknown>,
+): Promise<void> {
+  try {
+    const conversationId = await getOrCreateConversation(sessionId);
+    await addMessages(conversationId, [
+      { role: "user", content: userMessage },
+      { role: "assistant", content: reply, metadata: assistantMeta },
+    ]);
+  } catch (err) {
+    console.error("[rag] cache-hit persist failed (continuing)", err);
   }
-
-  const sources: SourceDoc[] = docs.map((d) => ({
-    doc_type: d.doc_type,
-    title: d.title,
-    external_id: d.external_id,
-    similarity: Math.round(d.similarity * 1000) / 1000,
-  }));
-
-  // Cache the fresh answer for next time (best-effort, non-blocking).
-  if (cacheable) {
-    void putCachedReply(hash, args.message, { reply, sources });
-  }
-
-  return {
-    response: { reply, conversation_id: conversationId, sources },
-    analytics: conversationId ? { conversationId } : null,
-  };
 }

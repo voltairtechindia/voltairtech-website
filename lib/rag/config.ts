@@ -21,8 +21,11 @@ export const config = {
   // --- Gemini (LLM + embeddings) ---
   googleApiKey: process.env.GOOGLE_API_KEY ?? "",
   llmModel: process.env.LLM_MODEL ?? "gemini-2.5-flash",
+  // Background lead-analytics extraction is a cheap, non-user-facing JSON task,
+  // so it runs on the cheaper Flash-Lite tier. Override if a key lacks it.
+  analyticsModel: process.env.LLM_ANALYTICS_MODEL ?? "gemini-2.5-flash-lite",
   llmTemperature: num(process.env.LLM_TEMPERATURE, 0.6),
-  llmMaxOutputTokens: num(process.env.LLM_MAX_OUTPUT_TOKENS, 1024),
+  llmMaxOutputTokens: num(process.env.LLM_MAX_OUTPUT_TOKENS, 700),
   embeddingModel: process.env.EMBEDDING_MODEL ?? "gemini-embedding-001",
   // Must match the vector(N) size in supabase/migrations/0001_init.sql.
   embeddingDim: num(process.env.EMBEDDING_DIM, 768),
@@ -30,7 +33,7 @@ export const config = {
   // --- RAG tuning ---
   ragTopK: num(process.env.RAG_TOP_K, 6),
   ragMinSimilarity: num(process.env.RAG_MIN_SIMILARITY, 0.3),
-  historyWindow: num(process.env.HISTORY_WINDOW, 12),
+  historyWindow: num(process.env.HISTORY_WINDOW, 8),
 
   // --- Security (protects POST/GET /api/ingest + /api/blog + /api/revalidate) ---
   adminApiKey: process.env.ADMIN_API_KEY ?? "",

@@ -702,6 +702,22 @@ a.svc-card { text-decoration: none; color: inherit; }
 }
 .chat-action:hover { background: var(--v-red); color: #fff; transform: translateY(-1px); box-shadow: var(--shadow-red); }
 
+/* Guided follow-ups — tailored next questions after a reply */
+.chat-followups { margin-top: 12px; }
+.chat-followups-label {
+  display: block; font-size: 0.68rem; font-weight: 700; letter-spacing: 0.06em;
+  text-transform: uppercase; color: var(--fg3); margin-bottom: 2px;
+}
+.chat-followups .chat-preset-chips { margin-top: 6px; }
+
+/* Inline lead capture (shown on strong buying intent) */
+.chat-lead { margin-top: 12px; padding: 13px; border: 1px solid var(--v-red); border-radius: var(--r-3); background: var(--v-paper); }
+.chat-lead-title { font-family: var(--font-display), "Inter Tight", sans-serif; font-weight: 800; font-size: 0.95rem; color: var(--v-ink); }
+.chat-lead-sub { margin: 3px 0 10px; font-size: 0.8rem; line-height: 1.4; color: var(--fg2); }
+.chat-lead .chat-fallback-form { gap: 7px; }
+.chat-lead-done { margin-top: 12px; padding: 11px 13px; border-radius: var(--r-3); background: var(--v-paper); border: 1px solid var(--v-red); color: var(--v-red); font-weight: 700; font-size: 0.88rem; }
+.chat-lead-err { color: var(--v-red-deep); font-size: 0.78rem; margin-bottom: 4px; }
+
 .chat-widget-window {
   position: fixed; right: clamp(16px, 4vw, 28px); bottom: clamp(16px, 4vw, 28px);
   width: min(380px, calc(100vw - 32px)); height: min(620px, calc(100vh - 48px));

@@ -6,22 +6,34 @@ import { useEffect, useRef, useState } from "react";
 import Markdown from "./Markdown";
 import {
   detectPages,
+  isGetStarted,
   pageContext,
+  sourceLinks,
+  suggestFollowups,
+  type NavLink,
   type PageContext,
-  type SitePage,
+  type SourceRef,
 } from "@/lib/site-map";
 
 type Msg = {
   from: "bot" | "user";
   text: string;
   error?: boolean;
-  /** Real pages to surface as navigation buttons under a bot reply. */
-  actions?: SitePage[];
+  /** Source deep-links + section nav, surfaced as buttons under a bot reply. */
+  actions?: NavLink[];
+  /** Tailored next-question chips. */
+  followups?: string[];
+  /** Inline lead-capture form (strong buying intent). */
+  lead?: boolean;
 };
 
 const SESSION_KEY = "voltair_chat_session";
 const PEEK_MUTE_KEY = "voltair_peek_muted";
 const PEEK_PATHS_KEY = "voltair_peeked_paths";
+const LEAD_SHOWN_KEY = "voltair_lead_shown";
+
+/** Record separator splitting the streamed reply from its JSON trailer. */
+const RS = "\u001E";
 
 /** Stable per-browser session id so a conversation threads together server-side. */
 function getSessionId(): string {
@@ -68,6 +80,39 @@ function markPeeked(path: string): void {
     /* ignore */
   }
 }
+function leadShown(): boolean {
+  try {
+    return sessionStorage.getItem(LEAD_SHOWN_KEY) === "1";
+  } catch {
+    return false;
+  }
+}
+function markLeadShown(): void {
+  try {
+    sessionStorage.setItem(LEAD_SHOWN_KEY, "1");
+  } catch {
+    /* ignore */
+  }
+}
+
+/** Split a finished stream buffer into the reply text + parsed sources trailer. */
+function splitTrailer(buf: string): { reply: string; sources: SourceRef[] } {
+  const i = buf.indexOf(RS);
+  if (i < 0) return { reply: buf, sources: [] };
+  let sources: SourceRef[] = [];
+  try {
+    const meta = JSON.parse(buf.slice(i + 1) || "{}") as { sources?: SourceRef[] };
+    if (Array.isArray(meta.sources)) sources = meta.sources;
+  } catch {
+    /* ignore a malformed trailer */
+  }
+  return { reply: buf.slice(0, i), sources };
+}
+
+function dedupeLinks(links: NavLink[]): NavLink[] {
+  const seen = new Set<string>();
+  return links.filter((l) => (seen.has(l.href) ? false : (seen.add(l.href), true)));
+}
 
 /* --- inline icons (Voltair uses next/font + SVG, no icon CDN) --------------- */
 function IconChat() {
@@ -113,6 +158,16 @@ function IconArrow() {
   );
 }
 
+function Typing() {
+  return (
+    <span className="chat-typing" aria-live="polite">
+      <span />
+      <span />
+      <span />
+    </span>
+  );
+}
+
 const FALLBACK_CTX = pageContext("/", "");
 
 export default function ChatWidget() {
@@ -123,6 +178,7 @@ export default function ChatWidget() {
   const [input, setInput] = useState("");
   const [busy, setBusy] = useState(false);
   const [messages, setMessages] = useState<Msg[]>([]);
+  const [streaming, setStreaming] = useState<{ text: string } | null>(null);
   const [ctx, setCtx] = useState<PageContext | null>(null);
   const [peekOpen, setPeekOpen] = useState(false);
   const [peekText, setPeekText] = useState("");
@@ -137,7 +193,7 @@ export default function ChatWidget() {
 
   useEffect(() => {
     if (bodyRef.current) bodyRef.current.scrollTop = bodyRef.current.scrollHeight;
-  }, [messages, busy, open]);
+  }, [messages, streaming, busy, open]);
 
   /** Read the live page context (path + current document title). */
   const liveCtx = (): PageContext =>
@@ -195,6 +251,13 @@ export default function ChatWidget() {
     setInput("");
     setBusy(true);
 
+    const pc = liveCtx();
+    const page = {
+      path: pathname || "/",
+      title: typeof document !== "undefined" ? document.title : "",
+      topic: pc.topic ?? "",
+    };
+
     try {
       const res = await fetch("/api/chat", {
         method: "POST",
@@ -203,28 +266,50 @@ export default function ChatWidget() {
           message: trimmed,
           session_id: getSessionId(),
           page_url: typeof location !== "undefined" ? location.href : undefined,
+          page,
         }),
       });
-      const data = (await res.json().catch(() => null)) as {
-        reply?: string;
-        detail?: string;
-      } | null;
+
       if (!res.ok) {
         // Rate-limit / quota / validation errors carry a friendly `detail`;
         // show it as a normal reply. Only fall back to the lead-capture form
         // when we got nothing usable back (a real outage).
+        const data = (await res.json().catch(() => null)) as { detail?: string } | null;
         if (data?.detail) {
           setMessages((prev) => [...prev, { from: "bot", text: data.detail! }]);
           return;
         }
         throw new Error(`Request failed (${res.status})`);
       }
-      const reply = data?.reply ?? "";
-      const actions = detectPages(`${trimmed} ${reply}`, {
-        exclude: pathname || "/",
-        limit: 2,
-      });
-      setMessages((prev) => [...prev, { from: "bot", text: reply, actions }]);
+
+      setStreaming({ text: "" });
+      let buf = "";
+      if (res.body) {
+        const reader = res.body.getReader();
+        const decoder = new TextDecoder();
+        for (;;) {
+          const { done, value } = await reader.read();
+          if (done) break;
+          buf += decoder.decode(value, { stream: true });
+          const i = buf.indexOf(RS);
+          setStreaming({ text: i < 0 ? buf : buf.slice(0, i) });
+        }
+        buf += decoder.decode();
+      } else {
+        buf = await res.text();
+      }
+
+      const { reply, sources } = splitTrailer(buf);
+      const links = sourceLinks(sources, pathname || "/", 2);
+      const navs = detectPages(`${trimmed} ${reply}`, { exclude: pathname || "/", limit: 2 }).map(
+        (p) => ({ href: p.href, label: p.label }),
+      );
+      const actions = dedupeLinks([...links, ...navs]).slice(0, 2);
+      const lead = isGetStarted(trimmed) && !leadShown();
+      const followups = lead ? [] : suggestFollowups(trimmed, reply, pc);
+      if (lead) markLeadShown();
+
+      setMessages((prev) => [...prev, { from: "bot", text: reply, actions, followups, lead }]);
     } catch (err) {
       console.error("[voltair-chat]", err);
       setMessages((prev) => [
@@ -236,6 +321,7 @@ export default function ChatWidget() {
         },
       ]);
     } finally {
+      setStreaming(null);
       setBusy(false);
     }
   };
@@ -308,6 +394,7 @@ export default function ChatWidget() {
               </div>
             )}
           </div>
+
           {messages.map((m, i) => (
             <div key={i} className={`chat-msg ${m.from}`}>
               {m.from === "bot" && !m.error ? <Markdown>{m.text}</Markdown> : m.text}
@@ -321,15 +408,30 @@ export default function ChatWidget() {
                   ))}
                 </div>
               )}
+              {m.from === "bot" && m.lead && <LeadForm />}
+              {m.from === "bot" && m.followups && m.followups.length > 0 && (
+                <div className="chat-followups">
+                  <span className="chat-followups-label">Keep exploring</span>
+                  <div className="chat-preset-chips">
+                    {m.followups.map((q) => (
+                      <button key={q} className="preset-chip" type="button" onClick={() => submit(q)}>
+                        {q}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+              )}
             </div>
           ))}
-          {busy && (
-            <div className="chat-msg bot" aria-live="polite">
-              <span className="chat-typing">
-                <span />
-                <span />
-                <span />
-              </span>
+
+          {streaming !== null && (
+            <div className="chat-msg bot">
+              {streaming.text ? <Markdown>{streaming.text}</Markdown> : <Typing />}
+            </div>
+          )}
+          {busy && streaming === null && (
+            <div className="chat-msg bot">
+              <Typing />
             </div>
           )}
         </div>
@@ -355,6 +457,60 @@ export default function ChatWidget() {
         </form>
       </div>
     </>
+  );
+}
+
+/** Inline lead capture shown on strong buying intent — posts to /api/contact. */
+function LeadForm() {
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [message, setMessage] = useState("");
+  const [state, setState] = useState<"idle" | "sending" | "done" | "error">("idle");
+
+  if (state === "done")
+    return (
+      <div className="chat-lead-done">
+        Got it — the Voltair team will reach out shortly. ⚡
+      </div>
+    );
+
+  const send = async () => {
+    if (!name.trim() || !email.trim()) return;
+    setState("sending");
+    try {
+      const res = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          name,
+          email,
+          message: message.trim() || "Started a project via the chat assistant.",
+          channel: "email",
+          page_url: typeof location !== "undefined" ? location.href : undefined,
+        }),
+      });
+      setState(res.ok ? "done" : "error");
+    } catch {
+      setState("error");
+    }
+  };
+
+  return (
+    <div className="chat-lead">
+      <div className="chat-lead-title">Start your project</div>
+      <p className="chat-lead-sub">Drop your details and we&apos;ll map your build — usually within a day.</p>
+      <div className="chat-fallback-form">
+        <input type="text" placeholder="Your name" value={name} onChange={(e) => setName(e.target.value)} required />
+        <input type="email" placeholder="Work email" value={email} onChange={(e) => setEmail(e.target.value)} required />
+        <textarea placeholder="What do you want to build? (optional)" rows={2} value={message} onChange={(e) => setMessage(e.target.value)} />
+        {state === "error" ? (
+          <div className="chat-lead-err">Couldn&apos;t send — please email business@voltairtech.com.</div>
+        ) : null}
+        <button type="button" onClick={send} disabled={state === "sending"}>
+          {state === "sending" ? "Sending…" : "Send to Voltair"}
+        </button>
+      </div>
+    </div>
   );
 }
 

@@ -24,10 +24,18 @@ export interface SourceDoc {
   similarity: number;
 }
 
+/** Lightweight page identity the widget sends so replies can be page-aware. */
+export interface PageInfo {
+  path?: string | null;
+  title?: string | null;
+  topic?: string | null;
+}
+
 export interface ChatRequestBody {
   message: string;
   session_id: string;
   page_url?: string | null;
+  page?: PageInfo | null;
 }
 
 export interface ChatResponseBody {

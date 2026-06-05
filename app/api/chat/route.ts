@@ -10,7 +10,6 @@
  */
 import { NextResponse } from "next/server";
 
-import { runAfter } from "@/lib/after";
 import {
   LIMITS,
   SUPPORT_EMAIL,
@@ -19,12 +18,22 @@ import {
   retryAfterSeconds,
   rlHit,
 } from "@/lib/rate-limit";
-import { processTurn } from "@/lib/rag/analytics";
-import { handleChat } from "@/lib/rag/chat";
-import type { ChatRequestBody } from "@/lib/rag/types";
+import { streamChat } from "@/lib/rag/chat";
+import type { ChatRequestBody, PageInfo } from "@/lib/rag/types";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
+
+/** Clamp the client-supplied page context to sane, bounded strings. */
+function sanitizePage(page: PageInfo | null | undefined): PageInfo | null {
+  if (!page || typeof page !== "object") return null;
+  const str = (v: unknown, max: number): string | null =>
+    typeof v === "string" && v.trim() ? v.trim().slice(0, max) : null;
+  const path = str(page.path, 200);
+  const title = str(page.title, 300);
+  const topic = str(page.topic, 200);
+  return path || title || topic ? { path, title, topic } : null;
+}
 
 export async function POST(req: Request) {
   const ip = getClientIp(req);
@@ -107,24 +116,21 @@ export async function POST(req: Request) {
   }
 
   try {
-    const { response, analytics } = await handleChat({
+    const stream = await streamChat({
       message,
       sessionId,
       pageUrl,
+      page: sanitizePage(body.page),
     });
 
-    if (analytics) {
-      runAfter(() =>
-        processTurn({
-          conversationId: analytics.conversationId,
-          userMessage: message,
-          assistantReply: response.reply,
-          pageUrl,
-        }),
-      );
-    }
-
-    return NextResponse.json(response);
+    // Plain-text token stream + a trailing JSON metadata frame (see chat.ts).
+    return new Response(stream, {
+      headers: {
+        "Content-Type": "text/plain; charset=utf-8",
+        "Cache-Control": "no-store, no-transform",
+        "X-Accel-Buffering": "no",
+      },
+    });
   } catch (err) {
     console.error("[rag] chat handler failed", err);
     return NextResponse.json(

@@ -27,8 +27,15 @@ export function normalizeQuestion(message: string): string {
     .replace(/[?!.\s]+$/g, "");
 }
 
-export function questionHash(message: string): string {
-  return createHash("sha256").update(normalizeQuestion(message)).digest("hex");
+/**
+ * Hash of the normalized question, scoped by `pageKey` so a page-grounded
+ * answer (e.g. "summarise this") on one page never returns a cached answer
+ * meant for another. Empty `pageKey` = a page-agnostic question.
+ */
+export function questionHash(message: string, pageKey = ""): string {
+  return createHash("sha256")
+    .update(`${pageKey}\n${normalizeQuestion(message)}`)
+    .digest("hex");
 }
 
 /** Whether a message is worth caching (short enough to be a repeatable FAQ). */

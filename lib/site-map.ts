@@ -360,3 +360,119 @@ export function pageContext(pathname: string, rawTitle: string): PageContext {
       };
   }
 }
+
+export interface NavLink {
+  href: string;
+  label: string;
+}
+
+/** A document the assistant cited — shape mirrors the server's SourceDoc. */
+export interface SourceRef {
+  doc_type: string;
+  title: string | null;
+  external_id: string | null;
+  similarity: number;
+}
+
+const SOURCE_BASE: Record<string, { base: string; verb: string }> = {
+  blog: { base: "/blog", verb: "Read" },
+  service: { base: "/services", verb: "Explore" },
+  industry: { base: "/industries", verb: "See" },
+};
+
+/**
+ * Turn the documents an answer actually used into precise deep-link buttons —
+ * e.g. a cited blog post becomes "Read: {title}" → /blog/{slug}. Only confident,
+ * non-current pages, capped to keep the reply tidy.
+ */
+export function sourceLinks(
+  sources: SourceRef[],
+  currentPath: string,
+  limit = 2,
+): NavLink[] {
+  const out: NavLink[] = [];
+  const seen = new Set<string>();
+  for (const s of sources) {
+    const map = SOURCE_BASE[s.doc_type];
+    if (!map || !s.external_id) continue;
+    if ((s.similarity ?? 0) < 0.45) continue;
+    const href = `${map.base}/${s.external_id}`;
+    if (href === currentPath || seen.has(href)) continue;
+    seen.add(href);
+    out.push({ href, label: `${map.verb}: ${truncate(s.title || map.base, 26)}` });
+    if (out.length >= limit) break;
+  }
+  return out;
+}
+
+/** Topic-keyed next questions — drives the "keep exploring" chips, zero LLM cost. */
+const FOLLOWUP_RULES: { test: RegExp; qs: string[] }[] = [
+  {
+    test: /\b(price|pricing|cost|costs|quote|budget|rupees?|₹)\b/i,
+    qs: ["What's included in the price?", "How do you decide a fixed quote?", "Can we start with a smaller scope?"],
+  },
+  {
+    test: /\b(48[\s-]?hour|two days|timeline|how long|deliver|turnaround|weeks?)\b/i,
+    qs: ["What can you really ship in 48 hours?", "What happens after launch?", "How do revisions work?"],
+  },
+  {
+    test: /\brag\b|retrieval|knowledge base|hallucinat/i,
+    qs: ["How do you stop it hallucinating?", "Can it use our private docs?", "What does a RAG build cost?"],
+  },
+  {
+    test: /whatsapp|\bvoice\b|chatbot|\bbot\b/i,
+    qs: ["Can it handle payments?", "Is it DPDP compliant?", "How fast can a chatbot launch?"],
+  },
+  {
+    test: /automat|workflow|\bn8n\b|integrat/i,
+    qs: ["What could you automate for us?", "Do you connect to our tools?", "What does automation cost?"],
+  },
+  {
+    test: /dpdp|complian|privacy|data protection|\bsecurity\b/i,
+    qs: ["Where is our data stored?", "Do you sign a DPA?", "Is the build DPDP compliant?"],
+  },
+  {
+    test: /\bstack\b|\btech\b|next\.?js|supabase|framework|own the code/i,
+    qs: ["Do you work with our existing stack?", "Who owns the code and IP?", "Do you offer ongoing support?"],
+  },
+  {
+    test: /website|web app|landing|\bsite\b/i,
+    qs: ["What goes into an AI website?", "How fast can it go live?", "Do you handle SEO?"],
+  },
+];
+
+/**
+ * Suggest up to `limit` tailored next questions from the turn, topping up from
+ * the page's presets. Deterministic — costs no extra tokens.
+ */
+export function suggestFollowups(
+  userMsg: string,
+  botReply: string,
+  pc: PageContext,
+  limit = 3,
+): string[] {
+  const hay = `${userMsg} ${botReply}`;
+  const asked = userMsg.trim().toLowerCase();
+  const out: string[] = [];
+  const add = (q: string) => {
+    const k = q.toLowerCase();
+    if (k !== asked && !out.some((o) => o.toLowerCase() === k)) out.push(q);
+  };
+  for (const r of FOLLOWUP_RULES) {
+    if (out.length >= limit) break;
+    if (r.test.test(hay)) r.qs.forEach(add);
+  }
+  for (const p of pc.presets) {
+    if (out.length >= limit) break;
+    add(p);
+  }
+  return out.slice(0, limit);
+}
+
+const GET_STARTED =
+  /\b(get started|getting started|start (a|my) project|begin a project|work with you|hire you|book a (call|demo)|schedule a (call|demo)|let'?s (do|build|start|talk)|ready to (start|begin|build|go)|sign up|onboard|kick ?off)\b/i;
+
+/** Strong buying intent → worth offering an inline lead form. */
+export function isGetStarted(text: string): boolean {
+  return GET_STARTED.test(text);
+}
