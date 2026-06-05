@@ -98,17 +98,37 @@ export const SITE_PAGES: SitePage[] = [
     label: "Contact us",
     keywords: [
       "contact",
+      "contact us",
+      "connect",
+      "connect with",
+      "connect with you",
+      "connect with your team",
+      "connect with the team",
       "get in touch",
+      "in touch",
       "reach you",
       "reach out",
+      "reach the team",
       "talk to",
+      "talk to you",
+      "talk to your team",
+      "talk to someone",
       "speak to",
+      "speak with",
+      "your team",
+      "the team",
+      "meet the team",
+      "work together",
+      "work with you",
+      "collaborate",
+      "partner with",
+      "let's talk",
+      "lets talk",
       "book a call",
       "scoping call",
       "start a project",
       "get started",
       "hire you",
-      "work with you",
       "get a quote",
       "quote",
       "pricing",
@@ -470,9 +490,21 @@ export function suggestFollowups(
 }
 
 const GET_STARTED =
-  /\b(get started|getting started|start (a|my) project|begin a project|work with you|hire you|book a (call|demo)|schedule a (call|demo)|let'?s (do|build|start|talk)|ready to (start|begin|build|go)|sign up|onboard|kick ?off)\b/i;
+  /\b(get started|getting started|start (a|my) project|begin a project|work with you|work together|hire you|book a (call|demo)|schedule a (call|demo)|let'?s (do|build|start|talk)|ready to (start|begin|build|go)|sign up|onboard|kick ?off|connect with (you|your team|the team)|talk to (your team|the team|someone)|get in touch)\b/i;
 
 /** Strong buying intent → worth offering an inline lead form. */
 export function isGetStarted(text: string): boolean {
   return GET_STARTED.test(text);
+}
+
+/**
+ * Any "I want to reach the team" signal — connect, contact, quote, book a call,
+ * start a project. Used to guarantee a one-tap /contact button under the reply,
+ * even when cited-source deep-links would otherwise fill every button slot.
+ */
+const CONTACT_INTENT =
+  /\b(contact|connect|connect with (you|your team|the team)|get in touch|in touch|reach (you|out|the team)|talk to (you|your team|the team|someone)|speak (to|with)|your team|the team|work (with you|together)|collaborate|partner with|book a (call|demo)|scoping call|hire you|get a quote|let'?s talk)\b/i;
+
+export function isContactIntent(text: string): boolean {
+  return CONTACT_INTENT.test(text);
 }

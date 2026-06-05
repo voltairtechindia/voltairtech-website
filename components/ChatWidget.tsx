@@ -6,6 +6,7 @@ import { useEffect, useRef, useState } from "react";
 import Markdown from "./Markdown";
 import {
   detectPages,
+  isContactIntent,
   isGetStarted,
   pageContext,
   sourceLinks,
@@ -304,7 +305,15 @@ export default function ChatWidget() {
       const navs = detectPages(`${trimmed} ${reply}`, { exclude: pathname || "/", limit: 2 }).map(
         (p) => ({ href: p.href, label: p.label }),
       );
-      const actions = dedupeLinks([...links, ...navs]).slice(0, 2);
+      let merged = [...links, ...navs];
+      // A visitor who wants to connect should always get a one-tap route to
+      // /contact — even if cited-source deep-links would fill both button slots.
+      if (isContactIntent(trimmed) && (pathname || "/") !== "/contact") {
+        const contact =
+          navs.find((n) => n.href === "/contact") ?? { href: "/contact", label: "Contact us" };
+        merged = [contact, ...merged.filter((m) => m.href !== "/contact")];
+      }
+      const actions = dedupeLinks(merged).slice(0, 2);
       const lead = isGetStarted(trimmed) && !leadShown();
       const followups = lead ? [] : suggestFollowups(trimmed, reply, pc);
       if (lead) markLeadShown();
