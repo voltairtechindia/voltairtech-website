@@ -81,7 +81,7 @@ export function BigInput() {
 
           {status === "done" ? (
             <div className="bi__field bi__done">
-              <strong>Got it — we&apos;ll be in touch shortly on {chan === "whatsapp" ? "WhatsApp" : "email"}.</strong>
+              <strong>Got it. We&apos;ll be in touch shortly on {chan === "whatsapp" ? "WhatsApp" : "email"}.</strong>
               <p className="meta" style={{ marginTop: 6 }}>
                 Prefer to reach us directly? business@voltairtech.com · +91 70210 00764
               </p>

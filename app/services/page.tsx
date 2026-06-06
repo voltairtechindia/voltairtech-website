@@ -9,13 +9,13 @@ import type { ServicePage } from "@/lib/services/types";
 export const revalidate = 300;
 
 export const metadata: Metadata = {
-  title: "AI Services — Apps, Chatbots, RAG, Mobile & Automation",
+  title: "AI Services: Apps, Chatbots, RAG, Mobile & Automation",
   description:
     "AI services from Voltair Tech Mumbai: websites in 48 hrs, AI automation, WhatsApp chatbots, RAG systems, mobile apps, and custom AI software. Fixed-price, Indian operators.",
   alternates: { canonical: "https://voltairtech.com/services" },
   openGraph: {
     url: "https://voltairtech.com/services",
-    title: "AI Services — Apps, Chatbots, RAG, Mobile & Automation | Voltair Tech",
+    title: "AI Services: Apps, Chatbots, RAG, Mobile & Automation | Voltair Tech",
     description:
       "AI services from Voltair Tech Mumbai: websites in 48 hrs, AI automation, WhatsApp chatbots, RAG systems, mobile apps, and custom AI software.",
   },
@@ -55,7 +55,7 @@ export default async function ServicesPage({
         <Process
           num="02"
           title={<>How every<br />build ships.</>}
-          lead="Pick any service above — it runs through the same four steps. Fixed scope, daily Loom and WhatsApp updates, and code that's 100% yours at hand-off."
+          lead="Pick any service above. It runs through the same four steps: fixed scope, daily Loom and WhatsApp updates, and code that's 100% yours at hand-off."
         />
       </PageLayout>
     </>

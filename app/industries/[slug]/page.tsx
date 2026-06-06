@@ -34,7 +34,7 @@ export async function generateMetadata({
   const ind = await getPublishedIndustry(params.slug).catch(() => null);
   if (!ind) return { title: "Industry not found" };
 
-  const title = ind.seo?.title ?? `AI for ${ind.title} — Voltair Tech`;
+  const title = ind.seo?.title ?? `AI for ${ind.title} | Voltair Tech`;
   const description = ind.seo?.description ?? ind.summary ?? ind.lead ?? ind.title;
   const ogImage = ind.seo?.og_image ?? ind.cover_image?.url;
 
@@ -145,7 +145,7 @@ export default async function IndustryDetailPage({
           <div className="industry-cases">
             <h2>How we&apos;ve used AI in {ind.title}</h2>
             <p className="meta">
-              Real builds — the problem, our AI approach, the stack we used, and what changed.
+              Real builds: the problem, our AI approach, the stack we used, and what changed.
             </p>
             <div className="case-grid">
               {ind.case_studies.map((cs, i) => {

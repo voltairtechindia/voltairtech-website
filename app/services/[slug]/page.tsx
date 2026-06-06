@@ -31,7 +31,7 @@ export async function generateMetadata({
   const svc = await getPublishedService(params.slug).catch(() => null);
   if (!svc) return { title: "Service not found" };
 
-  const title = svc.seo?.title ?? `${svc.title} — Voltair Tech`;
+  const title = svc.seo?.title ?? `${svc.title} | Voltair Tech`;
   const description = svc.seo?.description ?? svc.summary ?? svc.lead ?? svc.title;
   const ogImage = svc.seo?.og_image ?? svc.cover_image?.url;
 

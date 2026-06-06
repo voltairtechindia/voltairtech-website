@@ -3,13 +3,13 @@ import { PageLayout } from "@/components/PageLayout";
 import { Faq } from "@/components/Faq";
 
 export const metadata: Metadata = {
-  title: "FAQ — AI Services Mumbai | Common Questions Answered",
+  title: "FAQ - AI Services Mumbai | Common Questions Answered",
   description:
     "Answers to the most common questions about AI development in India: pricing, timelines, RAG systems, WhatsApp chatbots, tech stack, NDAs, and post-ship support. Voltair Tech, Mumbai.",
   alternates: { canonical: "https://voltairtech.com/faq" },
   openGraph: {
     url: "https://voltairtech.com/faq",
-    title: "FAQ — AI Services Mumbai | Voltair Tech",
+    title: "FAQ - AI Services Mumbai | Voltair Tech",
     description:
       "How much does an AI app cost in India? How fast can you deploy a chatbot? What is RAG? All your questions answered by Voltair Tech, Mumbai.",
   },
@@ -48,7 +48,7 @@ const jsonLd = {
       name: "Do you build WhatsApp chatbots?",
       acceptedAnswer: {
         "@type": "Answer",
-        text: "Yes — WhatsApp Business API is one of our most-requested channels. We handle the Meta verification, conversation flow, payment integrations, and grounding the bot on your own docs.",
+        text: "Yes. WhatsApp Business API is one of our most-requested channels. We handle the Meta verification, conversation flow, payment integrations, and grounding the bot on your own docs.",
       },
     },
   ],

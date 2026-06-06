@@ -27,7 +27,7 @@ export const viewport: Viewport = {
 export const metadata: Metadata = {
   metadataBase: new URL("https://voltairtech.com"),
   title: {
-    default: "Voltair Tech — AI Services Mumbai | Build & Deploy in 48 Hours",
+    default: "Voltair Tech - AI Services Mumbai | Build & Deploy in 48 Hours",
     template: "%s | Voltair Tech",
   },
   description:
@@ -48,20 +48,20 @@ export const metadata: Metadata = {
     locale: "en_IN",
     url: "https://voltairtech.com",
     siteName: "Voltair Tech",
-    title: "Voltair Tech — AI Services Mumbai | Build & Deploy in 48 Hours",
+    title: "Voltair Tech - AI Services Mumbai | Build & Deploy in 48 Hours",
     description: "Mumbai-based AI build studio. Apps, chatbots, RAG, automation. Shipped in 48 hours.",
     images: [
       {
         url: "/assets/logo-square-starfield.jpg",
         width: 1200,
         height: 630,
-        alt: "Voltair Tech — AI Services Mumbai",
+        alt: "Voltair Tech - AI Services Mumbai",
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "Voltair Tech — AI Services Mumbai | Build & Deploy in 48 Hours",
+    title: "Voltair Tech - AI Services Mumbai | Build & Deploy in 48 Hours",
     description: "Mumbai-based AI build studio. Apps, chatbots, RAG, automation. Shipped in 48 hours.",
     images: ["/assets/logo-square-starfield.jpg"],
   },

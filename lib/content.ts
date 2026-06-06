@@ -2,7 +2,7 @@ export const CONTENT = {
   brand: {
     name: "Voltair Tech",
     tagline: "AI services, built for India.",
-    sub: "Apps, automations, chatbots, RAG, full software — engineered with AI by a Mumbai team. Websites ship in 48 hours.",
+    sub: "Apps, automations, chatbots, RAG, full software, engineered with AI by a Mumbai team. Websites ship in 48 hours.",
     location: "Andheri West, Mumbai",
     locationFull: "Andheri West, Mumbai · Maharashtra · 400053",
     email: "business@voltairtech.com",
@@ -81,7 +81,7 @@ export const CONTENT = {
   rag: [
     { name: "Document", desc: "PDFs, sites, Notion, Drive, audio transcripts. We ingest the whole corpus, dedup, and normalise.", code: "ingest(source)" },
     { name: "Chunk", desc: "Recursive splitting at semantic boundaries. Overlap tuned per domain (default 200 tokens).", code: "split(text, size=800, overlap=200)" },
-    { name: "Embed", desc: "Domain-appropriate embeddings — OpenAI text-3-large or BGE. Indic content gets Indic-aware encoders.", code: "embed(chunk)" },
+    { name: "Embed", desc: "Domain-appropriate embeddings: OpenAI text-3-large or BGE. Indic content gets Indic-aware encoders.", code: "embed(chunk)" },
     { name: "Vector DB", desc: "Pinecone for managed, pgvector / Supabase when budget matters. Metadata filters for tenant scope.", code: "upsert(vec, meta)" },
     { name: "Retrieve", desc: "Hybrid: vector + BM25. Re-rank top 20 with a cross-encoder. Filter by tenant + recency.", code: "topK(q, k=8)" },
     { name: "LLM", desc: "Claude or GPT-4-class with a structured prompt. Strict tool-use, JSON outputs when needed.", code: "complete(ctx + q)" },
@@ -117,11 +117,11 @@ export const CONTENT = {
     },
     {
       q: "How fast can you deploy a website?",
-      a: "AI-powered marketing websites go live in 48 hours from kickoff. That includes design, copy, CMS, analytics, and a custom domain. Larger product apps and mobile builds take longer — we'll give you a fixed timeline at the scoping call.",
+      a: "AI-powered marketing websites go live in 48 hours from kickoff. That includes design, copy, CMS, analytics, and a custom domain. Larger product apps and mobile builds take longer. We'll give you a fixed timeline at the scoping call.",
     },
     {
       q: "What is a RAG system and when do I need one?",
-      a: "RAG (retrieval-augmented generation) grounds a large language model in your own data instead of letting it guess from training. Use it when you need accurate, citable answers from a fixed corpus — policies, manuals, product docs, patient FAQs. Every answer links back to the source chunk so your team can verify it.",
+      a: "RAG (retrieval-augmented generation) grounds a large language model in your own data instead of letting it guess from training. Use it when you need accurate, citable answers from a fixed corpus: policies, manuals, product docs, patient FAQs. Every answer links back to the source chunk so your team can verify it.",
     },
     {
       q: "How much does an AI app cost in India?",
@@ -133,7 +133,7 @@ export const CONTENT = {
     },
     {
       q: "Do you build WhatsApp chatbots?",
-      a: "Yes — WhatsApp Business API is one of our most-requested channels. We handle the Meta verification, the conversation flow, payment integrations, and grounding the bot on your own docs. Native support for Hindi, Marathi, and English on the same bot.",
+      a: "Yes. WhatsApp Business API is one of our most-requested channels. We handle the Meta verification, the conversation flow, payment integrations, and grounding the bot on your own docs. Native support for Hindi, Marathi, and English on the same bot.",
     },
     {
       q: "Can you integrate AI into our existing software?",
@@ -145,11 +145,11 @@ export const CONTENT = {
     },
     {
       q: "Do you sign NDAs?",
-      a: "Yes, before the first scoping call if requested. Standard mutual NDA, India-jurisdiction, single page — usually signed the same day. We do not sub-contract or share code with third parties.",
+      a: "Yes, before the first scoping call if requested. Standard mutual NDA, India-jurisdiction, single page, usually signed the same day. We do not sub-contract or share code with third parties.",
     },
     {
       q: "What happens after you ship?",
-      a: "Every project includes 30 days of free post-ship support — bug fixes, monitoring, and small tweaks. After that, you can either take full ownership of the code or put us on a monthly retainer for ongoing changes and on-call. The code is 100% yours either way.",
+      a: "Every project includes 30 days of free post-ship support: bug fixes, monitoring, and small tweaks. After that, you can either take full ownership of the code or put us on a monthly retainer for ongoing changes and on-call. The code is 100% yours either way.",
     },
   ],
 

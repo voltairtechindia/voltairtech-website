@@ -6,7 +6,7 @@ import { MarqueeSection } from "@/components/MarqueeSection";
 import { FooterCta } from "@/components/FooterCta";
 
 export const metadata: Metadata = {
-  title: "Voltair Tech — AI Services Mumbai | Build & Deploy in 48 Hours",
+  title: "Voltair Tech - AI Services Mumbai | Build & Deploy in 48 Hours",
   description:
     "Voltair Tech is a Mumbai AI build studio shipping production apps, chatbots, automations and RAG systems in 48 hours. Indian operators, global standards.",
   alternates: {

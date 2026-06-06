@@ -11,14 +11,14 @@ const HUB_ITEMS = [
   {
     n: "03",
     label: "Industries",
-    desc: "D2C, healthcare, fintech, real estate, education — AI shaped to your sector.",
+    desc: "D2C, healthcare, fintech, real estate, education. AI shaped to your sector.",
     eta: "8+ sectors",
     href: "/industries",
   },
   {
     n: "04",
     label: "Services",
-    desc: "Six services — websites, chatbots, RAG, mobile, automation, custom AI.",
+    desc: "Six services: websites, chatbots, RAG, mobile, automation, custom AI.",
     eta: "48 hrs → scoped",
     href: "/services",
   },

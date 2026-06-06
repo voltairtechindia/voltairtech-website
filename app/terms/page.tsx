@@ -4,7 +4,7 @@ import { LegalLayout } from "@/components/LegalLayout";
 export const metadata: Metadata = {
   title: "Terms of Service",
   description:
-    "Voltair Tech's terms of service — fixed-price engagements, IP ownership, deliverables, support, and governing law for AI services in India.",
+    "Voltair Tech's terms of service: fixed-price engagements, IP ownership, deliverables, support, and governing law for AI services in India.",
   alternates: {
     canonical: "https://voltairtech.com/terms",
   },
@@ -17,7 +17,7 @@ export default function TermsPage() {
       <p>
         These Terms of Service (&quot;Terms&quot;) govern your engagement with Voltair Tech
         (&quot;we&quot;, &quot;us&quot;, or &quot;Voltair Tech&quot;) for AI development services. By initiating
-        a project with us — whether via email, WhatsApp, phone, or web form — you agree to
+        a project with us, whether via email, WhatsApp, phone, or web form, you agree to
         these Terms. Please read them before proceeding.
       </p>
 
@@ -44,7 +44,7 @@ export default function TermsPage() {
       <h2>3. Timelines</h2>
       <p>
         Timeline commitments (including the 48-hour website delivery) are contingent on
-        receiving all required inputs — content, assets, credentials, and approvals — from
+        receiving all required inputs (content, assets, credentials, and approvals) from
         you within the agreed time windows. Delays caused by late content delivery or
         unavailability of stakeholders extend the timeline by a corresponding period.
       </p>

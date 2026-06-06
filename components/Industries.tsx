@@ -29,8 +29,8 @@ export function Industries({
         />
         <p className="lead" style={{ maxWidth: 760 }}>
           Every sector runs a little differently, so we don&apos;t ship the same
-          build twice. We take what we already do well — fast websites, chatbots,
-          RAG search, and workflow automation — and shape it around how your
+          build twice. We take what we already do well (fast websites, chatbots,
+          RAG search, and workflow automation) and shape it around how your
           industry actually works. Pick yours to see the services that fit.
         </p>
         {industries.length === 0 ? (

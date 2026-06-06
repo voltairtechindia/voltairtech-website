@@ -4,7 +4,7 @@ import { LegalLayout } from "@/components/LegalLayout";
 export const metadata: Metadata = {
   title: "Privacy Policy",
   description:
-    "Voltair Tech's privacy policy — how we collect, use, and protect your personal data under applicable Indian data protection law.",
+    "Voltair Tech's privacy policy: how we collect, use, and protect your personal data under applicable Indian data protection law.",
   alternates: {
     canonical: "https://voltairtech.com/privacy",
   },
@@ -24,10 +24,10 @@ export default function PrivacyPage() {
       <h2>1. Data We Collect</h2>
       <p>We collect only what we need to deliver our services:</p>
       <ul>
-        <li><strong>Contact details</strong> — name, email address, phone number, WhatsApp number — when you reach out to start a project.</li>
-        <li><strong>Project information</strong> — brief descriptions of your requirements, timelines, and preferences shared during scoping calls.</li>
-        <li><strong>Usage data</strong> — anonymised analytics (page views, referral source, session duration) via privacy-preserving tools. No cookies that identify you personally without consent.</li>
-        <li><strong>Communications</strong> — messages you send us via email, WhatsApp, or web forms.</li>
+        <li><strong>Contact details</strong>:name, email address, phone number, WhatsApp number, collected when you reach out to start a project.</li>
+        <li><strong>Project information</strong>:brief descriptions of your requirements, timelines, and preferences shared during scoping calls.</li>
+        <li><strong>Usage data</strong>:anonymised analytics (page views, referral source, session duration) via privacy-preserving tools. No cookies that identify you personally without consent.</li>
+        <li><strong>Communications</strong>:messages you send us via email, WhatsApp, or web forms.</li>
       </ul>
       <p>We do <strong>not</strong> collect payment card details directly. Payments are processed by Razorpay or Stripe under their respective privacy policies.</p>
 
@@ -45,10 +45,10 @@ export default function PrivacyPage() {
         We process your personal data on the basis of:
       </p>
       <ul>
-        <li><strong>Consent</strong> — when you proactively contact us or fill in a form.</li>
-        <li><strong>Contractual necessity</strong> — to perform services you have engaged us for.</li>
-        <li><strong>Legitimate interests</strong> — for analytics and security, where these do not override your rights.</li>
-        <li><strong>Legal obligation</strong> — for tax, accounting, and regulatory compliance.</li>
+        <li><strong>Consent</strong>:when you proactively contact us or fill in a form.</li>
+        <li><strong>Contractual necessity</strong>:to perform services you have engaged us for.</li>
+        <li><strong>Legitimate interests</strong>:for analytics and security, where these do not override your rights.</li>
+        <li><strong>Legal obligation</strong>:for tax, accounting, and regulatory compliance.</li>
       </ul>
 
       <h2>4. Data Sharing</h2>
@@ -56,7 +56,7 @@ export default function PrivacyPage() {
         We do not sell, rent, or trade your personal data. We may share data with:
       </p>
       <ul>
-        <li><strong>Service providers</strong> acting as data processors (e.g., Vercel for hosting, Google Workspace for email, Razorpay/Stripe for payments) — bound by data processing agreements.</li>
+        <li><strong>Service providers</strong> acting as data processors (e.g., Vercel for hosting, Google Workspace for email, Razorpay/Stripe for payments), bound by data processing agreements.</li>
         <li><strong>Legal authorities</strong> where required by law or a valid court order.</li>
       </ul>
       <p>We do not sub-contract your project work to third parties without written notice and your consent.</p>

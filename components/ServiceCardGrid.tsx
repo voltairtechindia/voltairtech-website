@@ -55,7 +55,7 @@ export function ServiceCardGrid({
           ) : null}
           {s.eta ? (
             <div className="svc-card__eta">
-              ETA — <b>{s.eta}</b>
+              ETA: <b>{s.eta}</b>
             </div>
           ) : null}
         </Link>

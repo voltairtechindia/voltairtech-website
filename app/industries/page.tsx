@@ -9,7 +9,7 @@ import type { IndustryPage } from "@/lib/industries/types";
 export const revalidate = 300;
 
 export const metadata: Metadata = {
-  title: "Industries We Build For — AI for D2C, Healthcare, Fintech & More",
+  title: "Industries We Build For: AI for D2C, Healthcare, Fintech & More",
   description:
     "Voltair Tech ships AI websites, chatbots, RAG systems and automations for D2C & e-commerce, healthcare, fintech, real estate, education, logistics, professional services and hospitality. Mumbai AI build studio.",
   alternates: { canonical: "https://voltairtech.com/industries" },
@@ -17,7 +17,7 @@ export const metadata: Metadata = {
     url: "https://voltairtech.com/industries",
     title: "Industries We Build For | Voltair Tech Mumbai",
     description:
-      "AI shaped to your sector — D2C, healthcare, fintech, real estate, education, logistics, professional services and hospitality.",
+      "AI shaped to your sector: D2C, healthcare, fintech, real estate, education, logistics, professional services and hospitality.",
   },
 };
 
@@ -55,7 +55,7 @@ export default async function IndustriesPage({
         <Process
           num="02"
           title={<>How we build<br />for your sector.</>}
-          lead="Every sector build runs the same four steps — we just tune the stack and the one success metric to how your industry actually works."
+          lead="Every sector build runs the same four steps. We just tune the stack and the one success metric to how your industry actually works."
         />
       </PageLayout>
     </>

@@ -23,7 +23,7 @@ export function Hero() {
             for India.
           </h1>
           <p className="hero__sub">
-            <strong>Apps, automations, chatbots, RAG, full software</strong> — engineered
+            <strong>Apps, automations, chatbots, RAG, full software</strong>, engineered
             with AI by a Mumbai team.{" "}
             <strong className="red-strong">Websites ship in 48 hours.</strong> Larger
             products on a fixed timeline.
