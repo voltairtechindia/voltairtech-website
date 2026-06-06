@@ -55,7 +55,7 @@ export function FooterCta({ num }: { num?: string }) {
               <VMark size={36} bg="#1A1A1A" />
               <div>
                 <Brand size={18} />
-                <div className="mono-lbl" style={{ marginTop: 2, fontSize: 10 }}>AI Studio · Mumbai</div>
+                <div className="mono-lbl" style={{ marginTop: 2, fontSize: 10, color: "var(--v-paper)" }}>{CONTENT.brand.tagline}</div>
               </div>
             </div>
             <p className="foot__sub">
