@@ -38,7 +38,7 @@ export function FooterCta({ num }: { num?: string }) {
                 <rect x="3" y="5" width="18" height="14" rx="2" />
                 <path d="M3 7 L12 13 L21 7" />
               </svg>
-              <span>Email Studio</span>
+              <span>Email Us</span>
             </a>
             <a className="foot__btn" href={`tel:${CONTENT.brand.phone.replace(/\s/g, "")}`}>
               <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -95,7 +95,10 @@ export function FooterCta({ num }: { num?: string }) {
                 <Link href="/about">About Us</Link>
               </li>
               <li>
-                <Link href="/timeline">Process &amp; Timeline</Link>
+                <Link href="/services">Services</Link>
+              </li>
+              <li>
+                <Link href="/industries">Industries</Link>
               </li>
               <li>
                 <Link href="/faq">FAQ</Link>
@@ -111,13 +114,10 @@ export function FooterCta({ num }: { num?: string }) {
             <div className="foot__col-title">Resources</div>
             <ul className="foot__links">
               <li>
-                <Link href="/work">Case Studies</Link>
-              </li>
-              <li>
                 <Link href="/blog">Blog</Link>
               </li>
               <li>
-                <Link href="/rag">RAG Showcase</Link>
+                <a href="/sitemap.xml">Sitemap</a>
               </li>
             </ul>
           </div>
