@@ -155,7 +155,7 @@ export function FooterCta({ num }: { num?: string }) {
           </div>
         </div>
         <div className="foot__legal">
-          <span>© 2026 VOLTAIR TECH · Andheri West, Mumbai · voltairtech.com</span>
+          <span>© 2026 VOLTAIR TECH · voltairtech.com</span>
           <span style={{ display: "flex", gap: 18 }}>
             <Link href="/privacy">privacy</Link>
             <Link href="/terms">terms</Link>
