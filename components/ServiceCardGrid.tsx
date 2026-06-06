@@ -1,5 +1,6 @@
 import Link from "next/link";
 
+import { customServiceSlug } from "@/lib/industries/custom";
 import type { IndustryCustomService } from "@/lib/industries/types";
 import type { ServiceCard } from "@/lib/services/types";
 import { ServiceGlyph } from "./atoms/ServiceGlyph";
@@ -68,16 +69,19 @@ function CardBody({
  * (components/Services.tsx) and the /industries/<slug> detail page, which shows
  * the sector's curated subset of catalogue services PLUS any inline `custom`
  * (sector-only) services — both render in the same grid. Catalogue cards link to
- * their detail page; custom cards link to their optional `link` (or are static).
- * The card number uses the service's own `position` when set, else its index.
+ * /services/<slug>; custom cards link to their own detail page under
+ * `customBaseHref` (i.e. /industries/<industry>/<service>). The card number uses
+ * the service's own `position` when set, else its index in the grid.
  */
 export function ServiceCardGrid({
   services,
   custom = [],
+  customBaseHref,
   compact = false,
 }: {
   services: ServiceCard[];
   custom?: IndustryCustomService[];
+  customBaseHref?: string;
   compact?: boolean;
 }) {
   const glyphSize = compact ? 40 : 56;
@@ -107,44 +111,37 @@ export function ServiceCardGrid({
       ))}
 
       {custom.map((c, i) => {
-        const num = services.length + i + 1;
+        const slug = customServiceSlug(c);
+        const href = customBaseHref ? `${customBaseHref}/${slug}` : undefined;
         const body = (
           <CardBody
-            num={num}
+            num={services.length + i + 1}
             title={c.title}
             bullets={c.bullets}
             summary={c.summary}
             eta={c.eta}
             icon={c.icon}
+            coverUrl={c.cover_image?.url}
+            coverAlt={c.cover_image?.alt}
             glyphSize={glyphSize}
             compact={compact}
-            showArrow={Boolean(c.link)}
+            showArrow={Boolean(href)}
           />
         );
-        const key = `custom-${c.title}-${i}`;
 
-        if (!c.link) {
-          return (
-            <div key={key} className="svc-card svc-card--static">
-              {body}
-            </div>
-          );
-        }
-        return /^https?:\/\//i.test(c.link) ? (
-          <a
-            key={key}
-            href={c.link}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="svc-card"
+        return href ? (
+          <Link
+            key={slug}
+            href={href}
+            className={`svc-card${c.cover_image?.url ? " svc-card--media" : ""}`}
             aria-label={c.title}
           >
             {body}
-          </a>
-        ) : (
-          <Link key={key} href={c.link} className="svc-card" aria-label={c.title}>
-            {body}
           </Link>
+        ) : (
+          <div key={slug} className="svc-card svc-card--static">
+            {body}
+          </div>
         );
       })}
     </div>

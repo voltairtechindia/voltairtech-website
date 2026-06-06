@@ -6,6 +6,7 @@ import Markdown from "@/components/Markdown";
 import { ProsePage } from "@/components/ProsePage";
 import { ProseCta } from "@/components/ProseCta";
 import { ServiceCardGrid } from "@/components/ServiceCardGrid";
+import { customServiceSlug } from "@/lib/industries/custom";
 import {
   getPublishedIndustry,
   listPublishedIndustrySlugs,
@@ -72,7 +73,7 @@ export default async function IndustryDetailPage({
     ...services.map((s) => ({ name: s.title, url: `${SITE_URL}/services/${s.slug}` })),
     ...customServices.map((c) => ({
       name: c.title,
-      url: c.link && /^https?:\/\//i.test(c.link) ? c.link : undefined,
+      url: `${SITE_URL}/industries/${ind.slug}/${customServiceSlug(c)}`,
     })),
   ];
 
@@ -148,7 +149,12 @@ export default async function IndustryDetailPage({
               The slice of what we build that fits this sector.{" "}
               <Link href="/services">See every service →</Link>
             </p>
-            <ServiceCardGrid services={services} custom={customServices} compact />
+            <ServiceCardGrid
+              services={services}
+              custom={customServices}
+              customBaseHref={`/industries/${ind.slug}`}
+              compact
+            />
           </div>
         ) : null}
 

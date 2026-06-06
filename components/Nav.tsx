@@ -58,7 +58,6 @@ function DesktopItem({ link }: { link: NavLink }) {
             {link.children.map((c) => (
               <Link key={c.href} className="nav__dropdown-link" href={c.href} role="menuitem">
                 <span className="nav__dropdown-link-label">{c.label}</span>
-                {c.blurb ? <span className="nav__dropdown-link-blurb">{c.blurb}</span> : null}
               </Link>
             ))}
           </div>

@@ -13,7 +13,8 @@
  *   Body: a single industry object, or { "industries": [ ... ] } for a batch.
  *   Each: { slug, title (required), summary?, bullets?: string[], icon?,
  *           lead?, meta?, body_md?, tags?: string[], service_slugs?: string[],
- *           custom_services?: { title, summary?, bullets?, eta?, icon?, link? }[],
+ *           custom_services?: { title, slug?, summary?, bullets?, eta?, icon?,
+ *                               headline?, lead?, body_md?, cover_image? }[],
  *           seo?, position?, status?: "draft"|"published"|"archived", published_at? }
  *   `icon` may be a glyph key, or "" / "auto" to derive it from title/tags.
  *   -> 200 { ok, count, industries: [{ slug, status, url }] }
@@ -109,25 +110,41 @@ function caseStudies(v: unknown): IndustryCaseStudy[] {
   return out;
 }
 
-/** Normalise the inline custom-services array — each entry needs at least a title. */
+/**
+ * Normalise the inline custom-services array. Each entry needs a title and gets a
+ * stable slug (derived from the title when blank), unique within the industry, so
+ * it can own a detail page at /industries/<industry>/<service>.
+ */
 function customServices(v: unknown): IndustryCustomService[] {
   if (!Array.isArray(v)) return [];
   const out: IndustryCustomService[] = [];
+  const seen = new Set<string>();
   for (const raw of v) {
     if (typeof raw !== "object" || raw === null) continue;
     const p = raw as Record<string, unknown>;
     const title = str(p.title);
     if (!title) continue;
 
-    const cs: IndustryCustomService = { title, bullets: strArray(p.bullets) };
+    const base = slugify(str(p.slug) || title) || "service";
+    let slug = base;
+    for (let n = 2; seen.has(slug); n++) slug = `${base}-${n}`;
+    seen.add(slug);
+
+    const cs: IndustryCustomService = { slug, title, bullets: strArray(p.bullets) };
     const summary = str(p.summary);
     const eta = str(p.eta);
     const icon = str(p.icon);
-    const link = str(p.link);
+    const headline = str(p.headline);
+    const lead = str(p.lead);
+    const bodyMd = typeof p.body_md === "string" ? p.body_md : "";
+    const coverImg = cover(p.cover_image);
     if (summary) cs.summary = summary;
     if (eta) cs.eta = eta;
     if (icon) cs.icon = icon;
-    if (link) cs.link = link;
+    if (headline) cs.headline = headline;
+    if (lead) cs.lead = lead;
+    if (bodyMd.trim()) cs.body_md = bodyMd;
+    if (coverImg) cs.cover_image = coverImg;
     out.push(cs);
   }
   return out;
@@ -219,9 +236,12 @@ async function syncRag(ind: Industry): Promise<void> {
   const customServiceLines = (ind.custom_services ?? []).map((cs) => {
     const bits = [
       `Sector-specific service: ${cs.title}.`,
-      cs.summary ? cs.summary : "",
+      cs.headline ?? "",
+      cs.summary ?? "",
+      cs.lead ?? "",
       cs.bullets.length ? `What you get: ${cs.bullets.join("; ")}.` : "",
       cs.eta ? `Typical timeline: ${cs.eta}.` : "",
+      cs.body_md ? markdownToPlainText(cs.body_md) : "",
     ].filter(Boolean);
     return bits.join(" ");
   });

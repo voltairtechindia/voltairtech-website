@@ -2,7 +2,10 @@ import type { MetadataRoute } from "next";
 
 import { listPublishedSlugs } from "@/lib/blog/db";
 import { listPublishedServiceSlugs } from "@/lib/services/db";
-import { listPublishedIndustrySlugs } from "@/lib/industries/db";
+import {
+  listPublishedCustomServiceParams,
+  listPublishedIndustrySlugs,
+} from "@/lib/industries/db";
 
 const BASE = "https://voltairtech.com";
 
@@ -84,6 +87,19 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     priority: 0.8,
   }));
 
+  // Per-industry custom-service detail pages (best-effort — skip if unreachable).
+  let customServiceRoutes: MetadataRoute.Sitemap = [];
+  try {
+    customServiceRoutes = (await listPublishedCustomServiceParams()).map(({ slug, service }) => ({
+      url: `${BASE}/industries/${slug}/${service}`,
+      lastModified: now,
+      changeFrequency: "monthly",
+      priority: 0.6,
+    }));
+  } catch {
+    customServiceRoutes = [];
+  }
+
   const blogRoutes: MetadataRoute.Sitemap = blogSlugs.map((slug) => ({
     url: `${BASE}/blog/${slug}`,
     lastModified: now,
@@ -91,5 +107,11 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     priority: 0.7,
   }));
 
-  return [...staticRoutes, ...industryRoutes, ...serviceRoutes, ...blogRoutes];
+  return [
+    ...staticRoutes,
+    ...industryRoutes,
+    ...customServiceRoutes,
+    ...serviceRoutes,
+    ...blogRoutes,
+  ];
 }

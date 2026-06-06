@@ -5,7 +5,14 @@
  */
 import { getSupabase } from "@/lib/rag/supabase";
 
-import type { Industry, IndustryCard, IndustryPage, IndustryUpsert } from "./types";
+import { customServiceSlug } from "./custom";
+import type {
+  Industry,
+  IndustryCard,
+  IndustryCustomService,
+  IndustryPage,
+  IndustryUpsert,
+} from "./types";
 
 const CARD_COLUMNS =
   "slug, title, summary, bullets, icon, cover_image, tags, service_slugs, position";
@@ -50,6 +57,22 @@ export async function listPublishedIndustrySlugs(): Promise<string[]> {
     .eq("status", "published");
   if (error) throw error;
   return ((data ?? []) as { slug: string }[]).map((r) => r.slug);
+}
+
+/** `{ slug, service }` params for every published industry's custom-service detail pages. */
+export async function listPublishedCustomServiceParams(): Promise<
+  { slug: string; service: string }[]
+> {
+  const sb = getSupabase();
+  const { data, error } = await sb
+    .from("industries")
+    .select("slug, custom_services")
+    .eq("status", "published");
+  if (error) throw error;
+  const rows = (data ?? []) as { slug: string; custom_services: IndustryCustomService[] | null }[];
+  return rows.flatMap((r) =>
+    (r.custom_services ?? []).map((cs) => ({ slug: r.slug, service: customServiceSlug(cs) })),
+  );
 }
 
 /** A single published industry by slug, or null. */

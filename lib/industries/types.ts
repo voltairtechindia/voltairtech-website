@@ -36,18 +36,23 @@ export interface IndustryCaseStudy {
 
 /**
  * A bespoke, sector-only offering defined inline on an industry (NOT a catalogue
- * service). Rendered in the same "Services for <sector>" grid as the linked
- * services and folded into the industry's RAG embedding. Only `title` is
- * required. `icon` is a ServiceGlyph key; `link` is an optional CTA target
- * (internal path or external URL) — when absent the card is non-clickable.
+ * service). It renders in the same "Services for <sector>" grid as the linked
+ * services AND gets its own detail page at /industries/<industry>/<service> —
+ * near-parity with a catalogue service. Folded into the industry's RAG embedding
+ * too. `slug` is unique within the industry (derived from the title when blank);
+ * `icon` is a ServiceGlyph key. Card + detail are always linked to the detail page.
  */
 export interface IndustryCustomService {
+  slug: string;
   title: string;
   summary?: string;
   bullets: string[];
   eta?: string;
   icon?: string;
-  link?: string;
+  headline?: string;
+  lead?: string;
+  body_md?: string;
+  cover_image?: IndustryCover | null;
 }
 
 export type IndustryStatus = "draft" | "published" | "archived";
