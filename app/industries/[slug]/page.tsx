@@ -61,9 +61,20 @@ export default async function IndustryDetailPage({
   if (!ind) notFound();
 
   const services = await getPublishedServiceCardsBySlugs(ind.service_slugs).catch(() => []);
+  const customServices = ind.custom_services ?? [];
+  const hasServices = services.length > 0 || customServices.length > 0;
 
   const url = `${SITE_URL}/industries/${ind.slug}`;
   const metaLine = ind.meta ?? "Industry";
+
+  // Linked (catalogue) services + inline custom services, in render order.
+  const serviceListItems = [
+    ...services.map((s) => ({ name: s.title, url: `${SITE_URL}/services/${s.slug}` })),
+    ...customServices.map((c) => ({
+      name: c.title,
+      url: c.link && /^https?:\/\//i.test(c.link) ? c.link : undefined,
+    })),
+  ];
 
   const jsonLd = {
     "@context": "https://schema.org",
@@ -72,15 +83,15 @@ export default async function IndustryDetailPage({
     url,
     description: ind.summary ?? ind.lead ?? undefined,
     ...(ind.cover_image?.url ? { image: [ind.cover_image.url] } : {}),
-    ...(services.length
+    ...(serviceListItems.length
       ? {
           mainEntity: {
             "@type": "ItemList",
-            itemListElement: services.map((s, i) => ({
+            itemListElement: serviceListItems.map((item, i) => ({
               "@type": "ListItem",
               position: i + 1,
-              name: s.title,
-              url: `${SITE_URL}/services/${s.slug}`,
+              name: item.name,
+              ...(item.url ? { url: item.url } : {}),
             })),
           },
         }
@@ -130,14 +141,14 @@ export default async function IndustryDetailPage({
 
         {ind.body_md.trim() ? <Markdown>{ind.body_md}</Markdown> : null}
 
-        {services.length ? (
+        {hasServices ? (
           <div className="industry-services">
             <h2>Services for {ind.title}</h2>
             <p className="meta">
               The slice of what we build that fits this sector.{" "}
               <Link href="/services">See every service →</Link>
             </p>
-            <ServiceCardGrid services={services} compact />
+            <ServiceCardGrid services={services} custom={customServices} compact />
           </div>
         ) : null}
 

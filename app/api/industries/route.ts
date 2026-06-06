@@ -13,6 +13,7 @@
  *   Body: a single industry object, or { "industries": [ ... ] } for a batch.
  *   Each: { slug, title (required), summary?, bullets?: string[], icon?,
  *           lead?, meta?, body_md?, tags?: string[], service_slugs?: string[],
+ *           custom_services?: { title, summary?, bullets?, eta?, icon?, link? }[],
  *           seo?, position?, status?: "draft"|"published"|"archived", published_at? }
  *   `icon` may be a glyph key, or "" / "auto" to derive it from title/tags.
  *   -> 200 { ok, count, industries: [{ slug, status, url }] }
@@ -34,6 +35,7 @@ import type {
   Industry,
   IndustryCaseStudy,
   IndustryCover,
+  IndustryCustomService,
   IndustryUpsert,
 } from "@/lib/industries/types";
 import { getPublishedServiceCardsBySlugs } from "@/lib/services/db";
@@ -107,6 +109,30 @@ function caseStudies(v: unknown): IndustryCaseStudy[] {
   return out;
 }
 
+/** Normalise the inline custom-services array — each entry needs at least a title. */
+function customServices(v: unknown): IndustryCustomService[] {
+  if (!Array.isArray(v)) return [];
+  const out: IndustryCustomService[] = [];
+  for (const raw of v) {
+    if (typeof raw !== "object" || raw === null) continue;
+    const p = raw as Record<string, unknown>;
+    const title = str(p.title);
+    if (!title) continue;
+
+    const cs: IndustryCustomService = { title, bullets: strArray(p.bullets) };
+    const summary = str(p.summary);
+    const eta = str(p.eta);
+    const icon = str(p.icon);
+    const link = str(p.link);
+    if (summary) cs.summary = summary;
+    if (eta) cs.eta = eta;
+    if (icon) cs.icon = icon;
+    if (link) cs.link = link;
+    out.push(cs);
+  }
+  return out;
+}
+
 function normalize(input: unknown): { row: IndustryUpsert } | { error: string } {
   if (typeof input !== "object" || input === null) {
     return { error: "Each industry must be an object." };
@@ -158,6 +184,7 @@ function normalize(input: unknown): { row: IndustryUpsert } | { error: string } 
       body_md: typeof p.body_md === "string" ? p.body_md : "",
       tags,
       service_slugs: serviceSlugs,
+      custom_services: customServices(p.custom_services),
       case_studies: caseStudies(p.case_studies),
       seo: seo ?? {},
       position,
@@ -187,6 +214,18 @@ async function syncRag(ind: Industry): Promise<void> {
     // best-effort — the page still works without the enrichment
   }
 
+  // Fold the inline custom (sector-only) services into the embedding too, so the
+  // bot can cite offerings that aren't in the global /services catalogue.
+  const customServiceLines = (ind.custom_services ?? []).map((cs) => {
+    const bits = [
+      `Sector-specific service: ${cs.title}.`,
+      cs.summary ? cs.summary : "",
+      cs.bullets.length ? `What you get: ${cs.bullets.join("; ")}.` : "",
+      cs.eta ? `Typical timeline: ${cs.eta}.` : "",
+    ].filter(Boolean);
+    return bits.join(" ");
+  });
+
   // Fold each case study into the embedding so the bot can answer
   // "how have you used AI in <sector>?" and "what stack do you use for <sector>?".
   const caseStudyLines = (ind.case_studies ?? []).map((cs) => {
@@ -210,6 +249,7 @@ async function syncRag(ind: Industry): Promise<void> {
     ind.bullets.join(". "),
     markdownToPlainText(ind.body_md),
     serviceLine,
+    ...customServiceLines,
     ...caseStudyLines,
   ].filter(Boolean);
 

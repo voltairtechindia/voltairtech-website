@@ -34,6 +34,22 @@ export interface IndustryCaseStudy {
   link?: string;
 }
 
+/**
+ * A bespoke, sector-only offering defined inline on an industry (NOT a catalogue
+ * service). Rendered in the same "Services for <sector>" grid as the linked
+ * services and folded into the industry's RAG embedding. Only `title` is
+ * required. `icon` is a ServiceGlyph key; `link` is an optional CTA target
+ * (internal path or external URL) — when absent the card is non-clickable.
+ */
+export interface IndustryCustomService {
+  title: string;
+  summary?: string;
+  bullets: string[];
+  eta?: string;
+  icon?: string;
+  link?: string;
+}
+
 export type IndustryStatus = "draft" | "published" | "archived";
 
 /** A full industry row as stored in / returned from Supabase. */
@@ -51,6 +67,7 @@ export interface Industry {
   body_md: string;
   tags: string[];
   service_slugs: string[];
+  custom_services: IndustryCustomService[];
   case_studies: IndustryCaseStudy[];
   seo: IndustrySeo;
   position: number;
@@ -89,6 +106,7 @@ export interface IndustryUpsert {
   body_md?: string;
   tags?: string[];
   service_slugs?: string[];
+  custom_services?: IndustryCustomService[];
   case_studies?: IndustryCaseStudy[];
   seo?: IndustrySeo;
   position?: number;
