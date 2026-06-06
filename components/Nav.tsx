@@ -33,10 +33,6 @@ export function Nav() {
           ))}
         </nav>
         <div className="nav__right">
-          <span className="nav__avail">
-            <span className="pulse" />
-            Booking · 1 slot this week
-          </span>
           <Link className="btn btn-primary btn-sm" href="/contact">
             Contact us <Arr />
           </Link>

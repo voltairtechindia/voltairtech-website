@@ -191,7 +191,7 @@ body { background: var(--v-paper); color: var(--v-ink); overflow-x: hidden; }
   0%, 100% { text-shadow: 0 0 12px rgba(255,31,45,0.85), 0 0 24px rgba(255,31,45,0.55), 0 0 44px rgba(255,31,45,0.30); }
   50%       { text-shadow: 0 0 18px rgba(255,31,45,1),    0 0 36px rgba(255,31,45,0.80), 0 0 64px rgba(255,31,45,0.50); }
 }
-.nav__links { display: flex; gap: 28px; }
+.nav__links { display: flex; gap: 28px; margin-left: auto; margin-right: 32px; }
 .nav__links a { font-family: var(--font-display), "Inter Tight", sans-serif; font-weight: 500; font-size: 14px; color: var(--fg1); position: relative; }
 .nav__links a::after { content: ''; position: absolute; left: 0; right: 0; bottom: -6px; height: 2px; background: var(--v-red); transform: scaleX(0); transform-origin: left; transition: transform var(--dur-2) var(--ease-out); }
 .nav__links a:hover::after { transform: scaleX(1); }
