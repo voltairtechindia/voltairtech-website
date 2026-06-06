@@ -13,7 +13,7 @@
  *      or { "path": "/blog" }
  *   -> 200 { ok, revalidated: [...] }
  */
-import { revalidatePath } from "next/cache";
+import { revalidatePath, revalidateTag } from "next/cache";
 import { NextResponse } from "next/server";
 
 import { isAdmin } from "@/lib/admin-auth";
@@ -58,5 +58,14 @@ export async function POST(req: Request) {
 
   for (const p of paths) revalidatePath(p);
 
-  return NextResponse.json({ ok: true, revalidated: paths });
+  // The header's industries/services dropdowns are cached under the "nav-groups"
+  // tag (see lib/nav-data.ts). Bust it whenever those sections change so the nav
+  // reflects edits immediately instead of waiting out its revalidate window.
+  let nav = false;
+  if (paths.some((p) => p.startsWith("/industries") || p.startsWith("/services"))) {
+    revalidateTag("nav-groups");
+    nav = true;
+  }
+
+  return NextResponse.json({ ok: true, revalidated: paths, nav });
 }

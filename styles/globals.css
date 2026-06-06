@@ -191,10 +191,79 @@ body { background: var(--v-paper); color: var(--v-ink); overflow-x: hidden; }
   0%, 100% { text-shadow: 0 0 12px rgba(255,31,45,0.85), 0 0 24px rgba(255,31,45,0.55), 0 0 44px rgba(255,31,45,0.30); }
   50%       { text-shadow: 0 0 18px rgba(255,31,45,1),    0 0 36px rgba(255,31,45,0.80), 0 0 64px rgba(255,31,45,0.50); }
 }
-.nav__links { display: flex; gap: 28px; margin-left: auto; margin-right: 32px; }
-.nav__links a { font-family: var(--font-display), "Inter Tight", sans-serif; font-weight: 500; font-size: 14px; color: var(--fg1); position: relative; }
-.nav__links a::after { content: ''; position: absolute; left: 0; right: 0; bottom: -6px; height: 2px; background: var(--v-red); transform: scaleX(0); transform-origin: left; transition: transform var(--dur-2) var(--ease-out); }
-.nav__links a:hover::after { transform: scaleX(1); }
+.nav__links { display: flex; align-items: center; gap: 28px; margin-left: auto; margin-right: 32px; }
+.nav__item {
+  display: inline-flex; align-items: center; gap: 5px;
+  font-family: var(--font-display), "Inter Tight", sans-serif; font-weight: 500;
+  font-size: 14px; color: var(--fg1); position: relative;
+}
+/* Animated red underline on the top-level links only (anchors, not the wrapper div). */
+a.nav__item::after { content: ''; position: absolute; left: 0; right: 0; bottom: -6px; height: 2px; background: var(--v-red); transform: scaleX(0); transform-origin: left; transition: transform var(--dur-2) var(--ease-out); }
+a.nav__item:hover::after { transform: scaleX(1); }
+.nav__item--menu:hover > .nav__item-trigger::after,
+.nav__item--menu:focus-within > .nav__item-trigger::after { transform: scaleX(1); }
+.nav__caret { transition: transform var(--dur-2) var(--ease-out); color: var(--fg3); }
+.nav__item--menu:hover .nav__caret,
+.nav__item--menu:focus-within .nav__caret { transform: rotate(180deg); color: var(--v-red); }
+
+/* ---- Hover dropdown (mega menu) for Industries / Services ---- */
+.nav__item--menu { position: relative; }
+.nav__dropdown {
+  position: absolute; top: 100%; left: 50%; transform: translate(-50%, 8px);
+  padding-top: 14px; /* invisible bridge so the cursor can cross into the panel */
+  min-width: 320px; max-width: min(92vw, 420px); z-index: 60;
+  opacity: 0; visibility: hidden; pointer-events: none;
+  transition: opacity var(--dur-2) var(--ease-out), transform var(--dur-2) var(--ease-emph), visibility var(--dur-2);
+}
+.nav__item--menu:hover .nav__dropdown,
+.nav__item--menu:focus-within .nav__dropdown {
+  opacity: 1; visibility: visible; pointer-events: auto; transform: translate(-50%, 0);
+}
+.nav__dropdown-inner {
+  background: var(--v-paper); border: 1px solid var(--border); border-radius: var(--r-3);
+  box-shadow: var(--shadow-3); padding: 10px;
+  display: flex; flex-direction: column; gap: 2px;
+}
+.nav__dropdown-title {
+  font-family: var(--font-mono), "JetBrains Mono", monospace; font-size: 10.5px;
+  letter-spacing: 0.08em; text-transform: uppercase; color: var(--fg3);
+  padding: 6px 10px 8px;
+}
+.nav__dropdown-grid { display: flex; flex-direction: column; gap: 1px; max-height: 56vh; overflow-y: auto; }
+.nav__dropdown-link {
+  display: flex; flex-direction: column; gap: 2px;
+  padding: 9px 10px; border-radius: var(--r-2);
+  transition: background var(--dur-1) var(--ease-out);
+}
+.nav__dropdown-link:hover, .nav__dropdown-link:focus-visible { background: var(--v-wash, rgba(0,0,0,0.04)); outline: none; }
+.nav__dropdown-link-label {
+  font-family: var(--font-display), "Inter Tight", sans-serif; font-weight: 600;
+  font-size: 13.5px; color: var(--v-ink); letter-spacing: -0.01em;
+  display: flex; align-items: center; gap: 6px;
+}
+.nav__dropdown-link-label::before {
+  content: ''; width: 4px; height: 4px; border-radius: 50%; background: var(--border);
+  flex: none; transition: background var(--dur-1), transform var(--dur-1);
+}
+.nav__dropdown-link:hover .nav__dropdown-link-label::before { background: var(--v-red); transform: scale(1.4); }
+.nav__dropdown-link-blurb {
+  font-size: 11.5px; line-height: 1.45; color: var(--fg2);
+  display: -webkit-box; -webkit-line-clamp: 1; -webkit-box-orient: vertical; overflow: hidden;
+  padding-left: 10px;
+}
+.nav__dropdown-all {
+  margin-top: 6px; padding: 10px; border-top: 1px solid var(--border);
+  display: inline-flex; align-items: center; gap: 6px;
+  font-family: var(--font-mono), "JetBrains Mono", monospace; font-size: 11.5px;
+  letter-spacing: 0.03em; color: var(--v-red);
+  transition: gap var(--dur-2) var(--ease-out);
+}
+.nav__dropdown-all:hover { gap: 10px; }
+@media (prefers-reduced-motion: reduce) {
+  .nav__dropdown { transition: opacity var(--dur-1), visibility var(--dur-1); transform: translate(-50%, 0); }
+  .nav__item--menu:hover .nav__dropdown, .nav__item--menu:focus-within .nav__dropdown { transform: translate(-50%, 0); }
+  .nav__caret, .nav__item--menu:hover .nav__caret { transform: none; }
+}
 .nav__right { display: flex; align-items: center; gap: 16px; }
 .nav__avail { display: flex; align-items: center; gap: 8px; font-family: var(--font-mono), "JetBrains Mono", monospace; font-size: 11px; letter-spacing: 0.04em; color: var(--fg2); }
 .nav__avail .pulse { width: 7px; height: 7px; border-radius: 50%; background: var(--v-lime); box-shadow: 0 0 0 4px rgba(217,255,0,0.25); animation: pulse 1.8s ease-in-out infinite; }
@@ -957,6 +1026,48 @@ a.svc-card { text-decoration: none; color: inherit; }
 .nav__link:hover { color: var(--v-red); }
 .nav__link-arr { font-size: 1rem; color: var(--fg3); transition: transform var(--dur-2) var(--ease-out), color var(--dur-2); }
 .nav__link:hover .nav__link-arr { color: var(--v-red); transform: translate(2px, -2px); }
+
+/* ---- Mobile accordion groups (Industries / Services) ---- */
+.nav__group {
+  border-bottom: 1px solid var(--border);
+  opacity: 0; transform: translateY(10px);
+  transition: opacity var(--dur-3) var(--ease-out), transform var(--dur-3) var(--ease-out);
+}
+.nav__menu.open .nav__group { opacity: 1; transform: none; }
+.nav__group-head { display: flex; align-items: center; justify-content: space-between; gap: var(--s-4); }
+.nav__link--group { flex: 1; border-bottom: none; }
+.nav__group-toggle {
+  flex: none; width: 42px; height: 42px; display: inline-flex; align-items: center; justify-content: center;
+  border: 1px solid var(--border); border-radius: var(--r-2); background: var(--v-paper); color: var(--v-ink);
+  transition: border-color var(--dur-2), background var(--dur-2);
+}
+.nav__group-toggle:hover { border-color: var(--v-ink); }
+.nav__group-toggle:active { transform: scale(0.94); }
+.nav__group-chev { position: relative; display: block; width: 11px; height: 11px; }
+.nav__group-chev::before, .nav__group-chev::after {
+  content: ''; position: absolute; top: 50%; left: 50%; width: 11px; height: 2px;
+  background: currentColor; border-radius: 2px; transition: transform var(--dur-2) var(--ease-out);
+}
+.nav__group-chev::before { transform: translate(-50%, -50%); }
+.nav__group-chev::after { transform: translate(-50%, -50%) rotate(90deg); }
+.nav__group.open .nav__group-chev::after { transform: translate(-50%, -50%) rotate(0deg); }
+.nav__sub {
+  display: grid; grid-template-rows: 0fr;
+  transition: grid-template-rows var(--dur-3) var(--ease-emph);
+}
+.nav__group.open .nav__sub { grid-template-rows: 1fr; }
+.nav__sub { overflow: hidden; }
+.nav__sub-inner { min-height: 0; display: flex; flex-direction: column; }
+.nav__sublink {
+  display: block; padding: 11px 2px 11px 16px;
+  border-left: 2px solid var(--border); margin-left: 2px;
+  font-family: var(--font-display), "Inter Tight", sans-serif; font-weight: 500;
+  font-size: 1.02rem; letter-spacing: -0.01em; color: var(--fg1);
+  transition: color var(--dur-1), border-color var(--dur-1);
+}
+.nav__sublink:hover { color: var(--v-red); border-color: var(--v-red); }
+.nav__sub .nav__sublink:last-child { padding-bottom: 14px; }
+
 .nav__panel-foot { display: flex; flex-direction: column; gap: var(--s-4); margin-top: var(--s-5); }
 .nav__panel-foot .btn { justify-content: center; }
 .nav__avail--drawer { display: flex; align-items: center; gap: 8px; font-family: var(--font-mono), "JetBrains Mono", monospace; font-size: 12px; letter-spacing: 0.04em; color: var(--fg2); }

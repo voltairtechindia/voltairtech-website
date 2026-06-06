@@ -4,11 +4,11 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Arr } from "./atoms/Arr";
-
-type NavLink = { label: string; href: string };
+import type { NavLink } from "./Nav";
 
 export function NavMenu({ links }: { links: NavLink[] }) {
   const [open, setOpen] = useState(false);
+  const [expanded, setExpanded] = useState<string | null>(null);
   const pathname = usePathname();
 
   // Close the drawer whenever the route changes (after a link tap).
@@ -36,6 +36,11 @@ export function NavMenu({ links }: { links: NavLink[] }) {
     };
   }, [open]);
 
+  // Collapse any open accordion when the whole drawer closes.
+  useEffect(() => {
+    if (!open) setExpanded(null);
+  }, [open]);
+
   return (
     <>
       <button
@@ -58,18 +63,67 @@ export function NavMenu({ links }: { links: NavLink[] }) {
           onClick={() => setOpen(false)}
         />
         <nav className="nav__panel" aria-label="Mobile navigation">
-          {links.map((n, i) => (
-            <Link
-              key={n.href}
-              href={n.href}
-              className="nav__link"
-              style={{ transitionDelay: open ? `${70 + i * 45}ms` : "0ms" }}
-              onClick={() => setOpen(false)}
-            >
-              {n.label}
-              <span className="nav__link-arr" aria-hidden="true">↗</span>
-            </Link>
-          ))}
+          {links.map((n, i) => {
+            const delay = open ? `${70 + i * 45}ms` : "0ms";
+            const hasChildren = Boolean(n.children?.length);
+            const isOpen = expanded === n.href;
+
+            if (!hasChildren) {
+              return (
+                <Link
+                  key={n.href}
+                  href={n.href}
+                  className="nav__link"
+                  style={{ transitionDelay: delay }}
+                  onClick={() => setOpen(false)}
+                >
+                  {n.label}
+                  <span className="nav__link-arr" aria-hidden="true">↗</span>
+                </Link>
+              );
+            }
+
+            return (
+              <div
+                key={n.href}
+                className={"nav__group" + (isOpen ? " open" : "")}
+                style={{ transitionDelay: delay }}
+              >
+                <div className="nav__group-head">
+                  <Link
+                    href={n.href}
+                    className="nav__link nav__link--group"
+                    onClick={() => setOpen(false)}
+                  >
+                    {n.label}
+                  </Link>
+                  <button
+                    type="button"
+                    className="nav__group-toggle"
+                    aria-label={(isOpen ? "Collapse " : "Expand ") + n.label}
+                    aria-expanded={isOpen}
+                    onClick={() => setExpanded((cur) => (cur === n.href ? null : n.href))}
+                  >
+                    <span className="nav__group-chev" aria-hidden="true" />
+                  </button>
+                </div>
+                <div className="nav__sub">
+                  <div className="nav__sub-inner">
+                    {n.children!.map((c) => (
+                      <Link
+                        key={c.href}
+                        href={c.href}
+                        className="nav__sublink"
+                        onClick={() => setOpen(false)}
+                      >
+                        {c.label}
+                      </Link>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            );
+          })}
           <div className="nav__panel-foot">
             <span className="nav__avail nav__avail--drawer">
               <span className="pulse" />
