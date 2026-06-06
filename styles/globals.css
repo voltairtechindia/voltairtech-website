@@ -640,6 +640,21 @@ a.nav__item:hover::after { transform: scaleX(1); }
 .foot__links a:hover {
   color: var(--v-paper);
 }
+.foot__socials {
+  display: flex;
+  gap: var(--s-4);
+  margin-top: var(--s-5);
+  align-items: center;
+}
+.foot__social-link {
+  color: var(--v-ink-fg-3);
+  transition: color var(--dur-2), transform var(--dur-2);
+  display: inline-flex;
+}
+.foot__social-link:hover {
+  color: var(--v-red);
+  transform: translateY(-2px);
+}
 /* Removed map styles */
 .foot__addr {
   display: flex;
