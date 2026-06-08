@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 import { CONTENT } from "@/lib/content";
 import { Kicker } from "./atoms/Kicker";
 import { VMark } from "./atoms/VMark";
@@ -152,6 +153,32 @@ export function FooterCta({ num }: { num?: string }) {
                 </a>
               </li>
             </ul>
+          </div>
+
+          {/* Column 5: Google Business Profile */}
+          <div className="foot__col">
+            <div className="foot__col-title">Google Profile</div>
+            <a
+              href="https://local.google.com/place?placeid=ChIJtcYXf-S35zsRSOlnDqIYyXU&utm_medium=noren&utm_source=gbp&utm_campaign=2026"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="foot__google-card"
+            >
+              <div className="foot__google-card-img">
+                <Image
+                  src="/assets/check-us-out-on-google.jpg"
+                  alt="Check us out on Google"
+                  width={140}
+                  height={140}
+                  className="foot__google-qr"
+                  priority
+                />
+              </div>
+              <div className="foot__google-card-text">
+                <b>Review us on Google</b>
+                <span>Scan QR or click to rate us</span>
+              </div>
+            </a>
           </div>
         </div>
         <div className="foot__legal">

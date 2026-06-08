@@ -585,7 +585,7 @@ a.nav__item:hover::after { transform: scaleX(1); }
 .foot__grid {
   position: relative;
   display: grid;
-  grid-template-columns: 2fr 1fr 1fr 1fr;
+  grid-template-columns: 2fr 1fr 1fr 1fr 1.2fr;
   gap: var(--s-7);
   align-items: start;
 }
@@ -673,6 +673,59 @@ a.nav__item:hover::after { transform: scaleX(1); }
   font-size: 13px;
   display: block;
   margin-bottom: 2px;
+}
+.foot__google-card {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--s-3);
+  padding: var(--s-4);
+  border: 1px solid var(--v-ink-line);
+  border-radius: var(--r-3);
+  background: var(--v-ink-2);
+  text-decoration: none;
+  transition: all var(--dur-2) var(--ease-out);
+  width: 100%;
+  max-width: 180px;
+}
+.foot__google-card:hover {
+  border-color: var(--v-red);
+  background: rgba(230, 57, 70, 0.04);
+  transform: translateY(-4px);
+}
+.foot__google-card-img {
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  border-radius: var(--r-2);
+  overflow: hidden;
+  background: #fff;
+  padding: var(--s-2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.foot__google-qr {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+.foot__google-card-text {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.foot__google-card-text b {
+  font-family: var(--font-display), "Inter Tight", sans-serif;
+  font-size: 13.5px;
+  font-weight: 650;
+  color: var(--v-ink-fg);
+  line-height: 1.25;
+}
+.foot__google-card-text span {
+  font-family: var(--font-mono), "JetBrains Mono", monospace;
+  font-size: 10px;
+  color: var(--v-ink-fg-3);
+  line-height: 1.35;
 }
 .foot__legal { margin-top: var(--s-6); padding-top: var(--s-5); border-top: 1px solid var(--v-ink-line); display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: var(--s-3); font-family: var(--font-mono), "JetBrains Mono", monospace; font-size: 12px; color: var(--v-ink-fg-3); position: relative; }
 .foot__legal a:hover { color: var(--v-paper); }
