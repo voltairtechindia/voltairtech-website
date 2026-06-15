@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import { Inter_Tight, JetBrains_Mono } from "next/font/google";
 import Script from "next/script";
+import { Analytics } from "@vercel/analytics/next";
 import ChatWidgetLazy from "@/components/ChatWidgetLazy";
 import { ScrollReveal } from "@/components/ScrollReveal";
 import "@/styles/globals.css";
@@ -90,6 +91,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         {children}
         <ChatWidgetLazy />
         <ScrollReveal />
+        <Analytics />
         
         {/* Meta Pixel Code */}
         <Script
