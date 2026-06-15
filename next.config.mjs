@@ -10,7 +10,7 @@ const csp = [
   "default-src 'self'",
   `script-src 'self' 'unsafe-inline' https://connect.facebook.net${isDev ? " 'unsafe-eval'" : ""}`,
   "style-src 'self' 'unsafe-inline'",
-  "img-src 'self' data: blob: https://*.supabase.co https://www.facebook.com",
+  "img-src 'self' data: blob: https://*.supabase.co https://www.facebook.com https://api.producthunt.com",
   "media-src 'self' https://*.supabase.co",
   "font-src 'self' data:",
   "connect-src 'self' https://*.supabase.co https://www.facebook.com",

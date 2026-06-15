@@ -461,8 +461,19 @@ function FooterCta() {
           </div>
         </div>
         <div className="foot__legal">
-          <span>© 2026 VOLTAIRTECH · voltairtech.com</span>
-          <span style={{ display: "flex", gap: 18 }}>
+          <div style={{ display: "flex", alignItems: "center", gap: 16, flexWrap: "wrap" }}>
+            <span>© 2026 VOLTAIRTECH · voltairtech.com</span>
+            <a href="https://www.producthunt.com/products/kauntech-app?embed=true&utm_source=badge-featured&utm_medium=badge&utm_campaign=badge-kauntech-app" target="_blank" rel="noopener noreferrer" style={{ display: "inline-block" }}>
+              <img
+                src="https://api.producthunt.com/widgets/embed-image/v1/featured.svg?post_id=1172104&theme=light&t=1781509202784"
+                alt="Kauntech App - Scan. Sync. Sell. Repeat. | Product Hunt"
+                width="250"
+                height="54"
+                style={{ width: "180px", height: "auto", display: "block" }}
+              />
+            </a>
+          </div>
+          <span style={{ display: "flex", gap: 18, alignItems: "center" }}>
             <a href="#">privacy</a>
             <a href="#">terms</a>
             <a href="#">dpdp</a>

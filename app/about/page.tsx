@@ -54,6 +54,7 @@ export default function AboutPage() {
       <section className="section">
         <div className="container">
           <SectionHead
+            as="h1"
             kicker="[ 01 ] Who We Are"
             title={<>Bridging the gap between<br />complex AI &amp; business.</>}
             right={<span className="tag"><span className="pulse" />Mumbai, India</span>}

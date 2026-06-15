@@ -23,6 +23,7 @@ export function Industries({
     <section id="industries" className="section section--ink">
       <div className="container">
         <SectionHead
+          as="h1"
           kicker="[ 01 ] Industries"
           title={<>Built for your<br />industry.</>}
           right={<span className="tag"><span className="pulse" />sector-shaped AI</span>}

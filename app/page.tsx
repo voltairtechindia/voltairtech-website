@@ -59,11 +59,7 @@ const jsonLd = {
       "@type": "WebSite",
       name: "Voltair Tech",
       url: "https://voltairtech.com",
-      potentialAction: {
-        "@type": "SearchAction",
-        target: "https://voltairtech.com/faq",
-        "query-input": "required name=search_term_string",
-      },
+      publisher: { "@type": "Organization", name: "Voltair Tech", url: "https://voltairtech.com" },
     },
   ],
 };

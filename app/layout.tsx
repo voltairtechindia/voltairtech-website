@@ -1,7 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import { Inter_Tight, JetBrains_Mono } from "next/font/google";
 import Script from "next/script";
-import ChatWidget from "@/components/ChatWidget";
+import ChatWidgetLazy from "@/components/ChatWidgetLazy";
 import { ScrollReveal } from "@/components/ScrollReveal";
 import "@/styles/globals.css";
 
@@ -53,7 +53,7 @@ export const metadata: Metadata = {
     description: "Mumbai-based AI build studio. Apps, chatbots, RAG, automation. Shipped in 48 hours.",
     images: [
       {
-        url: "/assets/logo-square-starfield.jpg",
+        url: "/assets/og-image.jpg",
         width: 1200,
         height: 630,
         alt: "Voltair Tech - AI Services Mumbai",
@@ -64,7 +64,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "Voltair Tech - AI Services Mumbai | Build & Deploy in 48 Hours",
     description: "Mumbai-based AI build studio. Apps, chatbots, RAG, automation. Shipped in 48 hours.",
-    images: ["/assets/logo-square-starfield.jpg"],
+    images: ["/assets/og-image.jpg"],
   },
   icons: {
     icon: "/logo-mark.png",
@@ -88,13 +88,13 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <html lang="en-IN" className={`${interTight.variable} ${jetbrainsMono.variable}`}>
       <body>
         {children}
-        <ChatWidget />
+        <ChatWidgetLazy />
         <ScrollReveal />
         
         {/* Meta Pixel Code */}
         <Script
           id="meta-pixel"
-          strategy="afterInteractive"
+          strategy="lazyOnload"
           dangerouslySetInnerHTML={{
             __html: `
               !function(f,b,e,v,n,t,s)

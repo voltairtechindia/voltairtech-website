@@ -20,6 +20,7 @@ export function Faq() {
     <section id="faq" className="section section--ink">
       <div className="container">
         <SectionHead
+          as="h1"
           kicker="[ 01 ] Frequently asked"
           title={<>Answers, not<br />brochures.</>}
           right={<span className="meta mono-lbl">FAQPage schema · AEO-ready</span>}

@@ -69,9 +69,9 @@ export function BigInput() {
           <div className="bi__hd">
             <div>
               <Kicker>[&nbsp;01&nbsp;] Tell us what you want</Kicker>
-              <h2 className="bi__h" style={{ marginTop: 12 }}>
+              <h1 className="bi__h" style={{ marginTop: 12 }}>
                 We&apos;ll <em>build it.</em>
-              </h2>
+              </h1>
             </div>
             <p className="lead" style={{ maxWidth: 360 }}>
               Type one line. We reply within an hour with a 48-hour plan. No forms, no

@@ -158,8 +158,10 @@ body { background: var(--v-paper); color: var(--v-ink); overflow-x: hidden; }
 .btn .arr { transition: transform var(--dur-2) var(--ease-out); }
 .btn:hover .arr { transform: translateX(4px); }
 .btn:active { transform: scale(0.98); }
-.btn-primary { background: var(--v-red); color: var(--v-paper); box-shadow: var(--shadow-red); }
-.btn-primary:hover { background: var(--v-red-deep); box-shadow: var(--shadow-red-strong); }
+/* Button uses the deeper red so paper text clears WCAG AA (4.5:1); the brand
+   red (--v-red) is reserved for decorative accents that carry no text. */
+.btn-primary { background: var(--v-red-deep); color: var(--v-paper); box-shadow: var(--shadow-red); }
+.btn-primary:hover { background: #A4161A; box-shadow: var(--shadow-red-strong); }
 .btn-ghost { background: transparent; color: var(--v-ink); border: 1.5px solid var(--v-ink); }
 .btn-ghost:hover { background: var(--v-ink); color: var(--v-paper); }
 .section--ink .btn-ghost { color: var(--v-paper); border-color: var(--v-paper); }
@@ -1104,7 +1106,7 @@ a.svc-card { text-decoration: none; color: inherit; }
 .chat-header { display: flex; align-items: center; justify-content: space-between; gap: var(--s-3); padding: 14px 16px; background: var(--v-ink); color: var(--v-ink-fg); }
 .chat-header-info { display: flex; align-items: center; gap: 10px; }
 .chat-avatar { width: 38px; height: 38px; border-radius: var(--r-pill); background: var(--v-red); color: #fff; display: inline-flex; align-items: center; justify-content: center; flex: none; }
-.chat-title-box h4 { font-family: var(--font-display), "Inter Tight", sans-serif; font-size: 0.95rem; font-weight: 700; margin: 0; }
+.chat-title-box h2 { font-family: var(--font-display), "Inter Tight", sans-serif; font-size: 0.95rem; font-weight: 700; margin: 0; }
 .chat-title-box p { display: flex; align-items: center; gap: 6px; margin: 2px 0 0; font-size: 0.72rem; color: var(--v-ink-fg-2); }
 .status-dot { width: 7px; height: 7px; border-radius: 50%; background: #34d399; display: inline-block; }
 .chat-close { color: var(--v-ink-fg-2); display: inline-flex; transition: color var(--dur-2); }
@@ -1353,7 +1355,9 @@ a.svc-card { text-decoration: none; color: inherit; }
    ENTRANCE MOTION — minimal, tasteful, reduced-motion aware.
    ========================================================================= */
 
-/* Hero copy: gentle staggered fade-up on load (above the fold). */
+/* Hero copy: gentle staggered slide-up on load (above the fold).
+   Transform-only (no opacity) so the LCP text is paint-eligible at first
+   frame — a fade-in here was costing ~4s of LCP "render delay". */
 .hero__copy > * { animation: heroIn 720ms var(--ease-out) backwards; }
 .hero__copy > *:nth-child(1) { animation-delay: 60ms; }
 .hero__copy > *:nth-child(2) { animation-delay: 130ms; }
@@ -1361,7 +1365,7 @@ a.svc-card { text-decoration: none; color: inherit; }
 .hero__copy > *:nth-child(4) { animation-delay: 270ms; }
 .hero__copy > *:nth-child(5) { animation-delay: 340ms; }
 .hero__art { animation: heroArtIn 900ms var(--ease-out) 120ms backwards; }
-@keyframes heroIn { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: none; } }
+@keyframes heroIn { from { transform: translateY(16px); } to { transform: none; } }
 @keyframes heroArtIn { from { opacity: 0; transform: translateY(20px) scale(0.985); } to { opacity: 1; transform: none; } }
 
 /* Scroll-reveal — only active once JS adds `reveal-ready` to <body>, so the

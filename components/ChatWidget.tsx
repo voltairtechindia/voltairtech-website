@@ -410,7 +410,7 @@ export default function ChatWidget() {
           <div className="chat-header-info">
             <div className="chat-avatar"><IconBot /></div>
             <div className="chat-title-box">
-              <h4>Voltair AI Specialist</h4>
+              <h2>Voltair AI Specialist</h2>
               <p>
                 <span className="status-dot" />
                 <span>Online &amp; Ready</span>

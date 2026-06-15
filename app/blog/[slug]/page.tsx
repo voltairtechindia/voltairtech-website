@@ -82,10 +82,11 @@ export default async function BlogPostPage({
     image: post.cover_image?.url ? [post.cover_image.url] : undefined,
     datePublished: post.published_at ?? undefined,
     dateModified: post.updated_at,
-    author: { "@type": "Organization", name: post.author },
+    author: { "@type": "Organization", name: post.author, url: SITE_URL },
     publisher: {
       "@type": "Organization",
       name: "Voltair Tech",
+      url: SITE_URL,
       logo: {
         "@type": "ImageObject",
         url: `${SITE_URL}/logo-mark.png`,
