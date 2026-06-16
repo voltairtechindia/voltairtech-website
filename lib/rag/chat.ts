@@ -90,11 +90,20 @@ export async function streamChat(
 
   // 1. Retrieve grounded knowledge. For deictic questions, bias the query with
   // the page title/topic so "summarise this" finds the right document.
+  // Retrieval is best-effort: if the embed/match step fails (after its own
+  // retries), degrade to an ungrounded reply rather than 500-ing the user. The
+  // system prompt already handles an empty context gracefully ("say you're not
+  // sure and invite them to email the team").
   const query =
     DEICTIC.test(args.message) && (title || topic)
       ? `${title || topic}. ${args.message}`
       : args.message;
-  const docs = await search(query);
+  let docs: Awaited<ReturnType<typeof search>> = [];
+  try {
+    docs = await search(query);
+  } catch (err) {
+    console.error("[rag] retrieval failed (answering ungrounded)", err);
+  }
   const context = buildContext(docs);
   const sources = sourcesOf(docs);
 
