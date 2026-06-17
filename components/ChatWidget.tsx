@@ -193,8 +193,25 @@ export default function ChatWidget() {
   const msgCountRef = useRef(messages.length);
   msgCountRef.current = messages.length;
 
+  const isWide =
+    messages.some((m) => m.text.length > 250 || (m.text && (m.text.includes("```") || m.text.includes("|")))) ||
+    (streaming !== null && (streaming.text.length > 250 || streaming.text.includes("```") || streaming.text.includes("|")));
+
   useEffect(() => {
-    if (bodyRef.current) bodyRef.current.scrollTop = bodyRef.current.scrollHeight;
+    if (!open) return;
+    const el = bodyRef.current;
+    if (!el) return;
+
+    const lastMsg = messages[messages.length - 1];
+    if (lastMsg?.from === "user" || busy) {
+      el.scrollTo({ top: el.scrollHeight, behavior: "smooth" });
+    } else {
+      const threshold = 120;
+      const isNearBottom = el.scrollHeight - el.clientHeight - el.scrollTop < threshold;
+      if (isNearBottom) {
+        el.scrollTop = el.scrollHeight;
+      }
+    }
   }, [messages, streaming, busy, open]);
 
   /* Keep the chat sheet (and its input) above the mobile on-screen keyboard.
@@ -405,7 +422,7 @@ export default function ChatWidget() {
         <span className="chat-widget-btn-label">Ask Voltair AI</span>
       </button>
 
-      <div ref={windowRef} className={`chat-widget-window${open ? " active" : ""}`} role="dialog" aria-label="Voltair AI Specialist">
+      <div ref={windowRef} className={`chat-widget-window${open ? " active" : ""}${isWide ? " wide" : ""}`} role="dialog" aria-label="Voltair AI Specialist">
         <div className="chat-header">
           <div className="chat-header-info">
             <div className="chat-avatar"><IconBot /></div>

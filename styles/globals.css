@@ -1080,11 +1080,16 @@ a.svc-card { text-decoration: none; color: inherit; }
 
 .chat-widget-window {
   position: fixed; right: clamp(16px, 4vw, 28px); bottom: clamp(16px, 4vw, 28px);
-  width: min(380px, calc(100vw - 32px)); height: min(620px, calc(100dvh - 48px));
+  width: min(380px, calc(100vw - 32px));
+  height: auto;
+  max-height: min(660px, calc(100dvh - 48px));
   background: var(--v-paper); border: 1px solid var(--border); border-radius: var(--r-3);
   box-shadow: var(--shadow-3); z-index: 1001; display: flex; flex-direction: column; overflow: hidden;
   opacity: 0; transform: translateY(24px) scale(0.96); pointer-events: none;
-  transition: opacity var(--dur-3) var(--ease-out), transform var(--dur-3) var(--ease-out);
+  transition: opacity var(--dur-3) var(--ease-out), transform var(--dur-3) var(--ease-out), width 0.35s var(--ease-out);
+}
+.chat-widget-window.wide {
+  width: min(480px, calc(100vw - 32px));
 }
 .chat-widget-window.active { opacity: 1; transform: none; pointer-events: auto; }
 
