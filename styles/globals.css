@@ -1171,6 +1171,15 @@ a.svc-card { text-decoration: none; color: inherit; }
 .chat-input-box button { width: 40px; height: 40px; flex: none; border-radius: var(--r-pill); background: var(--v-red); color: #fff; display: inline-flex; align-items: center; justify-content: center; transition: opacity var(--dur-2); }
 .chat-input-box button:disabled { opacity: 0.45; }
 
+/* Animation for chat sub-components expanding below text */
+@keyframes slideDownFadeIn {
+  from { opacity: 0; transform: translateY(-8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.chat-actions, .chat-followups, .chat-lead, .chat-fallback-form {
+  animation: slideDownFadeIn 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
 @media (prefers-reduced-motion: reduce) {
   .chat-widget-btn, .chat-widget-window { transition: none; }
   .chat-typing span { animation: none; }

@@ -1,7 +1,7 @@
 "use client";
 
 import { usePathname, useRouter } from "next/navigation";
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 
 import Markdown from "./Markdown";
 import {
@@ -26,15 +26,63 @@ type Msg = {
   followups?: string[];
   /** Inline lead-capture form (strong buying intent). */
   lead?: boolean;
+  animate?: boolean;
 };
 
-const SESSION_KEY = "voltair_chat_session";
-const PEEK_MUTE_KEY = "voltair_peek_muted";
-const PEEK_PATHS_KEY = "voltair_peeked_paths";
-const LEAD_SHOWN_KEY = "voltair_lead_shown";
+interface TypewriterTextProps {
+  text: string;
+  onComplete: () => void;
+  onProgress: () => void;
+}
 
-/** Record separator splitting the streamed reply from its JSON trailer. */
-const RS = "\u001E";
+function TypewriterText({ text, onComplete, onProgress }: TypewriterTextProps) {
+  const [displayedText, setDisplayedText] = useState("");
+  const indexRef = useRef(0);
+  const onProgressRef = useRef(onProgress);
+  const onCompleteRef = useRef(onComplete);
+
+  useEffect(() => {
+    onProgressRef.current = onProgress;
+  }, [onProgress]);
+
+  useEffect(() => {
+    onCompleteRef.current = onComplete;
+  }, [onComplete]);
+
+  useEffect(() => {
+    const intervalTime = 18; // ms per step
+    // Granular step size: types exactly 1 letter at a time, scaling slightly for longer replies
+    let charsPerStep = 1;
+    if (text.length > 800) {
+      charsPerStep = 3;
+    } else if (text.length > 400) {
+      charsPerStep = 2;
+    }
+
+    const timer = setInterval(() => {
+      indexRef.current += charsPerStep;
+      if (indexRef.current >= text.length) {
+        setDisplayedText(text);
+        clearInterval(timer);
+        onCompleteRef.current();
+      } else {
+        setDisplayedText(text.slice(0, indexRef.current));
+        onProgressRef.current();
+      }
+    }, intervalTime);
+
+    return () => clearInterval(timer);
+  }, [text]);
+
+  return <Markdown>{displayedText}</Markdown>;
+}
+
+const SESSION_KEY = "voltair_chat_session";
+const OPENED_KEY = "voltair_chat_opened";
+const DISMISS_KEY = "voltair_peek_dismissed";
+const LEAD_SHOWN_KEY = "voltair_lead_shown";
+const SCROLL_TRIGGER = 0.35;
+const MAX_DISMISSALS = 2;
 
 /** Stable per-browser session id so a conversation threads together server-side. */
 function getSessionId(): string {
@@ -50,37 +98,21 @@ function getSessionId(): string {
   }
 }
 
-/* --- proactive-peek session memory (so it informs, never nags) ------------- */
-function isMuted(): boolean {
+function ss(key: string): string | null {
   try {
-    return sessionStorage.getItem(PEEK_MUTE_KEY) === "1";
+    return sessionStorage.getItem(key);
   } catch {
-    return false;
+    return null;
   }
 }
-function mutePeeks(): void {
+function ssSet(key: string, val: string) {
   try {
-    sessionStorage.setItem(PEEK_MUTE_KEY, "1");
-  } catch {
-    /* ignore */
-  }
-}
-function peekedPaths(): Set<string> {
-  try {
-    return new Set(JSON.parse(sessionStorage.getItem(PEEK_PATHS_KEY) ?? "[]"));
-  } catch {
-    return new Set();
-  }
-}
-function markPeeked(path: string): void {
-  try {
-    const s = peekedPaths();
-    s.add(path);
-    sessionStorage.setItem(PEEK_PATHS_KEY, JSON.stringify(Array.from(s)));
+    sessionStorage.setItem(key, val);
   } catch {
     /* ignore */
   }
 }
+
 function leadShown(): boolean {
   try {
     return sessionStorage.getItem(LEAD_SHOWN_KEY) === "1";
@@ -95,6 +127,9 @@ function markLeadShown(): void {
     /* ignore */
   }
 }
+
+/** Record separator splitting the streamed reply from its JSON trailer. */
+const RS = "\u001E";
 
 /** Split a finished stream buffer into the reply text + parsed sources trailer. */
 function splitTrailer(buf: string): { reply: string; sources: SourceRef[] } {
@@ -179,8 +214,7 @@ export default function ChatWidget() {
   const [input, setInput] = useState("");
   const [busy, setBusy] = useState(false);
   const [messages, setMessages] = useState<Msg[]>([]);
-  const [streaming, setStreaming] = useState<{ text: string } | null>(null);
-  const [ctx, setCtx] = useState<PageContext | null>(null);
+  const [ctx, setCtx] = useState<PageContext>(() => pageContext(pathname || "/", ""));
   const [peekOpen, setPeekOpen] = useState(false);
   const [peekText, setPeekText] = useState("");
 
@@ -190,12 +224,31 @@ export default function ChatWidget() {
   // Refs let the dwell timer read live state without re-arming on every change.
   const openRef = useRef(open);
   openRef.current = open;
-  const msgCountRef = useRef(messages.length);
-  msgCountRef.current = messages.length;
 
-  const isWide =
-    messages.some((m) => m.text.length > 250 || (m.text && (m.text.includes("```") || m.text.includes("|")))) ||
-    (streaming !== null && (streaming.text.length > 250 || streaming.text.includes("```") || streaming.text.includes("|")));
+  const isAnimating = messages.some((m) => m.animate);
+  const isWide = messages.some((m) => m.text.length > 250 || (m.text && (m.text.includes("```") || m.text.includes("|"))));
+
+  const handleProgress = useCallback(() => {
+    const el = bodyRef.current;
+    if (!el) return;
+    const threshold = 120;
+    const isNearBottom = el.scrollHeight - el.clientHeight - el.scrollTop < threshold;
+    if (isNearBottom) {
+      el.scrollTop = el.scrollHeight;
+    }
+  }, []);
+
+  const handleComplete = useCallback((index: number) => {
+    setMessages((prev) =>
+      prev.map((msg, idx) => (idx === index ? { ...msg, animate: false } : msg)),
+    );
+    setTimeout(() => {
+      const el = bodyRef.current;
+      if (el) {
+        el.scrollTo({ top: el.scrollHeight, behavior: "smooth" });
+      }
+    }, 50);
+  }, []);
 
   useEffect(() => {
     if (!open) return;
@@ -212,7 +265,7 @@ export default function ChatWidget() {
         el.scrollTop = el.scrollHeight;
       }
     }
-  }, [messages, streaming, busy, open]);
+  }, [messages, busy, open]);
 
   /* Keep the chat sheet (and its input) above the mobile on-screen keyboard.
      Feed the VisualViewport's keyboard inset + visible height into CSS vars
@@ -245,48 +298,80 @@ export default function ChatWidget() {
     };
   }, [open]);
 
-  /** Read the live page context (path + current document title). */
-  const liveCtx = (): PageContext =>
-    pageContext(pathname || "/", typeof document !== "undefined" ? document.title : "");
-
-  /* --- proactive dwell peek ------------------------------------------------ */
+  // Resolve the context for the page the visitor is on.
   useEffect(() => {
+    const title =
+      typeof document !== "undefined"
+        ? document.title.replace(/\s*\|\s*Voltair Tech.*$/i, "").trim()
+        : "";
+    setCtx(pageContext(pathname || "/", title));
+  }, [pathname]);
+
+  // Proactive peek: gently expand from the icon once the visitor has spent
+  // time (dwell) or scrolled into a page, asking about the current topic.
+  useEffect(() => {
+    setPeekOpen(false);
     if (peekTimer.current) {
       clearTimeout(peekTimer.current);
       peekTimer.current = null;
     }
-    const path = pathname || "/";
-    if (open || isMuted() || msgCountRef.current > 0) return;
-    const base = pageContext(path, "");
-    if (!base.peek || peekedPaths().has(path)) return;
 
-    peekTimer.current = setTimeout(() => {
-      if (openRef.current || msgCountRef.current > 0 || isMuted()) return;
-      setPeekText(liveCtx().peek ?? base.peek ?? "");
+    if (typeof window === "undefined") return;
+    const reduceMotion = window.matchMedia?.("(prefers-reduced-motion: reduce)").matches;
+    if (reduceMotion) return;
+
+    const path = pathname || "/";
+    const dismissals = Number(ss(DISMISS_KEY) || "0");
+    const eligible =
+      !open &&
+      ss(OPENED_KEY) !== "1" &&
+      dismissals < MAX_DISMISSALS &&
+      ss(`voltair_peeked:${path}`) !== "1" &&
+      messages.length === 0;
+
+    if (!eligible || !ctx.peek) return;
+
+    let fired = false;
+    const fire = () => {
+      if (fired) return;
+      fired = true;
+      window.removeEventListener("scroll", onScroll);
+      if (ss(OPENED_KEY) === "1" || openRef.current) return;
+
+      const title = document.title.replace(/\s*\|\s*Voltair Tech.*$/i, "").trim();
+      const currentContext = pageContext(path, title);
+      setPeekText(currentContext.peek ?? ctx.peek ?? "");
       setPeekOpen(true);
-      markPeeked(path);
-    }, base.peekDelayMs);
+      ssSet(`voltair_peeked:${path}`, "1");
+    };
+
+    const onScroll = () => {
+      const el = document.documentElement;
+      const max = el.scrollHeight - el.clientHeight;
+      if (max > 0 && el.scrollTop / max >= SCROLL_TRIGGER) fire();
+    };
+
+    peekTimer.current = setTimeout(fire, ctx.peekDelayMs);
+    window.addEventListener("scroll", onScroll, { passive: true });
 
     return () => {
       if (peekTimer.current) clearTimeout(peekTimer.current);
+      window.removeEventListener("scroll", onScroll);
     };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [pathname, open]);
+  }, [pathname, open, ctx.peek, ctx.peekDelayMs, messages.length]);
 
   const openChat = () => {
-    setCtx(liveCtx());
     setOpen(true);
     setPeekOpen(false);
-    markPeeked(pathname || "/");
+    ssSet(OPENED_KEY, "1");
+    ssSet(`voltair_peeked:${pathname || "/"}`, "1");
   };
 
   const dismissPeek = (e: React.MouseEvent) => {
     e.stopPropagation();
     setPeekOpen(false);
-    mutePeeks();
-    markPeeked(pathname || "/");
+    ssSet(DISMISS_KEY, String(Number(ss(DISMISS_KEY) || "0") + 1));
   };
-
   const goTo = (href: string) => {
     router.push(href);
     // On phones the open window covers the page — close it so they see where
@@ -296,12 +381,12 @@ export default function ChatWidget() {
 
   const submit = async (text: string) => {
     const trimmed = text.trim();
-    if (!trimmed || busy) return;
+    if (!trimmed || busy || isAnimating) return;
     setMessages((prev) => [...prev, { from: "user", text: trimmed }]);
     setInput("");
     setBusy(true);
 
-    const pc = liveCtx();
+    const pc = ctx;
     const page = {
       path: pathname || "/",
       title: typeof document !== "undefined" ? document.title : "",
@@ -326,30 +411,14 @@ export default function ChatWidget() {
         // when we got nothing usable back (a real outage).
         const data = (await res.json().catch(() => null)) as { detail?: string } | null;
         if (data?.detail) {
-          setMessages((prev) => [...prev, { from: "bot", text: data.detail! }]);
+          setMessages((prev) => [...prev, { from: "bot", text: data.detail!, animate: true }]);
           return;
         }
         throw new Error(`Request failed (${res.status})`);
       }
 
-      setStreaming({ text: "" });
-      let buf = "";
-      if (res.body) {
-        const reader = res.body.getReader();
-        const decoder = new TextDecoder();
-        for (;;) {
-          const { done, value } = await reader.read();
-          if (done) break;
-          buf += decoder.decode(value, { stream: true });
-          const i = buf.indexOf(RS);
-          setStreaming({ text: i < 0 ? buf : buf.slice(0, i) });
-        }
-        buf += decoder.decode();
-      } else {
-        buf = await res.text();
-      }
-
-      const { reply, sources } = splitTrailer(buf);
+      const text = await res.text();
+      const { reply, sources } = splitTrailer(text);
       const links = sourceLinks(sources, pathname || "/", 2);
       const navs = detectPages(`${trimmed} ${reply}`, { exclude: pathname || "/", limit: 2 }).map(
         (p) => ({ href: p.href, label: p.label }),
@@ -367,7 +436,10 @@ export default function ChatWidget() {
       const followups = lead ? [] : suggestFollowups(trimmed, reply, pc);
       if (lead) markLeadShown();
 
-      setMessages((prev) => [...prev, { from: "bot", text: reply, actions, followups, lead }]);
+      setMessages((prev) => [
+        ...prev,
+        { from: "bot", text: reply, actions, followups, lead, animate: true },
+      ]);
     } catch (err) {
       console.error("[voltair-chat]", err);
       setMessages((prev) => [
@@ -379,13 +451,11 @@ export default function ChatWidget() {
         },
       ]);
     } finally {
-      setStreaming(null);
       setBusy(false);
     }
   };
 
   const view = ctx ?? FALLBACK_CTX;
-
   return (
     <>
       {peekOpen && !open && (
@@ -438,14 +508,19 @@ export default function ChatWidget() {
             <IconClose />
           </button>
         </div>
-
         <div className="chat-body" ref={bodyRef}>
           <div className="chat-msg bot">
             <Markdown>{view.greeting}</Markdown>
             {messages.length === 0 && (
               <div className="chat-preset-chips">
                 {view.presets.map((p) => (
-                  <button key={p} className="preset-chip" type="button" onClick={() => submit(p)}>
+                  <button
+                    key={p}
+                    className="preset-chip"
+                    type="button"
+                    disabled={busy || isAnimating}
+                    onClick={() => submit(p)}
+                  >
                     {p}
                   </button>
                 ))}
@@ -455,9 +530,21 @@ export default function ChatWidget() {
 
           {messages.map((m, i) => (
             <div key={i} className={`chat-msg ${m.from}`}>
-              {m.from === "bot" && !m.error ? <Markdown>{m.text}</Markdown> : m.text}
+              {m.from === "bot" && !m.error ? (
+                m.animate ? (
+                  <TypewriterText
+                    text={m.text}
+                    onComplete={() => handleComplete(i)}
+                    onProgress={handleProgress}
+                  />
+                ) : (
+                  <Markdown>{m.text}</Markdown>
+                )
+              ) : (
+                m.text
+              )}
               {m.error && <FallbackForm />}
-              {m.from === "bot" && m.actions && m.actions.length > 0 && (
+              {!m.animate && m.from === "bot" && m.actions && m.actions.length > 0 && (
                 <div className="chat-actions">
                   {m.actions.map((a) => (
                     <button key={a.href} className="chat-action" type="button" onClick={() => goTo(a.href)}>
@@ -466,13 +553,19 @@ export default function ChatWidget() {
                   ))}
                 </div>
               )}
-              {m.from === "bot" && m.lead && <LeadForm />}
-              {m.from === "bot" && m.followups && m.followups.length > 0 && (
+              {!m.animate && m.from === "bot" && m.lead && <LeadForm />}
+              {!m.animate && m.from === "bot" && m.followups && m.followups.length > 0 && (
                 <div className="chat-followups">
                   <span className="chat-followups-label">Keep exploring</span>
                   <div className="chat-preset-chips">
                     {m.followups.map((q) => (
-                      <button key={q} className="preset-chip" type="button" onClick={() => submit(q)}>
+                      <button
+                        key={q}
+                        className="preset-chip"
+                        type="button"
+                        disabled={busy || isAnimating}
+                        onClick={() => submit(q)}
+                      >
                         {q}
                       </button>
                     ))}
@@ -482,12 +575,7 @@ export default function ChatWidget() {
             </div>
           ))}
 
-          {streaming !== null && (
-            <div className="chat-msg bot">
-              {streaming.text ? <Markdown>{streaming.text}</Markdown> : <Typing />}
-            </div>
-          )}
-          {busy && streaming === null && (
+          {busy && (
             <div className="chat-msg bot">
               <Typing />
             </div>
@@ -506,10 +594,10 @@ export default function ChatWidget() {
             value={input}
             onChange={(e) => setInput(e.target.value)}
             placeholder="Type your question here…"
-            disabled={busy}
+            disabled={busy || isAnimating}
             required
           />
-          <button type="submit" disabled={busy || !input.trim()} aria-label="Send">
+          <button type="submit" disabled={busy || isAnimating || !input.trim()} aria-label="Send">
             <IconSend />
           </button>
         </form>
