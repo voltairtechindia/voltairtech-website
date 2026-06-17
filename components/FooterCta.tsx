@@ -171,7 +171,7 @@ export function FooterCta({ num }: { num?: string }) {
                   width={140}
                   height={140}
                   className="foot__google-qr"
-                  priority
+                  loading="lazy"
                 />
               </div>
               <div className="foot__google-card-text">
