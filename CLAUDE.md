@@ -56,6 +56,9 @@ npm run lint     # ESLint
 - Canonical domain: `voltairtech.com`
 - `CNAME` file present for GitHub Pages compatibility
 - `app-ads.txt` in `public/` for Google AdMob
+- `/llms.txt` is a **dynamic route** (`app/llms.txt/route.ts`, hourly ISR) — a
+  DB-backed llmstxt.org manifest for GEO/AEO that lists published services,
+  industries, and blog posts (replaced the old static `public/llms.txt`).
 
 ## Deployment
 - **Primary:** Vercel (zero-config, auto-deploys on push to `master`)
@@ -76,7 +79,12 @@ Ported from the kauntech site; re-themed for Voltair. New Supabase project
   (ISR). Engine `lib/blog/*`; render `components/{Markdown,BlogMedia}.tsx`. Posts
   are written via admin-gated `POST /api/blog` (upserts `blog_posts` AND embeds
   published posts as `doc_type:"blog"` so the bot can cite them). The 3 original
-  hardcoded posts were migrated to the DB (`supabase/seed-blog.mjs`).
+  hardcoded posts were migrated to the DB (`supabase/seed-blog.mjs`). Each post
+  also carries a `faq` JSONB array (migration `0015`) — Q&A pairs that render as a
+  "Frequently asked questions" accordion + **FAQPage JSON-LD** on `/blog/<slug>`
+  (AEO/GEO), are edited in the admin's `PostEditor`, can be drafted by the copilot
+  (`faq` in the `blog-draft` fence), and are folded into the post's RAG embedding
+  so the bot can answer the same questions.
 - **Services (DB-backed):** `app/services/page.tsx` (paginated index, `?page=`) +
   `app/services/[slug]/page.tsx` (ISR detail). Engine `lib/services/*`; written via
   admin-gated `POST /api/services` (upserts `services` AND embeds published rows as
