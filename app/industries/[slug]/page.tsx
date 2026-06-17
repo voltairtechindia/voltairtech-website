@@ -12,6 +12,7 @@ import {
   listPublishedIndustrySlugs,
 } from "@/lib/industries/db";
 import { getPublishedServiceCardsBySlugs } from "@/lib/services/db";
+import { DEFAULT_OG_IMAGE } from "@/lib/seo";
 
 const SITE_URL = "https://voltairtech.com";
 
@@ -37,7 +38,7 @@ export async function generateMetadata({
 
   const title = ind.seo?.title ?? `AI for ${ind.title} | Voltair Tech`;
   const description = ind.seo?.description ?? ind.summary ?? ind.lead ?? ind.title;
-  const ogImage = ind.seo?.og_image ?? ind.cover_image?.url;
+  const ogImage = ind.seo?.og_image ?? ind.cover_image?.url ?? DEFAULT_OG_IMAGE;
 
   return {
     title,
@@ -48,7 +49,7 @@ export async function generateMetadata({
       title,
       description,
       url: `${SITE_URL}/industries/${ind.slug}`,
-      images: ogImage ? [{ url: ogImage }] : undefined,
+      images: [{ url: ogImage }],
     },
   };
 }

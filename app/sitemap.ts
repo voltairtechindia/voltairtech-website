@@ -1,6 +1,6 @@
 import type { MetadataRoute } from "next";
 
-import { listPublishedSlugs } from "@/lib/blog/db";
+import { listPublishedPosts } from "@/lib/blog/db";
 import { listPublishedServiceSlugs } from "@/lib/services/db";
 import {
   listPublishedCustomServiceParams,
@@ -67,12 +67,19 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     industrySlugs = FALLBACK_INDUSTRY_SLUGS;
   }
 
-  let blogSlugs: string[];
+  // Blog entries carry their real publish date as lastmod (a genuine freshness
+  // signal — far better than stamping `now` on every URL each deploy).
+  let blogEntries: { slug: string; lastModified: Date }[];
   try {
-    blogSlugs = await listPublishedSlugs();
-    if (!blogSlugs.length) blogSlugs = FALLBACK_BLOG_SLUGS;
+    const { items } = await listPublishedPosts(1, 1000);
+    blogEntries = items.length
+      ? items.map((p) => ({
+          slug: p.slug,
+          lastModified: p.published_at ? new Date(p.published_at) : now,
+        }))
+      : FALLBACK_BLOG_SLUGS.map((slug) => ({ slug, lastModified: now }));
   } catch {
-    blogSlugs = FALLBACK_BLOG_SLUGS;
+    blogEntries = FALLBACK_BLOG_SLUGS.map((slug) => ({ slug, lastModified: now }));
   }
 
   const serviceRoutes: MetadataRoute.Sitemap = serviceSlugs.map((slug) => ({
@@ -102,9 +109,9 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     customServiceRoutes = [];
   }
 
-  const blogRoutes: MetadataRoute.Sitemap = blogSlugs.map((slug) => ({
+  const blogRoutes: MetadataRoute.Sitemap = blogEntries.map(({ slug, lastModified }) => ({
     url: `${BASE}/blog/${slug}`,
-    lastModified: now,
+    lastModified,
     changeFrequency: "monthly",
     priority: 0.7,
   }));

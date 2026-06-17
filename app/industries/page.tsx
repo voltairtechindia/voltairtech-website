@@ -4,6 +4,7 @@ import { Industries } from "@/components/Industries";
 import { Process } from "@/components/Process";
 import { listPublishedIndustries, DEFAULT_PER_PAGE } from "@/lib/industries/db";
 import type { IndustryPage } from "@/lib/industries/types";
+import { DEFAULT_OG_IMAGE } from "@/lib/seo";
 
 // Revalidate every 5 min so admin edits appear without a redeploy.
 export const revalidate = 300;
@@ -18,6 +19,7 @@ export const metadata: Metadata = {
     title: "Industries We Build For | Voltair Tech Mumbai",
     description:
       "AI shaped to your sector: D2C, healthcare, fintech, real estate, education, logistics, professional services and hospitality.",
+    images: [DEFAULT_OG_IMAGE],
   },
 };
 

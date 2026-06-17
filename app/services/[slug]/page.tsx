@@ -8,6 +8,7 @@ import {
   getPublishedService,
   listPublishedServiceSlugs,
 } from "@/lib/services/db";
+import { DEFAULT_OG_IMAGE } from "@/lib/seo";
 
 const SITE_URL = "https://voltairtech.com";
 
@@ -33,7 +34,7 @@ export async function generateMetadata({
 
   const title = svc.seo?.title ?? `${svc.title} | Voltair Tech`;
   const description = svc.seo?.description ?? svc.summary ?? svc.lead ?? svc.title;
-  const ogImage = svc.seo?.og_image ?? svc.cover_image?.url;
+  const ogImage = svc.seo?.og_image ?? svc.cover_image?.url ?? DEFAULT_OG_IMAGE;
 
   return {
     title,
@@ -44,7 +45,7 @@ export async function generateMetadata({
       title,
       description,
       url: `${SITE_URL}/services/${svc.slug}`,
-      images: ogImage ? [{ url: ogImage }] : undefined,
+      images: [{ url: ogImage }],
     },
   };
 }

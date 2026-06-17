@@ -11,6 +11,7 @@ import {
   listRelatedPosts,
 } from "@/lib/blog/db";
 import { formatDate } from "@/lib/blog/util";
+import { DEFAULT_OG_IMAGE, breadcrumbLd } from "@/lib/seo";
 
 const SITE_URL = "https://voltairtech.com";
 
@@ -39,7 +40,7 @@ export async function generateMetadata({
   const title = post.seo?.title ?? post.title;
   const description =
     post.seo?.description ?? post.excerpt ?? `${post.title} — Voltair Tech Blog`;
-  const ogImage = post.seo?.og_image ?? post.cover_image?.url;
+  const ogImage = post.seo?.og_image ?? post.cover_image?.url ?? DEFAULT_OG_IMAGE;
 
   return {
     title,
@@ -51,14 +52,15 @@ export async function generateMetadata({
       description,
       url: `${SITE_URL}/blog/${post.slug}`,
       publishedTime: post.published_at ?? undefined,
+      modifiedTime: post.updated_at,
       authors: [post.author],
-      images: ogImage ? [{ url: ogImage }] : undefined,
+      images: [{ url: ogImage }],
     },
     twitter: {
       card: "summary_large_image",
       title,
       description,
-      images: ogImage ? [ogImage] : undefined,
+      images: [ogImage],
     },
   };
 }
@@ -87,6 +89,12 @@ export default async function BlogPostPage({
       }
     : null;
 
+  const breadcrumbsLd = breadcrumbLd([
+    { label: "Home", href: "/" },
+    { label: "Blog", href: "/blog" },
+    { label: post.title },
+  ]);
+
   const articleLd = {
     "@context": "https://schema.org",
     "@type": "BlogPosting",
@@ -111,6 +119,10 @@ export default async function BlogPostPage({
 
   return (
     <PageLayout>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbsLd) }}
+      />
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(articleLd) }}

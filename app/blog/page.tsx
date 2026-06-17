@@ -5,6 +5,7 @@ import { ProsePage } from "@/components/ProsePage";
 import { DEFAULT_PER_PAGE, listPublishedPosts } from "@/lib/blog/db";
 import type { BlogIndex } from "@/lib/blog/types";
 import { formatDate } from "@/lib/blog/util";
+import { DEFAULT_OG_IMAGE } from "@/lib/seo";
 
 // Render per-request: the listing is time-gated (published_at <= now()), and a
 // statically-cached page can't tell that a scheduled post's time has passed. The
@@ -22,6 +23,7 @@ export const metadata: Metadata = {
     title: "Blog — Practical AI Guides for Indian Operators | Voltair Tech",
     description:
       "RAG explained, WhatsApp chatbot guide, DPDP Act 2023 & AI compliance — practical AI writing for Indian operators.",
+    images: [DEFAULT_OG_IMAGE],
   },
 };
 

@@ -1,6 +1,7 @@
 import type { ReactNode } from "react";
 import Link from "next/link";
 import { PageLayout } from "./PageLayout";
+import { breadcrumbLd } from "@/lib/seo";
 
 type Crumb = { label: string; href?: string };
 
@@ -21,6 +22,12 @@ export function ProsePage({
 }) {
   return (
     <PageLayout>
+      {crumbs.length > 1 ? (
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbLd(crumbs)) }}
+        />
+      ) : null}
       <section className="legal-page">
         <div className="container">
           <div className={`legal-page__inner${wide ? " legal-page__inner--wide" : ""}`}>

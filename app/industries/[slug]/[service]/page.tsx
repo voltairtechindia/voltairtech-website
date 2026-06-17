@@ -10,6 +10,7 @@ import {
   getPublishedIndustry,
   listPublishedCustomServiceParams,
 } from "@/lib/industries/db";
+import { DEFAULT_OG_IMAGE } from "@/lib/seo";
 
 const SITE_URL = "https://voltairtech.com";
 
@@ -35,7 +36,7 @@ export async function generateMetadata({
 
   const title = cs.headline ?? `${cs.title} | ${ind.title} | Voltair Tech`;
   const description = cs.summary ?? cs.lead ?? cs.headline ?? cs.title;
-  const ogImage = cs.cover_image?.url;
+  const ogImage = cs.cover_image?.url ?? DEFAULT_OG_IMAGE;
   const url = `${SITE_URL}/industries/${ind.slug}/${customServiceSlug(cs)}`;
 
   return {
@@ -47,7 +48,7 @@ export async function generateMetadata({
       title,
       description,
       url,
-      images: ogImage ? [{ url: ogImage }] : undefined,
+      images: [{ url: ogImage }],
     },
   };
 }

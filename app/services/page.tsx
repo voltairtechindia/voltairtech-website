@@ -4,6 +4,7 @@ import { Services } from "@/components/Services";
 import { Process } from "@/components/Process";
 import { listPublishedServices } from "@/lib/services/db";
 import type { ServicePage } from "@/lib/services/types";
+import { DEFAULT_OG_IMAGE } from "@/lib/seo";
 
 // Revalidate every 5 min so admin edits appear without a redeploy.
 export const revalidate = 300;
@@ -18,6 +19,7 @@ export const metadata: Metadata = {
     title: "AI Services: Apps, Chatbots, RAG, Mobile & Automation | Voltair Tech",
     description:
       "AI services from Voltair Tech Mumbai: websites in 48 hrs, AI automation, WhatsApp chatbots, RAG systems, mobile apps, and custom AI software.",
+    images: [DEFAULT_OG_IMAGE],
   },
 };
 

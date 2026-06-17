@@ -5,6 +5,7 @@ import { Process } from "@/components/Process";
 import { SectionHead } from "@/components/atoms/SectionHead";
 import { ServiceGlyph } from "@/components/atoms/ServiceGlyph";
 import { Arr } from "@/components/atoms/Arr";
+import { DEFAULT_OG_IMAGE } from "@/lib/seo";
 import Link from "next/link";
 
 export const metadata: Metadata = {
@@ -17,6 +18,7 @@ export const metadata: Metadata = {
     title: "About VoltairTech - High-Velocity AI Development & Software Engineering",
     description:
       "Based in Mumbai, India, VoltairTech is a high-velocity AI development and software engineering firm. We bridge the gap between complex AI and practical business applications.",
+    images: [DEFAULT_OG_IMAGE],
   },
 };
 

@@ -4,6 +4,7 @@ import { Hero } from "@/components/Hero";
 import { HomeHub } from "@/components/HomeHub";
 import { MarqueeSection } from "@/components/MarqueeSection";
 import { FooterCta } from "@/components/FooterCta";
+import { SITE_URL } from "@/lib/seo";
 
 export const metadata: Metadata = {
   title: "Voltair Tech - AI Services Mumbai | Build & Deploy in 48 Hours",
@@ -14,52 +15,113 @@ export const metadata: Metadata = {
   },
 };
 
+const ORG_ID = `${SITE_URL}/#organization`;
+
+// Real, verifiable profiles (mirror the footer links) — `sameAs` is how search
+// engines and answer engines reconcile this entity across the web.
+const SAME_AS = [
+  "https://www.linkedin.com/company/voltairtech",
+  "https://www.instagram.com/voltairtechindia/",
+  "https://www.facebook.com/Voltairtech",
+];
+
+const ADDRESS = {
+  "@type": "PostalAddress",
+  addressLocality: "Andheri West",
+  addressRegion: "Maharashtra",
+  postalCode: "400053",
+  addressCountry: "IN",
+} as const;
+
 const jsonLd = {
   "@context": "https://schema.org",
   "@graph": [
     {
       "@type": "Organization",
+      "@id": ORG_ID,
       name: "Voltair Tech",
-      url: "https://voltairtech.com",
-      logo: "https://voltairtech.com/assets/logo-mark-black.png",
+      legalName: "Voltair Tech",
+      url: SITE_URL,
+      logo: {
+        "@type": "ImageObject",
+        url: `${SITE_URL}/assets/logo-mark-black.png`,
+        width: 800,
+        height: 800,
+      },
+      image: `${SITE_URL}/assets/logo-square-starfield.jpg`,
       email: "business@voltairtech.com",
+      telephone: "+91 70210 00764",
+      foundingDate: "2024",
+      slogan: "Ship AI in 48 hours.",
       description:
         "Mumbai-based AI build studio shipping production apps, chatbots, automations and RAG systems. Websites in 48 hours.",
-      sameAs: ["https://www.linkedin.com/company/voltairtech"],
+      address: ADDRESS,
+      areaServed: [
+        { "@type": "Country", name: "India" },
+        { "@type": "Place", name: "European Union" },
+        { "@type": "Place", name: "Asia-Pacific (APAC)" },
+      ],
+      knowsAbout: [
+        "Artificial Intelligence",
+        "Retrieval-Augmented Generation (RAG)",
+        "Chatbot development",
+        "WhatsApp Business API",
+        "Workflow automation",
+        "Next.js development",
+        "Mobile app development",
+        "Large Language Models",
+      ],
+      sameAs: SAME_AS,
       contactPoint: {
         "@type": "ContactPoint",
         telephone: "+91 70210 00764",
+        email: "business@voltairtech.com",
         contactType: "sales",
-        areaServed: "IN",
+        areaServed: ["IN", "EU", "APAC"],
         availableLanguage: ["English", "Hindi", "Marathi"],
       },
     },
     {
-      "@type": "LocalBusiness",
+      "@type": ["LocalBusiness", "ProfessionalService"],
+      "@id": `${SITE_URL}/#localbusiness`,
       name: "Voltair Tech",
-      url: "https://voltairtech.com",
-      image: "https://voltairtech.com/assets/logo-square-starfield.jpg",
+      url: SITE_URL,
+      image: `${SITE_URL}/assets/logo-square-starfield.jpg`,
+      logo: `${SITE_URL}/assets/logo-mark-black.png`,
+      email: "business@voltairtech.com",
+      telephone: "+91 70210 00764",
       priceRange: "₹₹",
-      address: {
-        "@type": "PostalAddress",
-        addressLocality: "Andheri West",
-        addressRegion: "Maharashtra",
-        postalCode: "400053",
-        addressCountry: "IN",
-      },
+      parentOrganization: { "@id": ORG_ID },
+      address: ADDRESS,
       geo: {
         "@type": "GeoCoordinates",
         latitude: 19.13,
         longitude: 72.83,
       },
-      openingHours: "Mo-Sa 10:00-20:00",
-      telephone: "+91 70210 00764",
+      hasMap:
+        "https://www.google.com/maps/place/?q=place_id:ChIJtcYXf-S35zsRSOlnDqIYyXU",
+      openingHoursSpecification: {
+        "@type": "OpeningHoursSpecification",
+        dayOfWeek: [
+          "Monday",
+          "Tuesday",
+          "Wednesday",
+          "Thursday",
+          "Friday",
+          "Saturday",
+        ],
+        opens: "10:00",
+        closes: "20:00",
+      },
+      sameAs: SAME_AS,
     },
     {
       "@type": "WebSite",
+      "@id": `${SITE_URL}/#website`,
       name: "Voltair Tech",
-      url: "https://voltairtech.com",
-      publisher: { "@type": "Organization", name: "Voltair Tech", url: "https://voltairtech.com" },
+      url: SITE_URL,
+      inLanguage: "en-IN",
+      publisher: { "@id": ORG_ID },
     },
   ],
 };
