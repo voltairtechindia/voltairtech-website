@@ -88,19 +88,20 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="en-IN" className={`${interTight.variable} ${jetbrainsMono.variable}`}>
       <body>
-        {/* Google tag (gtag.js) - Google Ads */}
+        {/* Google tag (gtag.js) - Google Analytics & Google Ads */}
         <Script
-          src="https://www.googletagmanager.com/gtag/js?id=AW-18083299030"
+          src="https://www.googletagmanager.com/gtag/js?id=G-ZX3BMPGBPJ"
           strategy="afterInteractive"
         />
         <Script
-          id="google-ads-gtag"
+          id="google-analytics-ads-gtag"
           strategy="afterInteractive"
           dangerouslySetInnerHTML={{
             __html: `
               window.dataLayer = window.dataLayer || [];
               function gtag(){dataLayer.push(arguments);}
               gtag('js', new Date());
+              gtag('config', 'G-ZX3BMPGBPJ');
               gtag('config', 'AW-18083299030');
             `,
           }}
