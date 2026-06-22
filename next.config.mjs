@@ -8,13 +8,13 @@
 const isDev = process.env.NODE_ENV !== "production";
 const csp = [
   "default-src 'self'",
-  `script-src 'self' 'unsafe-inline' https://connect.facebook.net${isDev ? " 'unsafe-eval'" : ""}`,
+  `script-src 'self' 'unsafe-inline' https://connect.facebook.net https://*.googletagmanager.com https://*.googleadservices.com https://*.google.com https://*.google.co.in${isDev ? " 'unsafe-eval'" : ""}`,
   "style-src 'self' 'unsafe-inline'",
-  "img-src 'self' data: blob: https://*.supabase.co https://www.facebook.com",
+  "img-src 'self' data: blob: https://*.supabase.co https://www.facebook.com https://*.googletagmanager.com https://*.googleadservices.com https://*.google-analytics.com https://*.doubleclick.net https://*.google.com https://*.google.co.in",
   "media-src 'self' https://*.supabase.co",
   "font-src 'self' data:",
-  "connect-src 'self' https://*.supabase.co https://www.facebook.com",
-  "frame-src https://www.youtube-nocookie.com https://player.vimeo.com https://www.facebook.com https://*.facebook.com",
+  "connect-src 'self' https://*.supabase.co https://www.facebook.com https://*.google-analytics.com https://*.analytics.google.com https://*.g.doubleclick.net https://*.google.com https://*.google.co.in https://*.googleadservices.com",
+  "frame-src https://www.youtube-nocookie.com https://player.vimeo.com https://www.facebook.com https://*.facebook.com https://*.google.com",
   "frame-ancestors 'self' https://*.facebook.com https://*.facebook.net https://*.internalfb.com",
   "base-uri 'self'",
   "form-action 'self'",
