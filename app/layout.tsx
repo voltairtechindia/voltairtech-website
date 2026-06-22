@@ -88,6 +88,24 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="en-IN" className={`${interTight.variable} ${jetbrainsMono.variable}`}>
       <body>
+        {/* Google tag (gtag.js) - Google Ads */}
+        <Script
+          src="https://www.googletagmanager.com/gtag/js?id=AW-18083299030"
+          strategy="afterInteractive"
+        />
+        <Script
+          id="google-ads-gtag"
+          strategy="afterInteractive"
+          dangerouslySetInnerHTML={{
+            __html: `
+              window.dataLayer = window.dataLayer || [];
+              function gtag(){dataLayer.push(arguments);}
+              gtag('js', new Date());
+              gtag('config', 'AW-18083299030');
+            `,
+          }}
+        />
+
         {children}
         <ChatWidgetLazy />
         <ScrollReveal />
