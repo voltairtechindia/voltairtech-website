@@ -56,6 +56,13 @@ export function BigInput() {
         return;
       }
       setStatus("done");
+      // Google Ads Conversion event
+      try {
+        const { trackFormSubmission } = await import("@/lib/gtag-events");
+        trackFormSubmission();
+      } catch (e) {
+        console.error("Error tracking form submission:", e);
+      }
     } catch {
       setError("Could not send. Please email business@voltairtech.com.");
       setStatus("error");

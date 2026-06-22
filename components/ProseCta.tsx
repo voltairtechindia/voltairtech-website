@@ -1,5 +1,8 @@
+"use client";
+
 import Link from "next/link";
 import { CONTENT } from "@/lib/content";
+import { trackWhatsAppClick } from "@/lib/gtag-events";
 
 export function ProseCta({ label }: { label: string }) {
   const wa = CONTENT.brand.whatsapp.replace(/[^0-9]/g, "");
@@ -10,7 +13,7 @@ export function ProseCta({ label }: { label: string }) {
       </p>
       <p style={{ marginTop: 12 }}>
         WhatsApp{" "}
-        <a href={`https://wa.me/${wa}`} target="_blank" rel="noopener noreferrer">
+        <a href={`https://wa.me/${wa}`} target="_blank" rel="noopener noreferrer" onClick={trackWhatsAppClick}>
           {CONTENT.brand.whatsapp}
         </a>{" "}
         · email{" "}
