@@ -8,7 +8,7 @@ declare global {
 
 /**
  * Tracks a contact form submission.
- * Triggers both a Google Analytics lead event and a standard Google Ads conversion.
+ * Triggers both a Google Analytics lead event and standard/custom Google Ads conversions.
  */
 export function trackFormSubmission() {
   if (typeof window !== "undefined" && typeof window.gtag === "function") {
@@ -17,10 +17,13 @@ export function trackFormSubmission() {
       event_label: "contact_form_submission",
     });
 
-    // Google Ads conversion tracking
+    // Google Ads conversion tracking (standard)
     window.gtag("event", "conversion", {
       send_to: "AW-18083299030/contact_form_submit",
     });
+
+    // Google Ads conversion tracking (custom event conversion)
+    window.gtag("event", "ads_conversion_submit_lead_form");
   }
 }
 
