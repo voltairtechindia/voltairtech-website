@@ -8,7 +8,7 @@
 const isDev = process.env.NODE_ENV !== "production";
 const csp = [
   "default-src 'self'",
-  `script-src 'self' 'unsafe-inline' https://connect.facebook.net https://*.googletagmanager.com https://*.googleadservices.com https://*.google.com https://*.google.co.in${isDev ? " 'unsafe-eval'" : ""}`,
+  `script-src 'self' 'unsafe-inline' https://connect.facebook.net https://*.googletagmanager.com https://*.googleadservices.com https://*.google.com https://*.google.co.in https://*.doubleclick.net${isDev ? " 'unsafe-eval'" : ""}`,
   "style-src 'self' 'unsafe-inline'",
   "img-src 'self' data: blob: https://*.supabase.co https://www.facebook.com https://*.googletagmanager.com https://*.googleadservices.com https://*.google-analytics.com https://*.doubleclick.net https://*.google.com https://*.google.co.in",
   "media-src 'self' https://*.supabase.co",
