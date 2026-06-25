@@ -333,8 +333,35 @@ a.nav__item:hover::after { transform: scaleX(1); }
 }
 .hero-demo__chip:hover { border-color: var(--v-red); color: var(--v-red); background: var(--v-paper-2); }
 
-/* Once the chat is open the hero launcher is redundant — hide it. */
-body.chat-open .hero-demo { display: none; }
+/* Once the chat is open the hero launcher is redundant. Fade AND collapse it so
+   the hand-off reads as a transition, not a cut, and leaves no empty gap behind.
+   The collapse uses grid-template-rows 1fr→0fr (height-agnostic, so it never
+   clips the chips at any screen size); the inner wrapper carries the clip. */
+.hero-demo {
+  display: grid;
+  grid-template-rows: 1fr;
+  transition:
+    grid-template-rows var(--dur-3) var(--ease-out),
+    margin-bottom var(--dur-3) var(--ease-out),
+    opacity var(--dur-2) var(--ease-out),
+    visibility 0s linear 0s;
+}
+/* min-height:0 lets the grid row shrink below content size; overflow clips the
+   chips smoothly during both collapse and the expand-back on close. The bar's
+   focus glow sits below the bar (inside the wrapper), so it isn't clipped. */
+.hero-demo__inner { min-height: 0; overflow: hidden; }
+body.chat-open .hero-demo {
+  grid-template-rows: 0fr;
+  margin-bottom: 0;
+  opacity: 0;
+  pointer-events: none;
+  visibility: hidden;
+  transition:
+    grid-template-rows var(--dur-3) var(--ease-in),
+    margin-bottom var(--dur-3) var(--ease-in),
+    opacity var(--dur-2) var(--ease-in),
+    visibility 0s linear var(--dur-3);
+}
 
 /* ----- Proof / case studies (home) ----- */
 .proof__title { margin-top: var(--s-3); }
@@ -1091,6 +1118,13 @@ a.svc-card { text-decoration: none; color: inherit; }
   transition: transform var(--dur-3) var(--ease-out), opacity var(--dur-2), box-shadow var(--dur-2);
 }
 .chat-widget-btn-label { white-space: nowrap; }
+/* Hide the floating button (and its peek bubble) while the in-hero launcher is
+   on screen — same thing. Both ease back in once you scroll past the launcher.
+   Works at any viewport since it keys off the launcher's actual visibility. */
+body.hero-launcher-visible .chat-widget-btn {
+  opacity: 0; transform: scale(0.8); pointer-events: none;
+}
+body.hero-launcher-visible .chat-peek { opacity: 0; pointer-events: none; }
 .chat-widget-btn:hover { transform: translateY(-2px) scale(1.04); box-shadow: var(--shadow-red-strong); }
 @media (max-width: 480px) {
   .chat-widget-btn { width: 56px; padding: 0; }
@@ -1256,6 +1290,7 @@ a.svc-card { text-decoration: none; color: inherit; }
   .chat-widget-btn, .chat-widget-window { transition: none; }
   .chat-typing span { animation: none; }
   .chat-peek { animation: none; }
+  .hero-demo, body.chat-open .hero-demo { transition: none; }
 }
 
 /* =========================================================================
