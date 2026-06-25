@@ -4,45 +4,75 @@ import { useEffect, useRef, useState } from "react";
 
 import { OPEN_CHAT_EVENT } from "@/lib/chat-client";
 
-/** Pool of starter prompts; a random few are shown each load. */
-const STARTER_POOL = [
-  "I run a D2C skincare brand, what would you build for me?",
-  "Automate my WhatsApp customer support",
-  "Add AI search to my existing app",
-  "Build a chatbot trained on my company docs",
-  "I want to cut support tickets with AI",
-  "Turn my PDFs into a searchable knowledge base",
-  "Add a voice agent to handle bookings",
-  "Automate my lead follow-ups end to end",
-  "Ship a website for my business in 48 hours",
+/** Placeholder questions the input types out on a loop. First is the default. */
+const PLACEHOLDERS = [
+  "Ask what we'd build for your business…",
+  "How fast can you ship my website?",
+  "Can you automate my WhatsApp support?",
+  "Build me a chatbot trained on my docs…",
+  "Add AI search to my app…",
+  "What would you build for a D2C brand?",
 ];
-
-const STARTER_COUNT = 3;
-
-function pickStarters(): string[] {
-  const pool = [...STARTER_POOL];
-  for (let i = pool.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
-    [pool[i], pool[j]] = [pool[j], pool[i]];
-  }
-  return pool.slice(0, STARTER_COUNT);
-}
 
 /**
  * Hero entry point for the AI assistant. It does NOT answer inline — typing a
- * question or picking a starter opens the corner chat widget with that question
- * already asked, so the whole conversation happens in one place.
+ * question opens the corner chat widget with that question already asked, so the
+ * whole conversation happens in one place.
  */
 export function HeroPrompt() {
   const [input, setInput] = useState("");
-  // Seed with a stable slice for SSR, then reshuffle on the client each load so
-  // the chips vary on refresh without a hydration mismatch.
-  const [starters, setStarters] = useState<string[]>(() =>
-    STARTER_POOL.slice(0, STARTER_COUNT),
-  );
+
+  // Typewriter placeholder: types a question, holds, deletes, types the next.
+  // Pauses while the field is focused (so it never fights the user) and falls
+  // back to a static string under prefers-reduced-motion.
+  const [typed, setTyped] = useState(PLACEHOLDERS[0]);
+  const [caretOn, setCaretOn] = useState(true);
+  const [focused, setFocused] = useState(false);
+  const focusedRef = useRef(false);
+  focusedRef.current = focused;
 
   useEffect(() => {
-    setStarters(pickStarters());
+    if (window.matchMedia?.("(prefers-reduced-motion: reduce)").matches) return;
+
+    let phrase = 0;
+    let i = PLACEHOLDERS[0].length;
+    let deleting = true;
+    let timer: ReturnType<typeof setTimeout>;
+
+    const tick = () => {
+      if (focusedRef.current) {
+        timer = setTimeout(tick, 400);
+        return;
+      }
+      const full = PLACEHOLDERS[phrase];
+      if (!deleting) {
+        i++;
+        setTyped(full.slice(0, i));
+        if (i >= full.length) {
+          deleting = true;
+          timer = setTimeout(tick, 1800);
+          return;
+        }
+        timer = setTimeout(tick, 42 + Math.random() * 38);
+      } else {
+        i--;
+        setTyped(full.slice(0, i));
+        if (i <= 0) {
+          deleting = false;
+          phrase = (phrase + 1) % PLACEHOLDERS.length;
+          timer = setTimeout(tick, 360);
+          return;
+        }
+        timer = setTimeout(tick, 24);
+      }
+    };
+
+    timer = setTimeout(tick, 1800);
+    const blink = setInterval(() => setCaretOn((v) => !v), 520);
+    return () => {
+      clearTimeout(timer);
+      clearInterval(blink);
+    };
   }, []);
 
   // While this launcher is on screen, hide the floating chat button (they do the
@@ -87,7 +117,11 @@ export function HeroPrompt() {
           type="text"
           value={input}
           onChange={(e) => setInput(e.target.value)}
-          placeholder="Ask what we'd build for your business…"
+          onFocus={() => setFocused(true)}
+          onBlur={() => setFocused(false)}
+          placeholder={
+            focused ? "Ask what we'd build for your business…" : typed + (caretOn ? "▏" : " ")
+          }
           aria-label="Ask the Voltair AI what we'd build for you"
         />
         <button
@@ -99,14 +133,6 @@ export function HeroPrompt() {
           Ask →
         </button>
       </form>
-
-      <div className="hero-demo__starters">
-        {starters.map((s) => (
-          <button key={s} type="button" className="hero-demo__chip" onClick={() => ask(s)}>
-            {s}
-          </button>
-        ))}
-      </div>
       </div>
     </div>
   );
