@@ -9,10 +9,17 @@ import { customServiceSlug } from "./custom";
 import type {
   Industry,
   IndustryCard,
+  IndustryCaseStudy,
   IndustryCustomService,
   IndustryPage,
   IndustryUpsert,
 } from "./types";
+
+/** A case study lifted onto the homepage, tagged with its parent sector. */
+export interface FeaturedCaseStudy extends IndustryCaseStudy {
+  industrySlug: string;
+  industryTitle: string;
+}
 
 const CARD_COLUMNS =
   "slug, title, summary, bullets, icon, cover_image, tags, service_slugs, position";
@@ -46,6 +53,35 @@ export async function listPublishedIndustries(
     perPage,
     pageCount: Math.max(1, Math.ceil(total / perPage)),
   };
+}
+
+/**
+ * The first case study from each of the top published industries that has one —
+ * surfaced on the homepage as proof. Ordered by industry `position`.
+ */
+export async function getFeaturedCaseStudies(limit = 3): Promise<FeaturedCaseStudy[]> {
+  const sb = getSupabase();
+  const { data, error } = await sb
+    .from("industries")
+    .select("slug, title, case_studies")
+    .eq("status", "published")
+    .order("position", { ascending: true });
+  if (error) throw error;
+
+  const rows = (data ?? []) as {
+    slug: string;
+    title: string;
+    case_studies: IndustryCaseStudy[] | null;
+  }[];
+
+  const out: FeaturedCaseStudy[] = [];
+  for (const r of rows) {
+    const cs = (r.case_studies ?? [])[0];
+    if (!cs) continue;
+    out.push({ ...cs, industrySlug: r.slug, industryTitle: r.title });
+    if (out.length >= limit) break;
+  }
+  return out;
 }
 
 /** Slugs of all published industries (for sitemap + static params). */

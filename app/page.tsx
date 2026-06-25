@@ -1,10 +1,13 @@
 import type { Metadata } from "next";
 import { Nav } from "@/components/Nav";
 import { Hero } from "@/components/Hero";
+import { HomeProof } from "@/components/HomeProof";
 import { HomeHub } from "@/components/HomeHub";
 import { MarqueeSection } from "@/components/MarqueeSection";
 import { FooterCta } from "@/components/FooterCta";
 import { SITE_URL } from "@/lib/seo";
+
+export const revalidate = 3600;
 
 export const metadata: Metadata = {
   title: "Voltair Tech - AI Services Mumbai | Build & Deploy in 48 Hours",
@@ -137,6 +140,7 @@ export default function HomePage() {
         <Nav />
         <main>
           <Hero />
+          <HomeProof />
           <HomeHub />
           <MarqueeSection />
         </main>

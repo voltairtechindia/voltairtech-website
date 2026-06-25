@@ -5,6 +5,11 @@ import { useCallback, useEffect, useRef, useState } from "react";
 
 import Markdown from "./Markdown";
 import {
+  getChatSessionId,
+  splitTrailer,
+  OPEN_CHAT_EVENT,
+} from "@/lib/chat-client";
+import {
   detectPages,
   isContactIntent,
   isGetStarted,
@@ -77,26 +82,11 @@ function TypewriterText({ text, onComplete, onProgress }: TypewriterTextProps) {
   return <Markdown>{displayedText}</Markdown>;
 }
 
-const SESSION_KEY = "voltair_chat_session";
 const OPENED_KEY = "voltair_chat_opened";
 const DISMISS_KEY = "voltair_peek_dismissed";
 const LEAD_SHOWN_KEY = "voltair_lead_shown";
 const SCROLL_TRIGGER = 0.35;
 const MAX_DISMISSALS = 2;
-
-/** Stable per-browser session id so a conversation threads together server-side. */
-function getSessionId(): string {
-  try {
-    let id = localStorage.getItem(SESSION_KEY);
-    if (!id) {
-      id = "sess_" + Math.random().toString(36).slice(2) + Date.now().toString(36);
-      localStorage.setItem(SESSION_KEY, id);
-    }
-    return id;
-  } catch {
-    return "sess_ephemeral_" + Date.now().toString(36);
-  }
-}
 
 function ss(key: string): string | null {
   try {
@@ -126,23 +116,6 @@ function markLeadShown(): void {
   } catch {
     /* ignore */
   }
-}
-
-/** Record separator splitting the streamed reply from its JSON trailer. */
-const RS = "\u001E";
-
-/** Split a finished stream buffer into the reply text + parsed sources trailer. */
-function splitTrailer(buf: string): { reply: string; sources: SourceRef[] } {
-  const i = buf.indexOf(RS);
-  if (i < 0) return { reply: buf, sources: [] };
-  let sources: SourceRef[] = [];
-  try {
-    const meta = JSON.parse(buf.slice(i + 1) || "{}") as { sources?: SourceRef[] };
-    if (Array.isArray(meta.sources)) sources = meta.sources;
-  } catch {
-    /* ignore a malformed trailer */
-  }
-  return { reply: buf.slice(0, i), sources };
 }
 
 function dedupeLinks(links: NavLink[]): NavLink[] {
@@ -367,6 +340,28 @@ export default function ChatWidget() {
     ssSet(`voltair_peeked:${pathname || "/"}`, "1");
   };
 
+  // The hero launcher opens the widget with a question pre-asked: open the
+  // sheet, then run the same submit() the input uses so the answer streams here.
+  useEffect(() => {
+    const onOpen = (e: Event) => {
+      const ask = (e as CustomEvent<{ ask?: string }>).detail?.ask;
+      setOpen(true);
+      setPeekOpen(false);
+      ssSet(OPENED_KEY, "1");
+      if (typeof ask === "string" && ask.trim()) {
+        submitRef.current(ask);
+      }
+    };
+    window.addEventListener(OPEN_CHAT_EVENT, onOpen);
+    return () => window.removeEventListener(OPEN_CHAT_EVENT, onOpen);
+  }, []);
+
+  // Flag the body while the chat is open so the redundant hero launcher hides.
+  useEffect(() => {
+    document.body.classList.toggle("chat-open", open);
+    return () => document.body.classList.remove("chat-open");
+  }, [open]);
+
   const dismissPeek = (e: React.MouseEvent) => {
     e.stopPropagation();
     setPeekOpen(false);
@@ -399,7 +394,7 @@ export default function ChatWidget() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           message: trimmed,
-          session_id: getSessionId(),
+          session_id: getChatSessionId(),
           page_url: typeof location !== "undefined" ? location.href : undefined,
           page,
         }),
@@ -454,6 +449,10 @@ export default function ChatWidget() {
       setBusy(false);
     }
   };
+
+  // Keep the latest submit reachable from the (mount-only) hero-launch listener.
+  const submitRef = useRef(submit);
+  submitRef.current = submit;
 
   const view = ctx ?? FALLBACK_CTX;
   return (

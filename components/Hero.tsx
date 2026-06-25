@@ -2,6 +2,7 @@ import Link from "next/link";
 import { Kicker } from "./atoms/Kicker";
 import { Arr } from "./atoms/Arr";
 import { Monogram } from "./Monogram";
+import { HeroPrompt } from "./HeroPrompt";
 
 export function Hero() {
   return (
@@ -28,6 +29,7 @@ export function Hero() {
             <strong className="red-strong">Websites ship in 48 hours.</strong> Larger
             products on a fixed timeline.
           </p>
+          <HeroPrompt />
           <div className="hero__ctas">
             <Link className="btn btn-primary" href="/contact">
               Start a project <Arr />
