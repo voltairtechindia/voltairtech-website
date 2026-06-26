@@ -615,11 +615,11 @@ body.chat-open .hero-demo {
 }
 .foot__h em { color: var(--v-red); font-style: normal; }
 .foot__top-sub {
-  font-size: 0.95rem;
+  font-size: 1rem;
   color: var(--v-ink-fg-2);
-  margin-top: 8px;
+  margin-top: 10px;
   max-width: 480px;
-  line-height: 1.5;
+  line-height: 1.55;
 }
 .foot__top-btns {
   display: flex;
@@ -630,26 +630,37 @@ body.chat-open .hero-demo {
 .foot__btn {
   display: inline-flex;
   align-items: center;
-  gap: 8px;
-  padding: 12px 22px;
+  gap: 9px;
+  padding: 14px 26px;
   border-radius: var(--r-pill);
-  border: 1.5px solid var(--v-ink-line);
+  border: 1.5px solid rgba(245,245,240,0.22);
   color: var(--v-ink-fg);
   font-family: var(--font-display), "Inter Tight", sans-serif;
-  font-size: 14px;
+  font-size: 15px;
   font-weight: 600;
   transition: all var(--dur-2);
   text-decoration: none;
-  background: var(--v-ink-2);
+  background: var(--v-ink-3);
+  cursor: pointer;
+}
+.foot__btn::after {
+  content: "→";
+  font-size: 13px;
+  opacity: 0.55;
+  transition: opacity var(--dur-2), transform var(--dur-2);
 }
 .foot__btn:hover {
   border-color: var(--v-red);
-  background: rgba(230,57,70,0.06);
+  background: rgba(230,57,70,0.08);
   color: var(--v-paper);
+}
+.foot__btn:hover::after {
+  opacity: 1;
+  transform: translateX(3px);
 }
 .foot__btn--whatsapp:hover {
   border-color: #25D366;
-  background: rgba(37,211,102,0.06);
+  background: rgba(37,211,102,0.08);
 }
 @media (max-width: 860px) {
   .foot__top {
@@ -686,7 +697,7 @@ body.chat-open .hero-demo {
   }
 }
 .foot__brandrow { display: flex; align-items: center; gap: 14px; }
-.foot__sub { font-size: 0.95rem; color: var(--v-ink-fg-2); margin-top: var(--s-4); max-width: 320px; }
+.foot__sub { font-size: 1rem; color: var(--v-ink-fg-2); margin-top: var(--s-4); max-width: 320px; line-height: 1.6; }
 .foot__col {
   display: flex;
   flex-direction: column;
@@ -694,11 +705,11 @@ body.chat-open .hero-demo {
 }
 .foot__col-title {
   font-family: var(--font-mono), "JetBrains Mono", monospace;
-  font-size: 11px;
+  font-size: 12px;
   font-weight: 700;
-  letter-spacing: 0.08em;
+  letter-spacing: 0.1em;
   text-transform: uppercase;
-  color: var(--v-ink-fg-3);
+  color: var(--v-ink-fg-2);
   margin-bottom: var(--s-2);
 }
 .foot__links {
@@ -715,14 +726,17 @@ body.chat-open .hero-demo {
 }
 .foot__links a {
   font-family: var(--font-display), "Inter Tight", sans-serif;
-  font-size: 14px;
+  font-size: 15.5px;
   font-weight: 500;
-  color: var(--v-ink-fg-2);
+  color: var(--v-ink-fg);
   text-decoration: none;
   transition: color var(--dur-2);
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
 }
 .foot__links a:hover {
-  color: var(--v-paper);
+  color: var(--v-red);
 }
 .foot__socials {
   display: flex;
@@ -731,12 +745,16 @@ body.chat-open .hero-demo {
   align-items: center;
 }
 .foot__social-link {
-  color: var(--v-ink-fg-3);
+  color: var(--v-ink-fg-2);
   transition: color var(--dur-2), transform var(--dur-2);
   display: inline-flex;
+  padding: 6px;
+  border-radius: var(--r-2);
+  border: 1px solid transparent;
 }
 .foot__social-link:hover {
   color: var(--v-red);
+  border-color: rgba(230,57,70,0.3);
   transform: translateY(-2px);
 }
 /* Removed map styles */
@@ -746,15 +764,15 @@ body.chat-open .hero-demo {
   gap: 4px;
   margin-top: var(--s-5);
   font-family: var(--font-mono), "JetBrains Mono", monospace;
-  font-size: 11px;
-  color: var(--v-ink-fg-3);
-  line-height: 1.55;
+  font-size: 12px;
+  color: var(--v-ink-fg-2);
+  line-height: 1.6;
 }
 .foot__addr b {
   color: var(--v-ink-fg);
   font-family: var(--font-display), "Inter Tight", sans-serif;
   font-weight: 600;
-  font-size: 13px;
+  font-size: 14px;
   display: block;
   margin-bottom: 2px;
 }
@@ -800,18 +818,19 @@ body.chat-open .hero-demo {
 }
 .foot__google-card-text b {
   font-family: var(--font-display), "Inter Tight", sans-serif;
-  font-size: 13.5px;
+  font-size: 14.5px;
   font-weight: 650;
   color: var(--v-ink-fg);
   line-height: 1.25;
 }
 .foot__google-card-text span {
   font-family: var(--font-mono), "JetBrains Mono", monospace;
-  font-size: 10px;
-  color: var(--v-ink-fg-3);
-  line-height: 1.35;
+  font-size: 11.5px;
+  color: var(--v-ink-fg-2);
+  line-height: 1.4;
 }
-.foot__legal { margin-top: var(--s-6); padding-top: var(--s-5); border-top: 1px solid var(--v-ink-line); display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: var(--s-3); font-family: var(--font-mono), "JetBrains Mono", monospace; font-size: 12px; color: var(--v-ink-fg-3); position: relative; }
+.foot__legal { margin-top: var(--s-6); padding-top: var(--s-5); border-top: 1px solid var(--v-ink-line); display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: var(--s-3); font-family: var(--font-mono), "JetBrains Mono", monospace; font-size: 13px; color: var(--v-ink-fg-2); position: relative; }
+.foot__legal a { color: var(--v-ink-fg-2); text-decoration: none; }
 .foot__legal a:hover { color: var(--v-paper); }
 
 /* ====================  HOME HUB  ==================== */
