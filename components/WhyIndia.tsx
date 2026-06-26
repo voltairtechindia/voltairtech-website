@@ -1,12 +1,12 @@
 import { CONTENT } from "@/lib/content";
 import { SectionHead } from "./atoms/SectionHead";
 
-export function WhyIndia() {
+export function WhyIndia({ num = "03" }: { num?: string }) {
   return (
     <section id="work" className="section">
       <div className="container">
         <SectionHead
-          kicker="[ 03 ] Why VOLTAIR TECH / why India"
+          kicker={`[ ${num} ] Why VOLTAIR TECH / why India`}
           title={<>Indian operators,<br />global standards.</>}
           right={<span className="tag"><span className="pulse" />Razorpay-native · day one</span>}
         />

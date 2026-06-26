@@ -1582,6 +1582,94 @@ body.reveal-ready [data-reveal].is-visible { opacity: 1; transform: none; }
   background: #1A1A1A;
 }
 
+/* ── About page (simplified) ── */
+.about-intro {
+  font-size: clamp(1.1rem, 1.8vw, 1.35rem);
+  line-height: 1.6;
+  max-width: 640px;
+  color: var(--fg2);
+  margin-top: var(--s-6);
+}
+
+.about-steps {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  margin-top: var(--s-7);
+  border-top: 1px solid var(--v-ink-line);
+}
+.about-step {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--s-6);
+  padding: var(--s-6) 0;
+  border-bottom: 1px solid var(--v-ink-line);
+}
+.about-step__n {
+  font-family: var(--font-mono), "JetBrains Mono", monospace;
+  font-size: 11px;
+  color: var(--v-red);
+  letter-spacing: var(--tracking-wide);
+  min-width: 32px;
+  padding-top: 3px;
+}
+.about-step__label {
+  display: block;
+  font-family: var(--font-display), "Inter Tight", sans-serif;
+  font-weight: 700;
+  font-size: clamp(1.1rem, 2vw, 1.4rem);
+  color: var(--v-ink-fg);
+  margin-bottom: var(--s-1);
+}
+.about-step__text {
+  font-size: 14.5px;
+  color: var(--v-ink-fg-3);
+  margin: 0;
+  line-height: 1.5;
+}
+
+.about-caps {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: var(--s-5);
+  margin-top: var(--s-7);
+}
+@media (max-width: 900px) {
+  .about-caps { grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 520px) {
+  .about-caps { grid-template-columns: 1fr; }
+}
+.about-cap {
+  padding: var(--s-6) var(--s-5);
+  border: 1.5px solid var(--border);
+  border-radius: var(--r-3);
+  background: var(--v-paper-2);
+  transition: border-color var(--dur-2), transform var(--dur-3) var(--ease-out);
+}
+.about-cap:hover {
+  border-color: var(--v-ink);
+  transform: translateY(-3px);
+}
+.about-cap__icon {
+  width: 40px;
+  height: 40px;
+  margin-bottom: var(--s-4);
+}
+.about-cap__title {
+  font-family: var(--font-display), "Inter Tight", sans-serif;
+  font-weight: 700;
+  font-size: 1.05rem;
+  margin: 0 0 var(--s-2);
+  color: var(--v-ink);
+}
+.about-cap__line {
+  font-size: 13.5px;
+  color: var(--fg2);
+  margin: 0;
+  line-height: 1.45;
+}
+
 .mission-box {
   background: var(--v-ink);
   color: var(--v-ink-fg);
