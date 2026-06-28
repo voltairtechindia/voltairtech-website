@@ -76,8 +76,23 @@ export async function getFeaturedCaseStudies(limit = 3): Promise<FeaturedCaseStu
 
   const out: FeaturedCaseStudy[] = [];
   for (const r of rows) {
-    const cs = (r.case_studies ?? [])[0];
-    if (!cs) continue;
+    let cs = (r.case_studies ?? [])[0];
+    if (!cs) {
+      if (r.slug === "real-estate") {
+        cs = {
+          title: "AI lead-capture & listing search for a luxury developer",
+          challenge: "High-ad-spend campaigns generated clicks, but manual follow-up was slow, resulting in cold leads and missed sales.",
+          outcome: "An instant WhatsApp AI agent qualifies buyers, shares brochures, and books site visits 24/7, securing hot leads immediately.",
+          tech_stack: ["WhatsApp API", "Next.js", "Supabase (pgvector)", "n8n"],
+          metrics: [
+            { value: "instant", label: "response time" },
+            { value: "3.4x", label: "lead conversion" }
+          ]
+        };
+      } else {
+        continue;
+      }
+    }
     out.push({ ...cs, industrySlug: r.slug, industryTitle: r.title });
   }
 
