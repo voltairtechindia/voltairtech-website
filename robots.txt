@@ -1,4 +1,0 @@
-User-agent: *
-Allow: /
-
-Sitemap: https://voltairtech.com/sitemap.xml

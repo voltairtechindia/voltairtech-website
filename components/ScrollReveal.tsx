@@ -67,11 +67,13 @@ export function ScrollReveal() {
   useEffect(() => {
     const io = ioRef.current;
     if (!io) return;
+    // Reveal what's already on-screen for the new route right away (minimise any
+    // flash of hidden content), then observe the rest on the next frame.
+    revealOnscreen(io);
     const raf = requestAnimationFrame(() => {
       document
         .querySelectorAll<HTMLElement>("[data-reveal]:not(.is-visible)")
         .forEach((el) => io.observe(el));
-      revealOnscreen(io);
     });
     return () => cancelAnimationFrame(raf);
   }, [pathname]);
