@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 
 import { Kicker } from "./atoms/Kicker";
 import { getFeaturedCaseStudies, type FeaturedCaseStudy } from "@/lib/industries/db";
@@ -39,6 +40,16 @@ export async function HomeProof() {
               className="proof-card"
               data-reveal=""
             >
+              <div className="proof-card__media">
+                <Image
+                  src={`/images/cases/${s.industrySlug}.png`}
+                  alt={s.title}
+                  width={320}
+                  height={180}
+                  className="proof-card__img"
+                  style={{ objectFit: "cover", width: "100%", height: "100%" }}
+                />
+              </div>
               <span className="proof-card__sector">{s.industryTitle}</span>
               <h3 className="proof-card__title">{s.title}</h3>
               {s.challenge && (
