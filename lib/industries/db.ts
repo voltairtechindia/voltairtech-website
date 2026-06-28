@@ -59,13 +59,13 @@ export async function listPublishedIndustries(
  * The first case study from each of the top published industries that has one —
  * surfaced on the homepage as proof. Ordered by industry `position`.
  */
-export async function getFeaturedCaseStudies(limit = 3): Promise<FeaturedCaseStudy[]> {
+export async function getFeaturedCaseStudies(limit = 4): Promise<FeaturedCaseStudy[]> {
   const sb = getSupabase();
   const { data, error } = await sb
     .from("industries")
     .select("slug, title, case_studies")
     .eq("status", "published")
-    .order("position", { ascending: true });
+    .in("slug", ["real-estate", "manufacturing-industrial", "saas-b2b-tech", "d2c-ecommerce"]);
   if (error) throw error;
 
   const rows = (data ?? []) as {
@@ -79,9 +79,18 @@ export async function getFeaturedCaseStudies(limit = 3): Promise<FeaturedCaseStu
     const cs = (r.case_studies ?? [])[0];
     if (!cs) continue;
     out.push({ ...cs, industrySlug: r.slug, industryTitle: r.title });
-    if (out.length >= limit) break;
   }
-  return out;
+
+  // Sort them in the exact order requested by the user
+  const desiredOrder = [
+    "real-estate",
+    "manufacturing-industrial",
+    "saas-b2b-tech",
+    "d2c-ecommerce",
+  ];
+  out.sort((a, b) => desiredOrder.indexOf(a.industrySlug) - desiredOrder.indexOf(b.industrySlug));
+
+  return out.slice(0, limit);
 }
 
 /** Slugs of all published industries (for sitemap + static params). */
