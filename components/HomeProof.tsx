@@ -40,6 +40,7 @@ export async function HomeProof() {
               className="proof-card"
               data-reveal=""
             >
+              <span className="proof-card__sector">{s.industryTitle}</span>
               <div className="proof-card__media">
                 <Image
                   src={`/images/cases/${s.industrySlug}.png`}
@@ -50,7 +51,6 @@ export async function HomeProof() {
                   style={{ objectFit: "cover", width: "100%", height: "100%" }}
                 />
               </div>
-              <span className="proof-card__sector">{s.industryTitle}</span>
               <h3 className="proof-card__title">{s.title}</h3>
               {s.challenge && (
                 <p className="proof-card__line">

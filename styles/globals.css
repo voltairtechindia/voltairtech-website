@@ -396,8 +396,13 @@ body.chat-open .hero-demo {
   transform: scale(1.04);
 }
 .proof-card__sector {
-  font-family: var(--font-mono), "JetBrains Mono", monospace; font-size: 11px;
-  letter-spacing: var(--tracking-label); text-transform: uppercase; color: var(--v-red);
+  font-family: var(--font-display), "Inter Tight", sans-serif;
+  font-size: 1.35rem;
+  font-weight: 800;
+  letter-spacing: var(--tracking-tight);
+  text-transform: none;
+  color: var(--v-red);
+  margin-bottom: var(--s-1);
 }
 .proof-card__title { font-size: 1.1rem; line-height: 1.25; color: var(--v-paper); margin: 0; }
 .proof-card__line { font-size: 13.5px; line-height: 1.5; color: var(--v-ink-fg-2); margin: 0; }
