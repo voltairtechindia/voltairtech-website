@@ -59,19 +59,21 @@ export function Industries({
                   </div>
                 ) : null}
                 <h3 className="svc-card__title">{it.title}</h3>
-                {it.bullets?.length ? (
-                  <ul className="svc-card__bullets">
-                    {it.bullets.map((b) => (
-                      <li key={b}>{b}</li>
-                    ))}
-                  </ul>
-                ) : it.summary ? (
-                  <p className="svc-card__bullets">{it.summary}</p>
-                ) : null}
-                <div className="svc-card__cta">Click to know more →</div>
-                <div className="svc-card__glyph-corner">
-                  <Image src={industryIconSrc(it.icon)} alt="" width={96} height={96} />
+                <div className="svc-card__body">
+                  {it.bullets?.length ? (
+                    <ul className="svc-card__bullets">
+                      {it.bullets.map((b) => (
+                        <li key={b}>{b}</li>
+                      ))}
+                    </ul>
+                  ) : it.summary ? (
+                    <p className="svc-card__bullets">{it.summary}</p>
+                  ) : null}
+                  <div className="svc-card__icon">
+                    <Image src={industryIconSrc(it.icon)} alt="" width={96} height={96} />
+                  </div>
                 </div>
+                <div className="svc-card__cta">Click to know more →</div>
               </Link>
             ))}
           </div>

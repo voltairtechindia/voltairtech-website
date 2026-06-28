@@ -469,6 +469,10 @@ body.chat-open .hero-demo {
 .svc-card__bullets { display: flex; flex-direction: column; gap: 4px; margin-top: var(--s-5); }
 .svc-card__bullets li { list-style: none; font-family: var(--font-mono), "JetBrains Mono", monospace; font-size: 11.5px; color: var(--v-ink-fg-2); letter-spacing: 0.02em; }
 .svc-card__bullets li::before { content: '— '; color: var(--v-red); }
+.svc-card__body { display: flex; align-items: center; justify-content: space-between; gap: var(--s-4); }
+.svc-card__body > .svc-card__bullets { margin-top: var(--s-5); flex: 1 1 auto; min-width: 0; }
+.svc-card__icon { flex: 0 0 96px; width: 96px; height: 96px; filter: drop-shadow(0 6px 16px rgba(0, 0, 0, 0.14)); transition: transform var(--dur-2) var(--ease-out); }
+.svc-card--white:hover .svc-card__icon { transform: scale(1.06); }
 .svc-card__arrow { position: absolute; right: var(--s-6); top: var(--s-6); color: var(--v-ink-fg-3); transition: transform var(--dur-2) var(--ease-out), color var(--dur-2); font-size: 22px; }
 .svc-card:hover .svc-card__arrow { color: var(--v-red); transform: translate(4px, -4px) rotate(-8deg); }
 .svc-card__eta { margin-top: var(--s-4); padding-top: 12px; border-top: 1px dashed var(--v-ink-line); font-family: var(--font-mono), "JetBrains Mono", monospace; font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--v-ink-fg-3); }
@@ -484,7 +488,6 @@ body.chat-open .hero-demo {
   background: #ffffff;
   border-color: var(--border);
   color: var(--fg1);
-  padding-bottom: calc(var(--s-6) + 88px);
 }
 .svc-card--white:hover {
   background: #fcfcfc;
@@ -516,18 +519,6 @@ body.chat-open .hero-demo {
   color: var(--fg3);
 }
 .svc-card--white:hover .svc-card__cta { color: var(--v-red); }
-
-/* Colorful sector icon badge, bottom-right corner of each /industries card */
-.svc-card__glyph-corner {
-  position: absolute;
-  right: var(--s-6);
-  bottom: var(--s-6);
-  width: 96px;
-  height: 96px;
-  pointer-events: none;
-  filter: drop-shadow(0 6px 16px rgba(0, 0, 0, 0.14));
-  transition: transform var(--dur-2) var(--ease-out);
-}
 .svc-card--white:hover .svc-card__glyph-corner { transform: scale(1.06); }
 
 /* Compact variant — denser cards (used for the linked-services grid on

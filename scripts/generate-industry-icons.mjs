@@ -30,7 +30,7 @@ if (!KEY) {
   process.exit(1);
 }
 
-const MODEL = process.env.ICON_MODEL || "bytedance-seed/seedream-4.5";
+const MODEL = process.env.ICON_MODEL || "openai/gpt-image-1";
 
 /** key -> { subject, color } — mirrors components/atoms/IndustryColorGlyph.tsx */
 const INDUSTRIES = {
@@ -57,12 +57,12 @@ const INDUSTRIES = {
 
 function buildPrompt({ subject, color }) {
   return (
-    `A small clean 3D-rendered app icon of ${subject}. ` +
+    `A small clean 3D-rendered app icon of ${subject}, isolated on a transparent background ` +
+    `(no background, no backdrop, no surface, alpha cutout). ` +
     `Isometric-friendly 3/4 perspective, smooth rounded glossy plastic/clay material, ` +
-    `${color} color palette with soft gradient shading, soft studio lighting with a gentle ` +
-    `drop shadow beneath the object, centered composition with generous padding, ` +
-    `plain solid white background, no text, no watermark, no logo, high quality 3D render, ` +
-    `consistent with a modern SaaS icon set.`
+    `${color} color palette with soft gradient shading, soft contained shadow directly under ` +
+    `the object only, centered composition with generous padding, no text, no watermark, ` +
+    `no logo, high quality 3D render, consistent with a modern SaaS icon set.`
   );
 }
 
@@ -86,6 +86,8 @@ async function generateOne(key) {
       prompt,
       aspect_ratio: "1:1",
       resolution: "2K",
+      background: "transparent",
+      output_format: "png",
     }),
   });
 
