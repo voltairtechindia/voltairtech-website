@@ -1,5 +1,4 @@
 import Link from "next/link";
-import Image from "next/image";
 
 import type { IndustryCard } from "@/lib/industries/types";
 import { industryIconSrc } from "@/lib/industries/icons";
@@ -70,21 +69,18 @@ export function Industries({
                     <p className="svc-card__bullets">{it.summary}</p>
                   ) : null}
                   <div className="svc-card__icon">
-                    {it.icon_image?.url ? (
-                      // Admin-uploaded badge (remote Supabase URL) — plain <img>
-                      // since next/image has no remotePatterns configured.
-                      // eslint-disable-next-line @next/next/no-img-element
-                      <img
-                        src={it.icon_image.url}
-                        alt={it.icon_image.alt ?? ""}
-                        width={96}
-                        height={96}
-                        loading="lazy"
-                        decoding="async"
-                      />
-                    ) : (
-                      <Image src={industryIconSrc(it.icon)} alt="" width={96} height={96} />
-                    )}
+                    {/* Per-industry badge override, else the bucket-served default
+                        for the icon key. Plain <img> (Supabase URL; next/image has
+                        no remotePatterns configured). */}
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img
+                      src={it.icon_image?.url ?? industryIconSrc(it.icon)}
+                      alt={it.icon_image?.alt ?? ""}
+                      width={96}
+                      height={96}
+                      loading="lazy"
+                      decoding="async"
+                    />
                   </div>
                 </div>
                 <div className="svc-card__cta">Click to know more →</div>

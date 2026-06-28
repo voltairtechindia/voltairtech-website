@@ -38,10 +38,16 @@ export function isValidIcon(key: string): boolean {
   return VALID.has(key);
 }
 
-/** Path under /public to the 3D-rendered PNG badge for a sector icon key. */
+/**
+ * Public URL of the 3D-rendered PNG badge for a sector icon key — served from
+ * the Supabase `blog-media` bucket (uploaded via scripts/upload-industry-images
+ * -to-storage.mjs), so nothing is hardcoded under /public. This is the default
+ * badge; an industry can override it per-row with `icon_image` (admin upload).
+ */
 export function industryIconSrc(key?: string | null): string {
   const k = key && isValidIcon(key) ? key : DEFAULT_INDUSTRY_ICON;
-  return `/images/industries/${k}.png`;
+  const base = (process.env.SUPABASE_URL ?? "").replace(/\/$/, "");
+  return `${base}/storage/v1/object/public/blog-media/industries/icons/${k}.png`;
 }
 
 /**
