@@ -10,6 +10,7 @@ import type {
   Industry,
   IndustryCard,
   IndustryCaseStudy,
+  IndustryCover,
   IndustryCustomService,
   IndustryPage,
   IndustryUpsert,
@@ -19,10 +20,12 @@ import type {
 export interface FeaturedCaseStudy extends IndustryCaseStudy {
   industrySlug: string;
   industryTitle: string;
+  /** Industry cover image for the homepage card; null falls back to a bundled illustration. */
+  coverImage: IndustryCover | null;
 }
 
 const CARD_COLUMNS =
-  "slug, title, summary, bullets, icon, cover_image, tags, service_slugs, position";
+  "slug, title, summary, bullets, icon, cover_image, icon_image, tags, service_slugs, position";
 
 export const DEFAULT_PER_PAGE = 9;
 
@@ -56,55 +59,43 @@ export async function listPublishedIndustries(
 }
 
 /**
- * The first case study from each of the top published industries that has one —
- * surfaced on the homepage as proof. Ordered by industry `position`.
+ * The first case study from each industry flagged `homepage_featured` in the
+ * admin — surfaced on the homepage as proof. Ordered by industry `position`
+ * (asc). Industries without a case study are skipped. Which sectors appear, in
+ * what order, and their content + card image are all admin-controlled (no
+ * hardcoded slugs): tick "Feature on homepage" in voltairtech-admin.
  */
 export async function getFeaturedCaseStudies(limit = 3): Promise<FeaturedCaseStudy[]> {
   const sb = getSupabase();
   const { data, error } = await sb
     .from("industries")
-    .select("slug, title, case_studies")
+    .select("slug, title, case_studies, cover_image")
     .eq("status", "published")
-    .in("slug", ["real-estate", "manufacturing-industrial", "saas-b2b-tech"]);
+    .eq("homepage_featured", true)
+    .order("position", { ascending: true })
+    .order("created_at", { ascending: true });
   if (error) throw error;
 
   const rows = (data ?? []) as {
     slug: string;
     title: string;
     case_studies: IndustryCaseStudy[] | null;
+    cover_image: IndustryCover | null;
   }[];
 
   const out: FeaturedCaseStudy[] = [];
   for (const r of rows) {
-    let cs = (r.case_studies ?? [])[0];
-    if (!cs) {
-      if (r.slug === "real-estate") {
-        cs = {
-          title: "AI lead-capture & listing search for a luxury developer",
-          challenge: "High-ad-spend campaigns generated clicks, but manual follow-up was slow, resulting in cold leads and missed sales.",
-          outcome: "An instant WhatsApp AI agent qualifies buyers, shares brochures, and books site visits 24/7, securing hot leads immediately.",
-          tech_stack: ["WhatsApp API", "Next.js", "Supabase (pgvector)", "n8n"],
-          metrics: [
-            { value: "instant", label: "response time" },
-            { value: "3.4x", label: "lead conversion" }
-          ]
-        };
-      } else {
-        continue;
-      }
-    }
-    out.push({ ...cs, industrySlug: r.slug, industryTitle: r.title });
+    const cs = (r.case_studies ?? [])[0];
+    if (!cs) continue;
+    out.push({
+      ...cs,
+      industrySlug: r.slug,
+      industryTitle: r.title,
+      coverImage: r.cover_image,
+    });
+    if (out.length >= limit) break;
   }
-
-  // Sort them in the exact order requested by the user
-  const desiredOrder = [
-    "real-estate",
-    "manufacturing-industrial",
-    "saas-b2b-tech",
-  ];
-  out.sort((a, b) => desiredOrder.indexOf(a.industrySlug) - desiredOrder.indexOf(b.industrySlug));
-
-  return out.slice(0, limit);
+  return out;
 }
 
 /** Slugs of all published industries (for sitemap + static params). */

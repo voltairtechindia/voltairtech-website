@@ -1,10 +1,10 @@
 import Link from "next/link";
-import Image from "next/image";
 
 import { Kicker } from "./atoms/Kicker";
 import { getFeaturedCaseStudies, type FeaturedCaseStudy } from "@/lib/industries/db";
 
-/** Real, DB-backed proof: one case study per top sector. Renders nothing if none. */
+/** Real, DB-backed proof: the first case study of each industry flagged
+ *  `homepage_featured` in the admin (ordered by position). Renders nothing if none. */
 export async function HomeProof() {
   let studies: FeaturedCaseStudy[] = [];
   try {
@@ -41,16 +41,21 @@ export async function HomeProof() {
               data-reveal=""
             >
               <span className="proof-card__sector">{s.industryTitle}</span>
-              <div className="proof-card__media">
-                <Image
-                  src={`/images/cases/${s.industrySlug}.png`}
-                  alt={s.title}
-                  width={320}
-                  height={180}
-                  className="proof-card__img"
-                  style={{ objectFit: "cover", width: "100%", height: "100%" }}
-                />
-              </div>
+              {s.coverImage?.url ? (
+                <div className="proof-card__media">
+                  {/* Admin-uploaded cover (remote Supabase URL). Plain <img> —
+                      next/image has no remotePatterns configured. */}
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img
+                    src={s.coverImage.url}
+                    alt={s.coverImage.alt ?? s.title}
+                    className="proof-card__img"
+                    loading="lazy"
+                    decoding="async"
+                    style={{ objectFit: "cover", width: "100%", height: "100%" }}
+                  />
+                </div>
+              ) : null}
               <h3 className="proof-card__title">{s.title}</h3>
               {s.challenge && (
                 <p className="proof-card__line">

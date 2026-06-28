@@ -187,28 +187,44 @@ function normalize(input: unknown): { row: IndustryUpsert } | { error: string } 
       ? publishedAt || new Date().toISOString()
       : publishedAt || null;
 
-  return {
-    row: {
-      slug,
-      title,
-      headline: str(p.headline) || null,
-      summary: str(p.summary) || null,
-      bullets: strArray(p.bullets),
-      icon,
-      cover_image: cover(p.cover_image),
-      lead: str(p.lead) || null,
-      meta: str(p.meta) || null,
-      body_md: typeof p.body_md === "string" ? p.body_md : "",
-      tags,
-      service_slugs: serviceSlugs,
-      custom_services: customServices(p.custom_services),
-      case_studies: caseStudies(p.case_studies),
-      seo: seo ?? {},
-      position,
-      status: status as IndustryUpsert["status"],
-      published_at,
-    },
+  const row: IndustryUpsert = {
+    slug,
+    title,
+    headline: str(p.headline) || null,
+    summary: str(p.summary) || null,
+    bullets: strArray(p.bullets),
+    icon,
+    cover_image: cover(p.cover_image),
+    lead: str(p.lead) || null,
+    meta: str(p.meta) || null,
+    body_md: typeof p.body_md === "string" ? p.body_md : "",
+    tags,
+    service_slugs: serviceSlugs,
+    custom_services: customServices(p.custom_services),
+    case_studies: caseStudies(p.case_studies),
+    seo: seo ?? {},
+    position,
+    status: status as IndustryUpsert["status"],
+    published_at,
   };
+
+  // Only set homepage_featured when the caller actually sends it, so external
+  // callers (e.g. n8n) that omit the field don't unfeature an industry on every
+  // upsert. The admin editor always sends an explicit true/false.
+  if (p.homepage_featured !== undefined) {
+    row.homepage_featured =
+      p.homepage_featured === true ||
+      p.homepage_featured === "true" ||
+      p.homepage_featured === "on";
+  }
+
+  // Same guard for the optional sector-badge override (admin always sends it;
+  // omitting callers keep the existing/backfilled badge instead of nulling it).
+  if (p.icon_image !== undefined) {
+    row.icon_image = cover(p.icon_image);
+  }
+
+  return { row };
 }
 
 /** Mirror a stored industry into the RAG store (or remove it if not published). */

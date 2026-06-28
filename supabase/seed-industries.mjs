@@ -1,9 +1,18 @@
 /**
- * Seed the 8 Voltair industries into the DB (and the chatbot RAG store) by
+ * Seed the Voltair industries into the DB (and the chatbot RAG store) by
  * POSTing them to the admin-gated /api/industries endpoint. These were
  * previously a hardcoded array in app/industries/page.tsx; they now live in the
  * `industries` table so the admin panel can edit them, link services to each
  * sector, and the chatbot can cite them.
+ *
+ * ⚠️  ONE-TIME BOOTSTRAP — DO NOT RE-RUN against a live DB.
+ * This was already applied and the live data has since diverged (new sectors,
+ * admin-edited copy, case studies, homepage_featured flags, cover/badge images,
+ * reordered positions). /api/industries does a FULL-ROW upsert, so re-running
+ * this would OVERWRITE every industry's case_studies → [], cover_image/icon_image
+ * → null, etc. for any field this file omits — silently wiping admin work (and
+ * emptying the homepage "Proof" section). Edit industries in voltairtech-admin
+ * instead. If you must re-seed, first mirror the current live rows here.
  *
  * `service_slugs` must reference slugs that exist in `services` (seed those
  * first with supabase/seed-services.mjs).
@@ -142,6 +151,21 @@ Every LLM touchpoint we ship is grounded, logged and guard-railed, so your compl
     status: "published",
     position: 4,
     icon: "realestate",
+    homepage_featured: true,
+    case_studies: [
+      {
+        title: "AI lead-capture & listing search for a luxury developer",
+        challenge:
+          "High-ad-spend campaigns generated clicks, but manual follow-up was slow, resulting in cold leads and missed sales.",
+        outcome:
+          "An instant WhatsApp AI agent qualifies buyers, shares brochures, and books site visits 24/7, securing hot leads immediately.",
+        tech_stack: ["WhatsApp API", "Next.js", "Supabase (pgvector)", "n8n"],
+        metrics: [
+          { value: "instant", label: "response time" },
+          { value: "3.4x", label: "lead conversion" },
+        ],
+      },
+    ],
     tags: ["real estate", "leads", "listings", "whatsapp"],
     service_slugs: ["ai-websites", "whatsapp-chatbot", "ai-automation"],
     summary:
@@ -332,6 +356,7 @@ A guest messaging at 2am still expects an answer. Our concierge bots respond ins
     status: "published",
     position: 9,
     icon: "manufacturing",
+    homepage_featured: true,
     tags: ["manufacturing", "industrial", "automation", "iot"],
     service_slugs: ["ai-automation", "custom-ai-software", "rag-systems"],
     summary:
@@ -518,6 +543,7 @@ No app download, no English barrier — a WhatsApp message in the local language
   },
   {
     slug: "saas-b2b-tech",
+    homepage_featured: true,
     title: "SaaS & B2B Tech",
     status: "published",
     position: 14,

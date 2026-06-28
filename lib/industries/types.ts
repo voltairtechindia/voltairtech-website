@@ -67,6 +67,8 @@ export interface Industry {
   bullets: string[];
   icon: string;
   cover_image: IndustryCover | null;
+  /** Optional admin-uploaded sector badge; overrides the bundled icon registry PNG. */
+  icon_image: IndustryCover | null;
   lead: string | null;
   meta: string | null;
   body_md: string;
@@ -76,6 +78,8 @@ export interface Industry {
   case_studies: IndustryCaseStudy[];
   seo: IndustrySeo;
   position: number;
+  /** Surface this sector's first case study on the homepage "Proof" section. */
+  homepage_featured: boolean;
   status: IndustryStatus;
   published_at: string | null;
   created_at: string;
@@ -85,7 +89,16 @@ export interface Industry {
 /** Lightweight shape for the grid cards (no body). */
 export type IndustryCard = Pick<
   Industry,
-  "slug" | "title" | "summary" | "bullets" | "icon" | "cover_image" | "tags" | "service_slugs" | "position"
+  | "slug"
+  | "title"
+  | "summary"
+  | "bullets"
+  | "icon"
+  | "cover_image"
+  | "icon_image"
+  | "tags"
+  | "service_slugs"
+  | "position"
 >;
 
 /** One page of industries + pagination metadata. */
@@ -106,6 +119,7 @@ export interface IndustryUpsert {
   bullets?: string[];
   icon?: string | null;
   cover_image?: IndustryCover | null;
+  icon_image?: IndustryCover | null;
   lead?: string | null;
   meta?: string | null;
   body_md?: string;
@@ -115,6 +129,7 @@ export interface IndustryUpsert {
   case_studies?: IndustryCaseStudy[];
   seo?: IndustrySeo;
   position?: number;
+  homepage_featured?: boolean;
   status?: IndustryStatus;
   published_at?: string | null;
 }
