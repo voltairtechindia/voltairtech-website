@@ -67,15 +67,8 @@ export function Industries({
                 ) : it.summary ? (
                   <p className="svc-card__bullets">{it.summary}</p>
                 ) : null}
-                <div className="svc-card__footer">
-                  <div className="svc-card__footer-icon">
-                    <IndustryColorGlyph kind={it.icon} />
-                  </div>
-                  {it.service_slugs?.length ? (
-                    <div className="svc-card__eta">
-                      <b>{it.service_slugs.length}</b> service{it.service_slugs.length === 1 ? "" : "s"} →
-                    </div>
-                  ) : null}
+                <div className="svc-card__glyph-corner">
+                  <IndustryColorGlyph kind={it.icon} />
                 </div>
               </Link>
             ))}

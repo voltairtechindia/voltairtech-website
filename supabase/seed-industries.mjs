@@ -36,7 +36,14 @@ const industries = [
     meta: "Industry · D2C & e-commerce",
     lead:
       "India shops on the phone and orders on WhatsApp. We build storefronts, order bots and AI product search that turn that behaviour into revenue — live fast, India-first by default.",
-    bullets: ["WhatsApp order bots", "Razorpay / UPI checkout", "AI product search"],
+    bullets: [
+      "WhatsApp order bots",
+      "Razorpay / UPI checkout",
+      "AI product search",
+      "48-hour storefronts",
+      "Order-to-dispatch automation",
+      "Abandoned-cart recovery bots",
+    ],
     seo: {
       title: "AI for D2C & E-commerce Brands India | Voltair Tech",
       description:
@@ -67,7 +74,14 @@ Campaigns don't wait for six-week timelines. We ship the landing page before the
     meta: "Industry · Healthcare & clinics",
     lead:
       "Patient trust is everything. We build appointment bots and patient-FAQ assistants grounded in your own protocols — never guessing — with secure, consent-first patient-data handling from day one.",
-    bullets: ["Appointment & reminder bots", "Protocol-grounded patient FAQ", "Secure patient-data handling"],
+    bullets: [
+      "Appointment & reminder bots",
+      "Protocol-grounded patient FAQ",
+      "Secure patient-data handling",
+      "Intake & triage automation",
+      "Multilingual patient bots",
+      "Audit-ready compliance logs",
+    ],
     seo: {
       title: "AI for Healthcare & Clinics India | Voltair Tech",
       description:
@@ -98,7 +112,14 @@ In healthcare, a hallucinated answer is a liability. Our RAG systems answer only
     meta: "Industry · Fintech & payments",
     lead:
       "Fintech moves fast but can't afford to be loose. We build support copilots, KYC flows and fraud-aware automations with audit-friendly guardrails — AI you can put in front of regulated workflows.",
-    bullets: ["KYC & onboarding flows", "Support copilots", "Audit-friendly guardrails"],
+    bullets: [
+      "KYC & onboarding flows",
+      "Support copilots",
+      "Audit-friendly guardrails",
+      "Document extraction & verification",
+      "Fraud-anomaly alert routing",
+      "PII redaction & logging",
+    ],
     seo: {
       title: "AI for Fintech & Payments India | Voltair Tech",
       description:
@@ -129,7 +150,14 @@ Every LLM touchpoint we ship is grounded, logged and guard-railed, so your compl
     meta: "Industry · Real estate",
     lead:
       "In real estate, speed-to-lead wins the deal. We ship lead-capture sites in 48 hours, AI listing search, and multilingual WhatsApp agents that follow up the moment an enquiry lands.",
-    bullets: ["48-hour lead-capture sites", "AI listing search", "WhatsApp follow-up agents"],
+    bullets: [
+      "48-hour lead-capture sites",
+      "AI listing search",
+      "WhatsApp follow-up agents",
+      "Multilingual lead qualification",
+      "CRM & portal automation",
+      "Project launch microsites",
+    ],
     seo: {
       title: "AI for Real Estate India | Voltair Tech",
       description:
@@ -160,7 +188,14 @@ The first to respond usually closes. Our agents reply instantly, qualify the buy
     meta: "Industry · Education & EdTech",
     lead:
       "Learners want answers now. We build doubt-solving tutors, content-generation tools and RAG assistants grounded in your course material — so students get accurate, cited help, at scale.",
-    bullets: ["Doubt-solving AI tutors", "RAG over course material", "AI content generation"],
+    bullets: [
+      "Doubt-solving AI tutors",
+      "RAG over course material",
+      "AI content generation",
+      "Cited, syllabus-grounded answers",
+      "Question-bank generation",
+      "Mobile-first learning apps",
+    ],
     seo: {
       title: "AI for Education & EdTech India | Voltair Tech",
       description:
@@ -191,7 +226,14 @@ A tutor that makes things up erodes trust fast. Ours stay grounded in your appro
     meta: "Industry · Logistics & supply chain",
     lead:
       "Logistics runs on documents and status updates. We automate both — tracking bots, document extraction, and n8n pipelines that move data across Sheets, Slack and WhatsApp without a human in the loop.",
-    bullets: ["Shipment tracking bots", "Document extraction (PODs, invoices)", "n8n pipelines"],
+    bullets: [
+      "Shipment tracking bots",
+      "Document extraction (PODs, invoices)",
+      "n8n pipelines",
+      "Exception & delay alerts",
+      "Sheets ↔ Slack ↔ WhatsApp sync",
+      "TMS & ERP integration",
+    ],
     seo: {
       title: "AI for Logistics & Supply Chain India | Voltair Tech",
       description:
@@ -222,7 +264,14 @@ Most logistics overhead is copy-pasting between systems. We replace that with au
     meta: "Industry · Professional services",
     lead:
       "Legal, CA and agency teams live in documents. We build document RAG, intake automation and internal copilots that find the clause, draft the reply and answer the policy question — grounded in your files.",
-    bullets: ["Document RAG & search", "Client intake automation", "Internal copilots"],
+    bullets: [
+      "Document RAG & search",
+      "Client intake automation",
+      "Internal copilots",
+      "Contract & filings search",
+      "Drafting & summarisation copilots",
+      "Notion / Drive / DMS search",
+    ],
     seo: {
       title: "AI for Professional Services India — Legal, CA, Agencies | Voltair Tech",
       description:
@@ -253,7 +302,14 @@ Your firm's value is locked in its documents. We make that corpus answerable —
     meta: "Industry · Hospitality & travel",
     lead:
       "Guests expect a fast, warm reply in their own language. We build booking assistants, multilingual concierge bots and review-aware automation that keep every guest looked after — around the clock.",
-    bullets: ["Booking assistants", "Multilingual concierge bots", "Review response automation"],
+    bullets: [
+      "Booking assistants",
+      "Multilingual concierge bots",
+      "Review response automation",
+      "Pre- & post-stay automation",
+      "Upsell & re-engagement flows",
+      "24/7 guest messaging",
+    ],
     seo: {
       title: "AI for Hospitality & Travel India | Voltair Tech",
       description:
@@ -284,7 +340,14 @@ A guest messaging at 2am still expects an answer. Our concierge bots respond ins
     meta: "Industry · Manufacturing & industrial",
     lead:
       "The factory floor generates more data than anyone reads. We turn it into action — automation across your MES and ERP, maintenance copilots, and instant answers from your SOPs and machine manuals.",
-    bullets: ["Shop-floor & ERP automation", "Maintenance & quality copilots", "SOP / manual RAG"],
+    bullets: [
+      "Shop-floor & ERP automation",
+      "Maintenance & quality copilots",
+      "SOP / manual RAG",
+      "Predictive-maintenance alerts",
+      "Inspection & demand forecasting",
+      "MES / ERP data sync",
+    ],
     seo: {
       title: "AI for Manufacturing & Industrial India | Voltair Tech",
       description:
@@ -315,7 +378,14 @@ When the senior technician is on leave, the answer shouldn't leave with them. We
     meta: "Industry · Automotive & mobility",
     lead:
       "Test drives and service slots get won on response speed. We build lead bots, service-booking automation and fast sites for dealerships, OEMs and EV brands — multilingual, India-first.",
-    bullets: ["Dealership lead bots", "Service-booking automation", "Launch & EV brand sites"],
+    bullets: [
+      "Dealership lead bots",
+      "Service-booking automation",
+      "Launch & EV brand sites",
+      "Test-drive qualification bots",
+      "Pickup / drop scheduling",
+      "Dealership CRM automation",
+    ],
     seo: {
       title: "AI for Automotive & Mobility India | Voltair Tech",
       description:
@@ -346,7 +416,14 @@ In auto retail, the dealership that replies first usually closes. Our bots respo
     meta: "Industry · Insurance & InsurTech",
     lead:
       "Insurance lives and dies by documents. We build policy-document RAG, claims automation and support copilots that answer from the wording — never guessing — with audit-ready guardrails.",
-    bullets: ["Policy & wording RAG", "Claims intake automation", "Audit-ready support copilots"],
+    bullets: [
+      "Policy & wording RAG",
+      "Claims intake automation",
+      "Audit-ready support copilots",
+      "Document extraction & routing",
+      "PII redaction guardrails",
+      "Out-of-scope deflection",
+    ],
     seo: {
       title: "AI for Insurance & InsurTech India | Voltair Tech",
       description:
@@ -377,7 +454,14 @@ Every response is tied to the policy wording it came from and logged for review 
     meta: "Industry · Media & entertainment",
     lead:
       "Audiences expect more content, personalised. We build content-generation tools, recommendation engines and fast publishing sites for media houses, creators and OTT platforms.",
-    bullets: ["AI content generation", "Recommendation engines", "Publisher & OTT sites"],
+    bullets: [
+      "AI content generation",
+      "Recommendation engines",
+      "Publisher & OTT sites",
+      "Metadata & SEO drafting",
+      "Captioning & scheduling automation",
+      "Multi-platform distribution",
+    ],
     seo: {
       title: "AI for Media & Entertainment India | Voltair Tech",
       description:
@@ -408,7 +492,14 @@ We hand creative teams AI that drafts, tags and distributes — so they spend th
     meta: "Industry · Agriculture & AgriTech",
     lead:
       "Farmers want answers in their language, on the phone they already use. We build vernacular advisory bots, crop-advisory apps and supply automation for AgriTech and FPOs.",
-    bullets: ["Vernacular advisory bots", "Crop-advisory mobile apps", "Procurement automation"],
+    bullets: [
+      "Vernacular advisory bots",
+      "Crop-advisory mobile apps",
+      "Procurement automation",
+      "Image-based crop diagnosis",
+      "Agronomy-guide RAG",
+      "Mandi & buyer linking",
+    ],
     seo: {
       title: "AI for Agriculture & AgriTech India | Voltair Tech",
       description:
@@ -439,7 +530,14 @@ No app download, no English barrier — a WhatsApp message in the local language
     meta: "Industry · SaaS & B2B tech",
     lead:
       "Your users now expect AI inside the product. We embed copilots, RAG-powered search and onboarding automation into your SaaS — shipped fast, with the eval and guardrails to keep it reliable.",
-    bullets: ["In-product AI copilots", "RAG search over your docs", "Onboarding automation"],
+    bullets: [
+      "In-product AI copilots",
+      "RAG search over your docs",
+      "Onboarding automation",
+      "Eval pipelines & guardrails",
+      "Lifecycle & retention flows",
+      "Existing-stack integration",
+    ],
     seo: {
       title: "AI for SaaS & B2B Tech India | Voltair Tech",
       description:
@@ -470,7 +568,14 @@ We slot AI into your current stack — your auth, your data, your UI — and han
     meta: "Industry · Beauty, salons & wellness",
     lead:
       "No-shows and DMs eat into every salon's day. We build booking bots, reminder automation and clean sites for salons, spas and wellness brands — so the chair stays full and the team stays focused.",
-    bullets: ["WhatsApp booking bots", "Reminder & rebooking automation", "Brand & booking sites"],
+    bullets: [
+      "WhatsApp booking bots",
+      "Reminder & rebooking automation",
+      "Brand & booking sites",
+      "No-show reduction flows",
+      "Review-to-booking automation",
+      "Pay-on-chat checkout",
+    ],
     seo: {
       title: "AI for Beauty, Salons & Wellness India | Voltair Tech",
       description:
@@ -501,7 +606,14 @@ Every missed reminder is an empty slot. Our bots confirm, remind and rebook auto
     meta: "Industry · Events & experiences",
     lead:
       "Events run on tight timelines and a thousand attendee questions. We build event sites, registration bots and attendee-info automation that handle the rush so your team runs the show.",
-    bullets: ["Event & ticketing sites", "Registration & info bots", "Attendee automation"],
+    bullets: [
+      "Event & ticketing sites",
+      "Registration & info bots",
+      "Attendee automation",
+      "Agenda-grounded RAG answers",
+      "Confirmations & reminders",
+      "Post-event feedback automation",
+    ],
     seo: {
       title: "AI for Events & Experiences India | Voltair Tech",
       description:
@@ -532,7 +644,14 @@ The week before an event, the questions never stop. Our bots field them instantl
     meta: "Industry · Non-profit & NGO",
     lead:
       "Small teams, big missions. We build donation sites, donor and beneficiary bots, and reporting automation that let NGOs spend less time on admin and more on impact.",
-    bullets: ["Donation & campaign sites", "Donor & beneficiary bots", "Reporting automation"],
+    bullets: [
+      "Donation & campaign sites",
+      "Donor & beneficiary bots",
+      "Reporting automation",
+      "UPI / Razorpay donation flows",
+      "Programme-document RAG",
+      "Funder-ready reporting",
+    ],
     seo: {
       title: "AI for Non-profits & NGOs India | Voltair Tech",
       description:
@@ -563,7 +682,14 @@ Every hour your team spends on admin is an hour off the mission. We automate the
     meta: "Industry · Energy & utilities",
     lead:
       "Utilities juggle high volumes and complex regulation. We build support copilots, billing automation and field-ops RAG that cut handle times and keep crews informed — grounded in your own data.",
-    bullets: ["Support & billing copilots", "Outage & billing automation", "Field-ops manual RAG"],
+    bullets: [
+      "Support & billing copilots",
+      "Outage & billing automation",
+      "Field-ops manual RAG",
+      "Anomaly & forecasting tools",
+      "Ticket routing automation",
+      "On-site procedure lookup",
+    ],
     seo: {
       title: "AI for Energy & Utilities India | Voltair Tech",
       description:
