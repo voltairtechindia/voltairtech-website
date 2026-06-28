@@ -23,7 +23,7 @@ export function NavMenu({ links }: { links: NavLink[] }) {
       if (e.key === "Escape") setOpen(false);
     };
     const onResize = () => {
-      if (window.innerWidth > 820) setOpen(false);
+      if (window.innerWidth > 980) setOpen(false);
     };
     document.addEventListener("keydown", onKey);
     window.addEventListener("resize", onResize);

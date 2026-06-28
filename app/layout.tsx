@@ -4,6 +4,7 @@ import Script from "next/script";
 import { Analytics } from "@vercel/analytics/next";
 import ChatWidgetLazy from "@/components/ChatWidgetLazy";
 import { ScrollReveal } from "@/components/ScrollReveal";
+import { WhatsAppFloating } from "@/components/WhatsAppFloating";
 import "@/styles/globals.css";
 
 const interTight = Inter_Tight({
@@ -109,6 +110,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
 
         {children}
         <ChatWidgetLazy />
+        <WhatsAppFloating />
         <ScrollReveal />
         <Analytics />
         

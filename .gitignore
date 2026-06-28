@@ -12,3 +12,11 @@ out/
 
 kauntech-website/
 .vercel
+
+# Analytics & Google Ads Credentials (secret files)
+ga4-credentials.json
+google-ads-config.json
+generate_refresh_token.py
+analytics_ads_report.json
+fetch_analytics_ads.py
+task.md
