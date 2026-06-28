@@ -1,6 +1,7 @@
 /**
- * Industry (sector) icon logic (pure — no JSX), shared by the API route, the
- * admin, and the SVG registry in components/atoms/IndustryGlyph.tsx.
+ * Industry (sector) icon logic (pure — no JSX), shared by the API route and the
+ * admin. Each key maps to a 3D-rendered PNG badge served from Supabase storage
+ * (see industryIconSrc below), not a hardcoded SVG.
  *
  * An industry stores an `icon` key (`industries.icon`). The admin picks one from
  * INDUSTRY_ICONS, or leaves it on "Auto" (empty) and the API derives one via
@@ -8,7 +9,7 @@
  */
 export const DEFAULT_INDUSTRY_ICON = "default";
 
-/** Keys that have a real glyph in IndustryGlyph (+ human labels for the dropdown). */
+/** Sector icon keys that have a PNG badge (+ human labels for the admin dropdown). */
 export const INDUSTRY_ICONS: { key: string; label: string }[] = [
   { key: "d2c", label: "D2C / E-commerce / Retail" },
   { key: "healthcare", label: "Healthcare / Clinics" },
