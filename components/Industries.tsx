@@ -1,9 +1,8 @@
 import Link from "next/link";
-import Image from "next/image";
 
 import type { IndustryCard } from "@/lib/industries/types";
 import { SectionHead } from "./atoms/SectionHead";
-import { IndustryGlyph } from "./atoms/IndustryGlyph";
+import { IndustryColorGlyph } from "./atoms/IndustryColorGlyph";
 
 /**
  * The /industries index — a grid of sector cards. Each links to
@@ -39,7 +38,7 @@ export function Industries({
           <p className="meta" style={{ marginTop: 24 }}>No industries published yet.</p>
         ) : (
           <div className="svc-grid" style={{ marginTop: "var(--s-6)" }}>
-            {industries.map((it, i) => (
+            {industries.map((it) => (
               <Link
                 key={it.slug}
                 href={`/industries/${it.slug}`}
@@ -57,11 +56,7 @@ export function Industries({
                       decoding="async"
                     />
                   </div>
-                ) : (
-                  <div style={{ width: 48, height: 48, marginTop: 12 }}>
-                    <IndustryGlyph kind={it.icon} />
-                  </div>
-                )}
+                ) : null}
                 <h3 className="svc-card__title">{it.title}</h3>
                 {it.bullets?.length ? (
                   <ul className="svc-card__bullets">
@@ -72,13 +67,15 @@ export function Industries({
                 ) : it.summary ? (
                   <p className="svc-card__bullets">{it.summary}</p>
                 ) : null}
-                {it.service_slugs?.length ? (
-                  <div className="svc-card__eta">
-                    <b>{it.service_slugs.length}</b> service{it.service_slugs.length === 1 ? "" : "s"} →
+                <div className="svc-card__footer">
+                  <div className="svc-card__footer-icon">
+                    <IndustryColorGlyph kind={it.icon} />
                   </div>
-                ) : null}
-                <div className="svc-card__glyph-corner">
-                  <IndustryGlyph kind={it.icon} />
+                  {it.service_slugs?.length ? (
+                    <div className="svc-card__eta">
+                      <b>{it.service_slugs.length}</b> service{it.service_slugs.length === 1 ? "" : "s"} →
+                    </div>
+                  ) : null}
                 </div>
               </Link>
             ))}
