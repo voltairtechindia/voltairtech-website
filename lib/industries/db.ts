@@ -59,13 +59,13 @@ export async function listPublishedIndustries(
  * The first case study from each of the top published industries that has one —
  * surfaced on the homepage as proof. Ordered by industry `position`.
  */
-export async function getFeaturedCaseStudies(limit = 4): Promise<FeaturedCaseStudy[]> {
+export async function getFeaturedCaseStudies(limit = 3): Promise<FeaturedCaseStudy[]> {
   const sb = getSupabase();
   const { data, error } = await sb
     .from("industries")
     .select("slug, title, case_studies")
     .eq("status", "published")
-    .in("slug", ["real-estate", "manufacturing-industrial", "saas-b2b-tech", "d2c-ecommerce"]);
+    .in("slug", ["real-estate", "manufacturing-industrial", "saas-b2b-tech"]);
   if (error) throw error;
 
   const rows = (data ?? []) as {
@@ -86,7 +86,6 @@ export async function getFeaturedCaseStudies(limit = 4): Promise<FeaturedCaseStu
     "real-estate",
     "manufacturing-industrial",
     "saas-b2b-tech",
-    "d2c-ecommerce",
   ];
   out.sort((a, b) => desiredOrder.indexOf(a.industrySlug) - desiredOrder.indexOf(b.industrySlug));
 
