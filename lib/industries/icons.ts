@@ -38,6 +38,12 @@ export function isValidIcon(key: string): boolean {
   return VALID.has(key);
 }
 
+/** Path under /public to the 3D-rendered PNG badge for a sector icon key. */
+export function industryIconSrc(key?: string | null): string {
+  const k = key && isValidIcon(key) ? key : DEFAULT_INDUSTRY_ICON;
+  return `/images/industries/${k}.png`;
+}
+
 /**
  * Derive a sensible sector icon key from an industry's title/tags by keyword
  * match. Used when the admin leaves the icon on "Auto". Falls back to `default`.

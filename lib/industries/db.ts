@@ -24,7 +24,7 @@ export interface FeaturedCaseStudy extends IndustryCaseStudy {
 const CARD_COLUMNS =
   "slug, title, summary, bullets, icon, cover_image, tags, service_slugs, position";
 
-export const DEFAULT_PER_PAGE = 6;
+export const DEFAULT_PER_PAGE = 9;
 
 /** Published industries for the grid, ordered by `position`, paginated. */
 export async function listPublishedIndustries(

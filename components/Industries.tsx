@@ -1,8 +1,9 @@
 import Link from "next/link";
+import Image from "next/image";
 
 import type { IndustryCard } from "@/lib/industries/types";
+import { industryIconSrc } from "@/lib/industries/icons";
 import { SectionHead } from "./atoms/SectionHead";
-import { IndustryColorGlyph } from "./atoms/IndustryColorGlyph";
 
 /**
  * The /industries index — a grid of sector cards. Each links to
@@ -67,8 +68,9 @@ export function Industries({
                 ) : it.summary ? (
                   <p className="svc-card__bullets">{it.summary}</p>
                 ) : null}
+                <div className="svc-card__cta">Click to know more →</div>
                 <div className="svc-card__glyph-corner">
-                  <IndustryColorGlyph kind={it.icon} />
+                  <Image src={industryIconSrc(it.icon)} alt="" width={96} height={96} />
                 </div>
               </Link>
             ))}
