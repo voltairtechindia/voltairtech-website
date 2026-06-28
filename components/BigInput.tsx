@@ -75,7 +75,7 @@ export function BigInput() {
         <div className="bi">
           <div className="bi__hd">
             <div>
-              <Kicker>[&nbsp;01&nbsp;] Tell us what you want</Kicker>
+              <Kicker>Tell us what you want</Kicker>
               <h1 className="bi__h" style={{ marginTop: 12 }}>
                 We&apos;ll <em>build it.</em>
               </h1>

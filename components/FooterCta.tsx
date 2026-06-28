@@ -22,7 +22,7 @@ export function FooterCta({ num }: { num?: string }) {
       <div className="container">
         <div className="foot__top">
           <div className="foot__lede">
-            <Kicker dot={false}>{num ? `[ ${num} ] Start` : "Start"}</Kicker>
+            <Kicker dot={false}>Start</Kicker>
             <h2 className="foot__h">
               Pick a channel. <em>We reply in under an hour.</em>
             </h2>

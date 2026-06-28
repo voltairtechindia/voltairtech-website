@@ -44,7 +44,7 @@ export default function AboutPage() {
         <div className="container">
           <SectionHead
             as="h1"
-            kicker="[ 01 ] Who We Are"
+            kicker="Who We Are"
             title={<>Mumbai's AI<br />build studio.</>}
             right={<span className="tag"><span className="pulse" />Mumbai, India</span>}
           />
@@ -60,7 +60,7 @@ export default function AboutPage() {
       <section className="section section--ink">
         <div className="container">
           <SectionHead
-            kicker="[ 02 ] The Voltair Edge"
+            kicker="The Voltair Edge"
             title={<>48 hours,<br />not 6 months.</>}
             right={<span className="tag"><span className="pulse" style={{ background: "var(--v-lime)" }} />days · not months</span>}
           />
@@ -83,7 +83,7 @@ export default function AboutPage() {
       <section className="section">
         <div className="container">
           <SectionHead
-            kicker="[ 03 ] What We Build"
+            kicker="What We Build"
             title={<>AI-native.<br />Production-ready.</>}
           />
           <div className="about-caps">

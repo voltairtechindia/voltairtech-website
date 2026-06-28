@@ -39,7 +39,6 @@ export function HomeHub() {
               style={{ transitionDelay: `${i * 60}ms` }}
             >
               <div className="hub-card__top">
-                <span className="hub-card__n">[ {item.n} ]</span>
                 <span className="hub-card__arrow">↗</span>
               </div>
               <div className="hub-card__label">{item.label}</div>

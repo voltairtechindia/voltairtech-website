@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 
 import type { IndustryCard } from "@/lib/industries/types";
 import { SectionHead } from "./atoms/SectionHead";
@@ -20,11 +21,11 @@ export function Industries({
   pageCount?: number;
 }) {
   return (
-    <section id="industries" className="section section--ink">
+    <section id="industries" className="section">
       <div className="container">
         <SectionHead
           as="h1"
-          kicker="[ 01 ] Industries"
+          kicker="Industries"
           title={<>Built for your<br />industry.</>}
           right={<span className="tag"><span className="pulse" />sector-shaped AI</span>}
         />
@@ -42,10 +43,9 @@ export function Industries({
               <Link
                 key={it.slug}
                 href={`/industries/${it.slug}`}
-                className={`svc-card${it.cover_image?.url ? " svc-card--media" : ""}`}
+                className={`svc-card svc-card--white${it.cover_image?.url ? " svc-card--media" : ""}`}
                 aria-label={it.title}
               >
-                <span className="svc-card__num">[ {String(it.position || i + 1).padStart(2, "0")} ]</span>
                 <span className="svc-card__arrow">↗</span>
                 {it.cover_image?.url ? (
                   <div className="svc-card__cover">
@@ -58,7 +58,7 @@ export function Industries({
                     />
                   </div>
                 ) : (
-                  <div style={{ width: 56, height: 56, marginTop: 22 }}>
+                  <div style={{ width: 48, height: 48, marginTop: 12 }}>
                     <IndustryGlyph kind={it.icon} />
                   </div>
                 )}
@@ -77,6 +77,9 @@ export function Industries({
                     <b>{it.service_slugs.length}</b> service{it.service_slugs.length === 1 ? "" : "s"} →
                   </div>
                 ) : null}
+                <div className="svc-card__glyph-corner">
+                  <IndustryGlyph kind={it.icon} />
+                </div>
               </Link>
             ))}
           </div>

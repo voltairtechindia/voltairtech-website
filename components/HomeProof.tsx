@@ -19,7 +19,7 @@ export async function HomeProof() {
       <div className="container">
         <div className="section-head">
           <div className="section-head__left">
-            <Kicker>[&nbsp;02&nbsp;] Proof · shipped work</Kicker>
+            <Kicker>Proof · shipped work</Kicker>
             <h2 className="proof__title">How we&apos;ve put AI to work.</h2>
             <p className="proof__lead">
               Real builds across sectors. The problem, what we shipped, and the result.

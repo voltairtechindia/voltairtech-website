@@ -33,7 +33,6 @@ function CardBody({
 }) {
   return (
     <>
-      <span className="svc-card__num">[ {String(num).padStart(2, "0")} ]</span>
       {showArrow ? <span className="svc-card__arrow">↗</span> : null}
       {coverUrl ? (
         <div className="svc-card__cover">

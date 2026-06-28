@@ -21,7 +21,7 @@ export function Faq() {
       <div className="container">
         <SectionHead
           as="h1"
-          kicker="[ 01 ] Frequently asked"
+          kicker="Frequently asked"
           title={<>Answers, not<br />brochures.</>}
           right={<span className="meta mono-lbl">FAQPage schema · AEO-ready</span>}
         />

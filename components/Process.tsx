@@ -16,7 +16,7 @@ export function Process({
   return (
     <section className="section">
       <div className="container">
-        <SectionHead kicker={`[ ${num} ] Process`} title={title} right={right} />
+        <SectionHead kicker="Process" title={title} right={right} />
         {lead ? (
           <p className="lead" style={{ maxWidth: 720 }}>
             {lead}
