@@ -69,8 +69,17 @@ export const metadata: Metadata = {
     images: ["/assets/og-image.jpg"],
   },
   icons: {
-    icon: "/logo-mark.png",
-    apple: "/logo-mark.png",
+    icon: [
+      {
+        url: "/favicon-light.png",
+        media: "(prefers-color-scheme: light)",
+      },
+      {
+        url: "/favicon-dark.png",
+        media: "(prefers-color-scheme: dark)",
+      },
+    ],
+    apple: "/favicon-dark.png",
   },
   robots: {
     index: true,
