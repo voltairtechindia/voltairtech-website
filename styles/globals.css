@@ -367,27 +367,29 @@ body.chat-open .hero-demo {
 
 /* ----- Proof / case studies (home) ----- */
 .proof__title { margin-top: var(--s-3); }
-.proof__lead { color: var(--v-ink-fg-2); max-width: 540px; margin-top: var(--s-3); }
+.proof__lead { color: var(--fg2); max-width: 540px; margin-top: var(--s-3); }
 .proof-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--s-4); }
 @media (max-width: 920px) { .proof-grid { grid-template-columns: 1fr; } }
 .proof-card {
   display: flex; flex-direction: column; gap: var(--s-3);
-  background: var(--v-ink-2); border: 1px solid var(--v-ink-line);
+  background: #ffffff; border: 1px solid var(--border);
   border-radius: var(--r-3); padding: var(--s-5);
-  transition: border-color var(--dur-2) var(--ease-out), transform var(--dur-2) var(--ease-out), box-shadow var(--dur-2) var(--ease-out);
+  transition: border-color var(--dur-2) var(--ease-out), transform var(--dur-2) var(--ease-out), box-shadow var(--dur-2) var(--ease-out), background var(--dur-2) var(--ease-out);
+  color: var(--fg1);
 }
 .proof-card:hover { 
   border-color: var(--v-red); 
   transform: translateY(-3px);
-  box-shadow: 0 12px 24px -10px rgba(230, 57, 70, 0.18);
+  box-shadow: 0 12px 24px -10px rgba(230, 57, 70, 0.14);
+  background: #fcfcfc;
 }
 .proof-card__media {
   position: relative;
   border-radius: var(--r-2);
   overflow: hidden;
   aspect-ratio: 16 / 9;
-  border: 1px solid var(--v-ink-line);
-  background: var(--v-ink);
+  border: 1px solid var(--border);
+  background: var(--v-paper-2);
 }
 .proof-card__img {
   transition: transform var(--dur-3) var(--ease-out);
@@ -404,18 +406,18 @@ body.chat-open .hero-demo {
   color: var(--v-red);
   margin-bottom: var(--s-1);
 }
-.proof-card__title { font-size: 1.1rem; line-height: 1.25; color: var(--v-paper); margin: 0; }
-.proof-card__line { font-size: 13.5px; line-height: 1.5; color: var(--v-ink-fg-2); margin: 0; }
+.proof-card__title { font-size: 1.1rem; line-height: 1.25; color: var(--fg1); margin: 0; }
+.proof-card__line { font-size: 13.5px; line-height: 1.5; color: var(--fg2); margin: 0; }
 .proof-card__line-k {
   display: block; font-family: var(--font-mono), "JetBrains Mono", monospace;
   font-size: 10px; letter-spacing: var(--tracking-label); text-transform: uppercase;
-  color: var(--v-ink-fg-3); margin-bottom: 2px;
+  color: var(--fg3); margin-bottom: 2px;
 }
-.proof-card__metrics { display: flex; flex-wrap: wrap; gap: var(--s-5); margin-top: auto; padding-top: var(--s-3); border-top: 1px solid var(--v-ink-line); }
-.proof-card__metric b { display: block; font-family: var(--font-display), "Inter Tight", sans-serif; font-weight: 700; font-size: 20px; color: var(--v-lime); letter-spacing: -0.02em; }
-.proof-card__metric span { font-family: var(--font-mono), "JetBrains Mono", monospace; font-size: 11px; color: var(--v-ink-fg-3); }
+.proof-card__metrics { display: flex; flex-wrap: wrap; gap: var(--s-5); margin-top: auto; padding-top: var(--s-3); border-top: 1px solid var(--border); }
+.proof-card__metric b { display: block; font-family: var(--font-display), "Inter Tight", sans-serif; font-weight: 700; font-size: 20px; color: var(--v-red-deep); letter-spacing: -0.02em; }
+.proof-card__metric span { font-family: var(--font-mono), "JetBrains Mono", monospace; font-size: 11px; color: var(--fg3); }
 .proof-card__stack { display: flex; flex-wrap: wrap; gap: 6px; }
-.proof-card__tech { font-family: var(--font-mono), "JetBrains Mono", monospace; font-size: 10.5px; color: var(--v-ink-fg-2); border: 1px solid var(--v-ink-line); border-radius: var(--r-pill); padding: 3px 9px; }
+.proof-card__tech { font-family: var(--font-mono), "JetBrains Mono", monospace; font-size: 10.5px; color: var(--fg2); border: 1px solid var(--border); border-radius: var(--r-pill); padding: 3px 9px; }
 
 /* ----- V monogram ----- */
 .v-mono { position: relative; aspect-ratio: 1 / 1; max-width: 540px; margin-left: auto; }

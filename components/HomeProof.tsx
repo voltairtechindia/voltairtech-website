@@ -15,7 +15,7 @@ export async function HomeProof() {
   if (studies.length === 0) return null;
 
   return (
-    <section className="section section--ink" id="proof">
+    <section className="section" id="proof" style={{ background: "var(--v-paper)" }}>
       <div className="container">
         <div className="section-head">
           <div className="section-head__left">
