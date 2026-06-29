@@ -4,6 +4,7 @@ import { customServiceSlug } from "@/lib/industries/custom";
 import type { IndustryCustomService } from "@/lib/industries/types";
 import type { ServiceCard } from "@/lib/services/types";
 import { ServiceGlyph } from "./atoms/ServiceGlyph";
+import { CoverImage } from "./atoms/CoverImage";
 
 /** Shared inner content for a service card (catalogue or custom). */
 function CardBody({
@@ -36,8 +37,7 @@ function CardBody({
       {showArrow ? <span className="svc-card__arrow">↗</span> : null}
       {coverUrl ? (
         <div className="svc-card__cover">
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src={coverUrl} alt={coverAlt ?? title} loading="lazy" decoding="async" />
+          <CoverImage src={coverUrl} alt={coverAlt ?? title} />
         </div>
       ) : (
         <div style={{ width: glyphSize, height: glyphSize, marginTop: compact ? 14 : 22 }}>

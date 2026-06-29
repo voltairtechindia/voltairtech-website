@@ -479,7 +479,7 @@ body.chat-open .hero-demo {
 .svc-card__eta b { color: var(--v-paper); font-family: var(--font-display), "Inter Tight", sans-serif; font-weight: 700; letter-spacing: -0.01em; text-transform: none; font-size: 13px; }
 .svc-card__cta { margin-top: var(--s-4); padding-top: 12px; border-top: 1px dashed var(--v-ink-line); font-family: var(--font-mono), "JetBrains Mono", monospace; font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--v-ink-fg-3); transition: color var(--dur-2); }
 .svc-card:hover .svc-card__cta { color: var(--v-red); }
-.svc-card__cover { margin-top: var(--s-3); border-radius: var(--r-2); overflow: hidden; border: 1px solid var(--v-ink-line); aspect-ratio: 16 / 9; }
+.svc-card__cover { position: relative; margin-top: var(--s-3); border-radius: var(--r-2); overflow: hidden; border: 1px solid var(--v-ink-line); aspect-ratio: 16 / 9; }
 .svc-card__cover img { width: 100%; height: 100%; object-fit: cover; display: block; }
 .svc-card--media .svc-card__title { margin-top: var(--s-4); }
 
@@ -1047,7 +1047,7 @@ a.svc-card { text-decoration: none; color: inherit; }
 .post-list p { margin: 0; font-size: 0.95rem; }
 .post-list .post-kicker { font-family: var(--font-mono), "JetBrains Mono", monospace; font-size: 11px; letter-spacing: 0.06em; color: var(--v-red); text-transform: uppercase; display: block; margin-bottom: 8px; }
 .post-list a.post-card--media { display: flex; gap: var(--s-5); align-items: stretch; }
-.post-card__cover { flex: 0 0 200px; border-radius: var(--r-2); overflow: hidden; align-self: stretch; border: 1px solid var(--border); }
+.post-card__cover { position: relative; flex: 0 0 200px; border-radius: var(--r-2); overflow: hidden; align-self: stretch; border: 1px solid var(--border); }
 .post-card__cover img { width: 100%; height: 100%; min-height: 130px; object-fit: cover; display: block; }
 .post-card__body { min-width: 0; }
 /* Blog index grid — uniform, equal-height cards whether or not a post has a

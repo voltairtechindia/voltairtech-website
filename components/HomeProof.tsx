@@ -1,6 +1,7 @@
 import Link from "next/link";
 
 import { Kicker } from "./atoms/Kicker";
+import { CoverImage } from "./atoms/CoverImage";
 import { getFeaturedCaseStudies, type FeaturedCaseStudy } from "@/lib/industries/db";
 
 /** Real, DB-backed proof: the first case study of each industry flagged
@@ -43,16 +44,10 @@ export async function HomeProof() {
               <span className="proof-card__sector">{s.industryTitle}</span>
               {s.coverImage?.url ? (
                 <div className="proof-card__media">
-                  {/* Admin-uploaded cover (remote Supabase URL). Plain <img> —
-                      next/image has no remotePatterns configured. */}
-                  {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img
+                  <CoverImage
                     src={s.coverImage.url}
                     alt={s.coverImage.alt ?? s.title}
                     className="proof-card__img"
-                    loading="lazy"
-                    decoding="async"
-                    style={{ objectFit: "cover", width: "100%", height: "100%" }}
                   />
                 </div>
               ) : null}

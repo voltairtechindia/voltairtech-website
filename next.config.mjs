@@ -13,7 +13,7 @@ const csp = [
   "img-src 'self' data: blob: https://*.supabase.co https://www.facebook.com https://*.googletagmanager.com https://*.googleadservices.com https://*.google-analytics.com https://*.doubleclick.net https://*.google.com https://*.google.co.in",
   "media-src 'self' https://*.supabase.co",
   "font-src 'self' data:",
-  "connect-src 'self' https://*.supabase.co https://www.facebook.com https://*.google-analytics.com https://*.analytics.google.com https://*.g.doubleclick.net https://*.google.com https://*.google.co.in https://*.googleadservices.com",
+  "connect-src 'self' https://*.supabase.co https://www.facebook.com https://*.google-analytics.com https://*.analytics.google.com https://*.doubleclick.net https://*.g.doubleclick.net https://*.google.com https://*.google.co.in https://*.googleadservices.com",
   "frame-src https://www.youtube-nocookie.com https://player.vimeo.com https://www.facebook.com https://*.facebook.com https://*.google.com",
   "frame-ancestors 'self' https://*.facebook.com https://*.facebook.net https://*.internalfb.com",
   "base-uri 'self'",
@@ -36,6 +36,17 @@ const nextConfig = {
   compress: true,
   images: {
     formats: ["image/avif", "image/webp"],
+    // Admin-uploaded media (covers, sector badges, OG images) lives in the public
+    // Supabase Storage bucket. Allowing it here lets next/image resize + re-encode
+    // those remote assets to AVIF/WebP per viewport on delivery — even legacy PNGs
+    // uploaded before the admin's upload-time compression existed.
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "asipqnvxmtzllivlyibh.supabase.co",
+        pathname: "/storage/v1/object/public/**",
+      },
+    ],
   },
   async headers() {
     return [{ source: "/:path*", headers: securityHeaders }];

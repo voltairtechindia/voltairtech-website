@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 
 import { ProsePage } from "@/components/ProsePage";
+import { CoverImage } from "@/components/atoms/CoverImage";
 import { DEFAULT_PER_PAGE, listPublishedPosts } from "@/lib/blog/db";
 import type { BlogIndex } from "@/lib/blog/types";
 import { formatDate } from "@/lib/blog/util";
@@ -96,12 +97,10 @@ export default async function BlogIndexPage({
                 >
                   <div className="post-card__cover">
                     {p.cover_image?.url ? (
-                      /* eslint-disable-next-line @next/next/no-img-element */
-                      <img
+                      <CoverImage
                         src={p.cover_image.url}
                         alt={p.cover_image.alt ?? p.title}
-                        loading="lazy"
-                        decoding="async"
+                        sizes="(max-width: 760px) 100vw, 360px"
                       />
                     ) : (
                       <div className="post-card__ph" aria-hidden="true">

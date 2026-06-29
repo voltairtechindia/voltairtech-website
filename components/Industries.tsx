@@ -1,8 +1,10 @@
 import Link from "next/link";
+import Image from "next/image";
 
 import type { IndustryCard } from "@/lib/industries/types";
 import { industryIconSrc } from "@/lib/industries/icons";
 import { SectionHead } from "./atoms/SectionHead";
+import { CoverImage } from "./atoms/CoverImage";
 
 /**
  * The /industries index — a grid of sector cards. Each links to
@@ -48,12 +50,9 @@ export function Industries({
                 <span className="svc-card__arrow">↗</span>
                 {it.cover_image?.url ? (
                   <div className="svc-card__cover">
-                    {/* eslint-disable-next-line @next/next/no-img-element */}
-                    <img
+                    <CoverImage
                       src={it.cover_image.url}
                       alt={it.cover_image.alt ?? it.title}
-                      loading="lazy"
-                      decoding="async"
                     />
                   </div>
                 ) : null}
@@ -70,16 +69,14 @@ export function Industries({
                   ) : null}
                   <div className="svc-card__icon">
                     {/* Per-industry badge override, else the bucket-served default
-                        for the icon key. Plain <img> (Supabase URL; next/image has
-                        no remotePatterns configured). */}
-                    {/* eslint-disable-next-line @next/next/no-img-element */}
-                    <img
+                        for the icon key (both Supabase URLs, optimised via
+                        next/image now that the host is in remotePatterns). */}
+                    <Image
                       src={it.icon_image?.url ?? industryIconSrc(it.icon)}
                       alt={it.icon_image?.alt ?? ""}
                       width={96}
                       height={96}
                       loading="lazy"
-                      decoding="async"
                     />
                   </div>
                 </div>
