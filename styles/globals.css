@@ -446,7 +446,7 @@ body.chat-open .hero-demo {
 .v-mono__chip .d { width: 5px; height: 5px; background: var(--v-lime); border-radius: 50%; }
 .v-mono__chip--1 { top: 6%;  right: -6%; transform: rotate(2deg); }
 .v-mono__chip--2 { bottom: 10%; left: -6%; transform: rotate(-2deg); }
-.v-mono__chip--3 { top: 50%; right: -10%; background: var(--v-red); border-color: var(--v-red); }
+.v-mono__chip--3 { top: 50%; right: -10%; background: var(--v-red-deep); border-color: var(--v-red-deep); }
 .v-mono__chip--3 .d { background: var(--v-paper); }
 
 /* ====================  SERVICES  ==================== */
