@@ -107,6 +107,18 @@ function normalize(input: unknown): { row: ServiceUpsert } | { error: string } {
   };
 }
 
+/** Format an INR amount-string (e.g. "200000") as "₹2L" / "₹1.5L" / "₹1.2Cr". */
+function inrLabel(price: string | null): string | null {
+  if (!price) return null;
+  const n = Number(price);
+  if (!Number.isFinite(n) || n <= 0) return null;
+  const trim = (x: number) =>
+    Number.isInteger(x) ? String(x) : x.toFixed(2).replace(/0+$/, "").replace(/\.$/, "");
+  if (n >= 1e7) return `₹${trim(n / 1e7)}Cr`;
+  if (n >= 1e5) return `₹${trim(n / 1e5)}L`;
+  return `₹${n.toLocaleString("en-IN")}`;
+}
+
 /** Mirror a stored service into the RAG store (or remove it if not published). */
 async function syncRag(svc: Service): Promise<void> {
   if (svc.status !== "published") {
@@ -114,11 +126,19 @@ async function syncRag(svc: Service): Promise<void> {
     return;
   }
   const url = `${SITE_URL}/services/${svc.slug}`;
+  // Embed the price/eta columns too — otherwise a price set in the admin is
+  // invisible to the chatbot (it only sees `content`), and the bot mis-quotes a
+  // neighbouring service's price. Mirrors the figure shown on the page.
+  const priceLabel = inrLabel(svc.price);
+  const pricingLine = priceLabel
+    ? `Pricing: from ${priceLabel}${svc.eta ? `, ${svc.eta} delivery` : ""} (fixed-price).`
+    : "";
   const parts = [
     svc.title,
     svc.summary ?? "",
     svc.lead ?? "",
     svc.bullets.join(". "),
+    pricingLine,
     markdownToPlainText(svc.body_md),
   ].filter(Boolean);
   await ingest([
