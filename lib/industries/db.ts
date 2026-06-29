@@ -98,6 +98,19 @@ export async function getFeaturedCaseStudies(limit = 3): Promise<FeaturedCaseStu
   return out;
 }
 
+/** Titles of all published industries, ordered by `position` (for page metadata). */
+export async function listPublishedIndustryTitles(): Promise<string[]> {
+  const sb = getSupabase();
+  const { data, error } = await sb
+    .from("industries")
+    .select("title")
+    .eq("status", "published")
+    .order("position", { ascending: true })
+    .order("created_at", { ascending: true });
+  if (error) throw error;
+  return ((data ?? []) as { title: string }[]).map((r) => r.title);
+}
+
 /** Slugs of all published industries (for sitemap + static params). */
 export async function listPublishedIndustrySlugs(): Promise<string[]> {
   const sb = getSupabase();

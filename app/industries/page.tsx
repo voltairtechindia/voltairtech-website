@@ -2,26 +2,43 @@ import type { Metadata } from "next";
 import { PageLayout } from "@/components/PageLayout";
 import { Industries } from "@/components/Industries";
 import { Process } from "@/components/Process";
-import { listPublishedIndustries, DEFAULT_PER_PAGE } from "@/lib/industries/db";
+import {
+  listPublishedIndustries,
+  listPublishedIndustryTitles,
+  DEFAULT_PER_PAGE,
+} from "@/lib/industries/db";
 import type { IndustryPage } from "@/lib/industries/types";
 import { DEFAULT_OG_IMAGE } from "@/lib/seo";
 
 // Revalidate every 5 min so admin edits appear without a redeploy.
 export const revalidate = 300;
 
-export const metadata: Metadata = {
-  title: "Industries We Build For: AI for D2C, Healthcare, Fintech & More",
-  description:
-    "Voltair Tech ships AI websites, chatbots, RAG systems and automations for D2C & e-commerce, healthcare, fintech, real estate, education, logistics, professional services and hospitality. Mumbai AI build studio.",
-  alternates: { canonical: "https://voltairtech.com/industries" },
-  openGraph: {
-    url: "https://voltairtech.com/industries",
-    title: "Industries We Build For | Voltair Tech Mumbai",
-    description:
-      "AI shaped to your sector: D2C, healthcare, fintech, real estate, education, logistics, professional services and hospitality.",
-    images: [DEFAULT_OG_IMAGE],
-  },
-};
+// Derived from the live catalogue so the meta copy can't drift from the DB as
+// sectors are added/removed in the admin (it used to hardcode 8 of 13).
+export async function generateMetadata(): Promise<Metadata> {
+  let titles: string[] = [];
+  try {
+    titles = await listPublishedIndustryTitles();
+  } catch {
+    // DB unavailable at build — fall back to a representative static list.
+  }
+  const lead = titles.length
+    ? titles.slice(0, 6).join(", ")
+    : "D2C & e-commerce, healthcare, fintech, real estate, SaaS, logistics";
+  const sectors = titles.length > 6 ? `${lead} and more` : lead;
+
+  return {
+    title: "Industries We Build For: AI Across Every Sector | Voltair Tech",
+    description: `Voltair Tech ships AI websites, chatbots, RAG systems and automations for ${sectors}. Mumbai AI build studio.`,
+    alternates: { canonical: "https://voltairtech.com/industries" },
+    openGraph: {
+      url: "https://voltairtech.com/industries",
+      title: "Industries We Build For | Voltair Tech Mumbai",
+      description: `AI shaped to your sector: ${sectors}.`,
+      images: [DEFAULT_OG_IMAGE],
+    },
+  };
+}
 
 export default async function IndustriesPage({
   searchParams,

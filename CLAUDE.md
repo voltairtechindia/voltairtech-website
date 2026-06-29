@@ -74,12 +74,21 @@ Ported from the kauntech site; re-themed for Voltair. New Supabase project
   Next 14.2 has no `after()`). Engine in `lib/rag/*`; response cache in
   `lib/rag/cache.ts` (`chat_cache` table) short-circuits repeat questions.
 - **Knowledge base:** `lib/rag/data/knowledge-base.ts` — edit then re-seed via
-  `POST /api/ingest {"seed":true}` with `X-Admin-Key: $ADMIN_API_KEY`.
+  `POST /api/ingest {"seed":true}` with `X-Admin-Key: $ADMIN_API_KEY`. These core
+  docs (company/pricing/process/faq/rag) do **NOT** auto-sync — unlike
+  service/industry/blog docs — so editing the file without re-seeding silently
+  leaves the bot on old facts. Guardrail: `npm run kb:check` reports drift between
+  the file and the live store (exits non-zero — CI-friendly); `npm run kb:seed`
+  re-seeds + flushes the chat cache (`scripts/check-kb-drift.mjs`).
 - **Blog (DB-backed):** `app/blog/page.tsx` (index) + `app/blog/[slug]/page.tsx`
   (ISR). Engine `lib/blog/*`; render `components/{Markdown,BlogMedia}.tsx`. Posts
   are written via admin-gated `POST /api/blog` (upserts `blog_posts` AND embeds
   published posts as `doc_type:"blog"` so the bot can cite them). The 3 original
   hardcoded posts were migrated to the DB (`supabase/seed-blog.mjs`). Each post
+  Scheduled posts (status `published`, future `published_at`) are embedded into
+  the RAG store on save but **time-gated out of retrieval** until their publish
+  time (`isNotYetPublished` in `lib/rag/retriever.ts`), so the bot won't cite an
+  article visitors can't see yet. Each post
   also carries a `faq` JSONB array (migration `0015`) — Q&A pairs that render as a
   "Frequently asked questions" accordion + **FAQPage JSON-LD** on `/blog/<slug>`
   (AEO/GEO), are edited in the admin's `PostEditor`, can be drafted by the copilot

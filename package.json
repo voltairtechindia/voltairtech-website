@@ -12,7 +12,9 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "kb:check": "node scripts/check-kb-drift.mjs",
+    "kb:seed": "node scripts/check-kb-drift.mjs --seed --flush-cache"
   },
   "dependencies": {
     "@google/genai": "^1.9.0",
