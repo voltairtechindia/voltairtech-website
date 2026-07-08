@@ -6,6 +6,7 @@
 import { getSupabase } from "@/lib/rag/supabase";
 
 import { customServiceSlug } from "./custom";
+import { customServiceShouldIndex, industryShouldIndex } from "./indexing";
 import type {
   Industry,
   IndustryCard,
@@ -13,6 +14,7 @@ import type {
   IndustryCover,
   IndustryCustomService,
   IndustryPage,
+  IndustrySeo,
   IndustryUpsert,
 } from "./types";
 
@@ -111,7 +113,7 @@ export async function listPublishedIndustryTitles(): Promise<string[]> {
   return ((data ?? []) as { title: string }[]).map((r) => r.title);
 }
 
-/** Slugs of all published industries (for sitemap + static params). */
+/** Slugs of all published industries (for static params — index or not). */
 export async function listPublishedIndustrySlugs(): Promise<string[]> {
   const sb = getSupabase();
   const { data, error } = await sb
@@ -120,6 +122,22 @@ export async function listPublishedIndustrySlugs(): Promise<string[]> {
     .eq("status", "published");
   if (error) throw error;
   return ((data ?? []) as { slug: string }[]).map((r) => r.slug);
+}
+
+/**
+ * Slugs of published industries that are *indexable* (not `seo.noindex`) — the
+ * sitemap should only advertise pages we actually want Google to index.
+ */
+export async function listIndexableIndustrySlugs(): Promise<string[]> {
+  const sb = getSupabase();
+  const { data, error } = await sb
+    .from("industries")
+    .select("slug, seo")
+    .eq("status", "published");
+  if (error) throw error;
+  return ((data ?? []) as { slug: string; seo: IndustrySeo | null }[])
+    .filter((r) => industryShouldIndex(r.seo))
+    .map((r) => r.slug);
 }
 
 /** `{ slug, service }` params for every published industry's custom-service detail pages. */
@@ -136,6 +154,33 @@ export async function listPublishedCustomServiceParams(): Promise<
   return rows.flatMap((r) =>
     (r.custom_services ?? []).map((cs) => ({ slug: r.slug, service: customServiceSlug(cs) })),
   );
+}
+
+/**
+ * `{ slug, service }` params for only the *indexable* custom-service sub-pages —
+ * thin sub-pages are noindexed, so the sitemap must not list them. A noindexed
+ * parent industry hides all of its sub-pages here too.
+ */
+export async function listIndexableCustomServiceParams(): Promise<
+  { slug: string; service: string }[]
+> {
+  const sb = getSupabase();
+  const { data, error } = await sb
+    .from("industries")
+    .select("slug, custom_services, seo")
+    .eq("status", "published");
+  if (error) throw error;
+  const rows = (data ?? []) as {
+    slug: string;
+    custom_services: IndustryCustomService[] | null;
+    seo: IndustrySeo | null;
+  }[];
+  return rows.flatMap((r) => {
+    if (!industryShouldIndex(r.seo)) return [];
+    return (r.custom_services ?? [])
+      .filter((cs) => customServiceShouldIndex(cs))
+      .map((cs) => ({ slug: r.slug, service: customServiceSlug(cs) }));
+  });
 }
 
 /** A single published industry by slug, or null. */

@@ -11,6 +11,12 @@ import {
 import { DEFAULT_OG_IMAGE } from "@/lib/seo";
 
 const SITE_URL = "https://voltairtech.com";
+const ORG_ID = `${SITE_URL}/#organization`;
+const AREA_SERVED = [
+  { "@type": "Country", name: "India" },
+  { "@type": "Place", name: "European Union" },
+  { "@type": "Place", name: "Asia-Pacific (APAC)" },
+];
 
 export const revalidate = 300;
 export const dynamicParams = true;
@@ -64,10 +70,13 @@ export default async function ServiceDetailPage({
   const jsonLd = {
     "@context": "https://schema.org",
     "@type": "Service",
+    // Matches the itemOffered @id in the homepage OfferCatalog so engines
+    // reconcile this page's Service with the offering listed on the org graph.
+    "@id": `${url}#service`,
     name: svc.title,
     serviceType: svc.title,
-    provider: { "@type": "Organization", name: "Voltair Tech", url: SITE_URL },
-    areaServed: { "@type": "Country", name: "India" },
+    provider: { "@type": "Organization", "@id": ORG_ID, name: "Voltair Tech", url: SITE_URL },
+    areaServed: AREA_SERVED,
     url,
     description: svc.summary ?? svc.lead ?? undefined,
     ...(svc.cover_image?.url ? { image: [svc.cover_image.url] } : {}),
@@ -77,6 +86,8 @@ export default async function ServiceDetailPage({
             "@type": "Offer",
             priceCurrency: "INR",
             price: svc.price,
+            url,
+            availability: "https://schema.org/InStock",
           },
         }
       : {}),

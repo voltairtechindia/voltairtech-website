@@ -2,15 +2,19 @@ import type { Metadata } from "next";
 import { Nav } from "@/components/Nav";
 import { Hero } from "@/components/Hero";
 import { HomeProof } from "@/components/HomeProof";
+import { HomeServices } from "@/components/HomeServices";
 import { HomeHub } from "@/components/HomeHub";
+import { HomeFaq, HOME_FAQ } from "@/components/HomeFaq";
 import { MarqueeSection } from "@/components/MarqueeSection";
 import { FooterCta } from "@/components/FooterCta";
+import { listPublishedServices } from "@/lib/services/db";
+import type { ServiceCard } from "@/lib/services/types";
 import { SITE_URL } from "@/lib/seo";
 
 export const revalidate = 3600;
 
 export const metadata: Metadata = {
-  title: "Voltair Tech - AI Services Mumbai | Build & Deploy in 48 Hours",
+  title: "Voltair Tech – Build AI, RAG & Chatbots in Mumbai",
   description:
     "Voltair Tech is a Mumbai AI build studio shipping production apps, chatbots, automations and RAG systems in 48 hours. Indian operators, global standards.",
   alternates: {
@@ -36,7 +40,43 @@ const ADDRESS = {
   addressCountry: "IN",
 } as const;
 
-const jsonLd = {
+const AREA_SERVED = [
+  { "@type": "Country", name: "India" },
+  { "@type": "Place", name: "European Union" },
+  { "@type": "Place", name: "Asia-Pacific (APAC)" },
+] as const;
+
+/**
+ * An OfferCatalog of every published service, wired into the Organization so
+ * answer engines (and Google) can enumerate + cite each individual offering as
+ * its own Service node. Each item's `@id` matches the Service node on that
+ * service's own detail page (/services/<slug>), so the two reconcile. Pulled
+ * live from the DB → new services added in the admin appear here automatically.
+ */
+function offerCatalog(services: ServiceCard[]) {
+  if (!services.length) return null;
+  return {
+    "@type": "OfferCatalog",
+    name: "AI services",
+    itemListElement: services.map((s) => ({
+      "@type": "Offer",
+      itemOffered: {
+        "@type": "Service",
+        "@id": `${SITE_URL}/services/${s.slug}#service`,
+        name: s.title,
+        serviceType: s.title,
+        url: `${SITE_URL}/services/${s.slug}`,
+        ...(s.summary ? { description: s.summary } : {}),
+        provider: { "@id": ORG_ID },
+        areaServed: AREA_SERVED,
+      },
+    })),
+  };
+}
+
+function buildJsonLd(services: ServiceCard[]) {
+  const catalog = offerCatalog(services);
+  return {
   "@context": "https://schema.org",
   "@graph": [
     {
@@ -59,11 +99,8 @@ const jsonLd = {
       description:
         "Mumbai-based AI build studio shipping production apps, chatbots, automations and RAG systems. Websites in 48 hours.",
       address: ADDRESS,
-      areaServed: [
-        { "@type": "Country", name: "India" },
-        { "@type": "Place", name: "European Union" },
-        { "@type": "Place", name: "Asia-Pacific (APAC)" },
-      ],
+      areaServed: AREA_SERVED,
+      ...(catalog ? { hasOfferCatalog: catalog } : {}),
       knowsAbout: [
         "Artificial Intelligence",
         "Retrieval-Augmented Generation (RAG)",
@@ -126,10 +163,34 @@ const jsonLd = {
       inLanguage: "en-IN",
       publisher: { "@id": ORG_ID },
     },
+    // Mirrors the visible <HomeFaq /> section (same HOME_FAQ source) so the
+    // markup and on-page answers never drift — required for FAQ rich results
+    // and the basis for AI answer-engine citations.
+    {
+      "@type": "FAQPage",
+      "@id": `${SITE_URL}/#faq`,
+      mainEntity: HOME_FAQ.map((f) => ({
+        "@type": "Question",
+        name: f.q,
+        acceptedAnswer: { "@type": "Answer", text: f.a },
+      })),
+    },
   ],
-};
+  };
+}
 
-export default function HomePage() {
+export default async function HomePage() {
+  // Published services power the Organization's OfferCatalog (individual Service
+  // nodes for AI/search engines to cite). Best-effort: if the DB is unreachable
+  // at build the catalog is simply omitted — the graph still validates.
+  let services: ServiceCard[] = [];
+  try {
+    services = (await listPublishedServices(1, 100)).items;
+  } catch {
+    // DB unavailable — render without the offer catalog.
+  }
+  const jsonLd = buildJsonLd(services);
+
   return (
     <>
       <script
@@ -141,7 +202,9 @@ export default function HomePage() {
         <main>
           <Hero />
           <HomeProof />
+          <HomeServices />
           <HomeHub />
+          <HomeFaq />
           <MarqueeSection />
         </main>
         <FooterCta />

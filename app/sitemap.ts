@@ -3,8 +3,8 @@ import type { MetadataRoute } from "next";
 import { listPublishedPosts } from "@/lib/blog/db";
 import { listPublishedServiceSlugs } from "@/lib/services/db";
 import {
-  listPublishedCustomServiceParams,
-  listPublishedIndustrySlugs,
+  listIndexableCustomServiceParams,
+  listIndexableIndustrySlugs,
 } from "@/lib/industries/db";
 
 const BASE = "https://voltairtech.com";
@@ -61,7 +61,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
   let industrySlugs: string[];
   try {
-    industrySlugs = await listPublishedIndustrySlugs();
+    industrySlugs = await listIndexableIndustrySlugs();
     if (!industrySlugs.length) industrySlugs = FALLBACK_INDUSTRY_SLUGS;
   } catch {
     industrySlugs = FALLBACK_INDUSTRY_SLUGS;
@@ -96,10 +96,11 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     priority: 0.8,
   }));
 
-  // Per-industry custom-service detail pages (best-effort — skip if unreachable).
+  // Per-industry custom-service detail pages — only the indexable (non-thin)
+  // ones (best-effort — skip if unreachable).
   let customServiceRoutes: MetadataRoute.Sitemap = [];
   try {
-    customServiceRoutes = (await listPublishedCustomServiceParams()).map(({ slug, service }) => ({
+    customServiceRoutes = (await listIndexableCustomServiceParams()).map(({ slug, service }) => ({
       url: `${BASE}/industries/${slug}/${service}`,
       lastModified: now,
       changeFrequency: "monthly",

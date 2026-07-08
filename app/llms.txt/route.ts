@@ -25,6 +25,8 @@ const HEADER = `# Voltair Tech
 - Hours: Mon–Sat, 10:00–20:00 IST
 - Languages: English, Hindi, Marathi
 - Tagline: "Ship AI in 48 hours."
+- Stack: RAG on pgvector/Supabase, WhatsApp Business API & voice/IVR agents, custom self-improving AI agents, Next.js/React Native apps. LLMs: Claude, GPT, Gemini.
+- Reach: serves clients across India, the EU, and APAC — Indian-operated, global engineering standards.
 
 ## Core pages
 - [Home](${SITE_URL}/): What Voltair Tech builds and how fast.

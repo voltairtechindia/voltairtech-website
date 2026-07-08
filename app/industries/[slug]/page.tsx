@@ -11,6 +11,7 @@ import {
   getPublishedIndustry,
   listPublishedIndustrySlugs,
 } from "@/lib/industries/db";
+import { industryShouldIndex } from "@/lib/industries/indexing";
 import { getPublishedServiceCardsBySlugs } from "@/lib/services/db";
 import { DEFAULT_OG_IMAGE } from "@/lib/seo";
 
@@ -44,6 +45,9 @@ export async function generateMetadata({
     title,
     description,
     alternates: { canonical: `${SITE_URL}/industries/${ind.slug}` },
+    // Admin can hide a weak sector page from Google (seo.noindex) without
+    // unpublishing it — it still renders and stays in the chatbot's knowledge.
+    ...(industryShouldIndex(ind.seo) ? {} : { robots: { index: false, follow: true } }),
     openGraph: {
       type: "website",
       title,

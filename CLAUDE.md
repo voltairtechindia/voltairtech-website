@@ -118,6 +118,20 @@ Ported from the kauntech site; re-themed for Voltair. New Supabase project
   embedding (so the bot can answer "how have you used AI in X?" / "what stack for X?"),
   and are edited in the admin's `IndustryEditor` (card list → hidden `case_studies_json`).
   The admin AI copilot can draft them too (`case_studies` in the `industry-draft` fence).
+- **Thin-content indexing guard (`lib/industries/indexing.ts`):** each industry
+  can spin up ~12 custom-service sub-pages (`/industries/<x>/<service>`), so 13
+  sectors = 140+ auto-generated pages. Sub-pages with no real body prose are thin
+  near-templates that hurt the whole domain's quality signal, so they're **robots
+  `noindex, follow` by default** and **excluded from the sitemap** until they carry
+  ≥`MIN_CUSTOM_SERVICE_BODY` (600) chars of unique body — or the admin force-indexes
+  one via the per-sub-page "Show on Google" toggle (`IndustryCustomService.index`).
+  An industry page itself is indexable unless the admin sets `seo.noindex` (hides it
+  from Google + sitemap, keeps it live + in the chatbot). The page `robots` tag and
+  the sitemap share the same helpers (`customServiceShouldIndex` / `industryShouldIndex`)
+  so they can't disagree. No migration — `seo`/`custom_services` are JSONB. NB: the
+  homepage `Organization` JSON-LD carries a DB-driven `hasOfferCatalog` of every
+  published service (individual `Service` nodes whose `@id` matches each
+  `/services/<slug>` page) so answer engines can cite each offering.
 - **Inquiries:** `components/BigInput.tsx` → `POST /api/contact` → `contact_submissions`.
 - **Rate limiting:** `lib/rate-limit.ts` + `rl_hit` RPC (chat burst/daily/global,
   contact burst/daily). **Admin auth:** `lib/admin-auth.ts` (`X-Admin-Key`).

@@ -9,6 +9,11 @@ export interface IndustrySeo {
   title?: string;
   description?: string;
   og_image?: string;
+  /**
+   * Force this industry's detail page out of Google's index (robots noindex).
+   * Admin-editable. Industry pages are otherwise indexable by default.
+   */
+  noindex?: boolean;
 }
 
 /** One headline figure for a case study (e.g. { label: "calls deflected", value: "60%" }). */
@@ -53,6 +58,14 @@ export interface IndustryCustomService {
   lead?: string;
   body_md?: string;
   cover_image?: IndustryCover | null;
+  /**
+   * Whether this sector-only sub-page (/industries/<industry>/<service>) may be
+   * indexed by Google. Undefined → auto: index only once the page carries real,
+   * unique body prose (see lib/industries/indexing.ts). `true`/`false` are an
+   * explicit admin override. Guards against 100+ thin, near-template sub-pages
+   * dragging the whole domain's quality signal down.
+   */
+  index?: boolean;
 }
 
 export type IndustryStatus = "draft" | "published" | "archived";

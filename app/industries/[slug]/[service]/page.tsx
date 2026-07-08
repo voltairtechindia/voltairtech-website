@@ -10,6 +10,7 @@ import {
   getPublishedIndustry,
   listPublishedCustomServiceParams,
 } from "@/lib/industries/db";
+import { customServiceShouldIndex } from "@/lib/industries/indexing";
 import { DEFAULT_OG_IMAGE } from "@/lib/seo";
 
 const SITE_URL = "https://voltairtech.com";
@@ -43,6 +44,10 @@ export async function generateMetadata({
     title,
     description,
     alternates: { canonical: url },
+    // Sector-only sub-pages are thin by default (summary + bullets), so they're
+    // noindexed until they carry real unique prose or the admin force-indexes
+    // them (`follow` keeps link equity flowing to the linked services/industry).
+    ...(customServiceShouldIndex(cs) ? {} : { robots: { index: false, follow: true } }),
     openGraph: {
       type: "website",
       title,

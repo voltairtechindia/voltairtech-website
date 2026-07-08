@@ -145,6 +145,10 @@ function customServices(v: unknown): IndustryCustomService[] {
     if (lead) cs.lead = lead;
     if (bodyMd.trim()) cs.body_md = bodyMd;
     if (coverImg) cs.cover_image = coverImg;
+    // Explicit index override (else undefined → auto: index only when the page
+    // has real, unique prose — see lib/industries/indexing.ts).
+    if (p.index === true || p.index === "true" || p.index === "on") cs.index = true;
+    else if (p.index === false || p.index === "false") cs.index = false;
     out.push(cs);
   }
   return out;
@@ -173,8 +177,18 @@ function normalize(input: unknown): { row: IndustryUpsert } | { error: string } 
     new Set(strArray(p.service_slugs).map((s) => slugify(s)).filter(Boolean)),
   );
 
-  const seo =
-    typeof p.seo === "object" && p.seo !== null ? (p.seo as IndustryUpsert["seo"]) : {};
+  // Normalise the SEO overrides explicitly (title/description/og_image + the
+  // optional noindex flag) so callers can't smuggle arbitrary keys into the
+  // stored JSONB.
+  const seoIn =
+    typeof p.seo === "object" && p.seo !== null ? (p.seo as Record<string, unknown>) : {};
+  const seo: IndustryUpsert["seo"] = {};
+  if (str(seoIn.title)) seo.title = str(seoIn.title);
+  if (str(seoIn.description)) seo.description = str(seoIn.description);
+  if (str(seoIn.og_image)) seo.og_image = str(seoIn.og_image);
+  if (seoIn.noindex === true || seoIn.noindex === "true" || seoIn.noindex === "on") {
+    seo.noindex = true;
+  }
 
   const position =
     typeof p.position === "number" && Number.isFinite(p.position)
