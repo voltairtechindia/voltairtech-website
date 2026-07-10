@@ -2,10 +2,9 @@
 
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { CONTENT } from "@/lib/content";
 import { LEAD_FLAG } from "@/lib/gtag-events";
-import { Kicker } from "./atoms/Kicker";
 import { Arr } from "./atoms/Arr";
 
 type Status = "idle" | "sending" | "done" | "error";
@@ -19,18 +18,18 @@ const MIN_BRIEF = 10;
 const digitsOf = (s: string) => s.replace(/\D/g, "");
 
 const STEPS = [
-  {
-    b: "Send your brief",
-    t: "One or two lines is enough. No forms, no decks, no discovery call.",
-  },
-  {
-    b: "We reply in under an hour",
-    t: `Scope, a fixed price, and a start date. ${CONTENT.brand.hours}.`,
-  },
-  {
-    b: "We start building",
-    t: "Websites go live in 48 hours. Larger builds ship on a weekly plan.",
-  },
+  { b: "Send your brief", t: "One or two lines is enough." },
+  { b: "We reply in under an hour", t: CONTENT.brand.hours + "." },
+  { b: "We start building", t: "Websites go live in 48 hours." },
+];
+
+const EXAMPLES = [
+  "A WhatsApp bot that answers questions from our 800-page policy doc, in Hindi and English…",
+  "A booking site for our clinic that texts patients a reminder the day before…",
+  "An automation that reads supplier invoices from Gmail and files them into Sheets…",
+  "A chatbot on our store that recommends products and hands off to a human on request…",
+  "An internal search tool over five years of project reports and contracts…",
+  "A dashboard that pulls our Shopify orders and flags the ones likely to be returned…",
 ];
 
 export function BigInput() {
@@ -46,6 +45,15 @@ export function BigInput() {
 
   const [touched, setTouched] = useState({ name: false, contact: false, brief: false });
   const touch = (k: keyof typeof touched) => setTouched((t) => ({ ...t, [k]: true }));
+
+  // /contact is prerendered, so the example has to be picked after mount —
+  // randomising during render would hand the client different HTML than the
+  // server sent and blow up hydration. Swapping a placeholder post-paint is
+  // invisible: it shifts nothing and the field is empty either way.
+  const [placeholder, setPlaceholder] = useState(EXAMPLES[0]);
+  useEffect(() => {
+    setPlaceholder(EXAMPLES[Math.floor(Math.random() * EXAMPLES.length)]);
+  }, []);
 
   const nameOk = name.trim().length >= 2;
   const phoneDigits = digitsOf(whatsapp).length;
@@ -144,19 +152,16 @@ export function BigInput() {
   };
 
   return (
-    <section className="section">
+    <section className="section section--contact">
       <div className="container">
         <div className="bi">
           <div className="bi__hd">
-            <div>
-              <Kicker>Contact Voltair Tech</Kicker>
-              <h1 className="bi__h">
-                Get a <em>free project plan.</em>
-              </h1>
-            </div>
+            <h1 className="bi__h">
+              Contact <em>us.</em>
+            </h1>
             <p className="lead bi__lede">
-              Tell us what you want to build. We read every message and reply within an
-              hour with scope, a fixed price, and a start date. No cost, no obligation.
+              Tell us what you want to build. We reply within an hour with scope, a fixed
+              price, and a start date.
             </p>
           </div>
 
@@ -174,7 +179,7 @@ export function BigInput() {
 
           {status === "done" ? (
             <div className="bi__field bi__done">
-              <strong>Brief sent. Taking you to the confirmation page…</strong>
+              <strong>Message sent. Taking you to the confirmation page…</strong>
               <p className="meta bi__done-sub">
                 Not redirected? <Link href="/thank-you">Continue here</Link> — or reach
                 us at {CONTENT.brand.email} · {CONTENT.brand.phone}.
@@ -184,9 +189,11 @@ export function BigInput() {
             <div className="bi__field">
               <div className="bi__identity">
                 <div className="bi__group">
-                  <label className="bi__label" htmlFor="bi-name">
-                    Your name
-                  </label>
+                  <div className="bi__label-row">
+                    <label className="bi__label" htmlFor="bi-name">
+                      Your name
+                    </label>
+                  </div>
                   <input
                     id="bi-name"
                     className="bi__input"
@@ -206,11 +213,36 @@ export function BigInput() {
                   ) : null}
                 </div>
                 <div className="bi__group">
-                  <label className="bi__label" htmlFor="bi-contact">
-                    {chan === "whatsapp"
-                      ? "WhatsApp number (with country code)"
-                      : "Email address"}
-                  </label>
+                  {/* The channel switch sits directly above the field it swaps —
+                      below it (where it used to be) nothing explained why this
+                      input kept changing. */}
+                  <div className="bi__label-row">
+                    <label className="bi__label" htmlFor="bi-contact">
+                      {chan === "whatsapp" ? "WhatsApp number" : "Email address"}
+                    </label>
+                    <div
+                      className="bi__channels"
+                      role="group"
+                      aria-label="Where should we reply?"
+                    >
+                      {(["whatsapp", "email"] as const).map((c) => (
+                        <button
+                          key={c}
+                          type="button"
+                          className={"bi__channel " + (chan === c ? "on" : "")}
+                          aria-pressed={chan === c}
+                          // The field now holds a different value; don't flag it
+                          // as wrong before they've had a chance to fill it.
+                          onClick={() => {
+                            setChan(c);
+                            setTouched((t) => ({ ...t, contact: false }));
+                          }}
+                        >
+                          {c === "whatsapp" ? "WhatsApp" : "Email"}
+                        </button>
+                      ))}
+                    </div>
+                  </div>
                   {chan === "whatsapp" ? (
                     <input
                       id="bi-contact"
@@ -260,20 +292,21 @@ export function BigInput() {
               />
 
               <div className="bi__group">
-                <label className="bi__label" htmlFor="bi-brief">
-                  What do you want to build?
-                </label>
+                <div className="bi__label-row">
+                  <label className="bi__label" htmlFor="bi-brief">
+                    What do you want to build?
+                  </label>
+                  <span className="bi__optional">A line or two is plenty</span>
+                </div>
                 <textarea
                   id="bi-brief"
                   className="bi__textarea"
-                  placeholder="A WhatsApp bot that answers questions over our 800-page policy doc, in Hindi and English…"
+                  placeholder={placeholder}
                   value={val}
                   onChange={(e) => setVal(e.target.value)}
                   onBlur={() => touch("brief")}
                   aria-invalid={show.brief}
-                  aria-describedby={
-                    show.brief ? "bi-brief-err" : hint ? "bi-hint" : undefined
-                  }
+                  aria-describedby={show.brief ? "bi-brief-err" : undefined}
                 />
                 {show.brief ? (
                   <p className="bi__field-err" id="bi-brief-err">
@@ -282,50 +315,31 @@ export function BigInput() {
                 ) : null}
               </div>
 
-              <div className="bi__row">
-                <div className="bi__channels" role="group" aria-label="Where should we reply?">
-                  <span className="meta mono-lbl">reply on</span>
-                  {(["whatsapp", "email"] as const).map((c) => (
-                    <button
-                      key={c}
-                      type="button"
-                      className={"bi__channel " + (chan === c ? "on" : "")}
-                      aria-pressed={chan === c}
-                      // The contact field now holds a different value; don't
-                      // flag it as wrong before they've had a chance to fill it.
-                      onClick={() => {
-                        setChan(c);
-                        setTouched((t) => ({ ...t, contact: false }));
-                      }}
-                    >
-                      {c === "whatsapp" ? "WhatsApp" : "Email"}
-                    </button>
-                  ))}
-                </div>
-                <button
-                  className="btn btn-primary"
-                  type="button"
-                  onClick={submit}
-                  disabled={!ready || status === "sending"}
-                  aria-describedby={hint ? "bi-hint" : undefined}
-                >
-                  {status === "sending" ? "Sending…" : "Get my free plan"} <Arr />
-                </button>
-              </div>
-
-              {hint ? (
-                <p className="bi__hint" id="bi-hint">
-                  {hint}
-                </p>
-              ) : null}
               {error ? (
                 <p className="bi__err" role="alert">
                   {error}
                 </p>
               ) : null}
 
+              <div className="bi__row">
+                {hint ? (
+                  <p className="bi__hint" id="bi-hint">
+                    {hint}
+                  </p>
+                ) : null}
+                <button
+                  className="btn btn-primary bi__submit"
+                  type="button"
+                  onClick={submit}
+                  disabled={!ready || status === "sending"}
+                  aria-describedby={hint ? "bi-hint" : undefined}
+                >
+                  {status === "sending" ? "Sending…" : "Send message"} <Arr />
+                </button>
+              </div>
+
               <p className="bi__trust">
-                Free and no obligation. Your details reach our team only — read our{" "}
+                Your details stay with our team — read our{" "}
                 <Link href="/privacy">privacy policy</Link>.
               </p>
             </div>

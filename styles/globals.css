@@ -71,6 +71,7 @@
   --s-9: 96px;  --s-10: 128px;
   --section-y: clamp(64px, 10vw, 128px);
   --container-max: 1440px;
+  --nav-h: 65px;
   --gutter: clamp(20px, 4vw, 56px);
 
   /* ----- Radii ----- */
@@ -185,7 +186,7 @@ body { background: var(--v-paper); color: var(--v-ink); overflow-x: hidden; }
 /* ---------- Numbered steps (contact + thank-you) ---------- */
 .steps { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--s-4); list-style: none; }
 /* text-align:left survives the centred headers these sit under. */
-.step { display: flex; gap: var(--s-3); align-items: flex-start; text-align: left; padding: var(--s-4); border: 1px solid var(--border); border-radius: var(--r-2); background: var(--bg2); }
+.step { display: flex; gap: var(--s-3); align-items: flex-start; text-align: left; padding: var(--s-3) var(--s-4); border: 1px solid var(--border); border-radius: var(--r-2); background: var(--bg2); }
 .step__n { flex: none; padding-top: 2px; font-family: var(--font-mono), "JetBrains Mono", monospace; font-size: var(--fs-mono); font-weight: 700; color: var(--v-red); letter-spacing: var(--tracking-label); }
 .step__b { display: block; margin-bottom: 3px; font-weight: 700; font-size: 0.95rem; letter-spacing: -0.01em; color: var(--fg1); }
 .step__t { display: block; font-size: 0.85rem; line-height: 1.45; color: var(--fg2); }
@@ -617,19 +618,51 @@ body.chat-open .hero-demo {
 
 /* ====================  BIG INPUT  ==================== */
 /* A single centred column at every width: the form is the only thing on this
-   page, so nothing competes with it for the eye. */
+   page, so nothing competes with it for the eye.
+
+   On desktop the section fills exactly one viewport below the nav and centres
+   its contents, so the whole form sits in the first screen with no scroll. The
+   vh terms in the clamps below let it keep fitting on short laptop screens —
+   type, padding and the textarea all shrink together rather than the card
+   spilling past the fold. Phones fall back to normal flow: scrolling is fine. */
 .bi { max-width: 940px; margin: 0 auto; }
 .bi__hd { text-align: center; }
-.bi__h { font-family: var(--font-display), "Inter Tight", sans-serif; font-weight: 900; font-size: clamp(2.6rem, 6vw, 4.8rem); line-height: var(--lh-display); letter-spacing: var(--tracking-tight); }
+.bi__h { font-family: var(--font-display), "Inter Tight", sans-serif; font-weight: 900; font-size: clamp(2.2rem, min(5.4vw, 7.4vh), 3.9rem); line-height: var(--lh-display); letter-spacing: var(--tracking-tight); }
 .bi__h em { color: var(--v-red); font-style: normal; }
-.bi__field { text-align: left; border: 2px solid var(--v-ink); border-radius: var(--r-3); padding: var(--s-6); background: var(--v-paper); transition: border-color var(--dur-2), box-shadow var(--dur-2); }
-.bi__field:focus-within { border-color: var(--v-red); box-shadow: var(--shadow-red); }
-.bi__textarea { width: 100%; resize: none; font-family: var(--font-display), "Inter Tight", sans-serif; font-weight: 500; font-size: clamp(1.2rem, 2.2vw, 1.6rem); line-height: 1.4; color: var(--v-ink); min-height: 92px; }
+/* No :focus-within glow — now that each input carries its own border and focus
+   ring, lighting the whole card up read as an error. */
+.bi__field { text-align: left; border: 2px solid var(--v-ink); border-radius: var(--r-3); padding: clamp(14px, 2.4vh, 32px); background: var(--v-paper); }
+
+.section--contact { padding: var(--s-6) 0; }
+@media (min-width: 900px) {
+  .section--contact {
+    display: grid;
+    align-items: center;
+    min-height: calc(100svh - var(--nav-h));
+    padding: clamp(10px, 2.4vh, 48px) 0;
+  }
+}
+/* Styled exactly like .bi__input — as a borderless block of oversized display
+   type it didn't read as something you could type into. */
+.bi__textarea {
+  width: 100%; resize: vertical; padding: 14px 16px; font-size: 1rem; line-height: 1.5;
+  min-height: clamp(64px, 9.5vh, 120px);
+  background: var(--v-paper); border: 1.5px solid rgba(10, 10, 10, 0.28); border-radius: var(--r-2);
+  color: var(--v-ink); transition: border-color var(--dur-2), box-shadow var(--dur-2);
+}
 .bi__textarea::placeholder { color: rgba(10, 10, 10, 0.62); }
-.bi__row { display: flex; align-items: center; justify-content: space-between; gap: var(--s-3); margin-top: var(--s-5); padding-top: var(--s-5); border-top: 1px solid rgba(10, 10, 10, 0.22); flex-wrap: wrap; }
-.bi__channels { display: flex; gap: var(--s-2); align-items: center; flex-wrap: wrap; }
-.bi__channel { display: inline-flex; align-items: center; gap: 6px; padding: 6px 10px; border-radius: var(--r-pill); border: 1px solid var(--border); font-family: var(--font-mono), "JetBrains Mono", monospace; font-size: 11px; color: var(--fg2); }
-.bi__channel.on { background: var(--v-ink); color: var(--v-paper); border-color: var(--v-ink); }
+.bi__textarea:focus { border-color: var(--v-red); box-shadow: var(--focus-ring); }
+.bi__textarea[aria-invalid="true"] { border-color: var(--v-red-deep); }
+
+.bi__row { display: flex; align-items: center; gap: var(--s-4); margin-top: clamp(14px, 2.2vh, 24px); flex-wrap: wrap; }
+.bi__submit { margin-left: auto; }
+
+/* Segmented control, sitting in the label row of the field it switches. Kept
+   under the row's 28px so the name and contact inputs stay on the same line. */
+.bi__channels { display: inline-flex; gap: 2px; padding: 2px; border: 1px solid var(--border); border-radius: var(--r-pill); background: var(--bg2); }
+.bi__channel { display: inline-flex; align-items: center; padding: 4px 11px; border-radius: var(--r-pill); font-family: var(--font-mono), "JetBrains Mono", monospace; font-size: 11px; line-height: 1.2; color: var(--fg3); transition: background var(--dur-2), color var(--dur-2); }
+.bi__channel:hover { color: var(--fg1); }
+.bi__channel.on { background: var(--v-ink); color: var(--v-paper); }
 
 /* ====================  MARQUEE  ==================== */
 .marquee { padding: var(--s-7) 0; border-top: 1px solid var(--v-ink-line); border-bottom: 1px solid var(--v-ink-line); background: var(--v-ink); overflow: hidden; position: relative; }
@@ -1137,7 +1170,7 @@ a.svc-card { text-decoration: none; color: inherit; }
 /* =========================================================================
    Contact / BigInput — name + email + status states
    ========================================================================= */
-.bi__identity { display: grid; grid-template-columns: 1fr 1fr; gap: var(--s-3); margin-bottom: var(--s-3); }
+.bi__identity { display: grid; grid-template-columns: 1fr 1fr; gap: var(--s-3) var(--s-4); margin-bottom: var(--s-4); }
 .bi__input {
   width: 100%; padding: 14px 16px; font-size: 1rem;
   background: var(--v-paper); border: 1.5px solid rgba(10, 10, 10, 0.28); border-radius: var(--r-2);
@@ -1154,32 +1187,28 @@ a.svc-card { text-decoration: none; color: inherit; }
 .bi__done-sub { margin-top: 6px; }
 .bi__done-sub a { color: var(--v-red-deep); text-decoration: underline; }
 
-.bi__hd h1 { margin-top: var(--s-3); }
-.bi__lede { max-width: 620px; margin: var(--s-5) auto 0; }
-.bi__steps { margin: var(--s-7) 0; }
-.bi__label { display: block; margin-bottom: 6px; font-family: var(--font-mono), "JetBrains Mono", monospace; font-size: var(--fs-mono); font-weight: 500; letter-spacing: var(--tracking-label); text-transform: uppercase; color: var(--fg3); }
-.bi__group + .bi__group { margin-top: var(--s-4); }
-.bi__identity .bi__group + .bi__group { margin-top: 0; }
-.bi__channels .mono-lbl { margin-right: 6px; }
+.bi__lede { max-width: 660px; margin: clamp(8px, 1.8vh, 18px) auto 0; font-size: clamp(1rem, 1.2vw, 1.15rem); }
+.bi__steps { margin: clamp(14px, 2.6vh, 40px) 0; }
+.bi__label { display: block; font-family: var(--font-mono), "JetBrains Mono", monospace; font-size: var(--fs-mono); font-weight: 500; letter-spacing: var(--tracking-label); text-transform: uppercase; color: var(--fg3); }
+/* Fixed height so the name and contact columns line up even though only one of
+   them carries the channel toggle. */
+.bi__label-row { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: var(--s-2); min-height: 28px; margin-bottom: 4px; }
+.bi__optional { font-size: 0.75rem; color: var(--fg3); }
 /* Names the one field still missing, so a greyed-out button never reads as broken. */
-.bi__hint { margin-top: var(--s-3); font-size: 0.8125rem; color: var(--fg3); }
-.bi__trust { margin-top: var(--s-4); font-size: 0.8125rem; color: var(--fg3); }
+.bi__hint { font-size: 0.8125rem; color: var(--fg3); }
+.bi__trust { margin-top: clamp(10px, 1.6vh, 16px); font-size: 0.8125rem; color: var(--fg3); }
 .bi__trust a { color: var(--fg2); text-decoration: underline; }
 .bi__trust a:hover { color: var(--v-red-deep); }
 
 @media (max-width: 640px) {
-  /* Tighter field padding gives the inputs room; smaller textarea type + taller
-     min-height stops the long example placeholder from clipping on phones. */
-  .bi__field { padding: var(--s-5); }
+  /* Taller min-height stops the long example placeholder clipping on phones. */
   .bi__input { font-size: 0.95rem; padding: 13px 14px; }
-  .bi__textarea { font-size: 1.1rem; min-height: 116px; }
-  .bi__row { gap: var(--s-4) var(--s-3); }
-  .bi__row .btn { flex: 1; justify-content: center; }
+  .bi__textarea { min-height: 120px; }
+  .bi__optional { display: none; }
+  .bi__row { gap: var(--s-3); }
+  .bi__submit { margin-left: 0; width: 100%; justify-content: center; }
 }
-@media (max-width: 560px) {
-  .bi__identity { grid-template-columns: 1fr; }
-  .bi__identity .bi__group + .bi__group { margin-top: var(--s-3); }
-}
+@media (max-width: 560px) { .bi__identity { grid-template-columns: 1fr; } }
 
 /* =========================================================================
    Thank-you — post-submit confirmation (noindex; Google Ads conversion page)
