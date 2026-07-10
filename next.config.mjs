@@ -5,6 +5,8 @@
 // images, self-hosted clips) and YouTube/Vimeo embeds. Fonts are self-hosted by
 // next/font, so no font CDN is allowed. 'unsafe-inline' covers the App Router
 // inline bootstrap + JSON-LD; 'unsafe-eval' is dev-only (React refresh).
+// GTM needs googletagmanager.com in frame-src for its <noscript> fallback iframe;
+// tags it injects at runtime may add origins beyond the ones listed here.
 const isDev = process.env.NODE_ENV !== "production";
 const csp = [
   "default-src 'self'",
@@ -13,8 +15,8 @@ const csp = [
   "img-src 'self' data: blob: https://*.supabase.co https://www.facebook.com https://*.googletagmanager.com https://*.googleadservices.com https://*.google-analytics.com https://*.doubleclick.net https://*.google.com https://*.google.co.in",
   "media-src 'self' https://*.supabase.co",
   "font-src 'self' data:",
-  "connect-src 'self' https://*.supabase.co https://www.facebook.com https://*.google-analytics.com https://*.analytics.google.com https://*.doubleclick.net https://*.g.doubleclick.net https://*.google.com https://*.google.co.in https://*.googleadservices.com",
-  "frame-src https://www.youtube-nocookie.com https://player.vimeo.com https://www.facebook.com https://*.facebook.com https://*.google.com",
+  "connect-src 'self' https://*.supabase.co https://www.facebook.com https://*.google-analytics.com https://*.analytics.google.com https://*.doubleclick.net https://*.g.doubleclick.net https://*.google.com https://*.google.co.in https://*.googleadservices.com https://*.googletagmanager.com",
+  "frame-src https://www.youtube-nocookie.com https://player.vimeo.com https://www.facebook.com https://*.facebook.com https://*.google.com https://www.googletagmanager.com https://*.doubleclick.net",
   "frame-ancestors 'self' https://*.facebook.com https://*.facebook.net https://*.internalfb.com",
   "base-uri 'self'",
   "form-action 'self'",
