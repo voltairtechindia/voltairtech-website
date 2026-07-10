@@ -6,21 +6,22 @@
 -- from six months ago that you flag today would be purged on the next run.
 -- This column starts the retention clock at the moment of the flag.
 --
--- Backfill: existing spam gets a fresh clock (now()) so applying this migration
--- never causes an immediate mass delete. Everything else falls back to created_at.
+-- One statement on purpose. The earlier shape — add nullable, backfill, then
+-- SET NOT NULL — races the live contact form: an INSERT landing between the
+-- backfill and SET NOT NULL writes a NULL (no default yet) and aborts the
+-- migration. Folding the default into ADD COLUMN holds one ACCESS EXCLUSIVE
+-- lock for the whole change, so no row can slip through nullable. Postgres 11+
+-- evaluates now() once and stores it as the missing value, so existing rows are
+-- filled without a table rewrite.
+--
+-- Every existing row therefore starts its clock at migration time. For spam
+-- that is exactly what we want — a fresh 30 days, never an immediate mass
+-- delete. For new/handled rows the value is unread (the purge only ever looks
+-- at spam) and is corrected the moment their status actually changes.
 -- =====================================================================
 
 alter table contact_submissions
-    add column if not exists status_changed_at timestamptz;
-
-update contact_submissions
-   set status_changed_at = case when status = 'spam' then now() else created_at end
- where status_changed_at is null;
-
-alter table contact_submissions
-    alter column status_changed_at set default now();
-alter table contact_submissions
-    alter column status_changed_at set not null;
+    add column if not exists status_changed_at timestamptz not null default now();
 
 -- Partial index: the purge only ever scans spam rows by their retention clock.
 create index if not exists contact_submissions_spam_purge_idx

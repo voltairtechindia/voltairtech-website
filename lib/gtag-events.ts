@@ -31,6 +31,11 @@ export function trackFormSubmission() {
 
     // Google Ads conversion tracking (custom event conversion)
     window.gtag("event", "ads_conversion_submit_lead_form");
+
+    // Google Ads lead-form conversion (event-name snippet from the Ads UI). Fired
+    // here rather than inline in the page <head> so it only counts real
+    // submissions, not every load/reload/direct hit of /thank-you.
+    window.gtag("event", "conversion_event_submit_lead_form");
   }
 }
 

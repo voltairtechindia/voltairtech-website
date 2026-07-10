@@ -509,3 +509,211 @@ alter table services enable row level security;
 
 alter table services add column if not exists headline text;
 
+
+-- >>> migrations/0011_service_cover_image.sql
+-- Services can carry a cover image (same shape as blog_posts.cover_image:
+-- { "url": "...", "alt": "..." }). Rendered on the /services grid + detail page.
+alter table public.services add column if not exists cover_image jsonb;
+
+
+-- >>> migrations/0012_industries.sql
+-- =====================================================================
+-- Migration 0012: DB-backed, admin-managed industries (mirrors `services`)
+--
+-- /industries is a sector lens over the catalogue: each industry page renders
+-- "what you get" copy (body_md) plus a curated subset of services it links to
+-- via `service_slugs` (an ordered array of service slugs — admin-controlled
+-- order). /services still lists everything; /industries filters it per sector.
+--
+-- Published rows are embedded into the RAG store (doc_type "industry") by
+-- POST /api/industries so the chatbot can answer "do you work with healthcare?"
+-- and cite the matching sector + its services. RLS ON, no policies
+-- (service-role only); the site renders server-side.
+-- =====================================================================
+
+create extension if not exists "pgcrypto";
+
+create table if not exists industries (
+    id            uuid        primary key default gen_random_uuid(),
+    slug          text        not null unique,
+    title         text        not null,                     -- sector name, e.g. "Healthcare & Clinics"
+    headline      text,                                     -- detail-page H1 (falls back to title)
+    summary       text,                                     -- short teaser / card + meta description
+    bullets       text[]      not null default '{}',         -- card bullet points ("what you get")
+    icon          text        not null default 'default',    -- IndustryGlyph registry key (sector glyph)
+    cover_image   jsonb,                                     -- { url, alt }
+    lead          text,                                      -- detail-page hero lead
+    meta          text,                                      -- detail-page meta line
+    body_md       text        not null default '',           -- detail-page body (Markdown)
+    tags          text[]      not null default '{}',
+    service_slugs text[]      not null default '{}',          -- linked service slugs (curated subset, ordered)
+    seo           jsonb       not null default '{}'::jsonb,   -- { title, description, og_image }
+    position      int         not null default 0,            -- ordering on the grid (asc)
+    status        text        not null default 'draft'
+                              check (status in ('draft', 'published', 'archived')),
+    published_at  timestamptz,
+    created_at    timestamptz not null default now(),
+    updated_at    timestamptz not null default now()
+);
+
+create index if not exists industries_position_idx
+    on industries (position asc, created_at) where status = 'published';
+create index if not exists industries_status_idx on industries (status);
+
+drop trigger if exists trg_industries_updated_at on industries;
+create trigger trg_industries_updated_at
+    before update on industries
+    for each row execute function set_updated_at();
+
+alter table industries enable row level security;
+-- RLS ON, no policies → anon/authenticated get zero access; service_role bypasses.
+
+
+-- >>> migrations/0013_industry_case_studies.sql
+-- =====================================================================
+-- Migration 0013: per-industry case studies
+--
+-- Adds a `case_studies` JSONB array to `industries`. Each entry captures one
+-- real (or anonymised) engagement for the sector: the challenge, HOW we applied
+-- AI (the insight), the outcome, the TECH STACK used, headline metrics, and an
+-- optional deep-link. Rendered as a "Case studies" section on
+-- /industries/<slug>, edited in voltairtech-admin, and folded into the RAG
+-- embedding (doc_type "industry") so the chatbot can answer
+-- "how have you used AI in <sector>?" / "what stack do you use for <sector>?".
+--
+-- Shape of each element (all optional except title):
+--   {
+--     "title":      "WhatsApp triage bot for a 12-clinic chain",
+--     "client":     "Anonymised · multi-clinic group",
+--     "challenge":  "Front desk drowning in repetitive booking calls.",
+--     "approach":   "RAG over their protocols + WhatsApp flow that books slots.",
+--     "outcome":    "Deflected most first-line queries; staff focus on care.",
+--     "tech_stack": ["WhatsApp Cloud API", "Supabase pgvector", "Gemini"],
+--     "metrics":    [{ "label": "calls deflected", "value": "60%" }],
+--     "link":       "https://voltairtech.com/work"
+--   }
+-- =====================================================================
+
+alter table industries
+    add column if not exists case_studies jsonb not null default '[]'::jsonb;
+
+
+-- >>> migrations/0014_industry_custom_services.sql
+-- =====================================================================
+-- Migration 0014: per-industry custom (inline) services
+--
+-- /industries/<slug> already renders a curated subset of the catalogue via
+-- `service_slugs` (a sector lens over /services). But some sectors need an
+-- offering that isn't a standalone catalogue service — a bespoke, sector-only
+-- package. This adds a `custom_services` JSONB array so the admin can define
+-- those inline, per industry, without polluting the global /services catalogue.
+--
+-- They render in the SAME "Services for <sector>" grid as the linked services
+-- (appended after them), are folded into the RAG embedding (doc_type
+-- "industry") so the chatbot can cite them, and are edited in voltairtech-admin.
+--
+-- Shape of each element (all optional except title):
+--   {
+--     "title":   "Clinic intake automation",
+--     "summary": "A one-line teaser shown on the card.",
+--     "bullets": ["Insurance pre-check", "EMR sync", "No-show win-back"],
+--     "eta":     "2–3 weeks",
+--     "icon":    "auto",                 -- ServiceGlyph key (web/auto/chat/…)
+--     "link":    "/contact"              -- optional CTA (internal path or URL)
+--   }
+-- =====================================================================
+
+alter table industries
+    add column if not exists custom_services jsonb not null default '[]'::jsonb;
+
+
+-- >>> migrations/0015_blog_faq.sql
+-- =====================================================================
+-- Migration 0015: per-post FAQ
+--
+-- Adds a `faq` JSONB array to `blog_posts`. Each entry is a question/answer
+-- pair authored alongside the article. Rendered as an accordion + FAQPage
+-- JSON-LD on /blog/<slug> (answer-engine / GEO friendly), edited in
+-- voltairtech-admin's PostEditor, and folded into the post's RAG embedding
+-- (doc_type "blog") so the chatbot can answer the same questions directly.
+--
+-- Shape of each element (both fields required to survive normalisation):
+--   { "q": "How long does a RAG build take?",
+--     "a": "Most ship in 48 hours once we have your data sources." }
+-- =====================================================================
+
+alter table blog_posts
+    add column if not exists faq jsonb not null default '[]'::jsonb;
+
+
+-- >>> migrations/0016_industry_homepage_featured.sql
+-- =====================================================================
+-- Migration 0016: homepage-featured flag for industries
+--
+-- The homepage "Proof · shipped work" section surfaces one case study per
+-- featured sector. The selection + order were previously HARDCODED in
+-- lib/industries/db.ts (getFeaturedCaseStudies pinned three slugs and even
+-- inlined a fallback case study). This column makes it admin-controlled: tick
+-- "Feature on homepage" in voltairtech-admin's IndustryEditor and the sector's
+-- first case study appears on the homepage, ordered by `position` (asc).
+--
+-- A featured industry only renders if it has at least one case study; the
+-- homepage card image is the industry's `cover_image` (falls back to the bundled
+-- /public/images/cases/<slug>.png illustration when no cover is uploaded).
+-- =====================================================================
+
+alter table industries
+    add column if not exists homepage_featured boolean not null default false;
+
+-- Fast lookup for the homepage query (published + featured, ordered by position).
+create index if not exists industries_homepage_featured_idx
+    on industries (position asc) where status = 'published' and homepage_featured;
+
+
+-- >>> migrations/0017_industry_icon_image.sql
+-- =====================================================================
+-- Migration 0017: per-industry sector-badge image override
+--
+-- The /industries grid + detail render a sector "badge" icon. It was served from
+-- a hardcoded /public/images/industries/<key>.png (a curated registry keyed by
+-- `icon`). This optional column lets the admin upload a custom badge image per
+-- industry (stored in the blog-media bucket). When set it overrides the registry
+-- PNG; when null the code falls back to the bundled registry image for `icon`.
+-- Shape mirrors cover_image: { "url": "...", "alt": "..."? }.
+-- =====================================================================
+
+alter table industries
+    add column if not exists icon_image jsonb;
+
+
+-- >>> migrations/0018_contact_status_changed_at.sql
+-- =====================================================================
+-- Migration 0018: track when an inquiry's status last changed.
+--
+-- The admin panel auto-deletes spam 30 days after it is marked spam (cron:
+-- admin /api/cron/purge-spam). `created_at` can't drive that — a submission
+-- from six months ago that you flag today would be purged on the next run.
+-- This column starts the retention clock at the moment of the flag.
+--
+-- One statement on purpose. The earlier shape — add nullable, backfill, then
+-- SET NOT NULL — races the live contact form: an INSERT landing between the
+-- backfill and SET NOT NULL writes a NULL (no default yet) and aborts the
+-- migration. Folding the default into ADD COLUMN holds one ACCESS EXCLUSIVE
+-- lock for the whole change, so no row can slip through nullable. Postgres 11+
+-- evaluates now() once and stores it as the missing value, so existing rows are
+-- filled without a table rewrite.
+--
+-- Every existing row therefore starts its clock at migration time. For spam
+-- that is exactly what we want — a fresh 30 days, never an immediate mass
+-- delete. For new/handled rows the value is unread (the purge only ever looks
+-- at spam) and is corrected the moment their status actually changes.
+-- =====================================================================
+
+alter table contact_submissions
+    add column if not exists status_changed_at timestamptz not null default now();
+
+-- Partial index: the purge only ever scans spam rows by their retention clock.
+create index if not exists contact_submissions_spam_purge_idx
+    on contact_submissions (status_changed_at)
+ where status = 'spam';
+
