@@ -3,7 +3,6 @@ import Link from "next/link";
 import { Nav } from "@/components/Nav";
 import { FooterCta } from "@/components/FooterCta";
 import { ThankYouTracker } from "@/components/ThankYouTracker";
-import { Kicker } from "@/components/atoms/Kicker";
 import { Arr } from "@/components/atoms/Arr";
 import { CONTENT } from "@/lib/content";
 
@@ -50,7 +49,6 @@ export default function ThankYouPage() {
                 </svg>
               </span>
 
-              <Kicker>Brief received</Kicker>
               <h1 className="ty__h">
                 Thanks. <em>We&apos;re on it.</em>
               </h1>

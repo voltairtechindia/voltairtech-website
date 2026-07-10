@@ -21,7 +21,7 @@ export const metadata: Metadata = {
 export default function ContactPage() {
   return (
     <div className="page">
-      <Nav />
+      <Nav showContactCta={false} />
       <main>
         <BigInput />
       </main>

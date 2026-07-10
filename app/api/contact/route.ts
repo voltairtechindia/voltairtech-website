@@ -31,27 +31,6 @@ function str(v: unknown): string {
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
 export async function POST(req: Request) {
-  const ip = getClientIp(req);
-
-  // Anti-flood burst limit (per IP).
-  const burst = await rlHit(
-    `contact:burst:${ip}`,
-    LIMITS.contactBurst.limit,
-    LIMITS.contactBurst.windowSeconds,
-  );
-  if (!burst.allowed) {
-    return NextResponse.json(
-      {
-        detail:
-          "You're submitting too quickly. Please wait a moment and try again.",
-      },
-      {
-        status: 429,
-        headers: { "Retry-After": String(retryAfterSeconds(burst.resetAt)) },
-      },
-    );
-  }
-
   let body: Record<string, unknown> = {};
   try {
     body = (await req.json()) as Record<string, unknown>;
@@ -117,12 +96,39 @@ export async function POST(req: Request) {
     );
   }
 
-  // Per-IP daily cap (only valid submissions count).
-  const daily = await rlHit(
-    `contact:day:${istDay()}:${ip}`,
-    LIMITS.contactDaily.limit,
-    LIMITS.contactDaily.windowSeconds,
-  );
+  // Both windows are per-IP and only valid submissions count, so they're checked
+  // together once the body is known good. Two things fall out of that ordering:
+  // a bot or a malformed post is now rejected without touching the database at
+  // all, and the two limiter round trips overlap instead of running back to
+  // back — the submit path was three sequential Supabase hops, and is now two.
+  // A burst-denied request still consumes a daily slot; that only ever penalises
+  // an IP that is already flooding us.
+  const ip = getClientIp(req);
+  const [burst, daily] = await Promise.all([
+    rlHit(
+      `contact:burst:${ip}`,
+      LIMITS.contactBurst.limit,
+      LIMITS.contactBurst.windowSeconds,
+    ),
+    rlHit(
+      `contact:day:${istDay()}:${ip}`,
+      LIMITS.contactDaily.limit,
+      LIMITS.contactDaily.windowSeconds,
+    ),
+  ]);
+
+  if (!burst.allowed) {
+    return NextResponse.json(
+      {
+        detail:
+          "You're submitting too quickly. Please wait a moment and try again.",
+      },
+      {
+        status: 429,
+        headers: { "Retry-After": String(retryAfterSeconds(burst.resetAt)) },
+      },
+    );
+  }
   if (!daily.allowed) {
     return NextResponse.json(
       {

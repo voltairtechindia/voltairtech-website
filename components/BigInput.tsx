@@ -7,13 +7,25 @@ import { CONTENT } from "@/lib/content";
 import { LEAD_FLAG } from "@/lib/gtag-events";
 import { Arr } from "./atoms/Arr";
 
-type Status = "idle" | "sending" | "done" | "error";
+type Status = "idle" | "sending" | "redirecting" | "error";
 type Channel = "whatsapp" | "email";
 
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
 /** Shorter than this isn't a brief we can scope, so it can't unlock the button. */
 const MIN_BRIEF = 10;
+
+/** ?ref=form is the fallback lead signal for browsers that block sessionStorage. */
+const THANK_YOU = "/thank-you?ref=form";
+
+/**
+ * How long the redirect may take before we stop pretending it's instant and
+ * offer a manual way out. Below this the transition is invisible, so showing a
+ * "Message sent…" interstitial for every submit only makes the flow feel slower.
+ * Set well past a warm prefetched navigation (~110ms) so a merely slow network
+ * flashes the card up for a moment rather than it meaning "something is wrong".
+ */
+const REDIRECT_FALLBACK_MS = 1500;
 
 const digitsOf = (s: string) => s.replace(/\D/g, "");
 
@@ -42,6 +54,7 @@ export function BigInput() {
   const [chan, setChan] = useState<Channel>("whatsapp");
   const [status, setStatus] = useState<Status>("idle");
   const [error, setError] = useState<string | null>(null);
+  const [stalled, setStalled] = useState(false);
 
   const [touched, setTouched] = useState({ name: false, contact: false, brief: false });
   const touch = (k: keyof typeof touched) => setTouched((t) => ({ ...t, [k]: true }));
@@ -55,6 +68,14 @@ export function BigInput() {
     setPlaceholder(EXAMPLES[Math.floor(Math.random() * EXAMPLES.length)]);
   }, []);
 
+  // Only surface the "not redirected?" escape hatch if the navigation genuinely
+  // hangs. Timer is cleared on unmount, which is what a successful push causes.
+  useEffect(() => {
+    if (status !== "redirecting") return;
+    const t = window.setTimeout(() => setStalled(true), REDIRECT_FALLBACK_MS);
+    return () => window.clearTimeout(t);
+  }, [status]);
+
   const nameOk = name.trim().length >= 2;
   const phoneDigits = digitsOf(whatsapp).length;
   const contactOk =
@@ -63,6 +84,18 @@ export function BigInput() {
       : EMAIL_RE.test(email.trim());
   const briefOk = val.trim().length >= MIN_BRIEF;
   const ready = nameOk && contactOk && briefOk;
+
+  // "redirecting" keeps the button locked and labelled "Sending…" right through
+  // the navigation, so the label never churns during a sub-frame transition.
+  const busy = status === "sending" || status === "redirecting";
+
+  // /thank-you was never prefetched, so router.push() used to block on an RSC
+  // fetch *after* the POST had already resolved — two stalls back to back, which
+  // is what made the submit feel broken. Warm it as soon as the form could
+  // plausibly be sent; a visitor who never fills it in never pays for this.
+  useEffect(() => {
+    if (ready) router.prefetch(THANK_YOU);
+  }, [ready, router]);
 
   const nameError = nameOk
     ? null
@@ -111,9 +144,13 @@ export function BigInput() {
           : "Add a line about what you want built.";
 
   const submit = async () => {
-    if (!ready || status === "sending" || status === "done") return;
+    if (!ready || status === "sending" || status === "redirecting") return;
     setError(null);
     setStatus("sending");
+    // Belt and braces: if they pasted everything and clicked before the effect
+    // above fired, this overlaps the route fetch with the POST rather than
+    // serialising them.
+    router.prefetch(THANK_YOU);
     try {
       const res = await fetch("/api/contact", {
         method: "POST",
@@ -143,8 +180,8 @@ export function BigInput() {
       } catch {
         // storage blocked — the query param carries the signal instead
       }
-      setStatus("done");
-      router.push("/thank-you?ref=form");
+      setStatus("redirecting");
+      router.push(THANK_YOU);
     } catch {
       setError(`Could not send. Please email ${CONTENT.brand.email}.`);
       setStatus("error");
@@ -177,8 +214,8 @@ export function BigInput() {
             ))}
           </ol>
 
-          {status === "done" ? (
-            <div className="bi__field bi__done">
+          {stalled ? (
+            <div className="bi__field bi__done" role="status">
               <strong>Message sent. Taking you to the confirmation page…</strong>
               <p className="meta bi__done-sub">
                 Not redirected? <Link href="/thank-you">Continue here</Link> — or reach
@@ -331,10 +368,10 @@ export function BigInput() {
                   className="btn btn-primary bi__submit"
                   type="button"
                   onClick={submit}
-                  disabled={!ready || status === "sending"}
+                  disabled={!ready || busy}
                   aria-describedby={hint ? "bi-hint" : undefined}
                 >
-                  {status === "sending" ? "Sending…" : "Send message"} <Arr />
+                  {busy ? "Sending…" : "Send message"} <Arr />
                 </button>
               </div>
 

@@ -70,7 +70,12 @@ function DesktopItem({ link }: { link: NavLink }) {
   );
 }
 
-export async function Nav() {
+/**
+ * `showContactCta` lets /contact drop the header's "Contact us" button — there
+ * it links to the page you are already on. Below 981px the button is hidden by
+ * CSS regardless, so this only ever changes the desktop header.
+ */
+export async function Nav({ showContactCta = true }: { showContactCta?: boolean } = {}) {
   const groups = await getNavGroups();
 
   const navLinks: NavLink[] = [
@@ -104,9 +109,11 @@ export async function Nav() {
           ))}
         </nav>
         <div className="nav__right">
-          <Link className="btn btn-primary btn-sm" href="/contact">
-            Contact us <Arr />
-          </Link>
+          {showContactCta ? (
+            <Link className="btn btn-primary btn-sm" href="/contact">
+              Contact us <Arr />
+            </Link>
+          ) : null}
           <NavMenu links={navLinks} />
         </div>
       </div>

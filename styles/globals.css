@@ -223,8 +223,12 @@ a.nav__item:hover::after { transform: scaleX(1); }
 
 /* ---- Hover dropdown (mega menu) for Industries / Services ---- */
 .nav__item--menu { position: relative; }
+/* Right-anchored, not centred on the nav item: a 740px panel centred under an
+   item near the right edge hangs off the viewport, and `visibility: hidden`
+   still takes up layout — so the closed menu gave every page a horizontal
+   scrollbar. Anchoring the panel's right edge to the item's keeps it on-screen. */
 .nav__dropdown {
-  position: absolute; top: 100%; left: 50%; transform: translate(-50%, 8px);
+  position: absolute; top: 100%; right: 0; transform: translateY(8px);
   padding-top: 14px; /* invisible bridge so the cursor can cross into the panel */
   width: clamp(560px, 52vw, 740px); z-index: 60;
   opacity: 0; visibility: hidden; pointer-events: none;
@@ -232,7 +236,7 @@ a.nav__item:hover::after { transform: scaleX(1); }
 }
 .nav__item--menu:hover .nav__dropdown,
 .nav__item--menu:focus-within .nav__dropdown {
-  opacity: 1; visibility: visible; pointer-events: auto; transform: translate(-50%, 0);
+  opacity: 1; visibility: visible; pointer-events: auto; transform: translateY(0);
 }
 .nav__dropdown-inner {
   background: var(--v-paper); border: 1px solid var(--border); border-radius: var(--r-3);
@@ -283,8 +287,8 @@ a.nav__item:hover::after { transform: scaleX(1); }
   .nav__dropdown-grid { grid-template-columns: 1fr; }
 }
 @media (prefers-reduced-motion: reduce) {
-  .nav__dropdown { transition: opacity var(--dur-1), visibility var(--dur-1); transform: translate(-50%, 0); }
-  .nav__item--menu:hover .nav__dropdown, .nav__item--menu:focus-within .nav__dropdown { transform: translate(-50%, 0); }
+  .nav__dropdown { transition: opacity var(--dur-1), visibility var(--dur-1); transform: none; }
+  .nav__item--menu:hover .nav__dropdown, .nav__item--menu:focus-within .nav__dropdown { transform: none; }
   .nav__caret, .nav__item--menu:hover .nav__caret { transform: none; }
 }
 .nav__right { display: flex; align-items: center; gap: 16px; }
@@ -655,7 +659,10 @@ body.chat-open .hero-demo {
 .bi__textarea[aria-invalid="true"] { border-color: var(--v-red-deep); }
 
 .bi__row { display: flex; align-items: center; gap: var(--s-4); margin-top: clamp(14px, 2.2vh, 24px); flex-wrap: wrap; }
-.bi__submit { margin-left: auto; }
+/* Wide enough to hold "Send message" and "Sending…" alike. Without this the
+   button shrinks 32px the instant you click it, yanking itself out from under
+   the cursor — most of what made the submit feel broken. */
+.bi__submit { margin-left: auto; min-width: 12rem; justify-content: center; }
 
 /* Segmented control, sitting in the label row of the field it switches. Kept
    under the row's 28px so the name and contact inputs stay on the same line. */
