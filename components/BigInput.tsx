@@ -44,6 +44,9 @@ export function BigInput() {
   const [status, setStatus] = useState<Status>("idle");
   const [error, setError] = useState<string | null>(null);
 
+  const [touched, setTouched] = useState({ name: false, contact: false, brief: false });
+  const touch = (k: keyof typeof touched) => setTouched((t) => ({ ...t, [k]: true }));
+
   const nameOk = name.trim().length >= 2;
   const phoneDigits = digitsOf(whatsapp).length;
   const contactOk =
@@ -53,15 +56,51 @@ export function BigInput() {
   const briefOk = val.trim().length >= MIN_BRIEF;
   const ready = nameOk && contactOk && briefOk;
 
-  const hint = nameOk
-    ? contactOk
-      ? briefOk
-        ? null
-        : "Add a line about what you want built."
-      : chan === "whatsapp"
-        ? "Add your WhatsApp number with country code, e.g. +91 70210 00764."
-        : "Add a valid email address."
-    : "Add your name to continue.";
+  const nameError = nameOk
+    ? null
+    : name.trim()
+      ? "Please enter at least two characters."
+      : "Please enter your name.";
+
+  const contactError = contactOk
+    ? null
+    : chan === "whatsapp"
+      ? !whatsapp.trim()
+        ? "Please enter your WhatsApp number."
+        : phoneDigits > 15
+          ? "That number has too many digits."
+          : "Include the country code — e.g. +91 70210 00764."
+      : !email.trim()
+        ? "Please enter your email address."
+        : "That doesn't look like a valid email address.";
+
+  const briefError = briefOk
+    ? null
+    : val.trim()
+      ? "A few more words, please — tell us what you want built."
+      : "Please tell us what you want to build.";
+
+  // A field only complains once you've left it, so nothing turns red while
+  // someone is still halfway through typing an address.
+  const show = {
+    name: touched.name && !!nameError,
+    contact: touched.contact && !!contactError,
+    brief: touched.brief && !!briefError,
+  };
+  const anyFieldError = show.name || show.contact || show.brief;
+
+  // Explains the greyed-out button, but stands down while a field is already
+  // showing its own message so the same problem isn't stated twice.
+  const hint =
+    ready || anyFieldError
+      ? null
+      : !nameOk
+        ? "Add your name to continue."
+        : !contactOk
+          ? chan === "whatsapp"
+            ? "Add your WhatsApp number with country code."
+            : "Add your email address."
+          : "Add a line about what you want built.";
 
   const submit = async () => {
     if (!ready || status === "sending" || status === "done") return;
@@ -155,8 +194,16 @@ export function BigInput() {
                     placeholder="Priya Sharma"
                     value={name}
                     onChange={(e) => setName(e.target.value)}
+                    onBlur={() => touch("name")}
+                    aria-invalid={show.name}
+                    aria-describedby={show.name ? "bi-name-err" : undefined}
                     autoComplete="name"
                   />
+                  {show.name ? (
+                    <p className="bi__field-err" id="bi-name-err">
+                      {nameError}
+                    </p>
+                  ) : null}
                 </div>
                 <div className="bi__group">
                   <label className="bi__label" htmlFor="bi-contact">
@@ -173,6 +220,9 @@ export function BigInput() {
                       placeholder="+91 70210 00764"
                       value={whatsapp}
                       onChange={(e) => setWhatsapp(e.target.value)}
+                      onBlur={() => touch("contact")}
+                      aria-invalid={show.contact}
+                      aria-describedby={show.contact ? "bi-contact-err" : undefined}
                       autoComplete="tel"
                     />
                   ) : (
@@ -183,9 +233,17 @@ export function BigInput() {
                       placeholder="priya@company.com"
                       value={email}
                       onChange={(e) => setEmail(e.target.value)}
+                      onBlur={() => touch("contact")}
+                      aria-invalid={show.contact}
+                      aria-describedby={show.contact ? "bi-contact-err" : undefined}
                       autoComplete="email"
                     />
                   )}
+                  {show.contact ? (
+                    <p className="bi__field-err" id="bi-contact-err">
+                      {contactError}
+                    </p>
+                  ) : null}
                 </div>
               </div>
 
@@ -211,8 +269,17 @@ export function BigInput() {
                   placeholder="A WhatsApp bot that answers questions over our 800-page policy doc, in Hindi and English…"
                   value={val}
                   onChange={(e) => setVal(e.target.value)}
-                  aria-describedby={hint ? "bi-hint" : undefined}
+                  onBlur={() => touch("brief")}
+                  aria-invalid={show.brief}
+                  aria-describedby={
+                    show.brief ? "bi-brief-err" : hint ? "bi-hint" : undefined
+                  }
                 />
+                {show.brief ? (
+                  <p className="bi__field-err" id="bi-brief-err">
+                    {briefError}
+                  </p>
+                ) : null}
               </div>
 
               <div className="bi__row">
@@ -224,7 +291,12 @@ export function BigInput() {
                       type="button"
                       className={"bi__channel " + (chan === c ? "on" : "")}
                       aria-pressed={chan === c}
-                      onClick={() => setChan(c)}
+                      // The contact field now holds a different value; don't
+                      // flag it as wrong before they've had a chance to fill it.
+                      onClick={() => {
+                        setChan(c);
+                        setTouched((t) => ({ ...t, contact: false }));
+                      }}
                     >
                       {c === "whatsapp" ? "WhatsApp" : "Email"}
                     </button>
