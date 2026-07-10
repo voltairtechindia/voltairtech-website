@@ -22,7 +22,8 @@ Originally a static Babel/JSX single-page site; fully migrated to **Next.js 14 A
 | `app/page.tsx` | Home page with JSON-LD (Organization, LocalBusiness, FAQPage) |
 | `app/privacy/page.tsx` | Privacy policy |
 | `app/terms/page.tsx` | Terms of service |
-| `app/contact/page.tsx` | Contact page |
+| `app/contact/page.tsx` | Contact page — doubles as the Google Ads landing page |
+| `app/thank-you/page.tsx` | Post-submit confirmation — `noindex`, fires the Ads lead conversion |
 | `app/services/page.tsx` | Services detail page |
 | `app/industries/page.tsx` | DB-backed industries index (sector lens over services) |
 | `app/industries/[slug]/page.tsx` | Industry detail (ISR) — "what you get" + linked services |

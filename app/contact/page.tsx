@@ -5,15 +5,15 @@ import { FooterCta } from "@/components/FooterCta";
 import { DEFAULT_OG_IMAGE } from "@/lib/seo";
 
 export const metadata: Metadata = {
-  title: "Start a Project - AI Services Mumbai",
+  title: "Get a Free Project Plan - AI Services Mumbai",
   description:
-    "Tell Voltair Tech what you need to build. One line. We reply within an hour with a 48-hour plan. WhatsApp, email, or phone. Mumbai AI services studio.",
+    "Tell Voltair Tech what you want to build. We reply within an hour with scope, a fixed price, and a start date. Free, no obligation.",
   alternates: { canonical: "https://voltairtech.com/contact" },
   openGraph: {
     url: "https://voltairtech.com/contact",
-    title: "Start a Project - Voltair Tech Mumbai",
+    title: "Get a Free Project Plan - Voltair Tech Mumbai",
     description:
-      "Type one line. We reply within an hour with a 48-hour plan. No forms, no decks, no fluff.",
+      "Tell us what you want to build. We reply within an hour with scope, a fixed price, and a start date.",
     images: [DEFAULT_OG_IMAGE],
   },
 };

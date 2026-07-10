@@ -163,12 +163,13 @@ body { background: var(--v-paper); color: var(--v-ink); overflow-x: hidden; }
 /* ---------- Buttons ---------- */
 .btn { display: inline-flex; align-items: center; gap: var(--s-2); padding: 16px 28px; border-radius: var(--r-pill); font-family: var(--font-display), "Inter Tight", sans-serif; font-weight: 600; font-size: 15px; letter-spacing: -0.005em; transition: transform var(--dur-2) var(--ease-out), background var(--dur-2), color var(--dur-2), box-shadow var(--dur-2); white-space: nowrap; }
 .btn .arr { transition: transform var(--dur-2) var(--ease-out); }
-.btn:hover .arr { transform: translateX(4px); }
-.btn:active { transform: scale(0.98); }
+.btn:hover:not(:disabled) .arr { transform: translateX(4px); }
+.btn:active:not(:disabled) { transform: scale(0.98); }
+.btn:disabled { opacity: 0.4; cursor: not-allowed; box-shadow: none; }
 /* Button uses the deeper red so paper text clears WCAG AA (4.5:1); the brand
    red (--v-red) is reserved for decorative accents that carry no text. */
 .btn-primary { background: var(--v-red-deep); color: var(--v-paper); box-shadow: var(--shadow-red); }
-.btn-primary:hover { background: #A4161A; box-shadow: var(--shadow-red-strong); }
+.btn-primary:hover:not(:disabled) { background: #A4161A; box-shadow: var(--shadow-red-strong); }
 .btn-ghost { background: transparent; color: var(--v-ink); border: 1.5px solid var(--v-ink); }
 .btn-ghost:hover { background: var(--v-ink); color: var(--v-paper); }
 .section--ink .btn-ghost { color: var(--v-paper); border-color: var(--v-paper); }
@@ -180,6 +181,14 @@ body { background: var(--v-paper); color: var(--v-ink); overflow-x: hidden; }
 .tag .pulse { width: 6px; height: 6px; border-radius: 50%; background: var(--v-lime); box-shadow: 0 0 0 4px rgba(217,255,0,0.22); animation: pulse 1.8s ease-in-out infinite; }
 @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.5; } }
 .section--ink .tag { background: transparent; border-color: var(--v-ink-line); color: var(--v-ink-fg-2); }
+
+/* ---------- Numbered steps (contact + thank-you) ---------- */
+.steps { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--s-4); list-style: none; }
+.step { display: flex; gap: var(--s-3); align-items: flex-start; padding: var(--s-4); border: 1px solid var(--border); border-radius: var(--r-2); background: var(--bg2); }
+.step__n { flex: none; padding-top: 2px; font-family: var(--font-mono), "JetBrains Mono", monospace; font-size: var(--fs-mono); font-weight: 700; color: var(--v-red); letter-spacing: var(--tracking-label); }
+.step__b { display: block; margin-bottom: 3px; font-weight: 700; font-size: 0.95rem; letter-spacing: -0.01em; color: var(--fg1); }
+.step__t { display: block; font-size: 0.85rem; line-height: 1.45; color: var(--fg2); }
+@media (max-width: 760px) { .steps { grid-template-columns: 1fr; } }
 
 /* ====================  NAV  ==================== */
 .nav { position: sticky; top: 0; z-index: 50; background: rgba(245,245,240,0.85); backdrop-filter: saturate(140%) blur(12px); border-bottom: 1px solid var(--border); }
@@ -1136,6 +1145,22 @@ a.svc-card { text-decoration: none; color: inherit; }
 .bi__hp { position: absolute; left: -9999px; width: 1px; height: 1px; opacity: 0; pointer-events: none; }
 .bi__err { margin-top: var(--s-3); color: var(--v-red-deep); font-size: 0.9rem; }
 .bi__done strong { font-family: var(--font-display), "Inter Tight", sans-serif; font-size: 1.15rem; color: var(--v-ink); }
+.bi__done-sub { margin-top: 6px; }
+.bi__done-sub a { color: var(--v-red-deep); text-decoration: underline; }
+
+.bi__hd h1 { margin-top: var(--s-3); }
+.bi__lede { max-width: 400px; }
+.bi__steps { margin: var(--s-6) 0; }
+.bi__label { display: block; margin-bottom: 6px; font-family: var(--font-mono), "JetBrains Mono", monospace; font-size: var(--fs-mono); font-weight: 500; letter-spacing: var(--tracking-label); text-transform: uppercase; color: var(--fg3); }
+.bi__group + .bi__group { margin-top: var(--s-4); }
+.bi__identity .bi__group + .bi__group { margin-top: 0; }
+.bi__channels .mono-lbl { margin-right: 6px; }
+/* Names the one field still missing, so a greyed-out button never reads as broken. */
+.bi__hint { margin-top: var(--s-3); font-size: 0.8125rem; color: var(--fg3); }
+.bi__trust { margin-top: var(--s-4); font-size: 0.8125rem; color: var(--fg3); }
+.bi__trust a { color: var(--fg2); text-decoration: underline; }
+.bi__trust a:hover { color: var(--v-red-deep); }
+
 @media (max-width: 640px) {
   /* Tighter field padding gives the inputs room; smaller textarea type + taller
      min-height stops the long example placeholder from clipping on phones. */
@@ -1145,7 +1170,27 @@ a.svc-card { text-decoration: none; color: inherit; }
   .bi__row { gap: var(--s-4) var(--s-3); }
   .bi__row .btn { flex: 1; justify-content: center; }
 }
-@media (max-width: 560px) { .bi__identity { grid-template-columns: 1fr; } }
+@media (max-width: 560px) {
+  .bi__identity { grid-template-columns: 1fr; }
+  .bi__identity .bi__group + .bi__group { margin-top: var(--s-3); }
+}
+
+/* =========================================================================
+   Thank-you — post-submit confirmation (noindex; Google Ads conversion page)
+   ========================================================================= */
+.ty { max-width: 820px; }
+.ty__badge { display: grid; place-items: center; width: 56px; height: 56px; margin-bottom: var(--s-5); border-radius: 50%; background: var(--v-red); color: var(--v-paper); box-shadow: var(--shadow-red); }
+.ty__h { margin-top: var(--s-3); font-family: var(--font-display), "Inter Tight", sans-serif; font-weight: 900; font-size: clamp(2.6rem, 6.5vw, 5rem); line-height: var(--lh-display); letter-spacing: var(--tracking-tight); }
+.ty__h em { color: var(--v-red); font-style: normal; }
+.ty__lede { margin-top: var(--s-5); max-width: 620px; }
+.ty__steps { margin: var(--s-7) 0; }
+.ty__actions { display: flex; flex-wrap: wrap; gap: var(--s-3); }
+.ty__note { margin-top: var(--s-4); }
+.ty__more { margin-top: var(--s-8); padding-top: var(--s-5); border-top: 1px solid var(--border); }
+.ty__links { display: flex; flex-wrap: wrap; gap: var(--s-3) var(--s-6); margin-top: var(--s-3); list-style: none; }
+.ty__links a { font-weight: 600; color: var(--fg1); border-bottom: 1.5px solid var(--border); transition: border-color var(--dur-2), color var(--dur-2); }
+.ty__links a:hover { color: var(--v-red-deep); border-color: var(--v-red); }
+@media (max-width: 640px) { .ty__actions .btn { flex: 1; justify-content: center; } }
 
 /* =========================================================================
    Pagination (services index, and any paged list)

@@ -7,6 +7,13 @@ declare global {
 }
 
 /**
+ * Written to sessionStorage when a contact submission succeeds. /thank-you only
+ * reports the lead conversion when it sees this, so a direct hit, a bot, or a
+ * shared link can never inflate Google Ads conversions.
+ */
+export const LEAD_FLAG = "vt_lead_submitted";
+
+/**
  * Tracks a contact form submission.
  * Triggers both a Google Analytics lead event and standard/custom Google Ads conversions.
  */

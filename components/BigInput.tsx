@@ -1,6 +1,10 @@
 "use client";
 
+import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
+import { CONTENT } from "@/lib/content";
+import { LEAD_FLAG } from "@/lib/gtag-events";
 import { Kicker } from "./atoms/Kicker";
 import { Arr } from "./atoms/Arr";
 
@@ -9,7 +13,28 @@ type Channel = "whatsapp" | "email";
 
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
+/** Shorter than this isn't a brief we can scope, so it can't unlock the button. */
+const MIN_BRIEF = 10;
+
+const digitsOf = (s: string) => s.replace(/\D/g, "");
+
+const STEPS = [
+  {
+    b: "Send your brief",
+    t: "One or two lines is enough. No forms, no decks, no discovery call.",
+  },
+  {
+    b: "We reply in under an hour",
+    t: `Scope, a fixed price, and a start date. ${CONTENT.brand.hours}.`,
+  },
+  {
+    b: "We start building",
+    t: "Websites go live in 48 hours. Larger builds ship on a weekly plan.",
+  },
+];
+
 export function BigInput() {
+  const router = useRouter();
   const [name, setName] = useState("");
   const [whatsapp, setWhatsapp] = useState("");
   const [email, setEmail] = useState("");
@@ -19,21 +44,28 @@ export function BigInput() {
   const [status, setStatus] = useState<Status>("idle");
   const [error, setError] = useState<string | null>(null);
 
+  const nameOk = name.trim().length >= 2;
+  const phoneDigits = digitsOf(whatsapp).length;
+  const contactOk =
+    chan === "whatsapp"
+      ? phoneDigits >= 8 && phoneDigits <= 15
+      : EMAIL_RE.test(email.trim());
+  const briefOk = val.trim().length >= MIN_BRIEF;
+  const ready = nameOk && contactOk && briefOk;
+
+  const hint = nameOk
+    ? contactOk
+      ? briefOk
+        ? null
+        : "Add a line about what you want built."
+      : chan === "whatsapp"
+        ? "Add your WhatsApp number with country code, e.g. +91 70210 00764."
+        : "Add a valid email address."
+    : "Add your name to continue.";
+
   const submit = async () => {
+    if (!ready || status === "sending" || status === "done") return;
     setError(null);
-    const contact = chan === "whatsapp" ? whatsapp.trim() : email.trim();
-    if (!name.trim() || !contact || !val.trim()) {
-      setError(
-        chan === "whatsapp"
-          ? "Please add your name, WhatsApp number, and one line about what you want."
-          : "Please add your name, email, and one line about what you want.",
-      );
-      return;
-    }
-    if (chan === "email" && !EMAIL_RE.test(contact)) {
-      setError("Please enter a valid email address.");
-      return;
-    }
     setStatus("sending");
     try {
       const res = await fetch("/api/contact", {
@@ -51,20 +83,23 @@ export function BigInput() {
       });
       const data = (await res.json().catch(() => null)) as { detail?: string } | null;
       if (!res.ok) {
-        setError(data?.detail ?? "Could not send. Please email business@voltairtech.com.");
+        setError(data?.detail ?? `Could not send. Please email ${CONTENT.brand.email}.`);
         setStatus("error");
         return;
       }
-      setStatus("done");
-      // Google Ads Conversion event
+      // The Google Ads conversion fires on /thank-you, not here: a beacon sent
+      // from a page we're about to navigate away from can be dropped in flight.
+      // The flag proves this visit is a real lead; ?ref=form is the fallback for
+      // in-app browsers that block sessionStorage.
       try {
-        const { trackFormSubmission } = await import("@/lib/gtag-events");
-        trackFormSubmission();
-      } catch (e) {
-        console.error("Error tracking form submission:", e);
+        sessionStorage.setItem(LEAD_FLAG, "1");
+      } catch {
+        // storage blocked — the query param carries the signal instead
       }
+      setStatus("done");
+      router.push("/thank-you?ref=form");
     } catch {
-      setError("Could not send. Please email business@voltairtech.com.");
+      setError(`Could not send. Please email ${CONTENT.brand.email}.`);
       setStatus("error");
     }
   };
@@ -75,55 +110,83 @@ export function BigInput() {
         <div className="bi">
           <div className="bi__hd">
             <div>
-              <Kicker>Tell us what you want</Kicker>
-              <h1 className="bi__h" style={{ marginTop: 12 }}>
-                We&apos;ll <em>build it.</em>
+              <Kicker>Contact Voltair Tech</Kicker>
+              <h1 className="bi__h">
+                Get a <em>free project plan.</em>
               </h1>
             </div>
-            <p className="lead" style={{ maxWidth: 360 }}>
-              Type one line. We reply within an hour with a 48-hour plan. No forms, no
-              decks, no fluff.
+            <p className="lead bi__lede">
+              Tell us what you want to build. We read every message and reply within an
+              hour with scope, a fixed price, and a start date. No cost, no obligation.
             </p>
           </div>
 
+          <ol className="steps bi__steps">
+            {STEPS.map((s, i) => (
+              <li className="step" key={s.b}>
+                <span className="step__n">{`0${i + 1}`}</span>
+                <div>
+                  <b className="step__b">{s.b}</b>
+                  <span className="step__t">{s.t}</span>
+                </div>
+              </li>
+            ))}
+          </ol>
+
           {status === "done" ? (
             <div className="bi__field bi__done">
-              <strong>Got it. We&apos;ll be in touch shortly on {chan === "whatsapp" ? "WhatsApp" : "email"}.</strong>
-              <p className="meta" style={{ marginTop: 6 }}>
-                Prefer to reach us directly? business@voltairtech.com · +91 70210 00764
+              <strong>Brief sent. Taking you to the confirmation page…</strong>
+              <p className="meta bi__done-sub">
+                Not redirected? <Link href="/thank-you">Continue here</Link> — or reach
+                us at {CONTENT.brand.email} · {CONTENT.brand.phone}.
               </p>
             </div>
           ) : (
             <div className="bi__field">
               <div className="bi__identity">
-                <input
-                  className="bi__input"
-                  type="text"
-                  placeholder="Your name"
-                  value={name}
-                  onChange={(e) => setName(e.target.value)}
-                  autoComplete="name"
-                />
-                {chan === "whatsapp" ? (
+                <div className="bi__group">
+                  <label className="bi__label" htmlFor="bi-name">
+                    Your name
+                  </label>
                   <input
+                    id="bi-name"
                     className="bi__input"
-                    type="tel"
-                    inputMode="tel"
-                    placeholder="WhatsApp number + country code"
-                    value={whatsapp}
-                    onChange={(e) => setWhatsapp(e.target.value)}
-                    autoComplete="tel"
+                    type="text"
+                    placeholder="Priya Sharma"
+                    value={name}
+                    onChange={(e) => setName(e.target.value)}
+                    autoComplete="name"
                   />
-                ) : (
-                  <input
-                    className="bi__input"
-                    type="email"
-                    placeholder="Your email"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                    autoComplete="email"
-                  />
-                )}
+                </div>
+                <div className="bi__group">
+                  <label className="bi__label" htmlFor="bi-contact">
+                    {chan === "whatsapp"
+                      ? "WhatsApp number (with country code)"
+                      : "Email address"}
+                  </label>
+                  {chan === "whatsapp" ? (
+                    <input
+                      id="bi-contact"
+                      className="bi__input"
+                      type="tel"
+                      inputMode="tel"
+                      placeholder="+91 70210 00764"
+                      value={whatsapp}
+                      onChange={(e) => setWhatsapp(e.target.value)}
+                      autoComplete="tel"
+                    />
+                  ) : (
+                    <input
+                      id="bi-contact"
+                      className="bi__input"
+                      type="email"
+                      placeholder="priya@company.com"
+                      value={email}
+                      onChange={(e) => setEmail(e.target.value)}
+                      autoComplete="email"
+                    />
+                  )}
+                </div>
               </div>
 
               {/* Honeypot: visually hidden, off-screen; real users never fill it. */}
@@ -138,31 +201,61 @@ export function BigInput() {
                 className="bi__hp"
               />
 
-              <textarea
-                className="bi__textarea"
-                placeholder="A WhatsApp bot that answers questions over our 800-page policy doc, in Hindi and English…"
-                value={val}
-                onChange={(e) => setVal(e.target.value)}
-              />
+              <div className="bi__group">
+                <label className="bi__label" htmlFor="bi-brief">
+                  What do you want to build?
+                </label>
+                <textarea
+                  id="bi-brief"
+                  className="bi__textarea"
+                  placeholder="A WhatsApp bot that answers questions over our 800-page policy doc, in Hindi and English…"
+                  value={val}
+                  onChange={(e) => setVal(e.target.value)}
+                  aria-describedby={hint ? "bi-hint" : undefined}
+                />
+              </div>
+
               <div className="bi__row">
-                <div className="bi__channels">
-                  <span className="meta mono-lbl" style={{ marginRight: 6 }}>reply on</span>
+                <div className="bi__channels" role="group" aria-label="Where should we reply?">
+                  <span className="meta mono-lbl">reply on</span>
                   {(["whatsapp", "email"] as const).map((c) => (
                     <button
                       key={c}
                       type="button"
                       className={"bi__channel " + (chan === c ? "on" : "")}
+                      aria-pressed={chan === c}
                       onClick={() => setChan(c)}
                     >
                       {c === "whatsapp" ? "WhatsApp" : "Email"}
                     </button>
                   ))}
                 </div>
-                <button className="btn btn-primary" type="button" onClick={submit} disabled={status === "sending"}>
-                  {status === "sending" ? "Sending…" : "Ship it"} <Arr />
+                <button
+                  className="btn btn-primary"
+                  type="button"
+                  onClick={submit}
+                  disabled={!ready || status === "sending"}
+                  aria-describedby={hint ? "bi-hint" : undefined}
+                >
+                  {status === "sending" ? "Sending…" : "Get my free plan"} <Arr />
                 </button>
               </div>
-              {error ? <p className="bi__err">{error}</p> : null}
+
+              {hint ? (
+                <p className="bi__hint" id="bi-hint">
+                  {hint}
+                </p>
+              ) : null}
+              {error ? (
+                <p className="bi__err" role="alert">
+                  {error}
+                </p>
+              ) : null}
+
+              <p className="bi__trust">
+                Free and no obligation. Your details reach our team only — read our{" "}
+                <Link href="/privacy">privacy policy</Link>.
+              </p>
             </div>
           )}
         </div>
