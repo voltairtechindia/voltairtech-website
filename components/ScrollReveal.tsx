@@ -145,35 +145,6 @@ export function ScrollReveal() {
         }
       }
 
-      // --- Hero parallax (home) ---
-      const hero = document.querySelector<HTMLElement>(".hero");
-      const art = document.querySelector<HTMLElement>(".hero__art");
-      if (hero && art) {
-        track.push(
-          gsap.to(art, {
-            yPercent: 9,
-            ease: "none",
-            scrollTrigger: { trigger: hero, start: "top top", end: "bottom top", scrub: true },
-          })
-        );
-        const chipSpeeds: [string, number][] = [
-          [".v-mono__chip--1", -26],
-          [".v-mono__chip--2", 20],
-          [".v-mono__chip--3", -14],
-        ];
-        for (const [sel, dist] of chipSpeeds) {
-          const chip = document.querySelector<HTMLElement>(sel);
-          if (!chip) continue;
-          track.push(
-            gsap.to(chip, {
-              y: dist,
-              ease: "none",
-              scrollTrigger: { trigger: hero, start: "top top", end: "bottom top", scrub: true },
-            })
-          );
-        }
-      }
-
       // --- Proof stats count up on load ---
       document.querySelectorAll<HTMLElement>(".hero__proof-item b").forEach((b) => {
         const raw = b.textContent ?? "";

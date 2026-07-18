@@ -114,6 +114,80 @@
   --dur-4: 700ms;
 }
 
+/* ====================  SCROLLBAR — sharp, ink on bone  ==================== */
+html { scrollbar-width: thin; scrollbar-color: var(--v-ink) var(--v-paper-2); }
+::-webkit-scrollbar { width: 12px; height: 12px; }
+::-webkit-scrollbar-track { background: var(--v-paper-2); border-left: 1px solid var(--v-paper-line); }
+::-webkit-scrollbar-thumb { background: var(--v-ink); border: 3px solid var(--v-paper-2); border-radius: 0; }
+::-webkit-scrollbar-thumb:hover { background: var(--v-red); }
+::-webkit-scrollbar-corner { background: var(--v-paper-2); }
+
+/* ====================  CUSTOM CURSOR  ==================== */
+/* Pointer-fine devices only; Cursor.tsx adds body.vt-cursor-on. The overlay
+   sits at the maximum z-index with pointer-events:none, so it stays visible
+   above the chat window (z 1001) and floating CTAs without blocking clicks. */
+body.vt-cursor-on, body.vt-cursor-on * { cursor: none !important; }
+body.vt-cursor-on.vt-cursor-text * { cursor: auto !important; }
+.vt-cursor {
+  position: fixed; top: 0; left: 0;
+  pointer-events: none; z-index: 2147483647;
+  opacity: 0; transition: opacity 200ms var(--ease-out);
+  will-change: transform;
+}
+body.vt-cursor-live .vt-cursor { opacity: 1; }
+body.vt-cursor-text .vt-cursor,
+body.vt-cursor-frame .vt-cursor { opacity: 0; }
+.vt-cursor i { display: block; }
+.vt-cursor--dot i {
+  width: 6px; height: 6px; margin: -3px 0 0 -3px;
+  background: var(--v-red);
+  transition: transform 160ms var(--ease-out);
+}
+/* The blend lives on the OUTER ring element: any wrapper between the blended
+   node and the page (transform/will-change) isolates the blend group, which
+   left the ring flat white — invisible on white cards. On the outermost node
+   it blends with the real page: ink ring on bone/white, bone ring on carbon. */
+.vt-cursor--ring { mix-blend-mode: difference; }
+.vt-cursor--ring i {
+  width: 34px; height: 34px; margin: -17px 0 0 -17px;
+  border: 1px solid #fff;
+  transition: transform 260ms var(--ease-out), border-color 260ms;
+}
+body.vt-cursor-hover .vt-cursor--ring i { transform: scale(1.35) rotate(45deg); }
+body.vt-cursor-hover .vt-cursor--dot i { transform: rotate(45deg) scale(1.15); }
+body.vt-cursor-down .vt-cursor--dot i { transform: scale(0.6); }
+body.vt-cursor-down .vt-cursor--ring i { transform: scale(0.9); }
+body.vt-cursor-down.vt-cursor-hover .vt-cursor--ring i { transform: scale(1.2) rotate(45deg); }
+
+/* Badge mode — over card links the ring grows into a labelled frame. */
+.vt-cursor--ring b { display: block; }
+.vt-cursor__label {
+  position: absolute; top: 0; left: 0; transform: translate(-50%, -50%);
+  font-family: var(--ff-mono); font-size: 9px; font-weight: 600;
+  letter-spacing: 0.18em; text-transform: uppercase; white-space: nowrap;
+  color: #fff;
+  opacity: 0; transition: opacity 180ms var(--ease-out);
+}
+body.vt-cursor-label .vt-cursor__label { opacity: 1; }
+body.vt-cursor-label .vt-cursor--ring i { transform: scale(2.15); }
+body.vt-cursor-label .vt-cursor--dot i { transform: scale(0); }
+
+/* Click stamp — a vermilion square punches out at the click point. */
+.vt-stamp {
+  position: fixed; top: 0; left: 0;
+  width: 28px; height: 28px; margin: -14px 0 0 -14px;
+  border: 1px solid var(--v-red);
+  pointer-events: none; z-index: 2147483647;
+}
+
+/* Magnetic buttons: GSAP drives their transform each frame — a CSS transform
+   transition would fight it, so drop transform from their transition list. */
+body.vt-cursor-on .btn,
+body.vt-cursor-on .foot__btn,
+body.vt-cursor-on .chat-widget-btn {
+  transition-property: background, background-color, color, border-color, box-shadow, opacity;
+}
+
 /* ----- Reset ----- */
 *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
 img, svg { display: block; max-width: 100%; }
@@ -314,16 +388,68 @@ a.nav__item:hover::after { transform: scaleX(1); }
 
 /* ====================  HERO  ==================== */
 .hero { position: relative; padding: var(--s-4) 0; min-height: calc(100svh - 60px); display: flex; align-items: flex-start; overflow: hidden; border-bottom: 1px solid var(--v-ink); }
-/* The old radial mesh + grain read "AI startup". Replaced by a bare bone field
-   with a single vertical hairline — the page margin of a printed journal. */
-.hero__mesh { position: absolute; inset: 0; z-index: 0; pointer-events: none;
-  background: linear-gradient(to right, transparent calc(62% - 1px), rgba(22,21,19,0.08) calc(62% - 1px), rgba(22,21,19,0.08) 62%, transparent 62%);
-}
-@media (max-width: 980px) { .hero__mesh { display: none; } }
+/* The old radial mesh + grain read "AI startup" — both retired. */
+.hero__mesh { display: none; }
 .hero__grain { display: none; }
-.hero__grid { position: relative; z-index: 2; display: grid; grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr); gap: var(--s-7); align-items: start; padding: 0 var(--gutter); max-width: var(--container-max); margin: 0 auto; width: 100%; }
-@media (max-width: 980px) { .hero__grid { grid-template-columns: 1fr; gap: var(--s-7); } .hero__art { order: -1; height: auto; align-self: auto; } .v-mono { max-width: 420px; margin-inline: auto; } .hero__eyebrow { margin-bottom: var(--s-5); } .hero__proof { flex-wrap: wrap; gap: var(--s-4) var(--s-6); } }
-.hero__art { align-self: center; }
+.hero__grid { position: relative; z-index: 2; display: grid; grid-template-columns: minmax(0, 1.15fr) minmax(0, 0.85fr); gap: var(--s-8); align-items: center; padding: 0 var(--gutter); max-width: var(--container-max); margin: 0 auto; width: 100%; }
+.hero__copy { max-width: 780px; }
+@media (max-width: 980px) { .hero__grid { grid-template-columns: minmax(0, 1fr); } .hero__eyebrow { margin-bottom: var(--s-5); } .hero__proof { flex-wrap: wrap; gap: var(--s-4) var(--s-6); } }
+
+/* ----- Build log — the 48h ship clock (hero right column, desktop only) ----- */
+.hero__aside { position: relative; z-index: 2; align-self: center; }
+@media (max-width: 980px) { .hero__aside { display: none; } }
+.bl {
+  position: relative;
+  background: var(--v-ink); border: 1px solid var(--v-ink); border-radius: var(--r-2);
+  box-shadow: 12px 12px 0 rgba(22,21,19,0.12);
+  max-width: 500px; margin-left: auto; overflow: hidden;
+}
+/* Faint scanlines — CRT texture without the glow. */
+.bl::after {
+  content: ''; position: absolute; inset: 0; pointer-events: none;
+  background: repeating-linear-gradient(0deg, rgba(244,242,234,0.028) 0 1px, transparent 1px 3px);
+}
+.bl__bar {
+  display: flex; align-items: center; justify-content: space-between; gap: var(--s-4);
+  padding: 13px 18px; border-bottom: 1px solid var(--v-ink-line);
+  font-family: var(--ff-mono); font-size: 10.5px; letter-spacing: 0.12em; text-transform: uppercase;
+  color: var(--v-ink-fg-2);
+}
+.bl__title { display: inline-flex; align-items: center; gap: 8px; }
+.bl__pulse { width: 6px; height: 6px; border-radius: 1px; background: var(--v-cobalt-bright); animation: pulse 1.8s ease-in-out infinite; }
+.bl__clock { color: var(--v-ink-fg); font-weight: 600; letter-spacing: 0.1em; font-variant-numeric: tabular-nums; }
+.bl.is-done .bl__clock { color: var(--v-red); }
+.bl__lines { list-style: none; margin: 0; padding: 20px 18px; display: flex; flex-direction: column; gap: 12px; min-height: 246px; }
+.bl__line {
+  display: flex; align-items: baseline; gap: 10px;
+  font-family: var(--ff-mono); font-size: 13px; line-height: 1.4; color: var(--v-ink-fg-2);
+  opacity: 0; transform: translateY(6px);
+  transition: opacity 420ms var(--ease-out), transform 420ms var(--ease-out);
+}
+.bl__line.on { opacity: 1; transform: none; }
+.bl__glyph { flex: none; color: var(--v-red); }
+.bl__line--cmd { color: var(--v-ink-fg); }
+.bl__line--cmd .bl__glyph { color: var(--v-cobalt-bright); }
+.bl__line--live { color: var(--v-ink-fg); font-weight: 600; }
+.bl.is-done .bl__line--live .bl__glyph { animation: pulse 1.2s ease-in-out infinite; }
+.bl__text { min-width: 0; }
+.bl__leader { flex: 1 1 12px; min-width: 12px; border-bottom: 1px dotted var(--v-ink-line); transform: translateY(-3px); }
+.bl__time { flex: none; font-size: 11px; color: var(--v-ink-fg-3); font-variant-numeric: tabular-nums; }
+.bl__line.is-cur .bl__text::after { content: "▍"; margin-left: 3px; color: var(--v-red); animation: caretBlink 0.9s steps(1) infinite; }
+@keyframes caretBlink { 50% { opacity: 0; } }
+.bl__foot {
+  display: flex; align-items: center; justify-content: space-between; gap: var(--s-4);
+  padding: 12px 18px; border-top: 1px solid var(--v-ink-line);
+  font-family: var(--ff-mono); font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase;
+  color: var(--v-ink-fg-3);
+}
+.bl.is-done .bl__status { color: var(--v-red); font-weight: 600; }
+.bl__meter { flex: none; width: 96px; height: 3px; background: var(--v-ink-line); overflow: hidden; }
+.bl__meter i { display: block; height: 100%; background: var(--v-red); transition: width 500ms var(--ease-out); }
+@media (prefers-reduced-motion: reduce) {
+  .bl__line { opacity: 1; transform: none; transition: none; }
+  .bl__pulse, .bl__line.is-cur .bl__text::after, .bl.is-done .bl__line--live .bl__glyph { animation: none; }
+}
 .hero__eyebrow { display: flex; align-items: center; gap: var(--s-3); margin-bottom: clamp(var(--s-6), 10vh, 120px); flex-wrap: wrap; }
 .hero__h { font-family: var(--ff-serif); font-weight: 520; font-size: clamp(3.6rem, 8.2vw, 7.6rem); line-height: 0.96; letter-spacing: var(--tracking-tight); margin-bottom: var(--s-5); }
 .hero__h .red { color: var(--v-red); font-style: italic; font-variation-settings: var(--wonk); font-weight: 560; padding-right: 0.04em; }
@@ -1655,9 +1781,6 @@ body.hero-launcher-visible .chat-peek { display: none; }
 /* ---- Phones ---- */
 @media (max-width: 640px) {
   .hero { min-height: auto; padding: var(--s-8) 0 var(--s-9); }
-  /* Keep the monogram a tasteful, centered accent — not a full-width slab. */
-  .hero__art { height: auto; }
-  .v-mono { max-width: 300px; }
   .hero__proof {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
@@ -1702,7 +1825,6 @@ body.hero-launcher-visible .chat-peek { display: none; }
   .hero__proof { gap: var(--s-3) var(--s-5); }
   .case-metric__value { font-size: 1.4rem; }
   .rag__chip { padding: 11px 15px; }
-  .v-mono { max-width: 250px; }
 }
 
 /* ---- Very small phones — tighten gutters and tame the mega type ---- */

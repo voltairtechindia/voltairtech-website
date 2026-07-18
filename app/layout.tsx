@@ -3,6 +3,7 @@ import { Archivo, Fraunces, IBM_Plex_Mono } from "next/font/google";
 import Script from "next/script";
 import { Analytics } from "@vercel/analytics/next";
 import ChatWidgetLazy from "@/components/ChatWidgetLazy";
+import { Cursor } from "@/components/Cursor";
 import { ScrollReveal } from "@/components/ScrollReveal";
 import { WhatsAppFloating } from "@/components/WhatsAppFloating";
 import "@/styles/globals.css";
@@ -153,6 +154,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <ChatWidgetLazy />
         <WhatsAppFloating />
         <ScrollReveal />
+        <Cursor />
         <Analytics />
         
         {/* Meta Pixel Code */}
