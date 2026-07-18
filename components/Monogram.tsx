@@ -34,7 +34,7 @@ export function Monogram() {
       curRY += (targetRY - curRY) * 0.08;
       plate.style.transform = `rotateX(${curRX}deg) rotateY(${curRY}deg)`;
       if (glow) {
-        glow.style.background = `radial-gradient(circle at ${gx}% ${gy}%, rgba(230,57,70,0.25), transparent 55%)`;
+        glow.style.background = `radial-gradient(circle at ${gx}% ${gy}%, rgba(226,58,36,0.22), transparent 55%)`;
       }
       rafRef.current = requestAnimationFrame(loop);
     };

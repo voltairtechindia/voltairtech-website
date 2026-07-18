@@ -103,7 +103,7 @@ export default function AboutPage() {
         <div className="container">
           <div className="mission-box">
             <span className="kicker" style={{ color: "var(--v-ink-fg-3)", marginBottom: "var(--s-4)" }}>
-              <span className="dot" style={{ background: "var(--v-lime)", boxShadow: "0 0 0 4px rgba(217,255,0,0.2)" }} />
+              <span className="dot" style={{ background: "var(--v-lime)", borderRadius: 1, boxShadow: "0 0 0 4px rgba(46,69,216,0.16)" }} />
               Our Mission
             </span>
             <h2 className="mission-box__h">

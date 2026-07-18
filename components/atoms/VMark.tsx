@@ -7,7 +7,7 @@ export function VMark({ size = 28, bg = "var(--v-ink)" }: { size?: number; bg?: 
       style={{
         width: size,
         height: size,
-        borderRadius: 8,
+        borderRadius: 2,
         background: bg,
         display: "inline-flex",
         alignItems: "center",

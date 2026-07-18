@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from "next";
-import { Inter_Tight, JetBrains_Mono } from "next/font/google";
+import { Archivo, Fraunces, IBM_Plex_Mono } from "next/font/google";
 import Script from "next/script";
 import { Analytics } from "@vercel/analytics/next";
 import ChatWidgetLazy from "@/components/ChatWidgetLazy";
@@ -7,16 +7,23 @@ import { ScrollReveal } from "@/components/ScrollReveal";
 import { WhatsAppFloating } from "@/components/WhatsAppFloating";
 import "@/styles/globals.css";
 
-const interTight = Inter_Tight({
+const archivo = Archivo({
   subsets: ["latin"],
-  weight: ["400", "500", "600", "700", "800", "900"],
   variable: "--font-display",
   display: "swap",
 });
 
-const jetbrainsMono = JetBrains_Mono({
+const fraunces = Fraunces({
   subsets: ["latin"],
-  weight: ["400", "500", "700"],
+  style: ["normal", "italic"],
+  axes: ["SOFT", "WONK", "opsz"],
+  variable: "--font-serif",
+  display: "swap",
+});
+
+const plexMono = IBM_Plex_Mono({
+  subsets: ["latin"],
+  weight: ["400", "500", "600"],
   variable: "--font-mono",
   display: "swap",
 });
@@ -24,7 +31,7 @@ const jetbrainsMono = JetBrains_Mono({
 export const viewport: Viewport = {
   width: "device-width",
   initialScale: 1,
-  themeColor: "#E63946",
+  themeColor: "#F1EFE8",
 };
 
 export const metadata: Metadata = {
@@ -96,7 +103,7 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en-IN" className={`${interTight.variable} ${jetbrainsMono.variable}`}>
+    <html lang="en-IN" className={`${archivo.variable} ${fraunces.variable} ${plexMono.variable}`}>
       <body>
         {/* Google Tag Manager (noscript) */}
         <noscript>

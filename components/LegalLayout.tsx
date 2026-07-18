@@ -63,7 +63,7 @@ export function LegalLayout({
           color: "var(--v-ink-fg-3)",
         }}
       >
-        <div className="container" style={{ display: "flex", justifyContent: "space-between", flexWrap: "wrap", gap: 16, fontFamily: "var(--font-mono), 'JetBrains Mono', monospace", fontSize: 12 }}>
+        <div className="container" style={{ display: "flex", justifyContent: "space-between", flexWrap: "wrap", gap: 16, fontFamily: "var(--font-mono), 'IBM Plex Mono', monospace", fontSize: 12 }}>
           <span>© 2026 VOLTAIR TECH · voltairtech.com</span>
           <span style={{ display: "flex", gap: 18 }}>
             <Link href="/privacy" style={{ color: "inherit" }}>Privacy</Link>
