@@ -93,4 +93,11 @@ export const LIMITS = {
   // Contact form.
   contactBurst: { limit: 3, windowSeconds: 300 },
   contactDaily: { limit: 12, windowSeconds: DAY },
+
+  // Job applications — each valid one triggers a private-bucket upload AND a
+  // background Gemini résumé parse + embedding, so the daily cap is really a
+  // spend cap. Generous enough that a candidate applying to three roles in one
+  // sitting never hits it.
+  applyBurst: { limit: 3, windowSeconds: 120 },
+  applyDaily: { limit: 8, windowSeconds: DAY },
 } as const;

@@ -1,6 +1,7 @@
 import type { MetadataRoute } from "next";
 
 import { listPublishedPosts } from "@/lib/blog/db";
+import { listOpenJobs } from "@/lib/careers/db";
 import { listPublishedServiceSlugs } from "@/lib/services/db";
 import {
   listIndexableCustomServiceParams,
@@ -45,8 +46,10 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     { url: `${BASE}/faq`,        lastModified: now, changeFrequency: "monthly", priority: 0.8 },
     { url: `${BASE}/blog`,       lastModified: now, changeFrequency: "weekly",  priority: 0.7 },
     { url: `${BASE}/contact`,    lastModified: now, changeFrequency: "monthly", priority: 0.7 },
+    { url: `${BASE}/career`,     lastModified: now, changeFrequency: "weekly",  priority: 0.6 },
     { url: `${BASE}/privacy`,    lastModified: now, changeFrequency: "yearly",  priority: 0.3 },
     { url: `${BASE}/terms`,      lastModified: now, changeFrequency: "yearly",  priority: 0.3 },
+    { url: `${BASE}/recruitment-privacy`, lastModified: now, changeFrequency: "yearly", priority: 0.2 },
     { url: `${BASE}/sendzap/privacy`, lastModified: now, changeFrequency: "yearly", priority: 0.3 },
     { url: `${BASE}/sendzap/terms`,   lastModified: now, changeFrequency: "yearly", priority: 0.3 },
   ];
@@ -117,11 +120,26 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     priority: 0.7,
   }));
 
+  // Only OPEN roles are listed — a closed posting 404s, and submitting 404s to
+  // Search Console is how a sitemap loses its credibility.
+  let jobRoutes: MetadataRoute.Sitemap = [];
+  try {
+    jobRoutes = (await listOpenJobs()).map((j) => ({
+      url: `${BASE}/career/${j.slug}`,
+      lastModified: j.updated_at ? new Date(j.updated_at) : now,
+      changeFrequency: "weekly",
+      priority: 0.6,
+    }));
+  } catch {
+    jobRoutes = [];
+  }
+
   return [
     ...staticRoutes,
     ...industryRoutes,
     ...customServiceRoutes,
     ...serviceRoutes,
     ...blogRoutes,
+    ...jobRoutes,
   ];
 }

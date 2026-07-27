@@ -93,6 +93,7 @@ export async function Nav({ showContactCta = true }: { showContactCta?: boolean 
       children: groups.services,
     },
     { label: "Blog", href: "/blog" },
+    { label: "Careers", href: "/career" },
     { label: "FAQ", href: "/faq" },
   ];
 

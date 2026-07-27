@@ -183,3 +183,54 @@ export async function generateJson(
     return {};
   }
 }
+
+/** An inline document handed to the model (base64), e.g. a PDF résumé. */
+export interface InlineFile {
+  mimeType: string;
+  /** base64-encoded bytes. */
+  data: string;
+}
+
+/**
+ * Structured JSON completion over a DOCUMENT rather than plain text.
+ *
+ * Gemini reads a PDF natively — columns, tables and layout survive, which text
+ * extraction mangles — so résumé parsing feeds the file straight in. Runs on the
+ * main LLM tier (not the analytics one): document understanding is the one place
+ * where the cheap tier's quality gap actually shows up in the extracted fields.
+ *
+ * Retries on transient failures like the rest of this module; a résumé parse is
+ * a background job, so a rate-limit blip should cost seconds, not the parse.
+ */
+export async function generateJsonFromFile(
+  systemPrompt: string,
+  prompt: string,
+  file: InlineFile,
+  model: string = config.llmModel,
+): Promise<Record<string, unknown>> {
+  const res = await withRetry(() =>
+    client().models.generateContent({
+      model,
+      contents: [
+        {
+          role: "user",
+          parts: [{ inlineData: { mimeType: file.mimeType, data: file.data } }, { text: prompt }],
+        },
+      ],
+      config: {
+        systemInstruction: systemPrompt,
+        temperature: 0,
+        responseMimeType: "application/json",
+        thinkingConfig: { thinkingBudget: 0 },
+        // A full résumé's plain_text alone can run past the chat widget's 700-token
+        // default and come back truncated mid-JSON — give the extraction real room.
+        maxOutputTokens: 8192,
+      },
+    }),
+  );
+  try {
+    return JSON.parse((res.text ?? "{}").trim()) as Record<string, unknown>;
+  } catch {
+    return {};
+  }
+}

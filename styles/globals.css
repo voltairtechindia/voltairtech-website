@@ -2115,3 +2115,253 @@ body.gsap-on [data-reveal] { transition: none; }
     display: none !important;
   }
 }
+
+/* =========================================================================
+   Careers — /career, /career/<slug>, and the application form.
+
+   Same editorial grammar as the rest of the site: bone card on bone paper,
+   hairline rules, mono micro-labels, offset-block hover. A job posting is a
+   piece of writing, so the detail page reads as one column with the hard
+   facts pulled into a rail rather than buried in prose.
+   ========================================================================= */
+
+/* ---- hero ---- */
+.careers-hero { padding-top: var(--s-8); padding-bottom: var(--s-7); }
+.careers-hero__h {
+  margin-top: var(--s-3);
+  font-family: var(--ff-serif); font-weight: 530;
+  font-size: clamp(2.6rem, 7vw, 5rem); line-height: var(--lh-display);
+  letter-spacing: var(--tracking-tight); max-width: 16ch;
+}
+.careers-hero__h em { color: var(--v-red); font-style: italic; font-variation-settings: var(--wonk); font-weight: 560; }
+.careers-hero__lede { max-width: 62ch; margin-top: var(--s-5); }
+.careers-hero__meta { display: flex; align-items: center; flex-wrap: wrap; gap: var(--s-4); margin-top: var(--s-6); }
+
+/* ---- role cards ---- */
+.careers-roles { padding-top: var(--s-6); }
+.job-grid {
+  display: grid; gap: var(--s-4);
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 340px), 1fr));
+}
+.jobc {
+  display: flex; flex-direction: column; gap: var(--s-3);
+  padding: var(--s-5); text-decoration: none;
+  border: 1px solid var(--v-ink); border-radius: var(--r-2); background: var(--v-card);
+  transition: transform var(--dur-2), box-shadow var(--dur-2), background var(--dur-2);
+}
+.jobc:hover { transform: translate(-3px, -3px); box-shadow: var(--block-ink); background: #fff; }
+.jobc__dept {
+  font-family: var(--ff-serif); font-style: italic; font-variation-settings: var(--wonk);
+  font-size: 0.95rem; color: var(--v-red);
+}
+.jobc__title {
+  margin: 0; font-family: var(--ff-serif); font-weight: 560;
+  font-size: 1.42rem; line-height: 1.2; letter-spacing: var(--tracking-mid); color: var(--v-ink);
+}
+.jobc__meta { display: flex; flex-wrap: wrap; gap: 6px; }
+.jobc__chip {
+  font-family: var(--ff-mono); font-size: 11px; letter-spacing: 0.04em;
+  padding: 4px 9px; border: 1px solid var(--border); border-radius: var(--r-1);
+  color: var(--fg2); background: var(--bg2); white-space: nowrap;
+}
+.jobc__skills { display: flex; flex-wrap: wrap; gap: 6px; }
+.jobc__skill {
+  font-size: 12px; padding: 3px 10px; border-radius: var(--r-pill);
+  border: 1px solid rgba(46,69,216,0.28); color: var(--v-cobalt); background: var(--v-lime-soft);
+}
+.jobc__cta {
+  margin-top: auto; padding-top: var(--s-3); border-top: 1px solid var(--border);
+  display: inline-flex; align-items: center; gap: 8px;
+  font-family: var(--ff-mono); font-size: 11.5px; letter-spacing: 0.08em;
+  text-transform: uppercase; color: var(--v-ink);
+}
+.jobc:hover .jobc__cta .arr { transform: translate(2px, -2px) rotate(-45deg); }
+
+.careers-empty {
+  max-width: 62ch; padding: var(--s-6);
+  border: 1px dashed var(--v-ink); border-radius: var(--r-2); background: var(--v-card);
+}
+.careers-empty p { color: var(--fg2); line-height: 1.7; margin-bottom: var(--s-5); }
+
+/* ---- why here (on ink) ---- */
+.careers-why__grid {
+  display: grid; gap: var(--s-5);
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 260px), 1fr));
+}
+.careers-why__cell { padding-top: var(--s-4); border-top: 1px solid var(--v-ink-line); }
+.careers-why__n {
+  font-family: var(--ff-mono); font-size: 11px; letter-spacing: var(--tracking-label);
+  color: var(--v-cobalt-bright);
+}
+.careers-why__cell h3 {
+  margin: var(--s-3) 0 var(--s-2);
+  font-family: var(--ff-serif); font-weight: 560; font-size: 1.22rem;
+  letter-spacing: var(--tracking-mid); color: var(--v-ink-fg);
+}
+.careers-why__cell p { font-size: 0.96rem; line-height: 1.65; color: var(--v-ink-fg-2); margin: 0; }
+
+/* ---- apply block ---- */
+.careers-apply__inner { display: grid; gap: var(--s-7); grid-template-columns: minmax(0, 1fr) minmax(0, 1.15fr); align-items: start; }
+.careers-apply__hd { position: sticky; top: calc(var(--nav-h) + var(--s-5)); }
+.careers-apply__h {
+  margin: var(--s-3) 0 var(--s-4);
+  font-family: var(--ff-serif); font-weight: 530;
+  font-size: clamp(1.9rem, 3.4vw, 2.9rem); line-height: var(--lh-tight);
+  letter-spacing: var(--tracking-tight);
+}
+.careers-apply__h em { color: var(--v-red); font-style: italic; font-variation-settings: var(--wonk); font-weight: 560; }
+.careers-apply__card {
+  padding: clamp(20px, 3vw, 34px);
+  border: 1px solid var(--v-ink); border-radius: var(--r-2); background: var(--v-card);
+  box-shadow: 8px 8px 0 rgba(22,21,19,0.08);
+}
+@media (max-width: 900px) {
+  .careers-apply__inner { grid-template-columns: 1fr; gap: var(--s-5); }
+  .careers-apply__hd { position: static; }
+}
+
+/* ---- the form (cf-*) ---- */
+.cf__grid { display: grid; gap: var(--s-4); grid-template-columns: 1fr 1fr; }
+@media (max-width: 640px) { .cf__grid { grid-template-columns: 1fr; } }
+.cf__field { display: flex; flex-direction: column; gap: 7px; min-width: 0; }
+.cf__field--wide { margin-top: var(--s-4); }
+.cf__label {
+  font-family: var(--ff-mono); font-size: 11px; letter-spacing: var(--tracking-label);
+  text-transform: uppercase; color: var(--fg3);
+}
+.cf__opt { text-transform: none; letter-spacing: 0.02em; color: var(--fg3); opacity: 0.75; }
+.cf__textarea { resize: vertical; min-height: 110px; font-family: var(--ff-sans); line-height: 1.6; }
+/* Native select needs the arrow room the shared input padding doesn't leave. */
+select.bi__input { appearance: none; padding-right: 38px; cursor: pointer;
+  background-image: linear-gradient(45deg, transparent 50%, var(--v-ink) 50%), linear-gradient(135deg, var(--v-ink) 50%, transparent 50%);
+  background-position: calc(100% - 20px) calc(50% + 2px), calc(100% - 15px) calc(50% + 2px);
+  background-size: 5px 5px, 5px 5px; background-repeat: no-repeat;
+}
+
+/* The résumé hatch — the one attachment, so it gets the space to be obvious. */
+.cf__drop {
+  display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 5px;
+  padding: var(--s-6) var(--s-4); text-align: center; cursor: pointer;
+  border: 1px dashed rgba(22,21,19,0.4); border-radius: var(--r-1); background: var(--v-paper);
+  transition: border-color var(--dur-2), background var(--dur-2);
+}
+.cf__drop:hover, .cf__drop.is-drag { border-color: var(--v-cobalt); background: var(--v-lime-soft); }
+.cf__drop.is-set { border-style: solid; border-color: var(--v-ink); background: var(--v-card); }
+.cf__drop.is-bad { border-color: var(--v-red-deep); }
+.cf__drop-file { font-weight: 600; font-size: 0.98rem; color: var(--v-ink); word-break: break-all; }
+.cf__drop-sub { font-family: var(--ff-mono); font-size: 11px; letter-spacing: 0.04em; color: var(--fg3); }
+
+.cf__consent { display: flex; align-items: flex-start; gap: 10px; margin-top: var(--s-5); font-size: 0.9rem; line-height: 1.6; color: var(--fg2); cursor: pointer; }
+.cf__consent input { margin-top: 3px; width: 16px; height: 16px; accent-color: var(--v-red); flex-shrink: 0; }
+.cf__consent a { color: var(--v-red-deep); text-decoration: underline; text-underline-offset: 3px; }
+
+.cf__submit-row { display: flex; align-items: center; justify-content: space-between; gap: var(--s-4); flex-wrap: wrap; margin-top: var(--s-5); }
+.cf__hint { font-family: var(--ff-mono); font-size: 11px; letter-spacing: 0.04em; color: var(--fg3); }
+
+.cf--done { text-align: center; padding: var(--s-6) var(--s-3); }
+.cf__done-mark {
+  display: grid; place-items: center; width: 44px; height: 44px; margin: 0 auto var(--s-4);
+  border-radius: 50%; background: var(--v-ink); color: var(--v-paper); font-size: 20px;
+}
+.cf--done strong { font-family: var(--ff-serif); font-size: 1.3rem; font-weight: 560; color: var(--v-ink); }
+.cf--done p { margin-top: var(--s-3); color: var(--fg2); line-height: 1.65; }
+.cf__done-sub { font-size: 0.9rem; }
+.cf__done-sub a { color: var(--v-red-deep); text-decoration: underline; }
+
+/* ---- apply dialog (cm-*) ---- */
+.cm {
+  position: fixed; inset: 0; z-index: 1200;
+  display: flex; align-items: flex-start; justify-content: center;
+  padding: clamp(12px, 4vh, 56px) var(--s-4);
+  background: rgba(22,21,19,0.55); backdrop-filter: blur(3px);
+  overflow-y: auto; animation: cm-in 0.18s ease-out;
+}
+@keyframes cm-in { from { opacity: 0; } to { opacity: 1; } }
+.cm__panel {
+  position: relative; width: 100%; max-width: 760px;
+  padding: clamp(22px, 3.4vw, 40px);
+  border: 1px solid var(--v-ink); border-radius: var(--r-2); background: var(--v-card);
+  box-shadow: 10px 10px 0 rgba(22,21,19,0.25);
+}
+.cm__panel:focus { outline: none; }
+.cm__close {
+  position: absolute; top: 12px; right: 12px;
+  width: 34px; height: 34px; display: grid; place-items: center; cursor: pointer;
+  border: 1px solid var(--border); border-radius: var(--r-1);
+  background: transparent; color: var(--fg2); font-size: 14px;
+  transition: color var(--dur-2), border-color var(--dur-2);
+}
+.cm__close:hover { color: var(--v-red); border-color: var(--v-red); }
+.cm__title {
+  margin: var(--s-3) 0 var(--s-2);
+  font-family: var(--ff-serif); font-weight: 560; font-size: clamp(1.5rem, 3vw, 2rem);
+  letter-spacing: var(--tracking-mid); color: var(--v-ink);
+}
+.cm__sub { color: var(--fg2); margin-bottom: var(--s-5); }
+
+/* ---- job detail ---- */
+.job-page { padding-top: var(--s-7); }
+.job-page__grid { display: grid; gap: var(--s-7); grid-template-columns: minmax(0, 1fr) 320px; align-items: start; }
+.job-page__main { min-width: 0; max-width: 74ch; }
+.job-page__h {
+  margin-top: var(--s-3);
+  font-family: var(--ff-serif); font-weight: 530;
+  font-size: clamp(2.1rem, 5vw, 3.6rem); line-height: var(--lh-tight);
+  letter-spacing: var(--tracking-tight); color: var(--v-ink);
+}
+.job-page__hd { padding-bottom: var(--s-5); border-bottom: 1px solid var(--v-ink); margin-bottom: var(--s-6); }
+.job-page__body p { font-size: 1.02rem; line-height: 1.75; color: var(--fg2); margin-bottom: var(--s-4); }
+.job-page__body h2, .job-page__sec h2 {
+  font-family: var(--ff-serif); font-weight: 560; font-size: 1.5rem;
+  letter-spacing: var(--tracking-mid); color: var(--v-ink);
+  margin: var(--s-7) 0 var(--s-4);
+}
+.job-page__body h3 { font-family: var(--ff-serif); font-weight: 570; font-size: 1.2rem; color: var(--v-ink); margin: var(--s-5) 0 var(--s-3); }
+.job-page__body ul, .job-page__body ol { margin: 0 0 var(--s-4) var(--s-5); }
+.job-page__body li { font-size: 1rem; line-height: 1.7; color: var(--fg2); margin-bottom: var(--s-2); }
+.job-page__body a { color: var(--v-red-deep); text-decoration: underline; text-underline-offset: 3px; }
+.job-page__body strong { color: var(--v-ink); font-weight: 650; }
+/* Numbered/bulleted lists we build ourselves — a hairline rule per item so a
+   long requirements list scans instead of blurring into a block. */
+.job-page__list { list-style: none; margin: 0; padding: 0; }
+.job-page__list li {
+  position: relative; padding: 11px 0 11px var(--s-5);
+  border-bottom: 1px solid var(--border);
+  font-size: 1rem; line-height: 1.65; color: var(--fg2);
+}
+.job-page__list li:last-child { border-bottom: none; }
+.job-page__list li::before {
+  content: ""; position: absolute; left: 2px; top: 20px;
+  width: 8px; height: 1px; background: var(--v-red);
+}
+.job-page__cta {
+  display: flex; align-items: center; justify-content: space-between; gap: var(--s-5); flex-wrap: wrap;
+  margin-top: var(--s-8); padding: var(--s-6);
+  border: 1px solid var(--v-ink); border-radius: var(--r-2); background: var(--v-card);
+}
+.job-page__cta h2 { margin: 0 0 6px; font-family: var(--ff-serif); font-weight: 560; font-size: 1.4rem; color: var(--v-ink); }
+.job-page__cta p { margin: 0; color: var(--fg2); max-width: 44ch; }
+
+.job-page__rail { position: sticky; top: calc(var(--nav-h) + var(--s-5)); display: flex; flex-direction: column; gap: var(--s-4); }
+.job-page__railcard {
+  padding: var(--s-5); border: 1px solid var(--v-ink); border-radius: var(--r-2); background: var(--v-card);
+}
+.job-page__facts { margin: var(--s-4) 0 var(--s-5); }
+.job-page__fact { display: flex; justify-content: space-between; gap: var(--s-3); padding: 9px 0; border-bottom: 1px solid var(--border); }
+.job-page__fact:last-child { border-bottom: none; }
+.job-page__fact dt { font-family: var(--ff-mono); font-size: 11px; letter-spacing: 0.06em; text-transform: uppercase; color: var(--fg3); white-space: nowrap; }
+.job-page__fact dd { margin: 0; font-size: 0.92rem; font-weight: 500; color: var(--v-ink); text-align: right; }
+.job-page__railcard .btn { width: 100%; }
+.job-page__railnote { margin-top: var(--s-4); font-size: 0.82rem; line-height: 1.55; color: var(--fg3); }
+.job-page__railnote a { color: var(--v-red-deep); text-decoration: underline; }
+.job-page__allroles {
+  display: inline-flex; align-items: center; gap: 8px;
+  font-family: var(--ff-mono); font-size: 11.5px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--fg2);
+}
+.job-page__allroles:hover { color: var(--v-red); }
+
+@media (max-width: 900px) {
+  .job-page__grid { grid-template-columns: 1fr; }
+  .job-page__rail { position: static; order: -1; }
+  .job-page__main { max-width: none; }
+}
