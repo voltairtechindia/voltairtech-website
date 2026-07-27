@@ -74,6 +74,7 @@ export default async function BlogIndexPage({
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
       <ProsePage
         wide
+        className="blog-index"
         crumbs={[
           { label: "Home", href: "/" },
           { label: "Blog" },

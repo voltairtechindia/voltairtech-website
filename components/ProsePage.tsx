@@ -11,6 +11,7 @@ export function ProsePage({
   meta,
   lead,
   wide,
+  className,
   children,
 }: {
   crumbs: Crumb[];
@@ -18,6 +19,7 @@ export function ProsePage({
   meta?: string;
   lead?: ReactNode;
   wide?: boolean;
+  className?: string;
   children: ReactNode;
 }) {
   return (
@@ -28,7 +30,7 @@ export function ProsePage({
           dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbLd(crumbs)) }}
         />
       ) : null}
-      <section className="legal-page">
+      <section className={`legal-page${className ? ` ${className}` : ""}`}>
         <div className="container">
           <div className={`legal-page__inner${wide ? " legal-page__inner--wide" : ""}`}>
             <nav className="legal-page__crumb" aria-label="Breadcrumb">

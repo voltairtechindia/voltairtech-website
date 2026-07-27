@@ -32,6 +32,12 @@ const securityHeaders = [
   { key: "Permissions-Policy", value: "camera=(), microphone=(), geolocation=()" },
 ];
 
+// Cold-email open/click tracking is served by the admin app, but the URLs are
+// stamped into mail that leads actually receive — so they must ride the stable
+// branded domain, not a deploy-specific *.vercel.app host. These paths are
+// proxied straight through; nothing about them is rendered by this site.
+const ADMIN_ORIGIN = process.env.ADMIN_ORIGIN || "https://voltairtech-admin.vercel.app";
+
 const nextConfig = {
   reactStrictMode: true,
   poweredByHeader: false,
@@ -52,6 +58,14 @@ const nextConfig = {
   },
   async headers() {
     return [{ source: "/:path*", headers: securityHeaders }];
+  },
+  async rewrites() {
+    return [
+      {
+        source: "/api/leads/track/:path*",
+        destination: `${ADMIN_ORIGIN}/api/leads/track/:path*`,
+      },
+    ];
   },
   async redirects() {
     return [
