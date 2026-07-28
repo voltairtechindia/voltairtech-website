@@ -523,8 +523,14 @@ body.chat-open .hero-demo {
 /* ----- Proof / case studies (home) ----- */
 .proof__title { margin-top: var(--s-3); }
 .proof__lead { color: var(--fg2); max-width: 540px; margin-top: var(--s-3); }
-.proof-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--s-4); }
-@media (max-width: 920px) { .proof-grid { grid-template-columns: 1fr; } }
+/* Four across on desktop; the --n modifier keeps the row full when fewer
+   sectors are flagged "feature on homepage" (no empty column). */
+.proof-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: var(--s-4); }
+.proof-grid--1 { grid-template-columns: minmax(0, 1fr); }
+.proof-grid--2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.proof-grid--3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+@media (max-width: 1180px) { .proof-grid, .proof-grid--3 { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 700px)  { .proof-grid, .proof-grid--2, .proof-grid--3 { grid-template-columns: 1fr; } }
 .proof-card {
   display: flex; flex-direction: column; gap: var(--s-3);
   background: var(--v-card); border: 1px solid var(--v-ink);

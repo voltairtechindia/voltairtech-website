@@ -9,7 +9,7 @@ import { getFeaturedCaseStudies, type FeaturedCaseStudy } from "@/lib/industries
 export async function HomeProof() {
   let studies: FeaturedCaseStudy[] = [];
   try {
-    studies = await getFeaturedCaseStudies(3);
+    studies = await getFeaturedCaseStudies(4);
   } catch {
     studies = [];
   }
@@ -33,7 +33,7 @@ export async function HomeProof() {
           </div>
         </div>
 
-        <div className="proof-grid">
+        <div className={`proof-grid proof-grid--${Math.min(studies.length, 4)}`}>
           {studies.map((s) => (
             <Link
               key={s.industrySlug}
