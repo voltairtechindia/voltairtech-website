@@ -134,7 +134,7 @@ export function NavMenu({ links }: { links: NavLink[] }) {
               className="btn btn-primary"
               onClick={() => setOpen(false)}
             >
-              Start a project <Arr />
+              Contact us <Arr />
             </Link>
           </div>
         </nav>

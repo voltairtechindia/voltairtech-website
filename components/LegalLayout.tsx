@@ -31,7 +31,7 @@ export function LegalLayout({
           </Link>
           <div className="nav__right">
             <Link className="btn btn-primary btn-sm" href="/#footer">
-              Start a project →
+              Contact us →
             </Link>
           </div>
         </div>

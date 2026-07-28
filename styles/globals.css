@@ -1241,6 +1241,42 @@ body.chat-open .hero-demo {
 .legal-page__contact { margin-top: var(--s-7); padding: var(--s-6); border: 1px solid var(--v-ink); border-radius: var(--r-2); background: var(--v-card); }
 .legal-page__contact p { margin-bottom: 0; }
 
+/* ====================  INLINE LEAD FORM  ====================
+   The full contact form embedded at the foot of a service / industry /
+   sector-sub-service page (components/LeadForm.tsx, variant="inline").
+   Reuses the .bi__* field styles wholesale so the two forms cannot drift. */
+/* Double-class selectors throughout: this block lives inside .legal-page, whose
+   `.legal-page h2` / `.legal-page p` rules would otherwise out-specify it. */
+.lead-cta { margin-top: var(--s-8); padding-top: var(--s-7); border-top: 1px solid var(--v-ink); scroll-margin-top: 96px; }
+.lead-cta .lead-cta__h { font-family: var(--ff-serif); font-weight: 560; font-size: clamp(1.6rem, 3vw, 2.3rem); line-height: var(--lh-display); letter-spacing: var(--tracking-tight); color: var(--v-ink); margin-top: 0; margin-bottom: var(--s-3); }
+.lead-cta .lead-cta__h em { color: var(--v-red); font-style: italic; font-variation-settings: var(--wonk); }
+.lead-cta .lead-cta__lede { max-width: 62ch; margin-bottom: var(--s-5); font-size: 1rem; line-height: 1.65; color: var(--fg2); }
+.lead-cta .bi__field p { margin-bottom: 0; }
+.lead-cta .bi__hint, .lead-cta .bi__trust, .lead-cta .bi__field-err, .lead-cta .bi__done-sub { font-size: 0.8125rem; line-height: 1.5; }
+.lead-cta .bi__hint, .lead-cta .bi__trust { color: var(--fg3); }
+.lead-cta .bi__field-err { color: var(--v-red-deep); }
+.lead-cta .bi__err { font-size: 0.9rem; color: var(--v-red-deep); }
+
+.lead-pick { margin-bottom: var(--s-4); }
+.lead-pick__chips { display: flex; flex-wrap: wrap; gap: 8px; }
+.lead-chip {
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 9px 14px; border: 1px solid var(--border); border-radius: var(--r-1);
+  background: var(--bg1); color: var(--fg2);
+  font-family: var(--ff-sans); font-size: 0.875rem; font-weight: 500; line-height: 1.2;
+  text-align: left; cursor: pointer;
+  transition: border-color var(--dur-2), background var(--dur-2), color var(--dur-2);
+}
+.lead-chip:hover { border-color: var(--v-ink); color: var(--fg1); }
+.lead-chip:focus-visible { outline: none; border-color: var(--v-cobalt); box-shadow: var(--focus-ring); }
+.lead-chip.on { background: var(--v-ink); border-color: var(--v-ink); color: var(--v-paper); }
+.lead-chip.on:hover { background: var(--v-ink-2); color: var(--v-paper); }
+.lead-chip__mark { font-family: var(--ff-mono); font-size: 11px; line-height: 1; color: var(--fg3); }
+.lead-chip.on .lead-chip__mark { color: var(--v-red); }
+@media (max-width: 560px) {
+  .lead-chip { padding: 8px 12px; font-size: 0.825rem; }
+}
+
 /* ====================  UTILITY  ==================== */
 .reveal-on-scroll { opacity: 0; transform: translateY(20px); transition: opacity 700ms var(--ease-out), transform 700ms var(--ease-out); }
 .reveal-on-scroll.in { opacity: 1; transform: translateY(0); }

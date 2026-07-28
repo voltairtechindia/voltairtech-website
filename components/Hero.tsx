@@ -28,7 +28,7 @@ export function Hero() {
           <HeroPrompt />
           <div className="hero__ctas">
             <Link className="btn btn-primary" href="/contact">
-              Start a project <Arr />
+              Contact us <Arr />
             </Link>
             <Link className="btn btn-ghost" href="/services">
               See what we build

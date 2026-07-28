@@ -133,7 +133,20 @@ Ported from the kauntech site; re-themed for Voltair. New Supabase project
   homepage `Organization` JSON-LD carries a DB-driven `hasOfferCatalog` of every
   published service (individual `Service` nodes whose `@id` matches each
   `/services/<slug>` page) so answer engines can cite each offering.
-- **Inquiries:** `components/BigInput.tsx` → `POST /api/contact` → `contact_submissions`.
+- **Inquiries / lead form:** one component, `components/LeadForm.tsx` → `POST /api/contact`
+  → `contact_submissions`. `variant="page"` is the /contact hero (wrapped by
+  `components/BigInput.tsx`); `variant="inline"` is the CTA at the foot of every
+  service, industry, and sector sub-service page (it replaced the old `ProseCta`).
+  The form is **context-prefilled from the DB**: the page passes the services it
+  already loaded as picker options (`lib/lead-form.ts` — `LeadOption`/`LeadContext`),
+  pre-ticks its own service, and `composeLeadMessage()` writes the opening line —
+  which keeps following the picker until the visitor types. Ticked services +
+  page context ride in the POST and land in `contact_submissions.metadata`
+  (`services`, `service_refs`, `industry_title`, `service_title`, `source`); the
+  admin reads them back via `readLeadContext()` (`lib/inquiries.ts`) for the
+  Inquiries card and the notification email. `/contact?service=<slug>&industry=<slug>`
+  prefills the same way (read from `location.search` after mount, so /contact
+  stays prerendered).
 - **Rate limiting:** `lib/rate-limit.ts` + `rl_hit` RPC (chat burst/daily/global,
   contact burst/daily). **Admin auth:** `lib/admin-auth.ts` (`X-Admin-Key`).
 - **Schema:** `supabase/migrations/*` (+ combined `supabase/setup.sql`).

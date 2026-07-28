@@ -75,6 +75,25 @@ export async function listPublishedServiceSlugs(): Promise<string[]> {
   return ((data ?? []) as { slug: string }[]).map((r) => r.slug);
 }
 
+/**
+ * Every published service as a `{ slug, title }` pair, in catalogue order — the
+ * lead form's service picker (components/LeadForm.tsx). Deliberately two columns
+ * rather than a card: this runs on pages that only need the labels.
+ */
+export async function listPublishedServiceOptions(): Promise<
+  { slug: string; title: string }[]
+> {
+  const sb = getSupabase();
+  const { data, error } = await sb
+    .from("services")
+    .select("slug, title")
+    .eq("status", "published")
+    .order("position", { ascending: true })
+    .order("created_at", { ascending: true });
+  if (error) throw error;
+  return (data ?? []) as { slug: string; title: string }[];
+}
+
 /** A single published service by slug, or null. */
 export async function getPublishedService(slug: string): Promise<Service | null> {
   const sb = getSupabase();

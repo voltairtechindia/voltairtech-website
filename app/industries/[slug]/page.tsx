@@ -2,11 +2,12 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 
+import { LeadForm } from "@/components/LeadForm";
 import Markdown from "@/components/Markdown";
 import { ProsePage } from "@/components/ProsePage";
-import { ProseCta } from "@/components/ProseCta";
 import { ServiceCardGrid } from "@/components/ServiceCardGrid";
 import { customServiceSlug } from "@/lib/industries/custom";
+import { catalogueOptionId, customOptionId, type LeadOption } from "@/lib/lead-form";
 import {
   getPublishedIndustry,
   listPublishedIndustrySlugs,
@@ -72,6 +73,22 @@ export default async function IndustryDetailPage({
 
   const url = `${SITE_URL}/industries/${ind.slug}`;
   const metaLine = ind.meta ?? "Industry";
+
+  // The picker mirrors the "Services for <sector>" grid above it — the sector's
+  // curated catalogue subset plus its inline sector-only builds, same order.
+  const leadOptions: LeadOption[] = [
+    ...services.map((s) => ({
+      id: catalogueOptionId(s.slug),
+      slug: s.slug,
+      title: s.title,
+    })),
+    ...customServices.map((c) => ({
+      id: customOptionId(customServiceSlug(c)),
+      slug: customServiceSlug(c),
+      title: c.title,
+      custom: true,
+    })),
+  ];
 
   // Linked (catalogue) services + inline custom services, in render order.
   const serviceListItems = [
@@ -246,7 +263,18 @@ export default async function IndustryDetailPage({
           </div>
         ) : null}
 
-        <ProseCta label={`Tell us what you want to build for ${ind.title}.`} />
+        <LeadForm
+          variant="inline"
+          idPrefix="ind"
+          heading={
+            <>
+              Build it for <em>{ind.title}</em>.
+            </>
+          }
+          lede="Pick what you need — or describe it in your own words. We reply within the hour with scope, a fixed price, and a start date."
+          context={{ kind: "industry", industrySlug: ind.slug, industryTitle: ind.title }}
+          options={leadOptions}
+        />
       </ProsePage>
     </>
   );

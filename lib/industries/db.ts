@@ -113,6 +113,24 @@ export async function listPublishedIndustryTitles(): Promise<string[]> {
   return ((data ?? []) as { title: string }[]).map((r) => r.title);
 }
 
+/**
+ * Every published industry as a `{ slug, title }` pair, in order — lets the
+ * /contact form resolve `?industry=<slug>` into a sector name to prefill with.
+ */
+export async function listPublishedIndustryOptions(): Promise<
+  { slug: string; title: string }[]
+> {
+  const sb = getSupabase();
+  const { data, error } = await sb
+    .from("industries")
+    .select("slug, title")
+    .eq("status", "published")
+    .order("position", { ascending: true })
+    .order("created_at", { ascending: true });
+  if (error) throw error;
+  return (data ?? []) as { slug: string; title: string }[];
+}
+
 /** Slugs of all published industries (for static params — index or not). */
 export async function listPublishedIndustrySlugs(): Promise<string[]> {
   const sb = getSupabase();

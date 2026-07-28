@@ -24,7 +24,7 @@ export const KNOWLEDGE_BASE: IngestDocument[] = [
     external_id: "contact",
     title: "Contact & hours",
     content:
-      "Email: business@voltairtech.com. Phone / WhatsApp: +91 70210 00764. Location: Andheri West, Mumbai, Maharashtra 400053, India. Business hours: Monday to Saturday, 10:00–20:00 IST. To reach the team, click the 'Contact us' button in the top navigation — it opens the Contact page (/contact), a short form where you describe what you want to build in one line and choose a WhatsApp or email reply. Voltair gets back within an hour with a 48-hour plan. (The 'Start a project' button on the homepage opens the same Contact page.) Prefer not to use the form? Just email business@voltairtech.com or message +91 70210 00764 on WhatsApp.",
+      "Email: business@voltairtech.com. Phone / WhatsApp: +91 70210 00764. Location: Andheri West, Mumbai, Maharashtra 400053, India. Business hours: Monday to Saturday, 10:00–20:00 IST. To reach the team, click the 'Contact us' button in the top navigation — it opens the Contact page (/contact), a short form where you tick the services you're interested in, describe what you want to build in one line, and choose a WhatsApp or email reply. Voltair gets back within an hour with a 48-hour plan. Every 'Contact us' button on the site opens that same page. You can also enquire without leaving the page you're on: every service page and every industry page ends with the same form, pre-ticked and pre-written for that service or sector, and you can add any other services you need before sending. Prefer not to use the form? Just email business@voltairtech.com or message +91 70210 00764 on WhatsApp.",
     metadata: { url: "https://voltairtech.com/contact" },
   },
   {

@@ -17,7 +17,7 @@ const HUB_ITEMS = [
   },
   {
     n: "05",
-    label: "Start a project",
+    label: "Contact us",
     desc: "One line. We reply in under an hour with a 48 hour plan.",
     eta: "under 1 hr reply",
     href: "/contact",

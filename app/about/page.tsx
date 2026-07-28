@@ -115,7 +115,7 @@ export default function AboutPage() {
             </p>
             <div style={{ display: "flex", justifyContent: "center" }}>
               <Link className="btn btn-primary" href="/contact">
-                Start a project <Arr />
+                Contact us <Arr />
               </Link>
             </div>
           </div>

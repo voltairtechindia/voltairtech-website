@@ -1,8 +1,14 @@
 /**
- * Public contact-form endpoint consumed by components/BigInput.tsx.
+ * Public contact-form endpoint consumed by components/LeadForm.tsx.
  *
- * POST /api/contact  { name, email, message, company?, phone?, channel?, page_url?, website? }
+ * POST /api/contact
+ *   { name, email, message, company?, phone?, channel?, page_url?, website?,
+ *     services?: [{ slug, title, custom? }], context?: { kind, industry_*, service_* } }
  *   -> 200 { ok: true }
+ *
+ * `services` and `context` are what the visitor ticked and which page they were
+ * on. They're advisory sales context, not validation input: anything malformed
+ * is dropped rather than 400'd, so a picker change can never break the form.
  *
  * Submissions land in the `contact_submissions` table via the server-side
  * service-role client (RLS-protected; the browser never touches Supabase).
@@ -30,6 +36,56 @@ function str(v: unknown): string {
 
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
+/** Mirrors MAX_SELECTED_SERVICES in lib/lead-form.ts. */
+const MAX_SERVICES = 20;
+const MAX_LABEL = 200;
+
+const CONTEXT_KINDS = new Set(["general", "service", "industry", "industry-service"]);
+
+interface SelectedService {
+  slug: string;
+  title: string;
+  custom: boolean;
+}
+
+/** Ticked picker entries, trimmed, deduped by slug, and capped. */
+function parseServices(raw: unknown): SelectedService[] {
+  if (!Array.isArray(raw)) return [];
+  const out: SelectedService[] = [];
+  const seen = new Set<string>();
+  for (const item of raw.slice(0, MAX_SERVICES)) {
+    if (!item || typeof item !== "object") continue;
+    const rec = item as Record<string, unknown>;
+    const title = str(rec.title).slice(0, MAX_LABEL);
+    const slug = str(rec.slug).slice(0, MAX_LABEL);
+    if (!title) continue;
+    const key = `${rec.custom ? "custom" : "service"}:${slug || title}`;
+    if (seen.has(key)) continue;
+    seen.add(key);
+    out.push({ slug, title, custom: rec.custom === true });
+  }
+  return out;
+}
+
+/** Where the form was submitted from, as the site describes itself. */
+function parseContext(raw: unknown): Record<string, string> {
+  if (!raw || typeof raw !== "object") return {};
+  const rec = raw as Record<string, unknown>;
+  const out: Record<string, string> = {};
+  const kind = str(rec.kind);
+  if (CONTEXT_KINDS.has(kind) && kind !== "general") out.source = kind;
+  for (const key of [
+    "industry_slug",
+    "industry_title",
+    "service_slug",
+    "service_title",
+  ] as const) {
+    const v = str(rec[key]).slice(0, MAX_LABEL);
+    if (v) out[key] = v;
+  }
+  return out;
+}
+
 export async function POST(req: Request) {
   let body: Record<string, unknown> = {};
   try {
@@ -51,6 +107,8 @@ export async function POST(req: Request) {
   // Reply channel drives which contact field is required. Default to WhatsApp.
   const channel = str(body.channel) === "email" ? "email" : "whatsapp";
   const pageUrl = str(body.page_url) || null;
+  const services = parseServices(body.services);
+  const context = parseContext(body.context);
 
   if (!name || name.length > 200) {
     return NextResponse.json(
@@ -150,7 +208,21 @@ export async function POST(req: Request) {
       message,
       page_url: pageUrl,
       user_agent: req.headers.get("user-agent"),
-      metadata: { reply_channel: channel },
+      metadata: {
+        reply_channel: channel,
+        ...context,
+        ...(services.length
+          ? {
+              // Titles are what the admin panel and the notification email
+              // read; the slugs sit alongside so a rename never orphans them.
+              services: services.map((s) => s.title),
+              service_refs: services.map((s) => ({
+                slug: s.slug,
+                custom: s.custom,
+              })),
+            }
+          : {}),
+      },
     });
     return NextResponse.json({ ok: true });
   } catch (err) {

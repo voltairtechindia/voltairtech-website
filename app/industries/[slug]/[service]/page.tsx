@@ -2,8 +2,8 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 
+import { LeadForm } from "@/components/LeadForm";
 import Markdown from "@/components/Markdown";
-import { ProseCta } from "@/components/ProseCta";
 import { ProsePage } from "@/components/ProsePage";
 import { customServiceSlug, findCustomService } from "@/lib/industries/custom";
 import {
@@ -11,7 +11,9 @@ import {
   listPublishedCustomServiceParams,
 } from "@/lib/industries/db";
 import { customServiceShouldIndex } from "@/lib/industries/indexing";
+import { catalogueOptionId, customOptionId, type LeadOption } from "@/lib/lead-form";
 import { DEFAULT_OG_IMAGE } from "@/lib/seo";
+import { getPublishedServiceCardsBySlugs } from "@/lib/services/db";
 
 const SITE_URL = "https://voltairtech.com";
 
@@ -70,6 +72,24 @@ export default async function IndustryCustomServicePage({
 
   const url = `${SITE_URL}/industries/${ind.slug}/${customServiceSlug(cs)}`;
   const metaLine = `${ind.title}${cs.eta ? ` · ${cs.eta}` : ""}`;
+  const thisSlug = customServiceSlug(cs);
+
+  // Same picker as the parent sector page, so someone who landed straight on a
+  // sub-page can still bolt on the rest of what that sector buys from us.
+  const linked = await getPublishedServiceCardsBySlugs(ind.service_slugs).catch(() => []);
+  const leadOptions: LeadOption[] = [
+    ...(ind.custom_services ?? []).map((c) => ({
+      id: customOptionId(customServiceSlug(c)),
+      slug: customServiceSlug(c),
+      title: c.title,
+      custom: true,
+    })),
+    ...linked.map((s) => ({
+      id: catalogueOptionId(s.slug),
+      slug: s.slug,
+      title: s.title,
+    })),
+  ];
 
   const jsonLd = {
     "@context": "https://schema.org",
@@ -130,7 +150,25 @@ export default async function IndustryCustomServicePage({
           <Link href="/services">See our core services →</Link>
         </p>
 
-        <ProseCta label={`Tell us what you want to build for ${ind.title}.`} />
+        <LeadForm
+          variant="inline"
+          idPrefix="cs"
+          heading={
+            <>
+              Get <em>{cs.title}</em> built.
+            </>
+          }
+          lede={`Tell us where you're starting from. We reply within the hour with scope, a fixed price, and a start date.`}
+          context={{
+            kind: "industry-service",
+            industrySlug: ind.slug,
+            industryTitle: ind.title,
+            serviceSlug: thisSlug,
+            serviceTitle: cs.title,
+          }}
+          options={leadOptions}
+          initialSelected={[customOptionId(thisSlug)]}
+        />
       </ProsePage>
     </>
   );

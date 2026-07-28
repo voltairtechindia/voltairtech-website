@@ -1,11 +1,13 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 
+import { LeadForm } from "@/components/LeadForm";
 import Markdown from "@/components/Markdown";
 import { ProsePage } from "@/components/ProsePage";
-import { ProseCta } from "@/components/ProseCta";
+import { catalogueOptionId, type LeadOption } from "@/lib/lead-form";
 import {
   getPublishedService,
+  listPublishedServiceOptions,
   listPublishedServiceSlugs,
 } from "@/lib/services/db";
 import { DEFAULT_OG_IMAGE } from "@/lib/seo";
@@ -64,6 +66,15 @@ export default async function ServiceDetailPage({
   const svc = await getPublishedService(params.slug).catch(() => null);
   if (!svc) notFound();
 
+  // The whole catalogue, with this page's service already ticked — most enquiries
+  // want a second thing bolted on, and asking here beats a reply asking later.
+  const catalogue = await listPublishedServiceOptions().catch(() => []);
+  const leadOptions: LeadOption[] = catalogue.map((s) => ({
+    id: catalogueOptionId(s.slug),
+    slug: s.slug,
+    title: s.title,
+  }));
+
   const url = `${SITE_URL}/services/${svc.slug}`;
   const metaLine = svc.meta ?? (svc.eta ? `Service · ${svc.eta} delivery` : "Service");
 
@@ -117,7 +128,19 @@ export default async function ServiceDetailPage({
           </figure>
         ) : null}
         {svc.body_md.trim() ? <Markdown>{svc.body_md}</Markdown> : null}
-        <ProseCta label="Tell us what you want to build." />
+        <LeadForm
+          variant="inline"
+          idPrefix="svc"
+          heading={
+            <>
+              Start your <em>{svc.title}</em> build.
+            </>
+          }
+          lede="Tick anything else you need, tell us the goal, and we'll come back within the hour with scope, a fixed price, and a start date."
+          context={{ kind: "service", serviceSlug: svc.slug, serviceTitle: svc.title }}
+          options={leadOptions}
+          initialSelected={[catalogueOptionId(svc.slug)]}
+        />
       </ProsePage>
     </>
   );

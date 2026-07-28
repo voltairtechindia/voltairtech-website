@@ -34,7 +34,7 @@ const HEADER = `# Voltair Tech
 - [Services](${SITE_URL}/services): Full catalogue of AI build services.
 - [Industries](${SITE_URL}/industries): Sector-shaped AI for D2C, healthcare, fintech, and more.
 - [FAQ](${SITE_URL}/faq): Common questions on scope, timelines, pricing, and ownership.
-- [Contact](${SITE_URL}/contact): Start a project — one line, reply within an hour.`;
+- [Contact](${SITE_URL}/contact): Contact us — one line, reply within an hour.`;
 
 const FOOTER = `## Policies
 - [Privacy Policy](${SITE_URL}/privacy)
