@@ -29,8 +29,8 @@ export interface FeaturedCaseStudy extends IndustryCaseStudy {
 const CARD_COLUMNS =
   "slug, title, summary, bullets, icon, cover_image, icon_image, tags, service_slugs, position";
 
-/** 12 = a full 6 x 2 grid on wide desktop (the shared `.svc-grid`). */
-export const DEFAULT_PER_PAGE = 12;
+/** 8 = a full 4 x 2 grid on wide desktop (the shared `.svc-grid`). */
+export const DEFAULT_PER_PAGE = 8;
 
 /** Published industries for the grid, ordered by `position`, paginated. */
 export async function listPublishedIndustries(

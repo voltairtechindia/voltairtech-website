@@ -11,8 +11,8 @@ import type { BlogIndex, BlogPost, BlogPostCard, BlogUpsert } from "./types";
 const CARD_COLUMNS =
   "slug, title, excerpt, cover_image, tags, author, reading_minutes, published_at";
 
-/** 12 = a full 6 x 2 grid on wide desktop (see `.post-list--grid`). */
-export const DEFAULT_PER_PAGE = 12;
+/** 8 = a full 4 x 2 grid on wide desktop (see `.post-list--grid`). */
+export const DEFAULT_PER_PAGE = 8;
 
 /** Published posts, newest first, as a paginated page of listing cards. */
 export async function listPublishedPosts(

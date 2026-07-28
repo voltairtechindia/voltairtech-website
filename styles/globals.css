@@ -605,26 +605,12 @@ body.chat-open .hero-demo {
 .v-mono__chip--3 .d { background: #fff; }
 
 /* ====================  SERVICES  ==================== */
-/* Card-grid ladder. Wide desktop runs 6 across so a page of 12 cards reads as
-   6 x 2; it steps down to 4 / 3 / 2 / 1 as the viewport narrows. The compact
-   variant (home hub) tops out at 4 — its cards are already half-height. */
+/* Card-grid ladder. Wide desktop runs 4 across so a page of 8 cards reads as
+   4 x 2; it steps down to 3 / 2 / 1 as the viewport narrows. */
 .svc-grid { display: grid; grid-template-columns: 1fr; gap: var(--s-4); }
 @media (min-width: 600px)  { .svc-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
 @media (min-width: 900px)  { .svc-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
 @media (min-width: 1180px) { .svc-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
-@media (min-width: 1360px) {
-  .svc-grid:not(.svc-grid--compact) { grid-template-columns: repeat(6, minmax(0, 1fr)); gap: var(--s-3); }
-  /* Six across leaves ~200px per card — tighten the card to match. */
-  .svc-grid:not(.svc-grid--compact) .svc-card { min-height: 0; padding: var(--s-5); }
-  .svc-grid:not(.svc-grid--compact) .svc-card__title { font-size: 1.18rem; margin-top: var(--s-3); }
-  .svc-grid:not(.svc-grid--compact) .svc-card__bullets { margin-top: var(--s-3); gap: 3px; }
-  .svc-grid:not(.svc-grid--compact) .svc-card__bullets li { font-size: 10.5px; }
-  .svc-grid:not(.svc-grid--compact) .svc-card__eta,
-  .svc-grid:not(.svc-grid--compact) .svc-card__cta { margin-top: var(--s-3); }
-  .svc-grid:not(.svc-grid--compact) .svc-card__glyph { width: 40px; height: 40px; margin-top: var(--s-4); }
-  .svc-grid:not(.svc-grid--compact) .svc-card__icon { flex: 0 0 56px; width: 56px; height: 56px; }
-  .svc-grid:not(.svc-grid--compact) .svc-card__arrow { right: var(--s-5); top: var(--s-5); font-size: 18px; }
-}
 .svc-card { position: relative; padding: var(--s-6); border: 1px solid var(--v-ink-line); border-radius: var(--r-2); background: var(--v-ink-2); overflow: hidden; transition: transform var(--dur-2) var(--ease-out), background var(--dur-2), box-shadow var(--dur-2) var(--ease-out); cursor: pointer; min-height: 260px; display: flex; flex-direction: column; justify-content: space-between; }
 .svc-card:hover { background: #211F1B; transform: translate(-3px, -3px); box-shadow: var(--block-red); }
 .svc-card--static { cursor: default; }
@@ -1492,8 +1478,8 @@ a.svc-card { text-decoration: none; color: inherit; }
   max-width: 90%;
   margin-inline: auto;
 }
-/* Blog index ladder — matches the service grid: 6 across on wide desktop so a
-   page of 12 posts reads as 6 x 2, stepping down to 4 / 3 / 2 / 1. */
+/* Blog index ladder — matches the service grid: 4 across on wide desktop so a
+   page of 8 posts reads as 4 x 2, stepping down to 3 / 2 / 1. */
 @media (min-width: 900px) {
   .blog-index .post-list--grid {
     grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -1503,19 +1489,6 @@ a.svc-card { text-decoration: none; color: inherit; }
   .blog-index .post-list--grid {
     grid-template-columns: repeat(4, minmax(0, 1fr));
   }
-}
-@media (min-width: 1400px) {
-  .blog-index .post-list--grid {
-    grid-template-columns: repeat(6, minmax(0, 1fr));
-    gap: var(--s-4);
-  }
-  /* ~200px per card at six across — tighten padding and type to suit. */
-  .blog-index .post-list--grid > a { padding: var(--s-4); gap: var(--s-3); }
-  .blog-index .post-list--grid .post-kicker { font-size: 0.8rem; margin-bottom: 4px; }
-  .blog-index .post-list--grid .post-card__body h2 { font-size: 1.05rem; }
-  .blog-index .post-list--grid .post-card__body p { font-size: 0.84rem; -webkit-line-clamp: 4; }
-  .blog-index .post-card__ph::after { font-size: 40px; top: 4px; right: 10px; }
-  .blog-index .post-card__ph { padding: var(--s-3); }
 }
 .blog-article {
   width: 90%;

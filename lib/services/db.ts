@@ -10,8 +10,8 @@ import type { Service, ServiceCard, ServicePage, ServiceUpsert } from "./types";
 const CARD_COLUMNS =
   "slug, title, summary, bullets, eta, icon, cover_image, tags, position";
 
-/** 12 = a full 6 x 2 grid on wide desktop (see `.svc-grid`). */
-export const DEFAULT_PER_PAGE = 12;
+/** 8 = a full 4 x 2 grid on wide desktop (see `.svc-grid`). */
+export const DEFAULT_PER_PAGE = 8;
 
 /** Published services for the grid, ordered by `position`, paginated. */
 export async function listPublishedServices(

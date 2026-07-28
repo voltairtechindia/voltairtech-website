@@ -104,8 +104,8 @@ Ported from the kauntech site; re-themed for Voltair. New Supabase project
   migrated to the DB (`supabase/seed-services.mjs`). `lib/content.ts` `services` is now
   legacy/unused. Service docs are NOT in `knowledge-base.ts` — they sync from the DB.
 - **Card order + page size:** the service, industry, and blog grids all run
-  `DEFAULT_PER_PAGE = 12` — a full 6 x 2 on wide desktop (`.svc-grid` /
-  `.post-list--grid` step 6 → 4 → 3 → 2 → 1 as the viewport narrows). Order is
+  `DEFAULT_PER_PAGE = 8` — a full 4 x 2 on wide desktop (`.svc-grid` /
+  `.post-list--grid` step 4 → 3 → 2 → 1 as the viewport narrows). Order is
   admin-controlled: services/industries sort by `position` (asc), the blog leads
   with `blog_posts.pin_position` (asc, nulls last — migration `0035`) then
   `published_at` desc. The admin's list pages carry an `OrderBoard` that POSTs a
