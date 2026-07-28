@@ -44,6 +44,8 @@ export interface BlogPost {
   seo: BlogSeo;
   faq: FaqItem[];
   status: BlogStatus;
+  /** Manual blog-index order: 1 = first card, null = unpinned (date order). */
+  pin_position: number | null;
   reading_minutes: number | null;
   published_at: string | null;
   created_at: string;
@@ -85,6 +87,7 @@ export interface BlogUpsert {
   seo?: BlogSeo;
   faq?: FaqItem[];
   status?: BlogStatus;
+  pin_position?: number | null;
   reading_minutes?: number | null;
   published_at?: string | null;
 }

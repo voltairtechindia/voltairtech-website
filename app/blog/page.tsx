@@ -101,7 +101,7 @@ export default async function BlogIndexPage({
                       <CoverImage
                         src={p.cover_image.url}
                         alt={p.cover_image.alt ?? p.title}
-                        sizes="(max-width: 760px) 100vw, 360px"
+                        sizes="(max-width: 640px) 100vw, (max-width: 1024px) 45vw, (max-width: 1400px) 25vw, 16vw"
                       />
                     ) : (
                       <div className="post-card__ph" aria-hidden="true">

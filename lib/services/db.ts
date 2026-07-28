@@ -10,7 +10,8 @@ import type { Service, ServiceCard, ServicePage, ServiceUpsert } from "./types";
 const CARD_COLUMNS =
   "slug, title, summary, bullets, eta, icon, cover_image, tags, position";
 
-export const DEFAULT_PER_PAGE = 6;
+/** 12 = a full 6 x 2 grid on wide desktop (see `.svc-grid`). */
+export const DEFAULT_PER_PAGE = 12;
 
 /** Published services for the grid, ordered by `position`, paginated. */
 export async function listPublishedServices(
@@ -133,6 +134,23 @@ export async function nextServicePosition(): Promise<number> {
   if (error) throw error;
   const max = data ? (data as { position: number }).position : null;
   return (max ?? 0) + 1;
+}
+
+/**
+ * Rewrite the grid order: the given slugs become position 1..N (first = first
+ * card). Slugs not listed keep their current position. Called by the
+ * admin-gated POST /api/services/reorder.
+ */
+export async function setServicePositions(order: string[]): Promise<void> {
+  const sb = getSupabase();
+  for (let i = 0; i < order.length; i += 1) {
+    const slug = order[i];
+    const { error } = await sb
+      .from("services")
+      .update({ position: i + 1 })
+      .eq("slug", slug);
+    if (error) throw error;
+  }
 }
 
 /** Insert or update a service by slug. Returns the stored row (admin-gated route). */

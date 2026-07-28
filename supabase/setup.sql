@@ -245,13 +245,15 @@ create table if not exists blog_posts (
     status          text        not null default 'draft'
                                 check (status in ('draft', 'published', 'archived')),
     reading_minutes int,
+    -- Manual /blog order: 1 = first card, NULL = unpinned (date order).
+    pin_position    int,
     published_at    timestamptz,
     created_at      timestamptz not null default now(),
     updated_at      timestamptz not null default now()
 );
 
 create index if not exists blog_posts_published_idx
-    on blog_posts (published_at desc)
+    on blog_posts (pin_position asc nulls last, published_at desc)
     where status = 'published';
 create index if not exists blog_posts_status_idx on blog_posts (status);
 create index if not exists blog_posts_tags_idx   on blog_posts using gin (tags);

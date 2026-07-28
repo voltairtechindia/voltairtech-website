@@ -605,20 +605,45 @@ body.chat-open .hero-demo {
 .v-mono__chip--3 .d { background: #fff; }
 
 /* ====================  SERVICES  ==================== */
-.svc-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--s-4); }
-@media (max-width: 1024px) { .svc-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
-@media (max-width: 600px) { .svc-grid { grid-template-columns: 1fr; } }
+/* Card-grid ladder. Wide desktop runs 6 across so a page of 12 cards reads as
+   6 x 2; it steps down to 4 / 3 / 2 / 1 as the viewport narrows. The compact
+   variant (home hub) tops out at 4 — its cards are already half-height. */
+.svc-grid { display: grid; grid-template-columns: 1fr; gap: var(--s-4); }
+@media (min-width: 600px)  { .svc-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (min-width: 900px)  { .svc-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+@media (min-width: 1180px) { .svc-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
+@media (min-width: 1360px) {
+  .svc-grid:not(.svc-grid--compact) { grid-template-columns: repeat(6, minmax(0, 1fr)); gap: var(--s-3); }
+  /* Six across leaves ~200px per card — tighten the card to match. */
+  .svc-grid:not(.svc-grid--compact) .svc-card { min-height: 0; padding: var(--s-5); }
+  .svc-grid:not(.svc-grid--compact) .svc-card__title { font-size: 1.18rem; margin-top: var(--s-3); }
+  .svc-grid:not(.svc-grid--compact) .svc-card__bullets { margin-top: var(--s-3); gap: 3px; }
+  .svc-grid:not(.svc-grid--compact) .svc-card__bullets li { font-size: 10.5px; }
+  .svc-grid:not(.svc-grid--compact) .svc-card__eta,
+  .svc-grid:not(.svc-grid--compact) .svc-card__cta { margin-top: var(--s-3); }
+  .svc-grid:not(.svc-grid--compact) .svc-card__glyph { width: 40px; height: 40px; margin-top: var(--s-4); }
+  .svc-grid:not(.svc-grid--compact) .svc-card__icon { flex: 0 0 56px; width: 56px; height: 56px; }
+  .svc-grid:not(.svc-grid--compact) .svc-card__arrow { right: var(--s-5); top: var(--s-5); font-size: 18px; }
+}
 .svc-card { position: relative; padding: var(--s-6); border: 1px solid var(--v-ink-line); border-radius: var(--r-2); background: var(--v-ink-2); overflow: hidden; transition: transform var(--dur-2) var(--ease-out), background var(--dur-2), box-shadow var(--dur-2) var(--ease-out); cursor: pointer; min-height: 260px; display: flex; flex-direction: column; justify-content: space-between; }
 .svc-card:hover { background: #211F1B; transform: translate(-3px, -3px); box-shadow: var(--block-red); }
 .svc-card--static { cursor: default; }
 .svc-card--static:hover { background: var(--v-ink-2); transform: none; box-shadow: none; }
 .svc-grid .svc-card { animation: svcCardIn 480ms var(--ease-out) backwards; }
-.svc-grid .svc-card:nth-child(2) { animation-delay: 70ms; }
-.svc-grid .svc-card:nth-child(3) { animation-delay: 140ms; }
-.svc-grid .svc-card:nth-child(4) { animation-delay: 210ms; }
-.svc-grid .svc-card:nth-child(5) { animation-delay: 280ms; }
-.svc-grid .svc-card:nth-child(6) { animation-delay: 350ms; }
+.svc-grid .svc-card:nth-child(2) { animation-delay: 45ms; }
+.svc-grid .svc-card:nth-child(3) { animation-delay: 90ms; }
+.svc-grid .svc-card:nth-child(4) { animation-delay: 135ms; }
+.svc-grid .svc-card:nth-child(5) { animation-delay: 180ms; }
+.svc-grid .svc-card:nth-child(6) { animation-delay: 225ms; }
+.svc-grid .svc-card:nth-child(7) { animation-delay: 270ms; }
+.svc-grid .svc-card:nth-child(8) { animation-delay: 315ms; }
+.svc-grid .svc-card:nth-child(9) { animation-delay: 360ms; }
+.svc-grid .svc-card:nth-child(10) { animation-delay: 405ms; }
+.svc-grid .svc-card:nth-child(11) { animation-delay: 450ms; }
+.svc-grid .svc-card:nth-child(12) { animation-delay: 495ms; }
 @keyframes svcCardIn { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: translateY(0); } }
+.svc-card__glyph { width: 56px; height: 56px; margin-top: 22px; }
+.svc-grid--compact .svc-card__glyph { width: 40px; height: 40px; margin-top: 14px; }
 .svc-card__num { font-family: var(--ff-serif); font-style: italic; font-size: 1rem; font-weight: 500; color: var(--v-red); letter-spacing: 0; }
 .svc-card__title { font-family: var(--ff-serif); font-weight: 540; font-size: 1.65rem; line-height: 1.08; letter-spacing: -0.012em; color: var(--v-ink-fg); margin-top: var(--s-5); }
 .svc-card__bullets { display: flex; flex-direction: column; gap: 4px; margin-top: var(--s-5); }
@@ -689,6 +714,11 @@ body.chat-open .hero-demo {
 /* Linked-services block on /industries/<slug>. The cards sit inside .legal-page,
    whose prose rules (h3/li/p colours) would otherwise cascade onto the dark
    cards and make their text dark-on-dark. Re-assert the ink card palette here. */
+/* The linked-service grid sits inside a 1040px prose column, so the wide
+   viewport ladder above would over-divide it — cap it at 3. */
+@media (min-width: 1180px) {
+  .industry-services .svc-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+}
 .industry-services { margin-top: var(--s-7); }
 .industry-services > h2 { font-size: 1.5rem; line-height: 1.15; margin: 0 0 4px; }
 .industry-services > .meta { margin-bottom: var(--s-5); }
@@ -1462,10 +1492,30 @@ a.svc-card { text-decoration: none; color: inherit; }
   max-width: 90%;
   margin-inline: auto;
 }
-@media (min-width: 1024px) {
+/* Blog index ladder — matches the service grid: 6 across on wide desktop so a
+   page of 12 posts reads as 6 x 2, stepping down to 4 / 3 / 2 / 1. */
+@media (min-width: 900px) {
   .blog-index .post-list--grid {
     grid-template-columns: repeat(3, minmax(0, 1fr));
   }
+}
+@media (min-width: 1200px) {
+  .blog-index .post-list--grid {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+}
+@media (min-width: 1400px) {
+  .blog-index .post-list--grid {
+    grid-template-columns: repeat(6, minmax(0, 1fr));
+    gap: var(--s-4);
+  }
+  /* ~200px per card at six across — tighten padding and type to suit. */
+  .blog-index .post-list--grid > a { padding: var(--s-4); gap: var(--s-3); }
+  .blog-index .post-list--grid .post-kicker { font-size: 0.8rem; margin-bottom: 4px; }
+  .blog-index .post-list--grid .post-card__body h2 { font-size: 1.05rem; }
+  .blog-index .post-list--grid .post-card__body p { font-size: 0.84rem; -webkit-line-clamp: 4; }
+  .blog-index .post-card__ph::after { font-size: 40px; top: 4px; right: 10px; }
+  .blog-index .post-card__ph { padding: var(--s-3); }
 }
 .blog-article {
   width: 90%;

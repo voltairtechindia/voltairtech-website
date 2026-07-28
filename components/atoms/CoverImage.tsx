@@ -15,7 +15,7 @@ export function CoverImage({
   alt,
   priority = false,
   className,
-  sizes = "(max-width: 560px) 100vw, (max-width: 980px) 50vw, 360px",
+  sizes = "(max-width: 560px) 100vw, (max-width: 980px) 50vw, (max-width: 1360px) 25vw, 16vw",
 }: {
   src: string;
   alt: string;

@@ -16,8 +16,6 @@ function CardBody({
   icon,
   coverUrl,
   coverAlt,
-  glyphSize,
-  compact,
   showArrow,
 }: {
   num: number;
@@ -28,8 +26,6 @@ function CardBody({
   icon?: string | null;
   coverUrl?: string | null;
   coverAlt?: string | null;
-  glyphSize: number;
-  compact: boolean;
   showArrow: boolean;
 }) {
   return (
@@ -40,7 +36,7 @@ function CardBody({
           <CoverImage src={coverUrl} alt={coverAlt ?? title} />
         </div>
       ) : (
-        <div style={{ width: glyphSize, height: glyphSize, marginTop: compact ? 14 : 22 }}>
+        <div className="svc-card__glyph">
           <ServiceGlyph kind={icon} />
         </div>
       )}
@@ -83,7 +79,6 @@ export function ServiceCardGrid({
   customBaseHref?: string;
   compact?: boolean;
 }) {
-  const glyphSize = compact ? 40 : 56;
   return (
     <div className={`svc-grid${compact ? " svc-grid--compact" : ""}`}>
       {services.map((s, i) => (
@@ -102,8 +97,6 @@ export function ServiceCardGrid({
             icon={s.icon}
             coverUrl={s.cover_image?.url}
             coverAlt={s.cover_image?.alt}
-            glyphSize={glyphSize}
-            compact={compact}
             showArrow
           />
         </Link>
@@ -122,8 +115,6 @@ export function ServiceCardGrid({
             icon={c.icon}
             coverUrl={c.cover_image?.url}
             coverAlt={c.cover_image?.alt}
-            glyphSize={glyphSize}
-            compact={compact}
             showArrow={Boolean(href)}
           />
         );

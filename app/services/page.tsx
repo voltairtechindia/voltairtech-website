@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { PageLayout } from "@/components/PageLayout";
 import { Services } from "@/components/Services";
 import { Process } from "@/components/Process";
-import { listPublishedServices } from "@/lib/services/db";
+import { DEFAULT_PER_PAGE, listPublishedServices } from "@/lib/services/db";
 import type { ServicePage } from "@/lib/services/types";
 import { DEFAULT_OG_IMAGE } from "@/lib/seo";
 
@@ -30,7 +30,7 @@ export default async function ServicesPage({
 }) {
   const page = Math.max(1, Number(searchParams?.page) || 1);
 
-  let data: ServicePage = { items: [], total: 0, page, perPage: 6, pageCount: 1 };
+  let data: ServicePage = { items: [], total: 0, page, perPage: DEFAULT_PER_PAGE, pageCount: 1 };
   try {
     data = await listPublishedServices(page);
   } catch {

@@ -11,7 +11,8 @@ import type { BlogIndex, BlogPost, BlogPostCard, BlogUpsert } from "./types";
 const CARD_COLUMNS =
   "slug, title, excerpt, cover_image, tags, author, reading_minutes, published_at";
 
-export const DEFAULT_PER_PAGE = 6;
+/** 12 = a full 6 x 2 grid on wide desktop (see `.post-list--grid`). */
+export const DEFAULT_PER_PAGE = 12;
 
 /** Published posts, newest first, as a paginated page of listing cards. */
 export async function listPublishedPosts(
@@ -28,6 +29,9 @@ export async function listPublishedPosts(
     .select(CARD_COLUMNS, { count: "exact" })
     .eq("status", "published")
     .lte("published_at", new Date().toISOString())
+    // Pinned posts first in their explicit 1, 2, 3 order (see migration 0035),
+    // then everything else newest-first.
+    .order("pin_position", { ascending: true, nullsFirst: false })
     .order("published_at", { ascending: false })
     .range(from, to);
   if (error) throw error;
@@ -85,6 +89,29 @@ export async function listRelatedPosts(
     .limit(limit);
   if (error) throw error;
   return (data ?? []) as BlogPostCard[];
+}
+
+/**
+ * Rewrite the blog-index pin order: the given slugs become pin_position 1..N
+ * (first = top card) and every other post is unpinned back to date order.
+ * Called by the admin-gated POST /api/blog/reorder.
+ */
+export async function setPostPins(order: string[]): Promise<void> {
+  const sb = getSupabase();
+  const { error: clearError } = await sb
+    .from("blog_posts")
+    .update({ pin_position: null })
+    .not("pin_position", "is", null);
+  if (clearError) throw clearError;
+
+  for (let i = 0; i < order.length; i += 1) {
+    const slug = order[i];
+    const { error } = await sb
+      .from("blog_posts")
+      .update({ pin_position: i + 1 })
+      .eq("slug", slug);
+    if (error) throw error;
+  }
 }
 
 /**
