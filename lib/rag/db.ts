@@ -37,6 +37,31 @@ export async function matchDocuments(
   }));
 }
 
+/**
+ * The slugs of the `limit` most recently published posts, plus how many
+ * published posts fall outside that window. Retrieval uses this to keep the bot
+ * on recent articles (see `search` in ./retriever). Scheduled posts are excluded
+ * by the `published_at <= now` bound, so a future-dated post never occupies a
+ * slot before it goes live.
+ */
+export async function getRecentBlogSlugs(
+  limit: number,
+): Promise<{ slugs: Set<string>; gatedCount: number }> {
+  const sb = getSupabase();
+  const { data, error, count } = await sb
+    .from("blog_posts")
+    .select("slug", { count: "exact" })
+    .eq("status", "published")
+    .lte("published_at", new Date().toISOString())
+    .order("published_at", { ascending: false })
+    .limit(limit);
+  if (error) throw error;
+  const slugs = new Set(
+    ((data ?? []) as { slug: string }[]).map((r) => String(r.slug)),
+  );
+  return { slugs, gatedCount: Math.max(0, (count ?? 0) - slugs.size) };
+}
+
 export async function upsertDocuments(
   rows: Record<string, unknown>[],
 ): Promise<number> {

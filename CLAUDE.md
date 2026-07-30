@@ -91,7 +91,11 @@ Ported from the kauntech site; re-themed for Voltair. New Supabase project
   Scheduled posts (status `published`, future `published_at`) are embedded into
   the RAG store on save but **time-gated out of retrieval** until their publish
   time (`isNotYetPublished` in `lib/rag/retriever.ts`), so the bot won't cite an
-  article visitors can't see yet. Each post
+  article visitors can't see yet. The chatbot is also capped to the **20 most
+  recently published posts** (`RAG_BLOG_LIMIT`, `isStaleBlog` +
+  `getRecentBlogSlugs`): older posts stay embedded — so raising the cap needs no
+  re-seed — but are gated out of retrieval, and the pgvector over-fetch widens by
+  the number of gated posts so they can't starve the context. Each post
   also carries a `faq` JSONB array (migration `0015`) — Q&A pairs that render as a
   "Frequently asked questions" accordion + **FAQPage JSON-LD** on `/blog/<slug>`
   (AEO/GEO), are edited in the admin's `PostEditor`, can be drafted by the copilot

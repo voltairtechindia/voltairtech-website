@@ -3,7 +3,7 @@
  * render them into a compact, labelled context block for the prompt.
  */
 import { config } from "./config";
-import { matchDocuments } from "./db";
+import { getRecentBlogSlugs, matchDocuments } from "./db";
 import { embedQuery } from "./gemini";
 import type { RetrievedDoc } from "./types";
 
@@ -17,15 +17,46 @@ export async function search(
 ): Promise<RetrievedDoc[]> {
   const vector = await embedQuery(query);
   const topK = opts.topK ?? config.ragTopK;
-  // Over-fetch so dropping scheduled-but-not-yet-live blog posts (below) can't
-  // shrink the result set below topK.
+  const recent = await recentBlogGate();
+  // Over-fetch so gating (scheduled posts + the blog recency cap) can't shrink
+  // the result set below topK. Every gated post is one more neighbour that can
+  // be discarded, so widen the pool by exactly that many.
   const docs = await matchDocuments(
     vector,
-    topK + 5,
+    topK + 5 + recent.gatedCount,
     opts.filterType ?? null,
     opts.minSimilarity ?? config.ragMinSimilarity,
   );
-  return docs.filter((d) => !isNotYetPublished(d)).slice(0, topK);
+  return docs
+    .filter((d) => !isNotYetPublished(d) && !isStaleBlog(d, recent.slugs))
+    .slice(0, topK);
+}
+
+/**
+ * Which posts the bot is allowed to draw on. Best-effort: if the lookup fails we
+ * fall back to "no recency cap" rather than breaking the chat — `isNotYetPublished`
+ * still enforces the hard scheduling rule in that case.
+ */
+async function recentBlogGate(): Promise<{
+  slugs: Set<string> | null;
+  gatedCount: number;
+}> {
+  if (config.ragBlogLimit <= 0) return { slugs: null, gatedCount: 0 };
+  try {
+    return await getRecentBlogSlugs(config.ragBlogLimit);
+  } catch {
+    return { slugs: null, gatedCount: 0 };
+  }
+}
+
+/**
+ * A blog post outside the newest `RAG_BLOG_LIMIT` stays in the store (so the cap
+ * can be raised without re-embedding) but must not reach the prompt — old
+ * articles otherwise crowd out pricing/service context and get cited as current.
+ */
+function isStaleBlog(d: RetrievedDoc, recent: Set<string> | null): boolean {
+  if (d.doc_type !== "blog" || recent === null) return false;
+  return !d.external_id || !recent.has(d.external_id);
 }
 
 /**

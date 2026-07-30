@@ -34,6 +34,10 @@ export const config = {
   ragTopK: num(process.env.RAG_TOP_K, 6),
   ragMinSimilarity: num(process.env.RAG_MIN_SIMILARITY, 0.3),
   historyWindow: num(process.env.HISTORY_WINDOW, 8),
+  // The bot may only draw on the N most recently published posts — old articles
+  // stay embedded (raising this needs no re-seed) but are gated out of
+  // retrieval. 0 disables the cap.
+  ragBlogLimit: num(process.env.RAG_BLOG_LIMIT, 20),
 
   // --- Security (protects POST/GET /api/ingest + /api/blog + /api/revalidate) ---
   adminApiKey: process.env.ADMIN_API_KEY ?? "",
