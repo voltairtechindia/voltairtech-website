@@ -54,7 +54,9 @@ npm run lint     # ESLint
 
 ## SEO
 - JSON-LD structured data lives in `app/page.tsx`
-- Canonical domain: `voltairtech.com`
+- Canonical domain: `www.voltairtech.com` — Vercel serves www and 308s the apex to
+  it, so every canonical/OG/sitemap URL must be www too. Build URLs from
+  `SITE_URL` (`lib/seo.ts`), never a hardcoded origin.
 - `CNAME` file present for GitHub Pages compatibility
 - `app-ads.txt` in `public/` for Google AdMob
 - `/llms.txt` is a **dynamic route** (`app/llms.txt/route.ts`, hourly ISR) — a
