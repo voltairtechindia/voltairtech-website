@@ -6,7 +6,7 @@ export const metadata: Metadata = {
   description:
     "Privacy policy for the SendZap Android app by Voltair Tech: what data is stored on your device, what Google AdMob collects, and your choices.",
   alternates: {
-    canonical: "https://voltairtech.com/sendzap/privacy",
+    canonical: "https://www.voltairtech.com/sendzap/privacy",
   },
   robots: { index: true, follow: true },
 };

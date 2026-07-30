@@ -6,7 +6,7 @@ export const metadata: Metadata = {
   description:
     "Voltair Tech's privacy policy: how we collect, use, and protect your personal data under applicable Indian data protection law.",
   alternates: {
-    canonical: "https://voltairtech.com/privacy",
+    canonical: "https://www.voltairtech.com/privacy",
   },
   robots: { index: true, follow: true },
 };

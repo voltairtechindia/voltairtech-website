@@ -18,9 +18,9 @@ export const metadata: Metadata = {
   title: "Blog — Practical AI Guides for Indian Operators",
   description:
     "In-depth guides on building with AI in India: RAG explained, WhatsApp chatbots, DPDP Act 2023 compliance, and n8n automation. Written by the team that ships AI products.",
-  alternates: { canonical: "https://voltairtech.com/blog" },
+  alternates: { canonical: "https://www.voltairtech.com/blog" },
   openGraph: {
-    url: "https://voltairtech.com/blog",
+    url: "https://www.voltairtech.com/blog",
     title: "Blog — Practical AI Guides for Indian Operators | Voltair Tech",
     description:
       "RAG explained, WhatsApp chatbot guide, DPDP Act 2023 & AI compliance — practical AI writing for Indian operators.",
@@ -53,16 +53,16 @@ export default async function BlogIndexPage({
     "@context": "https://schema.org",
     "@type": "Blog",
     name: "Voltair Tech Blog",
-    url: "https://voltairtech.com/blog",
+    url: "https://www.voltairtech.com/blog",
     publisher: {
       "@type": "Organization",
       name: "Voltair Tech",
-      url: "https://voltairtech.com",
+      url: "https://www.voltairtech.com",
     },
     blogPost: posts.map((p) => ({
       "@type": "BlogPosting",
       headline: p.title,
-      url: `https://voltairtech.com/blog/${p.slug}`,
+      url: `https://www.voltairtech.com/blog/${p.slug}`,
       description: p.excerpt ?? undefined,
       datePublished: p.published_at ?? undefined,
       author: { "@type": "Organization", name: p.author },

@@ -12,9 +12,9 @@ export const metadata: Metadata = {
   title: "About VoltairTech - High-Velocity AI Development & Software Engineering",
   description:
     "Based in Mumbai, India, VoltairTech is a high-velocity AI development and software engineering firm. We bridge the gap between complex AI and practical business applications.",
-  alternates: { canonical: "https://voltairtech.com/about" },
+  alternates: { canonical: "https://www.voltairtech.com/about" },
   openGraph: {
-    url: "https://voltairtech.com/about",
+    url: "https://www.voltairtech.com/about",
     title: "About VoltairTech - High-Velocity AI Development & Software Engineering",
     description:
       "Based in Mumbai, India, VoltairTech is a high-velocity AI development and practical business applications.",
@@ -45,7 +45,7 @@ export default function AboutPage() {
           <SectionHead
             as="h1"
             kicker="Who We Are"
-            title={<>Mumbai's AI<br />build studio.</>}
+            title={<>Mumbai's AI{" "}<br />build studio.</>}
             right={<span className="tag"><span className="pulse" />Mumbai, India</span>}
           />
           <p className="about-intro">
@@ -61,7 +61,7 @@ export default function AboutPage() {
         <div className="container">
           <SectionHead
             kicker="The Voltair Edge"
-            title={<>48 hours,<br />not 6 months.</>}
+            title={<>48 hours,{" "}<br />not 6 months.</>}
             right={<span className="tag"><span className="pulse" style={{ background: "var(--v-lime)" }} />days · not months</span>}
           />
 
@@ -84,7 +84,7 @@ export default function AboutPage() {
         <div className="container">
           <SectionHead
             kicker="What We Build"
-            title={<>AI-native.<br />Production-ready.</>}
+            title={<>AI-native.{" "}<br />Production-ready.</>}
           />
           <div className="about-caps">
             {CAPABILITIES.map((c) => (

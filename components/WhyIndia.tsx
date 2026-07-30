@@ -7,7 +7,7 @@ export function WhyIndia({ num = "03" }: { num?: string }) {
       <div className="container">
         <SectionHead
           kicker={`[ ${num} ] Why VOLTAIR TECH / why India`}
-          title={<>Indian operators,<br />global standards.</>}
+          title={<>Indian operators,{" "}<br />global standards.</>}
           right={<span className="tag"><span className="pulse" />Razorpay-native · day one</span>}
         />
         <div className="cmp">

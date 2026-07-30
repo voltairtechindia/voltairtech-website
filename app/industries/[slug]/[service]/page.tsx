@@ -15,7 +15,7 @@ import { catalogueOptionId, customOptionId, type LeadOption } from "@/lib/lead-f
 import { DEFAULT_OG_IMAGE } from "@/lib/seo";
 import { getPublishedServiceCardsBySlugs } from "@/lib/services/db";
 
-const SITE_URL = "https://voltairtech.com";
+const SITE_URL = "https://www.voltairtech.com";
 
 export const revalidate = 300;
 export const dynamicParams = true;

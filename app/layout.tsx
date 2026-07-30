@@ -36,7 +36,7 @@ export const viewport: Viewport = {
 };
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://voltairtech.com"),
+  metadataBase: new URL("https://www.voltairtech.com"),
   title: {
     default: "Voltair Tech – Build AI, RAG & Chatbots in Mumbai",
     template: "%s | Voltair Tech",
@@ -52,12 +52,12 @@ export const metadata: Metadata = {
     "WhatsApp chatbot India",
     "AI startup Mumbai",
   ],
-  authors: [{ name: "Voltair Tech", url: "https://voltairtech.com" }],
+  authors: [{ name: "Voltair Tech", url: "https://www.voltairtech.com" }],
   creator: "Voltair Tech",
   openGraph: {
     type: "website",
     locale: "en_IN",
-    url: "https://voltairtech.com",
+    url: "https://www.voltairtech.com",
     siteName: "Voltair Tech",
     title: "Voltair Tech – Build AI, RAG & Chatbots in Mumbai",
     description: "Mumbai-based AI build studio. Apps, chatbots, RAG, automation. Shipped in 48 hours.",

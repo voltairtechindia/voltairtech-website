@@ -6,7 +6,7 @@ export const metadata: Metadata = {
   description:
     "Voltair Tech's terms of service: fixed-price engagements, IP ownership, deliverables, support, and governing law for AI services in India.",
   alternates: {
-    canonical: "https://voltairtech.com/terms",
+    canonical: "https://www.voltairtech.com/terms",
   },
   robots: { index: true, follow: true },
 };

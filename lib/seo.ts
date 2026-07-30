@@ -8,7 +8,7 @@
  * - breadcrumbLd: BreadcrumbList JSON-LD from a crumb trail (absolute URLs).
  */
 
-export const SITE_URL = "https://voltairtech.com";
+export const SITE_URL = "https://www.voltairtech.com";
 
 /** 1200x630 social card under /public/assets — resolved absolute via metadataBase. */
 export const DEFAULT_OG_IMAGE = "/assets/og-image.jpg";

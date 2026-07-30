@@ -30,7 +30,7 @@ const FLUSH = args.includes("--flush-cache");
 const target =
   (args.find((a) => a.startsWith("--target="))?.split("=")[1] ||
     process.env.SEED_TARGET ||
-    "https://voltairtech.com").replace(/\/$/, "");
+    "https://www.voltairtech.com").replace(/\/$/, "");
 
 // --- env (prefer .env.local, fall back to process.env) ---------------------
 function loadEnv() {

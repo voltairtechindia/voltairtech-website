@@ -9,7 +9,7 @@
  * Usage (dev server running, admin key loaded):
  *   node --env-file=.env.local supabase/import-website-blogs.mjs --dry-run
  *   node --env-file=.env.local supabase/import-website-blogs.mjs
- *   SITE=https://voltairtech.com node --env-file=.env.local supabase/import-website-blogs.mjs
+ *   SITE=https://www.voltairtech.com node --env-file=.env.local supabase/import-website-blogs.mjs
  */
 import { readdir, readFile } from "node:fs/promises";
 import { homedir } from "node:os";

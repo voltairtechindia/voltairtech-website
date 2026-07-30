@@ -79,6 +79,23 @@ const nextConfig = {
         destination: "/terms",
         permanent: true,
       },
+      // Two posts were published under slugs that a truncation bug left ending
+      // in "-" (see slugify in lib/blog/util.ts). The slugs are now clean, so
+      // the indexed dashed URLs must keep resolving.
+      {
+        source:
+          "/blog/ai-voice-agents-for-indian-business-how-automated-voice-calls-are-replacing-ivr-",
+        destination:
+          "/blog/ai-voice-agents-for-indian-business-how-automated-voice-calls-are-replacing-ivr",
+        permanent: true,
+      },
+      {
+        source:
+          "/blog/why-indian-smes-are-losing-5-20-lakh-every-year-to-manual-follow-ups-and-how-ai-",
+        destination:
+          "/blog/why-indian-smes-are-losing-5-20-lakh-every-year-to-manual-follow-ups-and-how-ai",
+        permanent: true,
+      },
     ];
   },
 };

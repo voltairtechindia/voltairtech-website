@@ -8,7 +8,7 @@ import {
   listIndexableIndustrySlugs,
 } from "@/lib/industries/db";
 
-const BASE = "https://voltairtech.com";
+const BASE = "https://www.voltairtech.com";
 
 // Fallback slugs if the DB is unreachable at build.
 const FALLBACK_BLOG_SLUGS = [

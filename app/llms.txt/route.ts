@@ -13,7 +13,7 @@ export const runtime = "nodejs";
 // Regenerate at most hourly; new published content appears within the window.
 export const revalidate = 3600;
 
-const SITE_URL = "https://voltairtech.com";
+const SITE_URL = "https://www.voltairtech.com";
 
 const HEADER = `# Voltair Tech
 

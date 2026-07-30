@@ -14,9 +14,9 @@ export const metadata: Metadata = {
   title: "Contact Us - AI Services Mumbai",
   description:
     "Tell Voltair Tech what you want to build. We reply within an hour with scope, a fixed price, and a start date. WhatsApp, email, or phone.",
-  alternates: { canonical: "https://voltairtech.com/contact" },
+  alternates: { canonical: "https://www.voltairtech.com/contact" },
   openGraph: {
-    url: "https://voltairtech.com/contact",
+    url: "https://www.voltairtech.com/contact",
     title: "Contact Voltair Tech - AI Services Mumbai",
     description:
       "Tell us what you want to build. We reply within an hour with scope, a fixed price, and a start date.",

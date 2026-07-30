@@ -6,7 +6,7 @@ export const metadata: Metadata = {
   description:
     "Terms & Conditions for the SendZap Android app by Voltair Tech: acceptable use, ads, user responsibility, trademarks, and governing law.",
   alternates: {
-    canonical: "https://voltairtech.com/sendzap/terms",
+    canonical: "https://www.voltairtech.com/sendzap/terms",
   },
   robots: { index: true, follow: true },
 };

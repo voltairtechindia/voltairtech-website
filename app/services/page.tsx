@@ -13,9 +13,9 @@ export const metadata: Metadata = {
   title: "AI Services: Apps, Chatbots, RAG, Mobile & Automation",
   description:
     "AI services from Voltair Tech Mumbai: websites in 48 hrs, AI automation, WhatsApp chatbots, RAG systems, mobile apps, and custom AI software. Fixed-price, Indian operators.",
-  alternates: { canonical: "https://voltairtech.com/services" },
+  alternates: { canonical: "https://www.voltairtech.com/services" },
   openGraph: {
-    url: "https://voltairtech.com/services",
+    url: "https://www.voltairtech.com/services",
     title: "AI Services: Apps, Chatbots, RAG, Mobile & Automation | Voltair Tech",
     description:
       "AI services from Voltair Tech Mumbai: websites in 48 hrs, AI automation, WhatsApp chatbots, RAG systems, mobile apps, and custom AI software.",
@@ -45,7 +45,7 @@ export default async function ServicesPage({
       "@type": "ListItem",
       position: (data.page - 1) * data.perPage + i + 1,
       name: s.title,
-      url: `https://voltairtech.com/services/${s.slug}`,
+      url: `https://www.voltairtech.com/services/${s.slug}`,
     })),
   };
 
@@ -56,7 +56,7 @@ export default async function ServicesPage({
         <Services services={data.items} page={data.page} pageCount={data.pageCount} />
         <Process
           num="02"
-          title={<>How every<br />build ships.</>}
+          title={<>How every{" "}<br />build ships.</>}
           lead="Pick any service above. It runs through the same four steps: fixed scope, daily Loom and WhatsApp updates, and code that's 100% yours at hand-off."
         />
       </PageLayout>

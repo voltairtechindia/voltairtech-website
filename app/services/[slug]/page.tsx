@@ -12,7 +12,7 @@ import {
 } from "@/lib/services/db";
 import { DEFAULT_OG_IMAGE } from "@/lib/seo";
 
-const SITE_URL = "https://voltairtech.com";
+const SITE_URL = "https://www.voltairtech.com";
 const ORG_ID = `${SITE_URL}/#organization`;
 const AREA_SERVED = [
   { "@type": "Country", name: "India" },

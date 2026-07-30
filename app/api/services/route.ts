@@ -29,7 +29,7 @@ import { ingest } from "@/lib/rag/ingest";
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 
-const SITE_URL = "https://voltairtech.com";
+const SITE_URL = "https://www.voltairtech.com";
 const VALID_STATUS = new Set(["draft", "published", "archived"]);
 
 function str(v: unknown): string {

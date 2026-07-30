@@ -22,7 +22,7 @@ export function Faq() {
         <SectionHead
           as="h1"
           kicker="Frequently asked"
-          title={<>Answers, not<br />brochures.</>}
+          title={<>Answers, not{" "}<br />brochures.</>}
           right={<span className="meta mono-lbl">FAQPage schema · AEO-ready</span>}
         />
         <div className="faq">

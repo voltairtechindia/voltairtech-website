@@ -30,9 +30,9 @@ export async function generateMetadata(): Promise<Metadata> {
   return {
     title: "Industries We Build For: AI Across Every Sector | Voltair Tech",
     description: `Voltair Tech ships AI websites, chatbots, RAG systems and automations for ${sectors}. Mumbai AI build studio.`,
-    alternates: { canonical: "https://voltairtech.com/industries" },
+    alternates: { canonical: "https://www.voltairtech.com/industries" },
     openGraph: {
-      url: "https://voltairtech.com/industries",
+      url: "https://www.voltairtech.com/industries",
       title: "Industries We Build For | Voltair Tech Mumbai",
       description: `AI shaped to your sector: ${sectors}.`,
       images: [DEFAULT_OG_IMAGE],
@@ -62,7 +62,7 @@ export default async function IndustriesPage({
       "@type": "ListItem",
       position: (data.page - 1) * data.perPage + i + 1,
       name: it.title,
-      url: `https://voltairtech.com/industries/${it.slug}`,
+      url: `https://www.voltairtech.com/industries/${it.slug}`,
     })),
   };
 
@@ -73,7 +73,7 @@ export default async function IndustriesPage({
         <Industries industries={data.items} page={data.page} pageCount={data.pageCount} />
         <Process
           num="02"
-          title={<>How we build<br />for your sector.</>}
+          title={<>How we build{" "}<br />for your sector.</>}
           lead="Every sector build runs the same four steps. We just tune the stack and the one success metric to how your industry actually works."
         />
       </PageLayout>

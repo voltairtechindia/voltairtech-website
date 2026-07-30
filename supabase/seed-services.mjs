@@ -6,7 +6,7 @@
  *
  * Usage (dev server running, env loaded):
  *   ADMIN_API_KEY=... node supabase/seed-services.mjs                 # -> http://localhost:3000
- *   ADMIN_API_KEY=... SITE=https://voltairtech.com node supabase/seed-services.mjs
+ *   ADMIN_API_KEY=... SITE=https://www.voltairtech.com node supabase/seed-services.mjs
  */
 
 const SITE = process.env.SITE || process.env.VOLTAIR_API_URL || "http://localhost:3000";

@@ -18,7 +18,7 @@ export function Services({
         <SectionHead
           as="h1"
           kicker="What we build"
-          title={<>What we<br />build.</>}
+          title={<>What we{" "}<br />build.</>}
           right={<span className="tag"><span className="pulse" />websites ship in 48 hrs</span>}
         />
         {services.length === 0 ? (

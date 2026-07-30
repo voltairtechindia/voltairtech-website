@@ -8,9 +8,9 @@ export const metadata: Metadata = {
   title: "FAQ - AI Services Mumbai | Common Questions Answered",
   description:
     "Answers to the most common questions about AI development in India: pricing, timelines, RAG systems, WhatsApp chatbots, tech stack, NDAs, and post-ship support. Voltair Tech, Mumbai.",
-  alternates: { canonical: "https://voltairtech.com/faq" },
+  alternates: { canonical: "https://www.voltairtech.com/faq" },
   openGraph: {
-    url: "https://voltairtech.com/faq",
+    url: "https://www.voltairtech.com/faq",
     title: "FAQ - AI Services Mumbai | Voltair Tech",
     description:
       "How much does an AI app cost in India? How fast can you deploy a chatbot? What is RAG? All your questions answered by Voltair Tech, Mumbai.",

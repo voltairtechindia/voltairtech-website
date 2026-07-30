@@ -7,8 +7,10 @@ export function slugify(input: string): string {
     .trim()
     .replace(/['"]/g, "")
     .replace(/[^a-z0-9]+/g, "-")
-    .replace(/^-+|-+$/g, "")
-    .slice(0, 80);
+    // Truncate BEFORE trimming dashes — the 80-char cut can land mid-separator
+    // and would otherwise leave a trailing "-" on the slug (and the live URL).
+    .slice(0, 80)
+    .replace(/^-+|-+$/g, "");
 }
 
 /** Rough Markdown -> plain text, good enough for embeddings + reading time. */

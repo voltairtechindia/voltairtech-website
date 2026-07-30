@@ -6,6 +6,6 @@ export default function robots(): MetadataRoute.Robots {
       userAgent: "*",
       allow: "/",
     },
-    sitemap: "https://voltairtech.com/sitemap.xml",
+    sitemap: "https://www.voltairtech.com/sitemap.xml",
   };
 }

@@ -16,7 +16,7 @@ import { industryShouldIndex } from "@/lib/industries/indexing";
 import { getPublishedServiceCardsBySlugs } from "@/lib/services/db";
 import { DEFAULT_OG_IMAGE } from "@/lib/seo";
 
-const SITE_URL = "https://voltairtech.com";
+const SITE_URL = "https://www.voltairtech.com";
 
 export const revalidate = 300;
 export const dynamicParams = true;

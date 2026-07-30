@@ -15,7 +15,7 @@ export function Hero() {
             <Kicker>AI Services Providers · Mumbai</Kicker>
           </div>
           <h1 className="hero__h">
-            Build <span className="red">AI</span>
+            Build <span className="red">AI</span>{" "}
             <br />
             for India.
           </h1>

@@ -18,7 +18,7 @@ export const metadata: Metadata = {
   description:
     "Voltair Tech is a Mumbai AI build studio shipping production apps, chatbots, automations and RAG systems in 48 hours. Indian operators, global standards.",
   alternates: {
-    canonical: "https://voltairtech.com/",
+    canonical: "https://www.voltairtech.com/",
   },
 };
 

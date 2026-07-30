@@ -13,7 +13,7 @@ import {
 import { formatDate } from "@/lib/blog/util";
 import { DEFAULT_OG_IMAGE, breadcrumbLd } from "@/lib/seo";
 
-const SITE_URL = "https://voltairtech.com";
+const SITE_URL = "https://www.voltairtech.com";
 
 // Short ISR window + dynamicParams: a scheduled post is never prerendered at
 // build, so its first visit once due renders fresh; edits propagate within ~1 min.

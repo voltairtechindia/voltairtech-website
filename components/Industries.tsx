@@ -27,7 +27,7 @@ export function Industries({
         <SectionHead
           as="h1"
           kicker="Industries"
-          title={<>Built for your<br />industry.</>}
+          title={<>Built for your{" "}<br />industry.</>}
           right={<span className="tag"><span className="pulse" />sector-shaped AI</span>}
         />
         <p className="lead" style={{ maxWidth: 760 }}>

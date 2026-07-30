@@ -6,7 +6,7 @@
  *
  * Reads SUPABASE_URL, SUPABASE_SERVICE_KEY, ADMIN_API_KEY from .env.local / env.
  * Usage:
- *   node scripts/reembed-industry.mjs <slug>                 # -> https://voltairtech.com
+ *   node scripts/reembed-industry.mjs <slug>                 # -> https://www.voltairtech.com
  *   SITE=http://localhost:3000 node scripts/reembed-industry.mjs <slug>
  */
 import { readFileSync, existsSync } from "node:fs";
@@ -33,7 +33,7 @@ if (!slug) {
 const URL = process.env.SUPABASE_URL;
 const SERVICE_KEY = process.env.SUPABASE_SERVICE_KEY;
 const ADMIN_KEY = process.env.ADMIN_API_KEY;
-const SITE = process.env.SITE || "https://voltairtech.com";
+const SITE = process.env.SITE || "https://www.voltairtech.com";
 if (!URL || !SERVICE_KEY || !ADMIN_KEY) {
   console.error("Need SUPABASE_URL, SUPABASE_SERVICE_KEY, ADMIN_API_KEY.");
   process.exit(1);
