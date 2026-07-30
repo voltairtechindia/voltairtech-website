@@ -13,6 +13,7 @@
  * with an explicit admin override either way.
  */
 import { markdownToPlainText } from "@/lib/blog/util";
+import { faqToPlainText } from "@/lib/faq/normalize";
 
 import type { IndustryCustomService, IndustrySeo } from "./types";
 
@@ -23,9 +24,17 @@ import type { IndustryCustomService, IndustrySeo } from "./types";
  */
 export const MIN_CUSTOM_SERVICE_BODY = 600;
 
-/** Plain-text length of a custom service's Markdown body (0 when empty). */
-export function customServiceBodyLength(cs: Pick<IndustryCustomService, "body_md">): number {
-  return markdownToPlainText(cs.body_md ?? "").length;
+/**
+ * Plain-text length of a custom service's unique prose (0 when empty). The FAQ
+ * counts: hand-written answers are exactly the kind of unique, useful content
+ * the gate is looking for, and they're what an answer engine quotes.
+ */
+export function customServiceBodyLength(
+  cs: Pick<IndustryCustomService, "body_md" | "faq">,
+): number {
+  return (
+    markdownToPlainText(cs.body_md ?? "").length + faqToPlainText(cs.faq).length
+  );
 }
 
 /**
@@ -34,7 +43,7 @@ export function customServiceBodyLength(cs: Pick<IndustryCustomService, "body_md
  * - otherwise auto: index only once it has real, unique body prose.
  */
 export function customServiceShouldIndex(
-  cs: Pick<IndustryCustomService, "index" | "body_md">,
+  cs: Pick<IndustryCustomService, "index" | "body_md" | "faq">,
 ): boolean {
   if (typeof cs.index === "boolean") return cs.index;
   return customServiceBodyLength(cs) >= MIN_CUSTOM_SERVICE_BODY;

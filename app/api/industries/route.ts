@@ -14,7 +14,9 @@
  *   Each: { slug, title (required), summary?, bullets?: string[], icon?,
  *           lead?, meta?, body_md?, tags?: string[], service_slugs?: string[],
  *           custom_services?: { title, slug?, summary?, bullets?, eta?, icon?,
- *                               headline?, lead?, body_md?, cover_image? }[],
+ *                               headline?, lead?, body_md?, cover_image?,
+ *                               faq?: { q, a }[] }[],
+ *           faq?: { q, a }[],
  *           seo?, position?, status?: "draft"|"published"|"archived", published_at? }
  *   `icon` may be a glyph key, or "" / "auto" to derive it from title/tags.
  *   -> 200 { ok, count, industries: [{ slug, status, url }] }
@@ -26,6 +28,7 @@ import { NextResponse } from "next/server";
 
 import { isAdmin } from "@/lib/admin-auth";
 import { markdownToPlainText, slugify } from "@/lib/blog/util";
+import { faqToPlainText, normalizeFaq } from "@/lib/faq/normalize";
 import {
   getIndustryPosition,
   nextIndustryPosition,
@@ -145,6 +148,8 @@ function customServices(v: unknown): IndustryCustomService[] {
     if (lead) cs.lead = lead;
     if (bodyMd.trim()) cs.body_md = bodyMd;
     if (coverImg) cs.cover_image = coverImg;
+    const faq = normalizeFaq(p.faq);
+    if (faq.length) cs.faq = faq;
     // Explicit index override (else undefined → auto: index only when the page
     // has real, unique prose — see lib/industries/indexing.ts).
     if (p.index === true || p.index === "true" || p.index === "on") cs.index = true;
@@ -216,6 +221,7 @@ function normalize(input: unknown): { row: IndustryUpsert } | { error: string } 
     service_slugs: serviceSlugs,
     custom_services: customServices(p.custom_services),
     case_studies: caseStudies(p.case_studies),
+    faq: normalizeFaq(p.faq),
     seo: seo ?? {},
     position,
     status: status as IndustryUpsert["status"],
@@ -272,6 +278,7 @@ async function syncRag(ind: Industry): Promise<void> {
       cs.bullets.length ? `What you get: ${cs.bullets.join("; ")}.` : "",
       cs.eta ? `Typical timeline: ${cs.eta}.` : "",
       cs.body_md ? markdownToPlainText(cs.body_md) : "",
+      faqToPlainText(cs.faq),
     ].filter(Boolean);
     return bits.join(" ");
   });
@@ -301,6 +308,7 @@ async function syncRag(ind: Industry): Promise<void> {
     serviceLine,
     ...customServiceLines,
     ...caseStudyLines,
+    faqToPlainText(ind.faq),
   ].filter(Boolean);
 
   await ingest([

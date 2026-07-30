@@ -29,7 +29,7 @@ Originally a static Babel/JSX single-page site; fully migrated to **Next.js 14 A
 | `app/industries/[slug]/page.tsx` | Industry detail (ISR) — "what you get" + linked services |
 | `app/work/page.tsx` | Case studies / portfolio page |
 | `app/rag/page.tsx` | RAG showcase page |
-| `app/faq/page.tsx` | FAQ page |
+| `app/faq/page.tsx` | DB-backed FAQ page (ISR) — `site_faqs` + FAQPage JSON-LD |
 | `app/timeline/page.tsx` | Timeline/process page |
 | `app/sitemap.ts` | Auto-generated XML sitemap |
 | `app/robots.ts` | Auto-generated robots.txt |
@@ -147,6 +147,38 @@ Ported from the kauntech site; re-themed for Voltair. New Supabase project
   homepage `Organization` JSON-LD carries a DB-driven `hasOfferCatalog` of every
   published service (individual `Service` nodes whose `@id` matches each
   `/services/<slug>` page) so answer engines can cite each offering.
+- **FAQ (DB-backed, everywhere):** one Q&A shape (`FaqItem` in `lib/faq/types.ts`,
+  re-exported by the blog/service/industry type modules), one normaliser +
+  FAQPage-JSON-LD builder (`lib/faq/normalize.ts`), one renderer
+  (`components/FaqSection.tsx`). Two kinds:
+  - **Per-page FAQ** — a `faq` JSONB array on the record itself, edited inside
+    that record's admin editor and rendered as an accordion + **FAQPage JSON-LD**
+    on its page, then folded into that record's RAG embedding. Lives on
+    `blog_posts.faq` (0015), `services.faq` and `industries.faq` (0036), and
+    inside `custom_services[].faq` (no migration — already JSONB) for the sector
+    sub-pages. Sub-page FAQ prose also counts towards the thin-content indexing
+    gate (`customServiceBodyLength`), since hand-written answers are unique copy.
+  - **The `/faq` page** — its own table `site_faqs` (0036), because those
+    questions belong to the business, not to one service. Rows carry
+    `category` (optional group heading), `position` (admin-ordered),
+    `homepage_featured` (also shows in the home page's FAQ block), tags, status.
+    `app/faq/page.tsx` is ISR (`revalidate=300`) and **falls back to
+    `CONTENT.faq`** if the table is empty/unreachable, so the page never renders
+    blank; the home page does the same via `loadHomeFaq()`. Written via
+    admin-gated `POST /api/faqs` (+ `/api/faqs/reorder`), embedded as doc_type
+    **`site_faq`** — NOT `"faq"`, which is owned by `knowledge-base.ts` and
+    which `npm run kb:check` treats as drift. The answers are also quoted
+    verbatim in `/llms.txt`.
+  **Seeding:** `npm run faq:seed` (`supabase/seed-faqs.mjs`) populates all three
+  at once — the 10 `/faq` questions plus an authored Q&A set for every published
+  service and industry. Services/industries are full-row upserts, so it reads
+  each live row and re-posts it with only `faq` added; rows that already have a
+  FAQ are skipped unless you pass `--force`. Needs migration `0036` applied.
+  Admin: shared editor `components/FaqFields.tsx` (uncontrolled via a hidden
+  JSON field, or controlled when nested in a bigger blob), used by the post,
+  service, and industry editors; the `/faq` table gets its own admin section
+  (`app/faq/*` + `components/SiteFaqEditor.tsx`) with an `OrderBoard`. The AI
+  copilot drafts `faq` arrays in all three draft fences.
 - **Inquiries / lead form:** one component, `components/LeadForm.tsx` → `POST /api/contact`
   → `contact_submissions`. `variant="page"` is the /contact hero (wrapped by
   `components/BigInput.tsx`); `variant="inline"` is the CTA at the foot of every
@@ -170,8 +202,8 @@ Ported from the kauntech site; re-themed for Voltair. New Supabase project
   (thinking disabled) + `gemini-embedding-001` @ 768 dims. Don't revert to
   `gemini-2.0-flash` / `text-embedding-004` (404 on new keys).
 - **Admin panel:** separate app `../voltairtech-admin` (Next 15) — manages posts,
-  services + industries, reads inquiries; writes proxy to this site's `/api/blog`,
-  `/api/services`, `/api/industries` + `/api/revalidate`. Its AI copilot
+  services + industries + FAQ, reads inquiries; writes proxy to this site's
+  `/api/blog`, `/api/services`, `/api/industries`, `/api/faqs` + `/api/revalidate`. Its AI copilot
   (`lib/admin-ai.ts`) can draft blog/service/industry artifacts for the editors.
 - **Security headers:** `next.config.mjs` `headers()` sets CSP/HSTS/etc. CSP allows
   the Supabase origin (blog media) + YouTube/Vimeo embeds.

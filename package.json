@@ -14,7 +14,8 @@
     "start": "next start",
     "lint": "next lint",
     "kb:check": "node scripts/check-kb-drift.mjs",
-    "kb:seed": "node scripts/check-kb-drift.mjs --seed --flush-cache"
+    "kb:seed": "node scripts/check-kb-drift.mjs --seed --flush-cache",
+    "faq:seed": "node supabase/seed-faqs.mjs"
   },
   "dependencies": {
     "@google/genai": "^1.9.0",

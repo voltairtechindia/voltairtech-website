@@ -2,9 +2,11 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 
+import { FaqSection } from "@/components/FaqSection";
 import { LeadForm } from "@/components/LeadForm";
 import Markdown from "@/components/Markdown";
 import { ProsePage } from "@/components/ProsePage";
+import { faqPageLd } from "@/lib/faq/normalize";
 import { customServiceSlug, findCustomService } from "@/lib/industries/custom";
 import {
   getPublishedIndustry,
@@ -73,6 +75,7 @@ export default async function IndustryCustomServicePage({
   const url = `${SITE_URL}/industries/${ind.slug}/${customServiceSlug(cs)}`;
   const metaLine = `${ind.title}${cs.eta ? ` · ${cs.eta}` : ""}`;
   const thisSlug = customServiceSlug(cs);
+  const faq = cs.faq ?? [];
 
   // Same picker as the parent sector page, so someone who landed straight on a
   // sub-page can still bolt on the rest of what that sector buys from us.
@@ -111,6 +114,12 @@ export default async function IndustryCustomServicePage({
   return (
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
+      {faq.length ? (
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(faqPageLd(faq)) }}
+        />
+      ) : null}
       <ProsePage
         crumbs={[
           { label: "Home", href: "/" },
@@ -144,6 +153,8 @@ export default async function IndustryCustomServicePage({
             Typical timeline: <b>{cs.eta}</b>
           </p>
         ) : null}
+
+        <FaqSection faq={faq} id={`cs-${thisSlug}-faq`} />
 
         <p className="legal-page__meta" style={{ marginTop: 24 }}>
           A sector-specific build for <Link href={`/industries/${ind.slug}`}>{ind.title}</Link>.{" "}

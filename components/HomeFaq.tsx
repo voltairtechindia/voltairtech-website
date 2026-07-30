@@ -1,15 +1,17 @@
 import Link from "next/link";
 import { Kicker } from "./atoms/Kicker";
 import { CONTENT } from "@/lib/content";
+import { listHomepageSiteFaqs } from "@/lib/faq/db";
+import type { FaqItem } from "@/lib/faq/types";
 
 /**
- * Home-page FAQ — a curated subset of the full `/faq` set, reused verbatim from
- * CONTENT.faq so the FAQPage JSON-LD on the home page (built from HOME_FAQ in
- * app/page.tsx) always mirrors the visible answers. That parity is a Google
- * rich-results requirement and the basis for AI/answer-engine citations. Each
- * question renders as an <h2> with a direct 40–60 word answer for AEO/passage
- * citability, and the questions carry the target keywords (Mumbai, RAG,
- * WhatsApp, India, integrate).
+ * Home-page FAQ — the questions the admin ticked "show on the home page" in
+ * `site_faqs`, or the bundled subset below if none are flagged / the DB is
+ * unreachable. app/page.tsx loads the same array via `loadHomeFaq()` and builds
+ * the home page's FAQPage JSON-LD from it, so the markup and the visible
+ * answers can never drift — a Google rich-results requirement and the basis for
+ * AI/answer-engine citations. Each question renders as an <h2> with a direct
+ * 40–60 word answer for AEO/passage citability.
  */
 const HOME_FAQ_QUESTIONS = [
   "Who builds AI products in Mumbai?",
@@ -20,12 +22,24 @@ const HOME_FAQ_QUESTIONS = [
   "Can you integrate AI into our existing software?",
 ];
 
-export const HOME_FAQ = CONTENT.faq.filter((f) =>
-  HOME_FAQ_QUESTIONS.includes(f.q),
-);
+/** Bundled fallback subset — used until the admin flags rows in `site_faqs`. */
+export const HOME_FAQ: FaqItem[] = CONTENT.faq
+  .filter((f) => HOME_FAQ_QUESTIONS.includes(f.q))
+  .map((f) => ({ q: f.q, a: f.a }));
 
-export function HomeFaq() {
-  if (HOME_FAQ.length === 0) return null;
+/** The home page's FAQ rows: admin-flagged questions, else the bundled subset. */
+export async function loadHomeFaq(): Promise<FaqItem[]> {
+  try {
+    const rows = await listHomepageSiteFaqs();
+    if (rows.length) return rows.map((r) => ({ q: r.question, a: r.answer }));
+  } catch {
+    /* fall through to the bundled copy */
+  }
+  return HOME_FAQ;
+}
+
+export function HomeFaq({ items }: { items: FaqItem[] }) {
+  if (items.length === 0) return null;
 
   return (
     <section className="section" id="faq" aria-label="Frequently asked questions">
@@ -42,7 +56,7 @@ export function HomeFaq() {
         </div>
 
         <div className="home-faq">
-          {HOME_FAQ.map((f) => (
+          {items.map((f) => (
             <div className="home-faq__item" key={f.q}>
               <h2 className="home-faq__q">{f.q}</h2>
               <p className="home-faq__a">{f.a}</p>

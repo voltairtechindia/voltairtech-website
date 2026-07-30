@@ -4,9 +4,10 @@ import { Hero } from "@/components/Hero";
 import { HomeProof } from "@/components/HomeProof";
 import { HomeServices } from "@/components/HomeServices";
 import { HomeHub } from "@/components/HomeHub";
-import { HomeFaq, HOME_FAQ } from "@/components/HomeFaq";
+import { HomeFaq, loadHomeFaq } from "@/components/HomeFaq";
 import { MarqueeSection } from "@/components/MarqueeSection";
 import { FooterCta } from "@/components/FooterCta";
+import type { FaqItem } from "@/lib/faq/types";
 import { listPublishedServices } from "@/lib/services/db";
 import type { ServiceCard } from "@/lib/services/types";
 import { SITE_URL } from "@/lib/seo";
@@ -74,7 +75,7 @@ function offerCatalog(services: ServiceCard[]) {
   };
 }
 
-function buildJsonLd(services: ServiceCard[]) {
+function buildJsonLd(services: ServiceCard[], homeFaq: FaqItem[]) {
   const catalog = offerCatalog(services);
   return {
   "@context": "https://schema.org",
@@ -163,13 +164,13 @@ function buildJsonLd(services: ServiceCard[]) {
       inLanguage: "en-IN",
       publisher: { "@id": ORG_ID },
     },
-    // Mirrors the visible <HomeFaq /> section (same HOME_FAQ source) so the
-    // markup and on-page answers never drift — required for FAQ rich results
-    // and the basis for AI answer-engine citations.
+    // Mirrors the visible <HomeFaq /> section (same array) so the markup and
+    // on-page answers never drift — required for FAQ rich results and the basis
+    // for AI answer-engine citations.
     {
       "@type": "FAQPage",
       "@id": `${SITE_URL}/#faq`,
-      mainEntity: HOME_FAQ.map((f) => ({
+      mainEntity: homeFaq.map((f) => ({
         "@type": "Question",
         name: f.q,
         acceptedAnswer: { "@type": "Answer", text: f.a },
@@ -189,7 +190,9 @@ export default async function HomePage() {
   } catch {
     // DB unavailable — render without the offer catalog.
   }
-  const jsonLd = buildJsonLd(services);
+  // Admin-flagged FAQ rows (falls back to the bundled subset on its own).
+  const homeFaq = await loadHomeFaq();
+  const jsonLd = buildJsonLd(services, homeFaq);
 
   return (
     <>
@@ -204,7 +207,7 @@ export default async function HomePage() {
           <HomeProof />
           <HomeServices />
           <HomeHub />
-          <HomeFaq />
+          <HomeFaq items={homeFaq} />
           <MarqueeSection />
         </main>
         <FooterCta />

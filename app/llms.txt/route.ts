@@ -6,6 +6,7 @@
  * back to a static skeleton if the DB is unreachable so it never 500s.
  */
 import { listPublishedPosts } from "@/lib/blog/db";
+import { listPublishedSiteFaqs } from "@/lib/faq/db";
 import { listPublishedIndustries } from "@/lib/industries/db";
 import { listPublishedServices } from "@/lib/services/db";
 
@@ -72,6 +73,22 @@ async function buildBody(): Promise<string> {
           "## Industries",
           ...items.map((i) => line(i.title, `/industries/${i.slug}`, i.summary)),
         ].join("\n"),
+      );
+    }
+  } catch {
+    /* skip */
+  }
+
+  // FAQ — the answers themselves, not just a link. An LLM that reads this file
+  // can quote them directly, which is the whole point of llms.txt for AEO.
+  try {
+    const faqs = await listPublishedSiteFaqs();
+    if (faqs.length) {
+      sections.push(
+        [
+          "## Frequently asked questions",
+          ...faqs.map((f) => `### ${f.question}\n${f.answer}`),
+        ].join("\n\n"),
       );
     }
   } catch {

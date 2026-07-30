@@ -1,5 +1,9 @@
 /** Shared types for DB-backed, admin-managed industries (a sector lens over services). */
 
+import type { FaqItem } from "@/lib/faq/types";
+
+export type { FaqItem };
+
 export interface IndustryCover {
   url: string;
   alt?: string;
@@ -59,6 +63,12 @@ export interface IndustryCustomService {
   body_md?: string;
   cover_image?: IndustryCover | null;
   /**
+   * Q&A for this sub-page — accordion + FAQPage JSON-LD, and folded into the
+   * parent industry's RAG embedding. Real prose here also counts towards the
+   * indexing gate below, since a page with answers isn't a thin template.
+   */
+  faq?: FaqItem[];
+  /**
    * Whether this sector-only sub-page (/industries/<industry>/<service>) may be
    * indexed by Google. Undefined → auto: index only once the page carries real,
    * unique body prose (see lib/industries/indexing.ts). `true`/`false` are an
@@ -89,6 +99,8 @@ export interface Industry {
   service_slugs: string[];
   custom_services: IndustryCustomService[];
   case_studies: IndustryCaseStudy[];
+  /** Q&A shown as an accordion + FAQPage JSON-LD on /industries/<slug>. */
+  faq: FaqItem[];
   seo: IndustrySeo;
   position: number;
   /** Surface this sector's first case study on the homepage "Proof" section. */
@@ -140,6 +152,7 @@ export interface IndustryUpsert {
   service_slugs?: string[];
   custom_services?: IndustryCustomService[];
   case_studies?: IndustryCaseStudy[];
+  faq?: FaqItem[];
   seo?: IndustrySeo;
   position?: number;
   homepage_featured?: boolean;

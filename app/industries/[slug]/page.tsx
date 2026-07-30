@@ -2,10 +2,12 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 
+import { FaqSection } from "@/components/FaqSection";
 import { LeadForm } from "@/components/LeadForm";
 import Markdown from "@/components/Markdown";
 import { ProsePage } from "@/components/ProsePage";
 import { ServiceCardGrid } from "@/components/ServiceCardGrid";
+import { faqPageLd } from "@/lib/faq/normalize";
 import { customServiceSlug } from "@/lib/industries/custom";
 import { catalogueOptionId, customOptionId, type LeadOption } from "@/lib/lead-form";
 import {
@@ -73,6 +75,7 @@ export default async function IndustryDetailPage({
 
   const url = `${SITE_URL}/industries/${ind.slug}`;
   const metaLine = ind.meta ?? "Industry";
+  const faq = ind.faq ?? [];
 
   // The picker mirrors the "Services for <sector>" grid above it — the sector's
   // curated catalogue subset plus its inline sector-only builds, same order.
@@ -140,6 +143,12 @@ export default async function IndustryDetailPage({
   return (
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
+      {faq.length ? (
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(faqPageLd(faq)) }}
+        />
+      ) : null}
       <ProsePage
         wide
         crumbs={[
@@ -262,6 +271,12 @@ export default async function IndustryDetailPage({
             </div>
           </div>
         ) : null}
+
+        <FaqSection
+          faq={faq}
+          heading={`AI for ${ind.title} — frequently asked questions`}
+          id={`ind-${ind.slug}-faq`}
+        />
 
         <LeadForm
           variant="inline"

@@ -1,5 +1,9 @@
 /** Shared types for DB-backed, admin-managed services. */
 
+import type { FaqItem } from "@/lib/faq/types";
+
+export type { FaqItem };
+
 export interface ServiceCover {
   url: string;
   alt?: string;
@@ -30,6 +34,8 @@ export interface Service {
   price: string | null;
   tags: string[];
   seo: ServiceSeo;
+  /** Q&A shown as an accordion + FAQPage JSON-LD on /services/<slug>. */
+  faq: FaqItem[];
   position: number;
   status: ServiceStatus;
   published_at: string | null;
@@ -68,6 +74,7 @@ export interface ServiceUpsert {
   price?: string | null;
   tags?: string[];
   seo?: ServiceSeo;
+  faq?: FaqItem[];
   position?: number;
   status?: ServiceStatus;
   published_at?: string | null;

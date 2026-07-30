@@ -1,5 +1,11 @@
 /** Shared types for the dynamic blog (DB rows <-> rendered posts). */
 
+// The Q&A shape is shared with services, industries, and the /faq page — it
+// lives in lib/faq/types.ts and is re-exported here for existing importers.
+import type { FaqItem } from "@/lib/faq/types";
+
+export type { FaqItem };
+
 export interface CoverImage {
   url: string;
   alt?: string;
@@ -20,12 +26,6 @@ export interface BlogSeo {
   title?: string;
   description?: string;
   og_image?: string;
-}
-
-/** One question/answer pair in a post's FAQ (rendered + FAQPage JSON-LD). */
-export interface FaqItem {
-  q: string;
-  a: string;
 }
 
 export type BlogStatus = "draft" | "published" | "archived";

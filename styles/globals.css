@@ -882,7 +882,10 @@ body.chat-open .hero-demo {
 /* ====================  FAQ  ==================== */
 .faq { display: flex; flex-direction: column; }
 .faq__item { border-top: 1px solid var(--v-ink-line); padding: var(--s-5) 0; cursor: pointer; }
-.faq__item:last-child { border-bottom: 1px solid var(--v-ink-line); }
+.faq__row:last-child .faq__item { border-bottom: 1px solid var(--v-ink-line); }
+/* Optional admin-set category heading, sitting above the first row of its run. */
+.faq__group { font-family: var(--ff-mono); font-size: 11px; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase; color: var(--v-red); margin: var(--s-7) 0 0; }
+.faq__row:first-child .faq__group { margin-top: var(--s-2); }
 .faq__q { display: flex; align-items: center; justify-content: space-between; gap: var(--s-4); }
 .faq__q-text { font-family: var(--ff-serif); font-weight: 540; font-size: clamp(1.1rem, 1.9vw, 1.5rem); letter-spacing: -0.01em; line-height: 1.25; }
 .faq__q-mark { width: 32px; height: 32px; border-radius: var(--r-1); background: var(--v-ink-2); border: 1px solid var(--v-ink-line); color: var(--v-ink-fg); display: flex; align-items: center; justify-content: center; flex: none; font-size: 18px; transition: transform var(--dur-2) var(--ease-out), background var(--dur-2); }

@@ -1,9 +1,11 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 
+import { FaqSection } from "@/components/FaqSection";
 import { LeadForm } from "@/components/LeadForm";
 import Markdown from "@/components/Markdown";
 import { ProsePage } from "@/components/ProsePage";
+import { faqPageLd } from "@/lib/faq/normalize";
 import { catalogueOptionId, type LeadOption } from "@/lib/lead-form";
 import {
   getPublishedService,
@@ -77,6 +79,7 @@ export default async function ServiceDetailPage({
 
   const url = `${SITE_URL}/services/${svc.slug}`;
   const metaLine = svc.meta ?? (svc.eta ? `Service · ${svc.eta} delivery` : "Service");
+  const faq = svc.faq ?? [];
 
   const jsonLd = {
     "@context": "https://schema.org",
@@ -107,6 +110,12 @@ export default async function ServiceDetailPage({
   return (
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
+      {faq.length ? (
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(faqPageLd(faq)) }}
+        />
+      ) : null}
       <ProsePage
         crumbs={[
           { label: "Home", href: "/" },
@@ -128,6 +137,7 @@ export default async function ServiceDetailPage({
           </figure>
         ) : null}
         {svc.body_md.trim() ? <Markdown>{svc.body_md}</Markdown> : null}
+        <FaqSection faq={faq} id={`svc-${svc.slug}-faq`} />
         <LeadForm
           variant="inline"
           idPrefix="svc"

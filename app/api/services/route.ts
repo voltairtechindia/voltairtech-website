@@ -9,7 +9,7 @@
  *   Body: a single service object, or { "services": [ ... ] } for a batch.
  *   Each: { slug, title (required), summary?, bullets?: string[], eta?, icon?,
  *           lead?, meta?, body_md?, price?, tags?: string[], seo?, position?,
- *           status?: "draft"|"published"|"archived", published_at? }
+ *           faq?: { q, a }[], status?: "draft"|"published"|"archived", published_at? }
  *   `icon` may be a glyph key, or "" / "auto" to derive it from title/tags.
  *   -> 200 { ok, count, services: [{ slug, status, url }] }
  *
@@ -20,6 +20,7 @@ import { NextResponse } from "next/server";
 
 import { isAdmin } from "@/lib/admin-auth";
 import { markdownToPlainText, slugify } from "@/lib/blog/util";
+import { faqToPlainText, normalizeFaq } from "@/lib/faq/normalize";
 import { getServicePosition, nextServicePosition, upsertService } from "@/lib/services/db";
 import { resolveServiceIcon } from "@/lib/services/icons";
 import type { Service, ServiceCover, ServiceUpsert } from "@/lib/services/types";
@@ -100,6 +101,7 @@ function normalize(input: unknown): { row: ServiceUpsert } | { error: string } {
       price: str(p.price) || null,
       tags,
       seo: seo ?? {},
+      faq: normalizeFaq(p.faq),
       position,
       status: status as ServiceUpsert["status"],
       published_at,
@@ -140,6 +142,7 @@ async function syncRag(svc: Service): Promise<void> {
     svc.bullets.join(". "),
     pricingLine,
     markdownToPlainText(svc.body_md),
+    faqToPlainText(svc.faq),
   ].filter(Boolean);
   await ingest([
     {
