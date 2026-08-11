@@ -15,7 +15,7 @@ import { SITE_URL } from "@/lib/seo";
 export const revalidate = 3600;
 
 export const metadata: Metadata = {
-  title: "Voltair Tech – Build AI, RAG & Chatbots in Mumbai",
+  title: "Voltair Tech - AI Service provider in Mumbai",
   description:
     "Voltair Tech is a Mumbai AI build studio shipping production apps, chatbots, automations and RAG systems in 48 hours. Indian operators, global standards.",
   alternates: {
