@@ -5,7 +5,7 @@ import type { MetadataRoute } from "next";
 // renders when the site is saved to a home screen.
 export default function manifest(): MetadataRoute.Manifest {
   return {
-    name: "Voltair Tech — AI Build Studio, Mumbai",
+    name: "Voltair Tech - AI Service provider in Mumbai",
     short_name: "Voltair Tech",
     description:
       "Mumbai AI build studio shipping production apps, chatbots, automations and RAG systems. Websites in 48 hours.",

@@ -11,13 +11,13 @@ import { listPublishedServiceOptions } from "@/lib/services/db";
 export const revalidate = 3600;
 
 export const metadata: Metadata = {
-  title: "Contact Us - AI Services Mumbai",
+  title: "Contact Us - AI Service provider in Mumbai",
   description:
     "Tell Voltair Tech what you want to build. We reply within an hour with scope, a fixed price, and a start date. WhatsApp, email, or phone.",
   alternates: { canonical: "https://www.voltairtech.com/contact" },
   openGraph: {
     url: "https://www.voltairtech.com/contact",
-    title: "Contact Voltair Tech - AI Services Mumbai",
+    title: "Contact Voltair Tech - AI Service provider in Mumbai",
     description:
       "Tell us what you want to build. We reply within an hour with scope, a fixed price, and a start date.",
     images: [DEFAULT_OG_IMAGE],

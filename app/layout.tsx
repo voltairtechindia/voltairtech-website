@@ -66,7 +66,7 @@ export const metadata: Metadata = {
         url: "/assets/og-image.jpg",
         width: 1200,
         height: 630,
-        alt: "Voltair Tech - AI Services Mumbai",
+        alt: "Voltair Tech - AI Service provider in Mumbai",
       },
     ],
   },

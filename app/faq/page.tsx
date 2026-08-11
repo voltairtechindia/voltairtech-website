@@ -12,13 +12,13 @@ import { DEFAULT_OG_IMAGE, breadcrumbLd } from "@/lib/seo";
 export const revalidate = 300;
 
 export const metadata: Metadata = {
-  title: "FAQ - AI Services Mumbai | Common Questions Answered",
+  title: "FAQ - AI Service provider in Mumbai | Common Questions Answered",
   description:
     "Answers to the most common questions about AI development in India: pricing, timelines, RAG systems, WhatsApp chatbots, tech stack, NDAs, and post-ship support. Voltair Tech, Mumbai.",
   alternates: { canonical: "https://www.voltairtech.com/faq" },
   openGraph: {
     url: "https://www.voltairtech.com/faq",
-    title: "FAQ - AI Services Mumbai | Voltair Tech",
+    title: "FAQ - AI Service provider in Mumbai | Voltair Tech",
     description:
       "How much does an AI app cost in India? How fast can you deploy a chatbot? What is RAG? All your questions answered by Voltair Tech, Mumbai.",
     images: [DEFAULT_OG_IMAGE],
