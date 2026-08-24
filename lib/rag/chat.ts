@@ -24,16 +24,13 @@ import {
   getOrCreateConversation,
   getRecentMessages,
 } from "./db";
-import { generateStream, type ChatTurn } from "./gemini";
+import { FALLBACK_REPLY, generateStream, type ChatTurn } from "./gemini";
 import { SYSTEM_PROMPT, buildChatTurn } from "./prompts";
 import { buildContext, search } from "./retriever";
 import type { PageInfo, SourceDoc } from "./types";
 
 /** Record separator between the streamed reply text and the JSON trailer. */
 const RS = "\u001E";
-
-const FALLBACK_REPLY =
-  "I'm sorry, I couldn't put together a response just now. Could you rephrase that?";
 
 /** Deictic questions ("summarise this", "is it right for me") lean on the page. */
 const DEICTIC =
@@ -167,7 +164,13 @@ export async function streamChat(
             console.error("[rag] message persist failed", err);
           }
         }
-        if (cacheable) await putCachedReply(hash, args.message, { reply, sources });
+        // Never cache a fallback. During the Netlify AI Gateway outage every
+        // reply was the apology, and each one was written to chat_cache — so the
+        // popular questions kept answering with it even after generation was
+        // working again, with no error anywhere to explain why.
+        if (cacheable && reply !== FALLBACK_REPLY) {
+          await putCachedReply(hash, args.message, { reply, sources });
+        }
         if (conversationId) {
           await processTurn({
             conversationId,
