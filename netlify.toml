@@ -1,15 +1,13 @@
+# Netlify build config — Next.js App Router site (migrated off Vercel).
+#
+# The Next runtime (@netlify/plugin-nextjs) is auto-installed by Netlify when it
+# detects Next.js: it compiles app/ routes + API handlers into Netlify Functions
+# (Node/Lambda) and serves the static/ISR output. Security headers, redirects and
+# the /api/leads/track rewrite are all defined in next.config.mjs, so they carry
+# over automatically — nothing to duplicate here.
+#
+# NOTE: do NOT re-add `publish = "."` or a `/* -> /index.html` redirect. That was
+# the old pre-Next static config, and it makes Netlify serve the repo root as flat
+# files so the Next build is never served — a blank/404 deploy with no error.
 [build]
-  publish = "."
-
-[[headers]]
-  for = "/*"
-  [headers.values]
-    X-Frame-Options = "DENY"
-    X-Content-Type-Options = "nosniff"
-    Referrer-Policy = "strict-origin-when-cross-origin"
-
-[[redirects]]
-  from = "/*"
-  to = "/index.html"
-  status = 200
-  conditions = {Role = ["admin"]}
+  command = "next build"

@@ -45,8 +45,23 @@ async function fetchNavGroups(): Promise<NavGroups> {
   }
 }
 
-/** Cached nav groups (industries + services) for the header dropdowns. */
+/**
+ * Cached nav groups (industries + services) for the header dropdowns.
+ *
+ * ⚠️ This window is the CEILING FOR THE WHOLE SITE, not just the header. Nav
+ * renders on effectively every page, and Next takes the MINIMUM revalidate
+ * across everything cached in a route — so while this was 300 the homepage's
+ * declared 3600 and every other page's window were silently overridden to 5
+ * minutes, and every page regenerated 288x/day under paid traffic. That was
+ * invisible: each page's own `export const revalidate` still read correctly in
+ * source. It is only observable in .next/prerender-manifest.json.
+ *
+ * A long window costs nothing in freshness because the "nav-groups" tag is
+ * busted on demand: /api/revalidate calls revalidateTag("nav-groups") whenever
+ * an /industries or /services path is revalidated, so an edit still shows up
+ * immediately. Raise the pages' own windows to tune them — not this one.
+ */
 export const getNavGroups = unstable_cache(fetchNavGroups, ["nav-groups"], {
-  revalidate: 300,
+  revalidate: 3600,
   tags: ["nav-groups"],
 });

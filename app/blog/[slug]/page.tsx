@@ -15,9 +15,20 @@ import { DEFAULT_OG_IMAGE, breadcrumbLd } from "@/lib/seo";
 
 const SITE_URL = "https://www.voltairtech.com";
 
-// Short ISR window + dynamicParams: a scheduled post is never prerendered at
-// build, so its first visit once due renders fresh; edits propagate within ~1 min.
-export const revalidate = 60;
+// ISR + dynamicParams: a scheduled post is never prerendered at build, so its
+// first visit once due renders fresh.
+//
+// The window is 30 min rather than the old 60s because this page is the main
+// ad landing surface: at 60s EVERY post regenerated up to 1,440x/day under paid
+// traffic, which is what exhausted the host's CPU allowance. Edits do NOT wait
+// this out — the admin pings /api/revalidate with the post's path on save, so
+// publishing and corrections still propagate immediately.
+//
+// Don't raise this much further without a scheduler: a URL visited BEFORE its
+// published_at is due renders notFound(), and that 404 is itself cached for the
+// window — so the window is also the worst-case delay before a scheduled post
+// stops 404ing for someone who had the link early.
+export const revalidate = 1800;
 export const dynamicParams = true;
 
 export async function generateStaticParams() {
