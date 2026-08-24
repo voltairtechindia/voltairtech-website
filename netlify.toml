@@ -11,3 +11,10 @@
 # files so the Next build is never served — a blank/404 deploy with no error.
 [build]
   command = "next build"
+
+[build.environment]
+  # Pinned because the local machine runs Node 26, which Netlify's build image
+  # does not offer — without this the build picks Netlify's default and the
+  # version that ships is not the one this was tested on. 22 is LTS and is what
+  # Next 14 targets.
+  NODE_VERSION = "22"
