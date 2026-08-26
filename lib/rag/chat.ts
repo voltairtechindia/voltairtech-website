@@ -25,7 +25,7 @@ import {
   getRecentMessages,
 } from "./db";
 import { FALLBACK_REPLY, generateStream, type ChatTurn } from "./gemini";
-import { SYSTEM_PROMPT, buildChatTurn } from "./prompts";
+import { OFF_TOPIC_REPLY, SYSTEM_PROMPT, buildChatTurn } from "./prompts";
 import { buildContext, search } from "./retriever";
 import type { PageInfo, SourceDoc } from "./types";
 
@@ -87,20 +87,51 @@ export async function streamChat(
 
   // 1. Retrieve grounded knowledge. For deictic questions, bias the query with
   // the page title/topic so "summarise this" finds the right document.
-  // Retrieval is best-effort: if the embed/match step fails (after its own
-  // retries), degrade to an ungrounded reply rather than 500-ing the user. The
-  // system prompt already handles an empty context gracefully ("say you're not
-  // sure and invite them to email the team").
   const query =
     DEICTIC.test(args.message) && (title || topic)
       ? `${title || topic}. ${args.message}`
       : args.message;
   let docs: Awaited<ReturnType<typeof search>> = [];
+  let retrievalFailed = false;
   try {
     docs = await search(query);
   } catch (err) {
-    console.error("[rag] retrieval failed (answering ungrounded)", err);
+    retrievalFailed = true;
+    console.error("[rag] retrieval failed", err);
   }
+
+  // 1b. NO-GROUNDING GATE.
+  //
+  // If retrieval returned NOTHING, we know nothing about the question — so
+  // answer from the canned redirect rather than generating. Previously an empty
+  // context still went to the model, which is how the sister site's widget ended
+  // up writing JavaScript tutorials: an ungrounded generation is both the most
+  // expensive call and the one most likely to wander off-brand.
+  //
+  // This catches only the unambiguous case. It is NOT the off-topic defence —
+  // see the measured overlap in config.ragAnswerMinSimilarity: off-topic
+  // questions routinely retrieve documents at 0.5-0.7, so "has matches" and "is
+  // about Voltair Tech" are not the same question. Scope is enforced by the
+  // OFF-TOPIC section of the system prompt.
+  //
+  // We deliberately do NOT fall back to an ungrounded generation when retrieval
+  // errors either — it's honest to say we're having trouble rather than improvise.
+  const bestSimilarity = docs.reduce((m, d) => Math.max(m, d.similarity), 0);
+  const ungrounded =
+    docs.length === 0 || bestSimilarity < config.ragAnswerMinSimilarity;
+  if (retrievalFailed || ungrounded) {
+    const gatedReply = retrievalFailed ? FALLBACK_REPLY : OFF_TOPIC_REPLY;
+    // Still log the turn (Supabase only, no LLM): out-of-scope traffic is worth
+    // seeing, and history stays coherent if the visitor then asks something real.
+    runAfter(() =>
+      persistTurn(args.sessionId, args.message, gatedReply, {
+        gated: retrievalFailed ? "retrieval_failed" : "off_topic",
+        best_similarity: Math.round(bestSimilarity * 1000) / 1000,
+      }),
+    );
+    return oneShot(enc, gatedReply, []);
+  }
+
   const context = buildContext(docs);
   const sources = sourcesOf(docs);
 
