@@ -9,7 +9,9 @@ name: Deploy to Vercel
 
 on:
   push:
-    branches: [main]
+    # This repo's default branch is `master`; kauntech-website's is `main`.
+    # Both are listed so the two repos can share one workflow verbatim.
+    branches: [master, main]
   workflow_dispatch:
 
 # Never let two deploys race; a newer push supersedes an in-flight one.
