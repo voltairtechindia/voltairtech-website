@@ -20,3 +20,4 @@ generate_refresh_token.py
 analytics_ads_report.json
 fetch_analytics_ads.py
 task.md
+.env*
