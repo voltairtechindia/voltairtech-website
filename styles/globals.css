@@ -307,6 +307,8 @@ a.nav__item::after { content: ''; position: absolute; left: 0; right: 0; bottom:
 a.nav__item:hover::after { transform: scaleX(1); }
 .nav__item--menu:hover > .nav__item-trigger::after,
 .nav__item--menu:focus-within > .nav__item-trigger::after { transform: scaleX(1); }
+/* The one lead item in the bar: vermilion, otherwise identical to its neighbours. */
+.nav__item--accent { color: var(--v-red); }
 .nav__caret { transition: transform var(--dur-2) var(--ease-out); color: var(--fg3); }
 .nav__item--menu:hover .nav__caret,
 .nav__item--menu:focus-within .nav__caret { transform: rotate(180deg); color: var(--v-red); }
@@ -1809,6 +1811,7 @@ body.hero-launcher-visible .chat-peek { display: none; }
 }
 .nav__menu.open .nav__link { opacity: 1; transform: none; }
 .nav__link:hover { color: var(--v-red); }
+.nav__link--accent { color: var(--v-red); }
 .nav__link-arr { font-size: 1rem; color: var(--fg3); transition: transform var(--dur-2) var(--ease-out), color var(--dur-2); }
 .nav__link:hover .nav__link-arr { color: var(--v-red); transform: translate(2px, -2px); }
 

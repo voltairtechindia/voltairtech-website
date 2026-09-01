@@ -73,7 +73,7 @@ export function NavMenu({ links }: { links: NavLink[] }) {
                 <Link
                   key={n.href}
                   href={n.href}
-                  className="nav__link"
+                  className={"nav__link" + (n.emphasis ? " nav__link--accent" : "")}
                   style={{ transitionDelay: delay }}
                   onClick={() => setOpen(false)}
                 >

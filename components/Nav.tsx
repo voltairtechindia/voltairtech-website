@@ -11,6 +11,8 @@ export type NavLink = {
   children?: NavChild[];
   /** Short heading shown above the dropdown list. */
   menuTitle?: string;
+  /** Tints the label vermilion so one item leads the bar. */
+  emphasis?: boolean;
 };
 
 function Brand({ size = 18 }: { size?: number }) {
@@ -36,16 +38,17 @@ function Caret() {
 }
 
 function DesktopItem({ link }: { link: NavLink }) {
+  const accent = link.emphasis ? " nav__item--accent" : "";
   if (!link.children?.length) {
     return (
-      <Link className="nav__item" href={link.href}>
+      <Link className={"nav__item" + accent} href={link.href}>
         {link.label}
       </Link>
     );
   }
   return (
     <div className="nav__item nav__item--menu">
-      <Link className="nav__item nav__item-trigger" href={link.href}>
+      <Link className={"nav__item nav__item-trigger" + accent} href={link.href}>
         {link.label}
         <Caret />
       </Link>
@@ -78,6 +81,11 @@ function DesktopItem({ link }: { link: NavLink }) {
 export async function Nav({ showContactCta = true }: { showContactCta?: boolean } = {}) {
   const groups = await getNavGroups();
 
+  /**
+   * Header order is deliberate and short. Blog and FAQ are off the bar on
+   * purpose (the footer still links both, so neither is orphaned) so that
+   * "Our Projects" is the one item the eye lands on.
+   */
   const navLinks: NavLink[] = [
     { label: "About us", href: "/about" },
     {
@@ -92,10 +100,8 @@ export async function Nav({ showContactCta = true }: { showContactCta?: boolean 
       menuTitle: "What we build",
       children: groups.services,
     },
-    { label: "Live projects", href: "/live-projects" },
-    { label: "Blog", href: "/blog" },
-    { label: "Careers", href: "/career" },
-    { label: "FAQ", href: "/faq" },
+    { label: "Our Projects", href: "/live-projects", emphasis: true },
+    { label: "Career", href: "/career" },
   ];
 
   return (
