@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 
 import { PageLayout } from "@/components/PageLayout";
 import { ProjectShowcase } from "@/components/ProjectShowcase";
-import { SectionHead } from "@/components/atoms/SectionHead";
 import { DEFAULT_OG_IMAGE, SITE_URL, breadcrumbLd } from "@/lib/seo";
 import { listPublishedProjects } from "@/lib/live-projects/db";
 import { FALLBACK_PROJECTS } from "@/lib/live-projects/fallback";
@@ -50,21 +49,16 @@ export default async function LiveProjectsPage() {
   const projects = await loadProjects();
   const count = projects.length;
 
-  const heroStats = [
-    { value: String(count), label: "Products" },
-    {
-      value: String(projects.filter((p) => p.lifecycle !== "build").length),
-      label: "In production",
-    },
-    {
-      value: String(new Set(projects.flatMap((p) => p.surfaces)).size),
-      label: "Shipped surfaces",
-    },
-    {
-      value: String(projects.filter((p) => p.brochure?.url).length),
-      label: "Feature brochures",
-    },
-  ];
+  const byLifecycle = (l: LiveProject["lifecycle"]) =>
+    projects.filter((p) => p.lifecycle === l).length;
+
+  // The masthead legend doubles as the key for the coloured LED on each card,
+  // so it earns its space instead of restating the grid's length four ways.
+  const legend = [
+    { key: "live" as const, label: "Live", n: byLifecycle("live") },
+    { key: "shipped" as const, label: "Shipped", n: byLifecycle("shipped") },
+    { key: "build" as const, label: "In build", n: byLifecycle("build") },
+  ].filter((r) => r.n > 0);
 
   /** Absolute URL for JSON-LD — covers may be Supabase-hosted or local. */
   const abs = (u: string) => (u.startsWith("http") ? u : `${SITE_URL}${u}`);
@@ -111,24 +105,31 @@ export default async function LiveProjectsPage() {
         }}
       />
 
-      {/* ── Hero ── */}
+      {/* ── Masthead ── */}
       <section className="section lp-hero">
         <div className="container">
-          <SectionHead
-            as="h1"
-            title="Live projects"
-            right={<span className="tag"><span className="pulse" />Mumbai, India</span>}
-          />
+          <header className="lp-masthead">
+            <div className="lp-masthead__title">
+              <h1>Live projects</h1>
+              <p className="lp-masthead__meta">
+                Voltair Tech · product portfolio · Mumbai
+              </p>
+            </div>
 
-          <dl className="lp-hero__stats">
-            {heroStats.map((s) => (
-              <div key={s.label} className="lp-hero__stat">
-                <dt className="lp-hero__stat-value">{s.value}</dt>
-                <dd className="lp-hero__stat-label">{s.label}</dd>
+            <dl className="lp-legend">
+              <div className="lp-legend__total">
+                <dt>{count}</dt>
+                <dd>Products</dd>
               </div>
-            ))}
-          </dl>
-
+              {legend.map((r) => (
+                <div key={r.key} className="lp-legend__row">
+                  <span className={`lp-legend__led lp-legend__led--${r.key}`} aria-hidden="true" />
+                  <dt>{r.n}</dt>
+                  <dd>{r.label}</dd>
+                </div>
+              ))}
+            </dl>
+          </header>
         </div>
       </section>
 

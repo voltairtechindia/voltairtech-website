@@ -175,6 +175,16 @@ async function main() {
   const json = JSON.parse(body);
   console.log(`\n✓ ${json.count} projects saved and embedded.`);
   for (const p of json.projects) console.log(`  ${p.status.padEnd(9)} ${p.slug}`);
+
+  // /live-projects is ISR (revalidate=300). Without this the page keeps
+  // serving whatever it cached BEFORE the seed — which reads as rows that
+  // silently lost their copy, not as a stale cache.
+  const rv = await fetch(`${SITE}/api/revalidate`, {
+    method: "POST",
+    headers: { "content-type": "application/json", "x-admin-key": KEY },
+    body: JSON.stringify({ paths: ["/live-projects"] }),
+  });
+  console.log(rv.ok ? "✓ /live-projects revalidated." : `! revalidate failed (${rv.status})`);
 }
 
 main().catch((err) => {
