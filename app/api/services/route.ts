@@ -24,7 +24,6 @@ import { isAdmin } from "@/lib/admin-auth";
 import { markdownToPlainText, slugify } from "@/lib/blog/util";
 import { faqToPlainText, normalizeFaq } from "@/lib/faq/normalize";
 import { normalizeMedia } from "@/lib/media";
-import { inrLabel } from "@/lib/price";
 import { getServicePosition, nextServicePosition, upsertService } from "@/lib/services/db";
 import { resolveServiceIcon } from "@/lib/services/icons";
 import type { Service, ServiceCover, ServiceUpsert } from "@/lib/services/types";
@@ -121,13 +120,10 @@ async function syncRag(svc: Service): Promise<void> {
     return;
   }
   const url = `${SITE_URL}/services/${svc.slug}`;
-  // Embed the price/eta columns too — otherwise a price set in the admin is
-  // invisible to the chatbot (it only sees `content`), and the bot mis-quotes a
-  // neighbouring service's price. Mirrors the figure shown on the page.
-  const priceLabel = inrLabel(svc.price);
-  const pricingLine = priceLabel
-    ? `Pricing: from ${priceLabel}${svc.eta ? `, ${svc.eta} delivery` : ""} (fixed-price).`
-    : "";
+  // The `price` column is NOT embedded. The chatbot must not quote a figure
+  // (it scopes on a call instead), and the pages don't show one either — the
+  // column survives only as schema.org Offer data for Google.
+  const pricingLine = svc.eta ? `Typical delivery: ${svc.eta}. Fixed price, agreed on a call before work starts.` : "";
   const parts = [
     svc.title,
     svc.summary ?? "",

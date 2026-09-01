@@ -59,9 +59,9 @@ export const KNOWLEDGE_BASE: IngestDocument[] = [
   {
     doc_type: "pricing",
     external_id: "pricing-overview",
-    title: "What things cost",
+    title: "How pricing works",
     content:
-      "Guide prices, all fixed before work starts: a website is from ₹75,000 and live in 48 hours. Automation is from ₹25,000 for one workflow. A chatbot is from ₹1.5L. A tool that answers from your own documents is from ₹4L, up to ₹8L for larger setups. A voice agent that answers your phone is from ₹2L. GST and data protection compliance is from ₹3L. An assistant that handles multi-step work is from ₹5L. Mobile apps are ₹8L to ₹15L. Custom software is from ₹1.5L and depends on what it does. Every quote is a fixed price, not an hourly rate, agreed at a free 30 minute call before you commit to anything, and every one includes 30 days of support after it goes live. After those 30 days you can take it over completely or keep us on a monthly retainer.",
+      "Voltair Tech quotes every build individually, so there is no price list and no figure to give before a conversation. How it works: you have a free 30 minute call, you agree exactly what is being built, and you get ONE fixed price for the whole thing, in writing, before any work starts. Not an hourly rate, and no change to the number partway through unless you ask for something that was not agreed. Every quote includes 30 days of support after it goes live (fixes, monitoring and small changes); after that you can take it over completely or keep Voltair on a monthly retainer. To get an actual number, use the Contact us button in the top navigation, which opens /contact, or email business@voltairtech.com. Voltair replies within the hour with scope, a fixed price, and a start date. Do not state, estimate or confirm any rupee figure to a visitor.",
     metadata: { url: "https://www.voltairtech.com/contact" },
   },
 
@@ -125,7 +125,7 @@ export const KNOWLEDGE_BASE: IngestDocument[] = [
     external_id: "faq-rag",
     title: "Can a bot answer questions about our own documents?",
     content:
-      "Yes, and this is one of the most common things we build. You give it your policies, price lists, manuals or product information, and it answers staff or customer questions from those files only. Every answer shows which document it came from, so nobody has to take it on trust, and if the answer is not in your files it says so instead of guessing. The technical name for this is RAG, if you have heard it called that. From ₹4L, ready in two to three weeks.",
+      "Yes, and this is one of the most common things we build. You give it your policies, price lists, manuals or product information, and it answers staff or customer questions from those files only. Every answer shows which document it came from, so nobody has to take it on trust, and if the answer is not in your files it says so instead of guessing. The technical name for this is RAG, if you have heard it called that. Ready in two to three weeks; the price is quoted for your specific set of documents on a call.",
     metadata: { url: "https://www.voltairtech.com/faq" },
   },
   {
@@ -133,7 +133,7 @@ export const KNOWLEDGE_BASE: IngestDocument[] = [
     external_id: "faq-cost",
     title: "What does it cost?",
     content:
-      "A website starts at ₹75,000. A chatbot starts at ₹1.5L. Larger tools run ₹4L to ₹8L, and mobile apps ₹8L to ₹15L. Every quote is a fixed price agreed before we start, and includes 30 days of support after it goes live.",
+      "Every build is quoted on its own, so there is no price list. You get one fixed price for the whole thing, agreed in writing before any work starts, never an hourly rate, and 30 days of support after it goes live is included. Tell us what you want built and we come back within the hour with the scope, the price and a start date. Do not give a visitor a rupee figure or a range.",
     metadata: { url: "https://www.voltairtech.com/faq" },
   },
   {

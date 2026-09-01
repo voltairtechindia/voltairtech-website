@@ -25,6 +25,21 @@ through the admin API so nothing else is lost and the chatbot re-embeds from the
 same text the page shows. Re-runnable; `--dry` to preview, `--only=` to scope
 (`services|industries|projects|faqs`, plus opt-in `blog` for punctuation only).
 
+## Pricing is not public (2026-09)
+Nothing a visitor reads quotes a rupee figure, and neither does the chatbot.
+Builds are scoped and quoted on a call.
+- Service pages show `Ready in / First reply / Support after launch`, never a
+  price; the "What it costs" sections explain *how* pricing works instead.
+- `POST /api/services` does **not** embed the price, and `SYSTEM_PROMPT` rule 4
+  forbids stating one even if a figure reaches the CONTEXT (blog posts still
+  carry market figures, so that rule is what actually holds the line).
+- `services.price` **survives on purpose**: it is never rendered and never
+  embedded, and exists only to fill the schema.org `Offer` node so Google can
+  still show a figure in results. Keep the admin field.
+- `supabase/remove-pricing.mjs` is re-runnable if a figure creeps back in.
+Product stat figures ("₹0 forever free" on SendZap) are facts about a product,
+not a quote for a build, and stay.
+
 ## Stack
 - **Next.js** 14.2.29 (App Router). Marketing pages are static (`○`); the blog is
   ISR (`revalidate=300`) and `/api/*` are dynamic — so the site now needs the

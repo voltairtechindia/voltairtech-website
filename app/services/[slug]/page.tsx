@@ -12,7 +12,6 @@ import { ServiceGlyph } from "@/components/atoms/ServiceGlyph";
 import { faqPageLd } from "@/lib/faq/normalize";
 import { catalogueOptionId, type LeadOption } from "@/lib/lead-form";
 import { isMovingMedia } from "@/lib/media";
-import { inrLabel } from "@/lib/price";
 import {
   getPublishedService,
   listPublishedServiceOptions,
@@ -94,10 +93,12 @@ export default async function ServiceDetailPage({
     : firstImage(media);
 
   // Only facts the row actually carries. An empty rail beats an invented one.
-  const price = inrLabel(svc.price);
+  // Deliberately NO price: nothing on the site quotes a figure before a call.
+  // The `price` column still feeds the Offer node below, which is structured
+  // data for Google, not copy a visitor reads.
   const facts: HeroFact[] = [
     ...(svc.eta ? [{ label: "Ready in", value: svc.eta }] : []),
-    ...(price ? [{ label: "Starts at", value: price }] : []),
+    { label: "First reply", value: "Within the hour" },
     { label: "Support after launch", value: "30 days" },
   ];
 
@@ -114,6 +115,8 @@ export default async function ServiceDetailPage({
     url,
     description: svc.summary ?? svc.lead ?? undefined,
     ...(hero?.url ? { image: [hero.url] } : {}),
+    // Kept on purpose even though the page shows no figure: this is the
+    // schema.org Offer that lets Google surface a price in results.
     ...(svc.price
       ? {
           offers: {

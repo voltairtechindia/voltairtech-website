@@ -4,7 +4,6 @@ import Image from "next/image";
 import type { IndustryCard } from "@/lib/industries/types";
 import { industryIconSrc } from "@/lib/industries/icons";
 import { SectionHead } from "./atoms/SectionHead";
-import { CoverImage } from "./atoms/CoverImage";
 
 /**
  * The /industries index — a grid of sector cards. Each links to
@@ -42,18 +41,13 @@ export function Industries({
               <Link
                 key={it.slug}
                 href={`/industries/${it.slug}`}
-                className={`svc-card svc-card--white${it.cover_image?.url ? " svc-card--media" : ""}`}
+                className="svc-card svc-card--white"
                 aria-label={it.title}
               >
                 <span className="svc-card__arrow">↗</span>
-                {it.cover_image?.url ? (
-                  <div className="svc-card__cover">
-                    <CoverImage
-                      src={it.cover_image.url}
-                      alt={it.cover_image.alt ?? it.title}
-                    />
-                  </div>
-                ) : null}
+                {/* No cover here on purpose. Only some sectors have one, so
+                    showing it made a single card in the grid look different
+                    from the rest. The cover belongs to /industries/<slug>. */}
                 <h3 className="svc-card__title">{it.title}</h3>
                 <div className="svc-card__body">
                   {it.bullets?.length ? (

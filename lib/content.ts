@@ -60,7 +60,7 @@ export const CONTENT = {
     },
     {
       q: "What does it cost?",
-      a: "A website starts at ₹75,000. A chatbot starts at ₹1.5L. Larger tools run ₹4L to ₹8L, and mobile apps ₹8L to ₹15L. Every quote is a fixed price agreed before we start, and includes 30 days of support after it goes live.",
+      a: "Every build is quoted on its own, so we do not publish a price list. You get one fixed price for the whole thing, agreed in writing before any work starts. Never an hourly rate, and never a different number halfway through. Tell us what you need and we come back within the hour with the scope, the price and a start date. Thirty days of support after it goes live is included.",
     },
     {
       q: "Can a bot answer questions about our own documents?",
