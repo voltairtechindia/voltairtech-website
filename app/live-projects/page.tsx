@@ -1,10 +1,10 @@
 import type { Metadata } from "next";
 
 import { PageLayout } from "@/components/PageLayout";
+import { ProjectHashRedirect } from "@/components/ProjectHashRedirect";
 import { ProjectShowcase } from "@/components/ProjectShowcase";
 import { DEFAULT_OG_IMAGE, SITE_URL, breadcrumbLd } from "@/lib/seo";
-import { listPublishedProjects } from "@/lib/live-projects/db";
-import { FALLBACK_PROJECTS } from "@/lib/live-projects/fallback";
+import { loadProjects } from "@/lib/live-projects/load";
 import type { LiveProject } from "@/lib/live-projects/types";
 
 /**
@@ -29,21 +29,6 @@ export const metadata: Metadata = {
     images: [DEFAULT_OG_IMAGE],
   },
 };
-
-/**
- * Published projects, in page order. Falls back to the seed list if Supabase
- * is empty or unreachable, so the page can never render as an empty shell —
- * same contract as /faq and its `CONTENT.faq` fallback.
- */
-async function loadProjects(): Promise<LiveProject[]> {
-  try {
-    const rows = await listPublishedProjects();
-    if (rows.length) return rows;
-  } catch (err) {
-    console.error("[live-projects] load failed, using fallback", err);
-  }
-  return FALLBACK_PROJECTS;
-}
 
 export default async function LiveProjectsPage() {
   const projects = await loadProjects();
@@ -79,7 +64,7 @@ export default async function LiveProjectsPage() {
         item: {
           "@type": "SoftwareApplication",
           name: p.name,
-          url: `${SITE_URL}/live-projects#${p.slug}`,
+          url: `${SITE_URL}/live-projects/${p.slug}`,
           ...(p.tagline ? { description: p.tagline } : {}),
           applicationCategory: "BusinessApplication",
           ...(p.surfaces.length ? { operatingSystem: p.surfaces.join(", ") } : {}),
@@ -138,6 +123,7 @@ export default async function LiveProjectsPage() {
       <section className="section lp-showcase">
         <div className="container">
           <ProjectShowcase projects={projects} />
+          <ProjectHashRedirect slugs={projects.map((p) => p.slug)} />
         </div>
       </section>
 

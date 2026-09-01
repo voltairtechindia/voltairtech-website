@@ -237,13 +237,24 @@ Ported from the kauntech site; re-themed for Voltair. New Supabase project
   copilot drafts `faq` arrays in all three draft fences.
 - **Live projects (DB-backed):** `app/live-projects/page.tsx` (ISR, `revalidate=300`)
   — the studio's own shipped-product portfolio. Engine `lib/live-projects/*`;
-  UI `components/ProjectShowcase.tsx` (client). Deliberately **one glance, not a
-  scroll**: a grid of cards (cover, kicker, name, tagline, headline figure,
-  lifecycle LED), and a card opens a **detail dialog** with that project's media
-  gallery, full summary, every figure, highlights, surfaces/stack and the
-  brochure. Two earlier cuts — ten stacked editorial spreads (~15 screens) and a
-  horizontal snap rail — were rejected for making the reader travel; don't
-  reintroduce either.
+  UI `components/ProjectShowcase.tsx` (server). The index is deliberately **one
+  glance, not a scroll**: a grid of cards (cover, kicker, name, tagline,
+  headline figure, lifecycle LED). Two earlier cuts — ten stacked editorial
+  spreads (~15 screens) and a horizontal snap rail — were rejected for making
+  the reader travel; don't reintroduce either.
+  - **Each project has its own page** (`app/live-projects/[slug]/page.tsx`, ISR,
+    prebuilt from `listPublishedProjectSlugs`) — it replaced the detail dialog,
+    so a product now has a real URL that can be shared, indexed and linked.
+    Centred single column: head band (status, kicker, name, tagline, summary,
+    links + brochure), media stage (`components/ProjectStage.tsx`), figures,
+    highlights, surfaces/stack chips, previous/next pager.
+  - That route runs its **own type and UI scope**, not the site's: its
+    `layout.tsx` loads Space Grotesk + Inter Tight as `--pj-*` and every rule
+    lives under `.pj` in `globals.css`. Nothing outside the route sees either.
+  - `lib/live-projects/load.ts` is the one read path (index + detail share the
+    single list query; the detail page takes its pager neighbours from it).
+  - Dialog-era `#<slug>` links on the index still work:
+    `components/ProjectHashRedirect.tsx` sends them to the project's page.
   - `lifecycle` (`live` / `shipped` / `build`) is the status chip and is
     SEPARATE from `status` (draft/published/archived): one says where the
     product is, the other whether the card is on the site at all.

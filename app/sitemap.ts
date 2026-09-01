@@ -2,6 +2,7 @@ import type { MetadataRoute } from "next";
 
 import { listPublishedPosts } from "@/lib/blog/db";
 import { listOpenJobs } from "@/lib/careers/db";
+import { listPublishedProjectSlugs } from "@/lib/live-projects/db";
 import { listPublishedServiceSlugs } from "@/lib/services/db";
 import {
   listIndexableCustomServiceParams,
@@ -69,6 +70,20 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     if (!industrySlugs.length) industrySlugs = FALLBACK_INDUSTRY_SLUGS;
   } catch {
     industrySlugs = FALLBACK_INDUSTRY_SLUGS;
+  }
+
+  // Each live project now has its own page; skip them if the DB is unreachable
+  // rather than guessing slugs (a 404 in a sitemap costs more than an omission).
+  let projectRoutes: MetadataRoute.Sitemap = [];
+  try {
+    projectRoutes = (await listPublishedProjectSlugs()).map((slug) => ({
+      url: `${BASE}/live-projects/${slug}`,
+      lastModified: now,
+      changeFrequency: "monthly",
+      priority: 0.7,
+    }));
+  } catch {
+    projectRoutes = [];
   }
 
   // Blog entries carry their real publish date as lastmod (a genuine freshness
@@ -140,6 +155,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     ...industryRoutes,
     ...customServiceRoutes,
     ...serviceRoutes,
+    ...projectRoutes,
     ...blogRoutes,
     ...jobRoutes,
   ];

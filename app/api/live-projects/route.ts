@@ -217,7 +217,7 @@ async function syncRag(pr: LiveProject): Promise<void> {
     await deleteDocument("live_project", pr.slug);
     return;
   }
-  const url = `${SITE_URL}/live-projects#${pr.slug}`;
+  const url = `${SITE_URL}/live-projects/${pr.slug}`;
   // The figures are embedded as prose too — the bot only ever sees `content`,
   // so a stat left in a JSONB column is invisible to it.
   const statLine = pr.stats.length
@@ -291,7 +291,7 @@ export async function POST(req: Request) {
       results.push({
         slug: stored.slug,
         status: stored.status,
-        url: `${SITE_URL}/live-projects#${stored.slug}`,
+        url: `${SITE_URL}/live-projects/${stored.slug}`,
       });
     }
   } catch (err) {

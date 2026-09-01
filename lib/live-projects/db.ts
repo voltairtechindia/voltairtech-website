@@ -74,3 +74,15 @@ export async function upsertProject(row: LiveProjectUpsert): Promise<LiveProject
   if (error) throw error;
   return data as LiveProject;
 }
+
+/** Slugs of published projects — used to prebuild the detail pages. */
+export async function listPublishedProjectSlugs(): Promise<string[]> {
+  const sb = getSupabase();
+  const { data, error } = await sb
+    .from("live_projects")
+    .select("slug")
+    .eq("status", "published")
+    .order("position", { ascending: true });
+  if (error) throw error;
+  return (data ?? []).map((r) => (r as { slug: string }).slug);
+}

@@ -2,7 +2,7 @@ import Link from "next/link";
 import { Kicker } from "./atoms/Kicker";
 import { Arr } from "./atoms/Arr";
 import { HeroPrompt } from "./HeroPrompt";
-import { BuildLog } from "./BuildLog";
+import { HeroHub } from "./HeroHub";
 
 export function Hero() {
   return (
@@ -49,7 +49,7 @@ export function Hero() {
             </div>
           </div>
         </div>
-        <BuildLog />
+        <HeroHub />
       </div>
     </section>
   );
