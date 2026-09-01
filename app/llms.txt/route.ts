@@ -34,6 +34,7 @@ const HEADER = `# Voltair Tech
 - [About](${SITE_URL}/about): Who we are, the Voltair edge, our mission.
 - [Services](${SITE_URL}/services): Full catalogue of AI build services.
 - [Industries](${SITE_URL}/industries): Sector-shaped AI for D2C, healthcare, fintech, and more.
+- [Live projects](${SITE_URL}/live-projects): Ten products this studio built and shipped — FleetDrop (delivery operations), KaunTech (card-scan sales intelligence), Papyr (WebAR for print), Answerline (AI front desk), AI HR Suite, Lead Gen, KaunTech Admin, Drone Ops, NFC vCard, SendZap. Each with a downloadable feature brochure.
 - [FAQ](${SITE_URL}/faq): Common questions on scope, timelines, pricing, and ownership.
 - [Contact](${SITE_URL}/contact): Contact us — one line, reply within an hour.`;
 

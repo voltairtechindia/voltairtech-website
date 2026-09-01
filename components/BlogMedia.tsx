@@ -2,31 +2,8 @@
  * Renders a single blog media item — a photo, a self-hosted video, or an
  * external embed (YouTube/Vimeo). Pure server component (no client hooks).
  */
+import { toEmbedSrc } from "@/lib/embed";
 import type { MediaItem } from "@/lib/blog/types";
-
-/** Convert a watch/share URL into an embeddable iframe src. */
-function toEmbedSrc(url: string, provider?: string): string {
-  try {
-    const u = new URL(url);
-    const host = u.hostname.replace(/^www\./, "");
-
-    if (provider === "youtube" || /youtube\.com|youtu\.be/.test(host)) {
-      let id = "";
-      if (host === "youtu.be") id = u.pathname.slice(1);
-      else if (u.pathname.startsWith("/embed/")) id = u.pathname.split("/")[2];
-      else id = u.searchParams.get("v") ?? "";
-      return id ? `https://www.youtube-nocookie.com/embed/${id}` : url;
-    }
-
-    if (provider === "vimeo" || /vimeo\.com/.test(host)) {
-      const id = u.pathname.split("/").filter(Boolean).pop() ?? "";
-      return id ? `https://player.vimeo.com/video/${id}` : url;
-    }
-  } catch {
-    /* fall through to raw url */
-  }
-  return url;
-}
 
 export default function BlogMedia({ item }: { item: MediaItem }) {
   if (item.type === "image") {

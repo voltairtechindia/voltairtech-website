@@ -92,6 +92,7 @@ export async function Nav({ showContactCta = true }: { showContactCta?: boolean 
       menuTitle: "What we build",
       children: groups.services,
     },
+    { label: "Live projects", href: "/live-projects" },
     { label: "Blog", href: "/blog" },
     { label: "Careers", href: "/career" },
     { label: "FAQ", href: "/faq" },

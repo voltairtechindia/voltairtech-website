@@ -27,8 +27,8 @@ Originally a static Babel/JSX single-page site; fully migrated to **Next.js 14 A
 | `app/services/page.tsx` | Services detail page |
 | `app/industries/page.tsx` | DB-backed industries index (sector lens over services) |
 | `app/industries/[slug]/page.tsx` | Industry detail (ISR) — "what you get" + linked services |
-| `app/work/page.tsx` | Case studies / portfolio page |
 | `app/rag/page.tsx` | RAG showcase page |
+| `app/live-projects/page.tsx` | DB-backed product showcase (ISR) — grid + detail dialog |
 | `app/faq/page.tsx` | DB-backed FAQ page (ISR) — `site_faqs` + FAQPage JSON-LD |
 | `app/timeline/page.tsx` | Timeline/process page |
 | `app/sitemap.ts` | Auto-generated XML sitemap |
@@ -179,6 +179,35 @@ Ported from the kauntech site; re-themed for Voltair. New Supabase project
   service, and industry editors; the `/faq` table gets its own admin section
   (`app/faq/*` + `components/SiteFaqEditor.tsx`) with an `OrderBoard`. The AI
   copilot drafts `faq` arrays in all three draft fences.
+- **Live projects (DB-backed):** `app/live-projects/page.tsx` (ISR, `revalidate=300`)
+  — the studio's own shipped-product portfolio. Engine `lib/live-projects/*`;
+  UI `components/ProjectShowcase.tsx` (client). Deliberately **one glance, not a
+  scroll**: a grid of cards (cover, kicker, name, tagline, headline figure,
+  lifecycle LED), and a card opens a **detail dialog** with that project's media
+  gallery, full summary, every figure, highlights, surfaces/stack and the
+  brochure. Two earlier cuts — ten stacked editorial spreads (~15 screens) and a
+  horizontal snap rail — were rejected for making the reader travel; don't
+  reintroduce either.
+  - `lifecycle` (`live` / `shipped` / `build`) is the status chip and is
+    SEPARATE from `status` (draft/published/archived): one says where the
+    product is, the other whether the card is on the site at all.
+  - `media` is the **same `MediaItem` shape as `blog_posts.media`** (image /
+    self-hosted video / YouTube-Vimeo embed), and both render through the one
+    shared `lib/embed.ts` `toEmbedSrc`. Video only mounts inside an OPEN dialog,
+    so the page never boots ten players on arrival.
+  - Order is admin-controlled `position` (asc) — the admin's `OrderBoard` POSTs
+    a slug list to `POST /api/live-projects/reorder` (column-only, no re-embed).
+  - Written via admin-gated `POST /api/live-projects`, which upserts
+    `live_projects` AND embeds published rows as `doc_type:"live_project"` so
+    the chatbot can answer "what have you actually built?".
+  - **Media lives in Supabase Storage** (`project-media`, public, 100 MB/file) —
+    covers, demo clips and brochure PDFs, all replaceable from the admin.
+    `blog-media` deliberately refuses `application/pdf`, hence the second bucket.
+  - Falls back to `lib/live-projects/fallback.ts` (the seed literal + the copies
+    under `public/assets/live-projects/` and `public/brochures/`) if Supabase is
+    empty or unreachable, so the page never renders blank. **Seeding:**
+    `npm run projects:seed` uploads the local media to the bucket, then POSTs
+    the rows — a one-time bootstrap; after that the admin is the source of truth.
 - **Inquiries / lead form:** one component, `components/LeadForm.tsx` → `POST /api/contact`
   → `contact_submissions`. `variant="page"` is the /contact hero (wrapped by
   `components/BigInput.tsx`); `variant="inline"` is the CTA at the foot of every
@@ -202,8 +231,9 @@ Ported from the kauntech site; re-themed for Voltair. New Supabase project
   (thinking disabled) + `gemini-embedding-001` @ 768 dims. Don't revert to
   `gemini-2.0-flash` / `text-embedding-004` (404 on new keys).
 - **Admin panel:** separate app `../voltairtech-admin` (Next 15) — manages posts,
-  services + industries + FAQ, reads inquiries; writes proxy to this site's
-  `/api/blog`, `/api/services`, `/api/industries`, `/api/faqs` + `/api/revalidate`. Its AI copilot
+  services + industries + FAQ + live projects, reads inquiries; writes proxy to
+  this site's `/api/blog`, `/api/services`, `/api/industries`, `/api/faqs`,
+  `/api/live-projects` + `/api/revalidate`. Its AI copilot
   (`lib/admin-ai.ts`) can draft blog/service/industry artifacts for the editors.
 - **Security headers:** `next.config.mjs` `headers()` sets CSP/HSTS/etc. CSP allows
   the Supabase origin (blog media) + YouTube/Vimeo embeds.
