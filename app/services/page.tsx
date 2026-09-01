@@ -10,15 +10,15 @@ import { DEFAULT_OG_IMAGE } from "@/lib/seo";
 export const revalidate = 300;
 
 export const metadata: Metadata = {
-  title: "AI Services: Apps, Chatbots, RAG, Mobile & Automation",
+  title: "What We Build: Websites, Chatbots, Document Search & Automation",
   description:
-    "AI services from Voltair Tech Mumbai: websites in 48 hrs, AI automation, WhatsApp chatbots, RAG systems, mobile apps, and custom AI software. Fixed-price, Indian operators.",
+    "What Voltair Tech builds: websites in 48 hours, WhatsApp chatbots, voice agents, document search (RAG), mobile apps, and software that automates your repetitive work. Fixed price, Mumbai based.",
   alternates: { canonical: "https://www.voltairtech.com/services" },
   openGraph: {
     url: "https://www.voltairtech.com/services",
-    title: "AI Services: Apps, Chatbots, RAG, Mobile & Automation | Voltair Tech",
+    title: "What We Build: Websites, Chatbots & Automation | Voltair Tech",
     description:
-      "AI services from Voltair Tech Mumbai: websites in 48 hrs, AI automation, WhatsApp chatbots, RAG systems, mobile apps, and custom AI software.",
+      "Websites in 48 hours, WhatsApp chatbots, voice agents, document search, mobile apps, and software that automates your repetitive work.",
     images: [DEFAULT_OG_IMAGE],
   },
 };
@@ -56,8 +56,8 @@ export default async function ServicesPage({
         <Services services={data.items} page={data.page} pageCount={data.pageCount} />
         <Process
           num="02"
-          title={<>How every{" "}<br />build ships.</>}
-          lead="Pick any service above. It runs through the same four steps: fixed scope, daily Loom and WhatsApp updates, and code that's 100% yours at hand-off."
+          title={<>How a build{" "}<br />actually goes.</>}
+          lead="Whichever one you pick, it runs the same four steps. One agreed price, progress on WhatsApp every day, and everything handed over to you at the end."
         />
       </PageLayout>
     </>

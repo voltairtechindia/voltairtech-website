@@ -1,8 +1,9 @@
 /** Shared types for DB-backed, admin-managed services. */
 
 import type { FaqItem } from "@/lib/faq/types";
+import type { MediaItem } from "@/lib/blog/types";
 
-export type { FaqItem };
+export type { FaqItem, MediaItem };
 
 export interface ServiceCover {
   url: string;
@@ -28,6 +29,8 @@ export interface Service {
   eta: string | null;
   icon: string;
   cover_image: ServiceCover | null;
+  /** Photo/video gallery shown on /services/<slug>. Same shape as a post's media. */
+  media: MediaItem[];
   lead: string | null;
   meta: string | null;
   body_md: string;
@@ -46,7 +49,16 @@ export interface Service {
 /** Lightweight shape for the grid cards (no body). */
 export type ServiceCard = Pick<
   Service,
-  "slug" | "title" | "summary" | "bullets" | "eta" | "icon" | "cover_image" | "tags" | "position"
+  | "slug"
+  | "title"
+  | "summary"
+  | "bullets"
+  | "eta"
+  | "icon"
+  | "cover_image"
+  | "media"
+  | "tags"
+  | "position"
 >;
 
 /** One page of services + pagination metadata. */
@@ -68,6 +80,7 @@ export interface ServiceUpsert {
   eta?: string | null;
   icon?: string | null;
   cover_image?: ServiceCover | null;
+  media?: MediaItem[];
   lead?: string | null;
   meta?: string | null;
   body_md?: string;

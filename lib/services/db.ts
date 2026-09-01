@@ -8,7 +8,7 @@ import { getSupabase } from "@/lib/rag/supabase";
 import type { Service, ServiceCard, ServicePage, ServiceUpsert } from "./types";
 
 const CARD_COLUMNS =
-  "slug, title, summary, bullets, eta, icon, cover_image, tags, position";
+  "slug, title, summary, bullets, eta, icon, cover_image, media, tags, position";
 
 /** 8 = a full 4 x 2 grid on wide desktop (see `.svc-grid`). */
 export const DEFAULT_PER_PAGE = 8;

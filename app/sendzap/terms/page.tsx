@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { LegalLayout } from "@/components/LegalLayout";
 
 export const metadata: Metadata = {
-  title: "SendZap — Terms & Conditions",
+  title: "SendZap Terms & Conditions",
   description:
     "Terms & Conditions for the SendZap Android app by Voltair Tech: acceptable use, ads, user responsibility, trademarks, and governing law.",
   alternates: {
@@ -13,7 +13,7 @@ export const metadata: Metadata = {
 
 export default function SendZapTermsPage() {
   return (
-    <LegalLayout title="SendZap — Terms & Conditions" lastUpdated="June 2026">
+    <LegalLayout title="SendZap Terms & Conditions" lastUpdated="June 2026">
       <p>
         These Terms &amp; Conditions (&quot;Terms&quot;) govern your use of the{" "}
         <strong>SendZap</strong> mobile application (Android package{" "}

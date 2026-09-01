@@ -9,7 +9,9 @@
  *   Body: a single service object, or { "services": [ ... ] } for a batch.
  *   Each: { slug, title (required), summary?, bullets?: string[], eta?, icon?,
  *           lead?, meta?, body_md?, price?, tags?: string[], seo?, position?,
- *           faq?: { q, a }[], status?: "draft"|"published"|"archived", published_at? }
+ *           cover_image?: { url, alt }, faq?: { q, a }[],
+ *           media?: [ { type:"image"|"video"|"embed", url, alt?, caption?, poster?, provider? } ],
+ *           status?: "draft"|"published"|"archived", published_at? }
  *   `icon` may be a glyph key, or "" / "auto" to derive it from title/tags.
  *   -> 200 { ok, count, services: [{ slug, status, url }] }
  *
@@ -21,6 +23,8 @@ import { NextResponse } from "next/server";
 import { isAdmin } from "@/lib/admin-auth";
 import { markdownToPlainText, slugify } from "@/lib/blog/util";
 import { faqToPlainText, normalizeFaq } from "@/lib/faq/normalize";
+import { normalizeMedia } from "@/lib/media";
+import { inrLabel } from "@/lib/price";
 import { getServicePosition, nextServicePosition, upsertService } from "@/lib/services/db";
 import { resolveServiceIcon } from "@/lib/services/icons";
 import type { Service, ServiceCover, ServiceUpsert } from "@/lib/services/types";
@@ -95,6 +99,7 @@ function normalize(input: unknown): { row: ServiceUpsert } | { error: string } {
       eta: str(p.eta) || null,
       icon,
       cover_image: cover(p.cover_image),
+      media: normalizeMedia(p.media),
       lead: str(p.lead) || null,
       meta: str(p.meta) || null,
       body_md: typeof p.body_md === "string" ? p.body_md : "",
@@ -107,18 +112,6 @@ function normalize(input: unknown): { row: ServiceUpsert } | { error: string } {
       published_at,
     },
   };
-}
-
-/** Format an INR amount-string (e.g. "200000") as "₹2L" / "₹1.5L" / "₹1.2Cr". */
-function inrLabel(price: string | null): string | null {
-  if (!price) return null;
-  const n = Number(price);
-  if (!Number.isFinite(n) || n <= 0) return null;
-  const trim = (x: number) =>
-    Number.isInteger(x) ? String(x) : x.toFixed(2).replace(/0+$/, "").replace(/\.$/, "");
-  if (n >= 1e7) return `₹${trim(n / 1e7)}Cr`;
-  if (n >= 1e5) return `₹${trim(n / 1e5)}L`;
-  return `₹${n.toLocaleString("en-IN")}`;
 }
 
 /** Mirror a stored service into the RAG store (or remove it if not published). */

@@ -17,7 +17,7 @@ export const revalidate = 3600;
 export const metadata: Metadata = {
   title: "Voltair Tech - AI Service provider in Mumbai",
   description:
-    "Voltair Tech is a Mumbai AI build studio shipping production apps, chatbots, automations and RAG systems in 48 hours. Indian operators, global standards.",
+    "Voltair Tech builds websites, chatbots, voice agents and software that does your repetitive work. Mumbai based, fixed price, websites live in 48 hours.",
   alternates: {
     canonical: "https://www.voltairtech.com/",
   },
@@ -98,7 +98,7 @@ function buildJsonLd(services: ServiceCard[], homeFaq: FaqItem[]) {
       foundingDate: "2024",
       slogan: "Ship AI in 48 hours.",
       description:
-        "Mumbai-based AI build studio shipping production apps, chatbots, automations and RAG systems. Websites in 48 hours.",
+        "Mumbai AI build studio. Websites, chatbots, voice agents and software that does your repetitive work. Websites live in 48 hours.",
       address: ADDRESS,
       areaServed: AREA_SERVED,
       ...(catalog ? { hasOfferCatalog: catalog } : {}),

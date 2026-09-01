@@ -117,7 +117,7 @@ export default function CareerForm({
     }
     if (f.size > MAX_BYTES) {
       setFile(null);
-      setFileError(`That file is ${fmtSize(f.size)} — the limit is 10 MB.`);
+      setFileError(`That file is ${fmtSize(f.size)}. The limit is 10 MB.`);
       return;
     }
     setFile(f);
@@ -160,7 +160,7 @@ export default function CareerForm({
       onSubmitted?.();
     } catch {
       setError(
-        `Could not submit — check your connection, or email ${CONTENT.brand.email}.`,
+        `Could not submit. Check your connection, or email ${CONTENT.brand.email}.`,
       );
       setStatus("error");
     }
@@ -174,7 +174,7 @@ export default function CareerForm({
         </span>
         <strong>Application received.</strong>
         <p>
-          Thanks, {name.trim().split(/\s+/)[0]}. Your résumé is with our team — we read
+          Thanks, {name.trim().split(/\s+/)[0]}. Your résumé is with our team. We read
           every one, and we&apos;ll write back to <b>{email.trim()}</b> if there&apos;s a fit.
         </p>
         <p className="cf__done-sub">
@@ -389,7 +389,7 @@ export default function CareerForm({
           rows={4}
           value={note}
           onChange={(e) => setNote(e.target.value)}
-          placeholder="What you'd want to build here, notice period, availability — anything your résumé doesn't say."
+          placeholder="What you'd want to build here, notice period, availability, anything your résumé doesn't say."
           disabled={busy}
         />
       </label>

@@ -14,7 +14,7 @@
  *   Each: { slug, title (required), summary?, bullets?: string[], icon?,
  *           lead?, meta?, body_md?, tags?: string[], service_slugs?: string[],
  *           custom_services?: { title, slug?, summary?, bullets?, eta?, icon?,
- *                               headline?, lead?, body_md?, cover_image?,
+ *                               headline?, lead?, body_md?, cover_image?, media?,
  *                               faq?: { q, a }[] }[],
  *           faq?: { q, a }[],
  *           seo?, position?, status?: "draft"|"published"|"archived", published_at? }
@@ -29,6 +29,7 @@ import { NextResponse } from "next/server";
 import { isAdmin } from "@/lib/admin-auth";
 import { markdownToPlainText, slugify } from "@/lib/blog/util";
 import { faqToPlainText, normalizeFaq } from "@/lib/faq/normalize";
+import { normalizeMedia } from "@/lib/media";
 import {
   getIndustryPosition,
   nextIndustryPosition,
@@ -148,6 +149,8 @@ function customServices(v: unknown): IndustryCustomService[] {
     if (lead) cs.lead = lead;
     if (bodyMd.trim()) cs.body_md = bodyMd;
     if (coverImg) cs.cover_image = coverImg;
+    const csMedia = normalizeMedia(p.media);
+    if (csMedia.length) cs.media = csMedia;
     const faq = normalizeFaq(p.faq);
     if (faq.length) cs.faq = faq;
     // Explicit index override (else undefined → auto: index only when the page
@@ -214,6 +217,7 @@ function normalize(input: unknown): { row: IndustryUpsert } | { error: string } 
     bullets: strArray(p.bullets),
     icon,
     cover_image: cover(p.cover_image),
+    media: normalizeMedia(p.media),
     lead: str(p.lead) || null,
     meta: str(p.meta) || null,
     body_md: typeof p.body_md === "string" ? p.body_md : "",

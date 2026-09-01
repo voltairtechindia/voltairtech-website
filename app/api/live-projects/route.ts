@@ -168,7 +168,7 @@ function normalize(input: unknown): { row: LiveProjectUpsert } | { error: string
 
   const lifecycle = str(p.lifecycle) || "build";
   if (!VALID_LIFECYCLE.has(lifecycle)) {
-    return { error: `Invalid lifecycle "${lifecycle}" — use live, shipped or build.` };
+    return { error: `Invalid lifecycle "${lifecycle}": use live, shipped or build.` };
   }
 
   const seo =
@@ -224,7 +224,7 @@ async function syncRag(pr: LiveProject): Promise<void> {
     ? pr.stats.map((s) => `${s.value} ${s.label}`).join(", ")
     : "";
   const parts = [
-    `${pr.name}${pr.kicker ? ` — ${pr.kicker}` : ""} (${LIFECYCLE_LABEL[pr.lifecycle]}), a product built and shipped by Voltair Tech.`,
+    `${pr.name}${pr.kicker ? `, ${pr.kicker}` : ""} (${LIFECYCLE_LABEL[pr.lifecycle]}), a product built and shipped by Voltair Tech.`,
     pr.tagline ?? "",
     pr.summary ?? "",
     statLine,

@@ -50,7 +50,7 @@ export async function generateMetadata({
 
   const title = post.seo?.title ?? post.title;
   const description =
-    post.seo?.description ?? post.excerpt ?? `${post.title} — Voltair Tech Blog`;
+    post.seo?.description ?? post.excerpt ?? `${post.title} | Voltair Tech Blog`;
   const ogImage = post.seo?.og_image ?? post.cover_image?.url ?? DEFAULT_OG_IMAGE;
 
   return {

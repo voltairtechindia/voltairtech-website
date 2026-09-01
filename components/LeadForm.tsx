@@ -207,7 +207,7 @@ export function LeadForm({
         ? "Please enter your WhatsApp number."
         : phoneDigits > 15
           ? "That number has too many digits."
-          : "Include the country code — e.g. +91 70210 00764."
+          : "Include the country code, e.g. +91 70210 00764."
       : !email.trim()
         ? "Please enter your email address."
         : "That doesn't look like a valid email address.";
@@ -215,7 +215,7 @@ export function LeadForm({
   const briefError = briefOk
     ? null
     : val.trim()
-      ? "A few more words, please — tell us what you want built."
+      ? "A few more words, please. Tell us what you want built."
       : "Please tell us what you want to build.";
 
   // A field only complains once you've left it, so nothing turns red while
@@ -306,7 +306,7 @@ export function LeadForm({
     <div className="bi__field bi__done" role="status">
       <strong>Message sent. Taking you to the confirmation page…</strong>
       <p className="meta bi__done-sub">
-        Not redirected? <Link href="/thank-you">Continue here</Link> — or reach us at{" "}
+        Not redirected? <Link href="/thank-you">Continue here</Link>, or reach us at{" "}
         {CONTENT.brand.email} · {CONTENT.brand.phone}.
       </p>
     </div>
@@ -323,7 +323,7 @@ export function LeadForm({
             <span className="bi__optional">
               {selected.size
                 ? `${selected.size} selected`
-                : "Tap any that apply — optional"}
+                : "Tap any that apply, optional"}
             </span>
           </div>
           <div className="lead-pick__chips" role="group" aria-labelledby={pickLabelId}>
@@ -454,7 +454,7 @@ export function LeadForm({
             What do you want to build?
           </label>
           <span className="bi__optional">
-            {options.length ? "Edit this — a line or two is plenty" : "A line or two is plenty"}
+            {options.length ? "Edit this, a line or two is plenty" : "A line or two is plenty"}
           </span>
         </div>
         <textarea
@@ -513,12 +513,12 @@ export function LeadForm({
               {CONTENT.brand.whatsapp}
             </a>{" "}
             or email <a href={`mailto:${CONTENT.brand.email}`}>{CONTENT.brand.email}</a>. Your
-            details stay with our team — read our{" "}
+            details stay with our team. Read our{" "}
             <Link href="/privacy">privacy policy</Link>.
           </>
         ) : (
           <>
-            Your details stay with our team — read our{" "}
+            Your details stay with our team. Read our{" "}
             <Link href="/privacy">privacy policy</Link>.
           </>
         )}

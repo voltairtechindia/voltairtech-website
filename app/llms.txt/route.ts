@@ -18,25 +18,25 @@ const SITE_URL = "https://www.voltairtech.com";
 
 const HEADER = `# Voltair Tech
 
-> Voltair Tech is a Mumbai-based AI build studio that ships production-ready AI apps, chatbots, RAG systems, and automations — websites in 48 hours. Indian operators, global standards. Serving clients across India, the EU, and APAC.
+> Voltair Tech is an AI build studio in Mumbai. We build websites, chatbots, voice agents, document assistants and custom software that takes repetitive work off a business. Websites go live in 48 hours; everything else gets a fixed price and a fixed date. Clients across India, the EU, and APAC.
 
 ## About
 - Location: Andheri West, Mumbai, Maharashtra 400053, India
 - Contact: business@voltairtech.com · +91 70210 00764 (call/WhatsApp)
-- Hours: Mon–Sat, 10:00–20:00 IST
+- Hours: Mon to Sat, 10:00 to 20:00 IST
 - Languages: English, Hindi, Marathi
 - Tagline: "Ship AI in 48 hours."
-- Stack: RAG on pgvector/Supabase, WhatsApp Business API & voice/IVR agents, custom self-improving AI agents, Next.js/React Native apps. LLMs: Claude, GPT, Gemini.
-- Reach: serves clients across India, the EU, and APAC — Indian-operated, global engineering standards.
+- Stack (technical detail, for reference): document search (RAG) on pgvector/Supabase, WhatsApp Business API & voice/IVR agents, custom self-improving AI agents, Next.js/React Native apps. LLMs: Claude, GPT, Gemini.
+- Reach: serves clients across India, the EU, and APAC. Indian-operated, global engineering standards.
 
 ## Core pages
 - [Home](${SITE_URL}/): What Voltair Tech builds and how fast.
 - [About](${SITE_URL}/about): Who we are, the Voltair edge, our mission.
 - [Services](${SITE_URL}/services): Full catalogue of AI build services.
 - [Industries](${SITE_URL}/industries): Sector-shaped AI for D2C, healthcare, fintech, and more.
-- [Live projects](${SITE_URL}/live-projects): Ten products this studio built and shipped — FleetDrop (delivery operations), KaunTech (card-scan sales intelligence), Papyr (WebAR for print), Answerline (AI front desk), AI HR Suite, Lead Gen, KaunTech Admin, Drone Ops, NFC vCard, SendZap. Each with a downloadable feature brochure.
+- [Live projects](${SITE_URL}/live-projects): Ten products this studio built and shipped: FleetDrop (delivery operations), KaunTech (card-scan sales intelligence), Papyr (WebAR for print), Answerline (AI front desk), AI HR Suite, Lead Gen, KaunTech Admin, Drone Ops, NFC vCard, SendZap. Each with a downloadable feature brochure.
 - [FAQ](${SITE_URL}/faq): Common questions on scope, timelines, pricing, and ownership.
-- [Contact](${SITE_URL}/contact): Contact us — one line, reply within an hour.`;
+- [Contact](${SITE_URL}/contact): Contact us. One line, and we reply within an hour.`;
 
 const FOOTER = `## Policies
 - [Privacy Policy](${SITE_URL}/privacy)

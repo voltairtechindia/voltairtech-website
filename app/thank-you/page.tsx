@@ -54,7 +54,7 @@ export default function ThankYouPage() {
               </h1>
               <p className="lead ty__lede">
                 Your brief is with our team. We reply within an hour during working
-                hours — {CONTENT.brand.hours} — with scope, a fixed price, and a start
+                hours ({CONTENT.brand.hours}) with a plan, a fixed price, and a start
                 date. Nothing else to do right now.
               </p>
 
@@ -84,7 +84,7 @@ export default function ThankYouPage() {
                 </a>
               </div>
               <p className="meta ty__note">
-                In a hurry? Call {CONTENT.brand.phone} — {CONTENT.brand.hours}.
+                In a hurry? Call {CONTENT.brand.phone}, {CONTENT.brand.hours}.
               </p>
 
               <div className="ty__more">

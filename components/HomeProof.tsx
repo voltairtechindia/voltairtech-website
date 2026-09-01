@@ -20,15 +20,15 @@ export async function HomeProof() {
       <div className="container">
         <div className="section-head">
           <div className="section-head__left">
-            <Kicker>Proof · shipped work</Kicker>
-            <h2 className="proof__title">How we&apos;ve put AI to work.</h2>
+            <Kicker>Work we have done</Kicker>
+            <h2 className="proof__title">Real things we have built.</h2>
             <p className="proof__lead">
-              Real builds across sectors. The problem, what we shipped, and the result.
+              The problem the business had, what we built, and what changed afterwards.
             </p>
           </div>
           <div className="section-head__right">
             <Link className="btn btn-ghost" href="/industries">
-              All sectors
+              All industries
             </Link>
           </div>
         </div>
@@ -54,13 +54,13 @@ export async function HomeProof() {
               <h3 className="proof-card__title">{s.title}</h3>
               {s.challenge && (
                 <p className="proof-card__line">
-                  <span className="proof-card__line-k">Challenge</span>
+                  <span className="proof-card__line-k">Problem</span>
                   {s.challenge}
                 </p>
               )}
               {s.outcome && (
                 <p className="proof-card__line">
-                  <span className="proof-card__line-k">Outcome</span>
+                  <span className="proof-card__line-k">Result</span>
                   {s.outcome}
                 </p>
               )}

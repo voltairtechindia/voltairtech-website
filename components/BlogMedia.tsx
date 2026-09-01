@@ -1,9 +1,15 @@
 /**
- * Renders a single blog media item — a photo, a self-hosted video, or an
- * external embed (YouTube/Vimeo). Pure server component (no client hooks).
+ * One blog media item: a photo, a self-hosted clip, or a YouTube/Vimeo embed.
+ *
+ * Video and embeds are the shared `MediaFrame`, the same player behind the
+ * service/industry galleries and the /live-projects dialog. This component owns
+ * only the blog's own frame: a full-width figure with a centred caption, and a
+ * padded-box wrapper for embeds since `MediaFrame` renders those to fill.
+ * Photos stay a plain <img> here (no fixed stage, so they keep their own
+ * height and the article flows around them).
  */
-import { toEmbedSrc } from "@/lib/embed";
 import type { MediaItem } from "@/lib/blog/types";
+import { MediaFrame } from "./MediaFrame";
 
 export default function BlogMedia({ item }: { item: MediaItem }) {
   if (item.type === "image") {
@@ -19,26 +25,16 @@ export default function BlogMedia({ item }: { item: MediaItem }) {
   if (item.type === "video") {
     return (
       <figure className="blog-media">
-        <video controls preload="metadata" poster={item.poster} playsInline>
-          <source src={item.url} />
-          Your browser does not support embedded video.
-        </video>
+        <MediaFrame item={item} />
         {item.caption ? <figcaption>{item.caption}</figcaption> : null}
       </figure>
     );
   }
 
-  // embed (YouTube / Vimeo / other)
   return (
     <figure className="blog-media">
       <div className="blog-embed">
-        <iframe
-          src={toEmbedSrc(item.url, item.provider)}
-          title={item.caption ?? "Embedded video"}
-          loading="lazy"
-          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-          allowFullScreen
-        />
+        <MediaFrame item={item} title="Embedded video" />
       </div>
       {item.caption ? <figcaption>{item.caption}</figcaption> : null}
     </figure>

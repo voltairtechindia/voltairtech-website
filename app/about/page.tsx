@@ -9,30 +9,30 @@ import { DEFAULT_OG_IMAGE } from "@/lib/seo";
 import Link from "next/link";
 
 export const metadata: Metadata = {
-  title: "About VoltairTech - High-Velocity AI Development & Software Engineering",
+  title: "About Voltair Tech - Mumbai AI Studio Building Software That Ships",
   description:
-    "Based in Mumbai, India, VoltairTech is a high-velocity AI development and software engineering firm. We bridge the gap between complex AI and practical business applications.",
+    "Voltair Tech is an AI studio in Mumbai. We build websites, chatbots, voice agents and software that takes repetitive work off your team. Fixed price, fixed date.",
   alternates: { canonical: "https://www.voltairtech.com/about" },
   openGraph: {
     url: "https://www.voltairtech.com/about",
-    title: "About VoltairTech - High-Velocity AI Development & Software Engineering",
+    title: "About Voltair Tech - Mumbai AI Studio Building Software That Ships",
     description:
-      "Based in Mumbai, India, VoltairTech is a high-velocity AI development and practical business applications.",
+      "An AI studio in Mumbai building websites, chatbots, voice agents and software that takes repetitive work off your team.",
     images: [DEFAULT_OG_IMAGE],
   },
 };
 
 const CAPABILITIES = [
-  { icon: "rag",  title: "Custom AI & RAG",        line: "Your data, made intelligent." },
-  { icon: "web",  title: "Full-Stack Web",          line: "Fast, modern, production-ready." },
-  { icon: "auto", title: "Workflow Automation",     line: "Eliminate bottlenecks at scale." },
-  { icon: "chat", title: "Conversational Agents",   line: "Support, qualify, answer — 24/7." },
+  { icon: "rag",  title: "Answers from your files", line: "Ask a question, get the page it came from." },
+  { icon: "web",  title: "Websites and web apps",   line: "Live in 48 hours, taking payments." },
+  { icon: "auto", title: "Automating the busywork", line: "The copy and paste jobs, gone." },
+  { icon: "chat", title: "Chat and voice agents",  line: "Answering customers at any hour." },
 ];
 
 const STEPS = [
-  { n: "01", label: "Scoping",     text: "One call. One deadline. No upsell." },
-  { n: "02", label: "Token Lock",  text: "Design, repo & architecture locked in 24 h." },
-  { n: "03", label: "Hyper-Ship",  text: "Daily builds. Production launch on schedule." },
+  { n: "01", label: "Talk",        text: "One call. One deadline. No upsell." },
+  { n: "02", label: "Agree",       text: "Design and plan settled in 24 hours." },
+  { n: "03", label: "Build",       text: "Progress every day. Live on the agreed date." },
 ];
 
 export default function AboutPage() {
@@ -50,7 +50,7 @@ export default function AboutPage() {
           />
           <p className="about-intro">
             VoltairTech is a high-velocity AI development firm.
-            We turn complex AI into production-ready products — for startups
+            We turn complicated AI into software people actually use, for startups
             and enterprises across India, the EU, and APAC.
           </p>
         </div>
@@ -84,7 +84,7 @@ export default function AboutPage() {
         <div className="container">
           <SectionHead
             kicker="What We Build"
-            title={<>AI-native.{" "}<br />Production-ready.</>}
+            title={<>What we{" "}<br />build.</>}
           />
           <div className="about-caps">
             {CAPABILITIES.map((c) => (
@@ -107,11 +107,11 @@ export default function AboutPage() {
               Our Mission
             </span>
             <h2 className="mission-box__h">
-              Democratizing cutting-edge <em>AI</em>.
+              Make <em>AI</em> useful to ordinary businesses.
             </h2>
             <p className="mission-box__lead">
-              Hyper-fast, reliable, production-ready AI development — helping
-              businesses automate the present and engineer the future.
+              Most of what AI is good at is work people are doing by hand today.
+              We build the software that takes it off them.
             </p>
             <div style={{ display: "flex", justifyContent: "center" }}>
               <Link className="btn btn-primary" href="/contact">

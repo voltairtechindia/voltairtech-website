@@ -34,13 +34,13 @@ export async function HomeServices() {
       <div className="container">
         <div className="section-head">
           <div className="section-head__left">
-            <Kicker>What we build · Mumbai</Kicker>
+            <Kicker>What we build</Kicker>
             <h2 className="h-display" style={{ marginTop: "16px" }}>
-              Production AI apps, automations &amp; RAG systems.
+              Pick the one that sounds like your problem.
             </h2>
             <p className="lead" style={{ marginTop: "16px" }}>
-              AI, RAG &amp; chatbot development in Mumbai — pick the build that fits your
-              business, or ask us to scope a custom one.
+              Not sure which? Tell us what is slow or what keeps getting missed, and
+              we will tell you what would fix it.
             </p>
           </div>
           <div className="section-head__right">
@@ -55,7 +55,7 @@ export async function HomeServices() {
         {industries.length ? (
           <p className="home-sectors meta">
             <span className="home-sectors__label">
-              AI services for Indian businesses, by sector:
+              Looking for your industry?
             </span>{" "}
             {industries.map((ind, i) => (
               <span key={ind.slug}>
@@ -64,7 +64,7 @@ export async function HomeServices() {
               </span>
             ))}
             {" · "}
-            <Link href="/industries">all sectors →</Link>
+            <Link href="/industries">see all of them</Link>
           </p>
         ) : null}
       </div>

@@ -28,13 +28,13 @@
 import Image from "next/image";
 import { useCallback, useEffect, useRef, useState } from "react";
 
-import { toEmbedSrc } from "@/lib/embed";
 import {
   LIFECYCLE_LABEL,
   type LiveProject,
   type MediaItem,
 } from "@/lib/live-projects/types";
 import { Arr } from "./atoms/Arr";
+import { MediaFrame } from "./MediaFrame";
 
 /** "1.1 MB" — shown on the brochure button when the row records a size. */
 function fileSize(bytes?: number): string | null {
@@ -150,27 +150,12 @@ function Gallery({ project }: { project: LiveProject }) {
   return (
     <div className="lp-gallery">
       <div className={`lp-stage lp-stage--${motion ? "motion" : "still"}`}>
-        {item.type === "image" ? (
-          <Image
-            src={item.url}
-            alt={item.alt ?? ""}
-            fill
-            sizes="(max-width: 900px) 92vw, 46vw"
-            style={{ objectFit: "contain" }}
-          />
-        ) : item.type === "video" ? (
-          <video controls autoPlay={false} preload="metadata" poster={item.poster} playsInline>
-            <source src={item.url} />
-            Your browser does not support embedded video.
-          </video>
-        ) : (
-          <iframe
-            src={toEmbedSrc(item.url, item.provider)}
-            title={item.caption ?? `${project.name} — video`}
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-            allowFullScreen
-          />
-        )}
+        <MediaFrame
+          item={item}
+          fit="contain"
+          sizes="(max-width: 900px) 92vw, 46vw"
+          title={`${project.name} video`}
+        />
       </div>
 
       {item.caption ? <p className="lp-stage__caption">{item.caption}</p> : null}

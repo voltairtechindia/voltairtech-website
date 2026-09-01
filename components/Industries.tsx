@@ -28,16 +28,14 @@ export function Industries({
           as="h1"
           kicker="Industries"
           title={<>Built for your{" "}<br />industry.</>}
-          right={<span className="tag"><span className="pulse" />sector-shaped AI</span>}
+          right={<span className="tag"><span className="pulse" />13 industries</span>}
         />
-        <p className="lead" style={{ maxWidth: 760 }}>
-          Every sector runs a little differently, so we don&apos;t ship the same
-          build twice. We take what we already do well (fast websites, chatbots,
-          RAG search, and workflow automation) and shape it around how your
-          industry actually works. Pick yours to see the services that fit.
+        <p className="lead" style={{ maxWidth: 720 }}>
+          A clinic and a factory both want less admin, but not in the same way.
+          Pick your trade to see what we would actually build for it.
         </p>
         {industries.length === 0 ? (
-          <p className="meta" style={{ marginTop: 24 }}>No industries published yet.</p>
+          <p className="meta" style={{ marginTop: 24 }}>Nothing here yet.</p>
         ) : (
           <div className="svc-grid" style={{ marginTop: "var(--s-6)" }}>
             {industries.map((it) => (
@@ -80,7 +78,7 @@ export function Industries({
                     />
                   </div>
                 </div>
-                <div className="svc-card__cta">Click to know more →</div>
+                <div className="svc-card__cta">See what we build</div>
               </Link>
             ))}
           </div>

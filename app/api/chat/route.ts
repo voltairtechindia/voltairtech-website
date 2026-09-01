@@ -71,13 +71,13 @@ export async function POST(req: Request) {
 
   if (!message || message.length > 4000) {
     return NextResponse.json(
-      { detail: "message is required (1–4000 characters)." },
+      { detail: "message is required (1 to 4000 characters)." },
       { status: 400 },
     );
   }
   if (sessionId.length < 6 || sessionId.length > 128) {
     return NextResponse.json(
-      { detail: "session_id is required (6–128 characters)." },
+      { detail: "session_id is required (6 to 128 characters)." },
       { status: 400 },
     );
   }

@@ -1,20 +1,25 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 
+import { DetailHero, firstImage, type HeroFact } from "@/components/DetailHero";
+import { DetailBand, DetailProse, DetailShell } from "@/components/DetailShell";
 import { FaqSection } from "@/components/FaqSection";
 import { LeadForm } from "@/components/LeadForm";
 import Markdown from "@/components/Markdown";
-import { ProsePage } from "@/components/ProsePage";
+import { MediaGallery } from "@/components/MediaGallery";
+import { PointGrid } from "@/components/PointGrid";
+import { ServiceGlyph } from "@/components/atoms/ServiceGlyph";
 import { faqPageLd } from "@/lib/faq/normalize";
 import { catalogueOptionId, type LeadOption } from "@/lib/lead-form";
+import { isMovingMedia } from "@/lib/media";
+import { inrLabel } from "@/lib/price";
 import {
   getPublishedService,
   listPublishedServiceOptions,
   listPublishedServiceSlugs,
 } from "@/lib/services/db";
-import { DEFAULT_OG_IMAGE } from "@/lib/seo";
+import { DEFAULT_OG_IMAGE, SITE_URL } from "@/lib/seo";
 
-const SITE_URL = "https://www.voltairtech.com";
 const ORG_ID = `${SITE_URL}/#organization`;
 const AREA_SERVED = [
   { "@type": "Country", name: "India" },
@@ -44,7 +49,11 @@ export async function generateMetadata({
 
   const title = svc.seo?.title ?? `${svc.title} | Voltair Tech`;
   const description = svc.seo?.description ?? svc.summary ?? svc.lead ?? svc.title;
-  const ogImage = svc.seo?.og_image ?? svc.cover_image?.url ?? DEFAULT_OG_IMAGE;
+  const ogImage =
+    svc.seo?.og_image ??
+    svc.cover_image?.url ??
+    firstImage(svc.media ?? [])?.url ??
+    DEFAULT_OG_IMAGE;
 
   return {
     title,
@@ -68,7 +77,7 @@ export default async function ServiceDetailPage({
   const svc = await getPublishedService(params.slug).catch(() => null);
   if (!svc) notFound();
 
-  // The whole catalogue, with this page's service already ticked — most enquiries
+  // The whole catalogue, with this page's service already ticked. Most enquiries
   // want a second thing bolted on, and asking here beats a reply asking later.
   const catalogue = await listPublishedServiceOptions().catch(() => []);
   const leadOptions: LeadOption[] = catalogue.map((s) => ({
@@ -78,8 +87,19 @@ export default async function ServiceDetailPage({
   }));
 
   const url = `${SITE_URL}/services/${svc.slug}`;
-  const metaLine = svc.meta ?? (svc.eta ? `Service · ${svc.eta} delivery` : "Service");
+  const media = svc.media ?? [];
   const faq = svc.faq ?? [];
+  const hero = svc.cover_image?.url
+    ? { url: svc.cover_image.url, alt: svc.cover_image.alt }
+    : firstImage(media);
+
+  // Only facts the row actually carries. An empty rail beats an invented one.
+  const price = inrLabel(svc.price);
+  const facts: HeroFact[] = [
+    ...(svc.eta ? [{ label: "Ready in", value: svc.eta }] : []),
+    ...(price ? [{ label: "Starts at", value: price }] : []),
+    { label: "Support after launch", value: "30 days" },
+  ];
 
   const jsonLd = {
     "@context": "https://schema.org",
@@ -93,7 +113,7 @@ export default async function ServiceDetailPage({
     areaServed: AREA_SERVED,
     url,
     description: svc.summary ?? svc.lead ?? undefined,
-    ...(svc.cover_image?.url ? { image: [svc.cover_image.url] } : {}),
+    ...(hero?.url ? { image: [hero.url] } : {}),
     ...(svc.price
       ? {
           offers: {
@@ -116,42 +136,68 @@ export default async function ServiceDetailPage({
           dangerouslySetInnerHTML={{ __html: JSON.stringify(faqPageLd(faq)) }}
         />
       ) : null}
-      <ProsePage
-        crumbs={[
-          { label: "Home", href: "/" },
-          { label: "Services", href: "/services" },
-          { label: svc.title },
-        ]}
-        title={svc.headline ?? svc.title}
-        meta={metaLine}
-        lead={svc.lead ?? svc.summary ?? undefined}
-      >
-        {svc.cover_image?.url ? (
-          <figure className="blog-cover">
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img
-              src={svc.cover_image.url}
-              alt={svc.cover_image.alt ?? svc.title}
-              decoding="async"
-            />
-          </figure>
-        ) : null}
-        {svc.body_md.trim() ? <Markdown>{svc.body_md}</Markdown> : null}
-        <FaqSection faq={faq} id={`svc-${svc.slug}-faq`} />
-        <LeadForm
-          variant="inline"
-          idPrefix="svc"
-          heading={
-            <>
-              Start your <em>{svc.title}</em> build.
-            </>
-          }
-          lede="Tick anything else you need, tell us the goal, and we'll come back within the hour with scope, a fixed price, and a start date."
-          context={{ kind: "service", serviceSlug: svc.slug, serviceTitle: svc.title }}
-          options={leadOptions}
-          initialSelected={[catalogueOptionId(svc.slug)]}
+
+      <DetailShell>
+        <DetailHero
+          crumbs={[
+            { label: "Home", href: "/" },
+            { label: "What we build", href: "/services" },
+            { label: svc.title },
+          ]}
+          kicker={svc.meta ?? "What we build"}
+          title={svc.headline ?? svc.title}
+          lead={svc.lead ?? svc.summary ?? undefined}
+          facts={facts}
+          visual={hero?.url ?? null}
+          visualAlt={hero?.alt ?? svc.title}
+          clips={media.filter(isMovingMedia).length}
+          glyph={<ServiceGlyph kind={svc.icon} />}
         />
-      </ProsePage>
+
+        {svc.bullets?.length ? (
+          <DetailBand tone="ink">
+            <PointGrid points={svc.bullets} />
+          </DetailBand>
+        ) : null}
+
+        {media.length ? (
+          <DetailBand>
+            <MediaGallery
+              media={media}
+              heading="Take a look"
+              lede="Screens and short clips from real builds."
+            />
+          </DetailBand>
+        ) : null}
+
+        {svc.body_md.trim() ? (
+          <DetailProse>
+            <Markdown>{svc.body_md}</Markdown>
+          </DetailProse>
+        ) : null}
+
+        {faq.length ? (
+          <DetailProse>
+            <FaqSection faq={faq} id={`svc-${svc.slug}-faq`} />
+          </DetailProse>
+        ) : null}
+
+        <DetailBand id="enquire">
+          <LeadForm
+            variant="inline"
+            idPrefix="svc"
+            heading={
+              <>
+                Start your <em>{svc.title.toLowerCase()}</em> build.
+              </>
+            }
+            lede="Tick anything else you need, tell us the goal, and we will come back within the hour with a plan, a fixed price, and a start date."
+            context={{ kind: "service", serviceSlug: svc.slug, serviceTitle: svc.title }}
+            options={leadOptions}
+            initialSelected={[catalogueOptionId(svc.slug)]}
+          />
+        </DetailBand>
+      </DetailShell>
     </>
   );
 }

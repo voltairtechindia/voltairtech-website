@@ -15,15 +15,15 @@ import { DEFAULT_OG_IMAGE } from "@/lib/seo";
 export const dynamic = "force-dynamic";
 
 export const metadata: Metadata = {
-  title: "Blog — Practical AI Guides for Indian Operators",
+  title: "Blog: Practical AI Guides for Indian Businesses",
   description:
     "In-depth guides on building with AI in India: RAG explained, WhatsApp chatbots, DPDP Act 2023 compliance, and n8n automation. Written by the team that ships AI products.",
   alternates: { canonical: "https://www.voltairtech.com/blog" },
   openGraph: {
     url: "https://www.voltairtech.com/blog",
-    title: "Blog — Practical AI Guides for Indian Operators | Voltair Tech",
+    title: "Blog: Practical AI Guides for Indian Businesses | Voltair Tech",
     description:
-      "RAG explained, WhatsApp chatbot guide, DPDP Act 2023 & AI compliance — practical AI writing for Indian operators.",
+      "Document assistants, WhatsApp chatbots, DPDP Act compliance and automation. Practical AI writing for Indian businesses.",
     images: [DEFAULT_OG_IMAGE],
   },
 };
@@ -80,12 +80,12 @@ export default async function BlogIndexPage({
           { label: "Blog" },
         ]}
         title="Practical AI writing for Indian operators"
-        meta="No jargon, no hype — written by the team that ships AI products"
+        meta="No jargon, no hype. Written by the team that builds this stuff."
         lead="In-depth guides on building with AI in India: compliance, tools, and how-tos."
       >
         {posts.length === 0 ? (
           <p style={{ marginTop: "var(--s-6)", color: "var(--fg2)" }}>
-            No posts yet — check back soon.
+            No posts yet. Check back soon.
           </p>
         ) : (
           <>

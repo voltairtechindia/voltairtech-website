@@ -191,13 +191,13 @@ export interface PageContext {
 }
 
 const DEFAULT_GREETING =
-  "Hi! I'm the **Voltair AI Specialist**. Ask me about what we build — AI sites in 48 hours, RAG, chatbots, automation or pricing. Pick one below or type a question.";
+  "Hi! I'm the **Voltair AI Specialist**. Ask me anything about what we build: websites in 48 hours, chatbots, phone agents, automation, or what it costs. Pick one below or just type.";
 
 const HOME_PRESETS = [
   "What can you build in 48 hours?",
-  "How does a RAG system work?",
+  "Can a bot answer from our own documents?",
   "What does a WhatsApp chatbot cost?",
-  "What's your tech stack?",
+  "What would you build for my business?",
 ];
 
 /** Strip the "| Voltair Tech" template + any "— Voltair Tech" fallback suffix. */
@@ -297,7 +297,7 @@ export function pageContext(pathname: string, rawTitle: string): PageContext {
           "Looking for something to read? Tell me a topic and I'll point you to the right post.",
         presets: [
           "What should I read first?",
-          "Got anything on RAG?",
+          "Anything on chatbots?",
           "How does Voltair build AI apps?",
         ],
         peek: "Looking for a specific topic? I can find the right post.",
@@ -310,7 +310,7 @@ export function pageContext(pathname: string, rawTitle: string): PageContext {
         presets: [
           "How much does an AI app cost?",
           "How does the 48-hour build work?",
-          "What's your tech stack?",
+          "What would you build for my business?",
         ],
         peek: "Didn't find your answer below? Ask me directly.",
         peekDelayMs: 22000,
@@ -430,7 +430,7 @@ const FOLLOWUP_RULES: { test: RegExp; qs: string[] }[] = [
   },
   {
     test: /\brag\b|retrieval|knowledge base|hallucinat/i,
-    qs: ["How do you stop it hallucinating?", "Can it use our private docs?", "What does a RAG build cost?"],
+    qs: ["How do you stop it making things up?", "Can it use our private documents?", "What does that cost?"],
   },
   {
     test: /whatsapp|\bvoice\b|chatbot|\bbot\b/i,

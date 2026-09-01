@@ -27,7 +27,7 @@ export function FooterCta({ num }: { num?: string }) {
               Pick a channel. <em>We reply in under an hour.</em>
             </h2>
             <p className="foot__top-sub">
-              Start your project or scope your idea. WhatsApp is fastest. Email for a paper trail. Direct line is open Mon–Sat, 10:00–20:00 IST.
+              Start your project or scope your idea. WhatsApp is fastest. Email for a paper trail. Direct line is open Mon to Sat, 10:00 to 20:00 IST.
             </p>
           </div>
           <div className="foot__top-btns">
@@ -63,7 +63,7 @@ export function FooterCta({ num }: { num?: string }) {
               </div>
             </div>
             <p className="foot__sub">
-              Mumbai&apos;s AI build studio. Shipping production apps, chatbots, and RAG systems in 48 hours.
+              Mumbai AI build studio. We build websites, chatbots and software that do your repetitive work.
             </p>
             <div className="foot__socials">
               <a className="foot__social-link" href="https://www.linkedin.com/company/voltairtech/" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn">

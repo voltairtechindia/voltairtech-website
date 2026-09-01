@@ -12,7 +12,7 @@ export function Hero() {
       <div className="hero__grid">
         <div className="hero__copy">
           <div className="hero__eyebrow">
-            <Kicker>AI Services Providers · Mumbai</Kicker>
+            <Kicker>AI build studio · Mumbai</Kicker>
           </div>
           <h1 className="hero__h">
             Build <span className="red">AI</span>{" "}
@@ -20,10 +20,10 @@ export function Hero() {
             for India.
           </h1>
           <p className="hero__sub">
-            <strong>Apps, automations, chatbots, RAG, full software</strong>, engineered
-            with AI by a Mumbai team.{" "}
-            <strong className="red-strong">Websites ship in 48 hours.</strong> Larger
-            products on a fixed timeline.
+            We build the <strong>websites, chatbots and software</strong> that answer
+            your customers and do your repetitive work.{" "}
+            <strong className="red-strong">Websites go live in 48 hours.</strong> Bigger
+            builds get a fixed price and a fixed date.
           </p>
           <HeroPrompt />
           <div className="hero__ctas">
@@ -36,16 +36,16 @@ export function Hero() {
           </div>
           <div className="hero__proof">
             <div className="hero__proof-item">
-              <b>42+</b>shipped since 2024
+              <b>42+</b>built since 2024
             </div>
             <div className="hero__proof-item">
-              <b>28</b>clients · IN / EU / APAC
+              <b>28</b>clients in India &amp; abroad
             </div>
             <div className="hero__proof-item">
-              <b>99.9%</b>uptime · last 90d
+              <b>99.9%</b>uptime, last 90 days
             </div>
             <div className="hero__proof-item">
-              <b>10+</b>languages · voice + text
+              <b>10+</b>languages, typed or spoken
             </div>
           </div>
         </div>

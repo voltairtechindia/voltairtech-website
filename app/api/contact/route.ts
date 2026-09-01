@@ -112,7 +112,7 @@ export async function POST(req: Request) {
 
   if (!name || name.length > 200) {
     return NextResponse.json(
-      { detail: "name is required (1–200 characters)." },
+      { detail: "name is required (1 to 200 characters)." },
       { status: 400 },
     );
   }
@@ -143,7 +143,7 @@ export async function POST(req: Request) {
   }
   if (!message || message.length > 5000) {
     return NextResponse.json(
-      { detail: "message is required (1–5000 characters)." },
+      { detail: "message is required (1 to 5000 characters)." },
       { status: 400 },
     );
   }

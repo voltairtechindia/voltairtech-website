@@ -42,7 +42,7 @@ export const metadata: Metadata = {
     template: "%s | Voltair Tech",
   },
   description:
-    "Voltair Tech is a Mumbai AI build studio shipping production apps, chatbots, automations and RAG systems in 48 hours. Indian operators, global standards.",
+    "Voltair Tech builds websites, chatbots, voice agents and software that does your repetitive work. Mumbai based, fixed price, websites live in 48 hours.",
   keywords: [
     "AI services Mumbai",
     "AI agency India",
@@ -60,7 +60,7 @@ export const metadata: Metadata = {
     url: "https://www.voltairtech.com",
     siteName: "Voltair Tech",
     title: "Voltair Tech - AI Service provider in Mumbai",
-    description: "Mumbai-based AI build studio. Apps, chatbots, RAG, automation. Shipped in 48 hours.",
+    description: "Mumbai AI studio. Websites, chatbots, voice agents and software that does your repetitive work. Websites live in 48 hours.",
     images: [
       {
         url: "/assets/og-image.jpg",
@@ -73,7 +73,7 @@ export const metadata: Metadata = {
   twitter: {
     card: "summary_large_image",
     title: "Voltair Tech - AI Service provider in Mumbai",
-    description: "Mumbai-based AI build studio. Apps, chatbots, RAG, automation. Shipped in 48 hours.",
+    description: "Mumbai AI studio. Websites, chatbots, voice agents and software that does your repetitive work. Websites live in 48 hours.",
     images: ["/assets/og-image.jpg"],
   },
   icons: {

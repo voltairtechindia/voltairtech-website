@@ -11,15 +11,15 @@ import type { FaqItem } from "@/lib/faq/types";
  * the home page's FAQPage JSON-LD from it, so the markup and the visible
  * answers can never drift — a Google rich-results requirement and the basis for
  * AI/answer-engine citations. Each question renders as an <h2> with a direct
- * 40–60 word answer for AEO/passage citability.
+ * 40 to 60 word answer for AEO/passage citability.
  */
 const HOME_FAQ_QUESTIONS = [
-  "Who builds AI products in Mumbai?",
-  "How fast can you deploy a website?",
-  "What is a RAG system and when do I need one?",
-  "How much does an AI app cost in India?",
+  "What does Voltair Tech actually do?",
+  "How fast can my website be live?",
+  "What does it cost?",
+  "Can a bot answer questions about our own documents?",
   "Do you build WhatsApp chatbots?",
-  "Can you integrate AI into our existing software?",
+  "Can you add AI to the software we already have?",
 ];
 
 /** Bundled fallback subset — used until the admin flags rows in `site_faqs`. */
@@ -46,11 +46,11 @@ export function HomeFaq({ items }: { items: FaqItem[] }) {
       <div className="container">
         <div className="section-head">
           <div className="section-head__left">
-            <Kicker>Answers · AI services FAQ</Kicker>
+            <Kicker>Questions we get asked</Kicker>
           </div>
           <div className="section-head__right">
             <Link className="btn btn-ghost" href="/faq">
-              All FAQs
+              All questions
             </Link>
           </div>
         </div>

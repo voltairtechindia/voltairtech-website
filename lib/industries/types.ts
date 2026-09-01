@@ -1,8 +1,9 @@
 /** Shared types for DB-backed, admin-managed industries (a sector lens over services). */
 
 import type { FaqItem } from "@/lib/faq/types";
+import type { MediaItem } from "@/lib/blog/types";
 
-export type { FaqItem };
+export type { FaqItem, MediaItem };
 
 export interface IndustryCover {
   url: string;
@@ -62,6 +63,8 @@ export interface IndustryCustomService {
   lead?: string;
   body_md?: string;
   cover_image?: IndustryCover | null;
+  /** Photo/video gallery for this sector-only sub-page. */
+  media?: MediaItem[];
   /**
    * Q&A for this sub-page — accordion + FAQPage JSON-LD, and folded into the
    * parent industry's RAG embedding. Real prose here also counts towards the
@@ -90,6 +93,8 @@ export interface Industry {
   bullets: string[];
   icon: string;
   cover_image: IndustryCover | null;
+  /** Photo/video gallery shown on /industries/<slug>. Same shape as a post's media. */
+  media: MediaItem[];
   /** Optional admin-uploaded sector badge; overrides the bundled icon registry PNG. */
   icon_image: IndustryCover | null;
   lead: string | null;
@@ -120,6 +125,7 @@ export type IndustryCard = Pick<
   | "bullets"
   | "icon"
   | "cover_image"
+  | "media"
   | "icon_image"
   | "tags"
   | "service_slugs"
@@ -144,6 +150,7 @@ export interface IndustryUpsert {
   bullets?: string[];
   icon?: string | null;
   cover_image?: IndustryCover | null;
+  media?: MediaItem[];
   icon_image?: IndustryCover | null;
   lead?: string | null;
   meta?: string | null;

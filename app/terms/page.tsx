@@ -24,7 +24,7 @@ export default function TermsPage() {
       <h2>1. Services</h2>
       <p>
         Voltair Tech provides AI product development services including, but not limited to:
-        website development, AI automation, chatbot and voice agent development, RAG system
+        website development, AI automation, chatbot and voice agent development, document assistant
         configuration, mobile app development, and custom AI software. The specific scope,
         deliverables, timeline, and price for each engagement are agreed in a written Statement
         of Work (SoW) or project proposal before work begins.
@@ -57,7 +57,7 @@ export default function TermsPage() {
         confidentiality in writing before project start.
       </p>
       <p>
-        Third-party libraries, frameworks, and tools (e.g., Next.js, React, n8n) included in
+        Third-party libraries, frameworks, and tools (e.g., Next.js, React, and workflow tools) included in
         deliverables are subject to their own open-source or commercial licences. We will
         identify and document these in the project handover notes.
       </p>

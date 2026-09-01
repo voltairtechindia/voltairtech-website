@@ -5,6 +5,26 @@ Marketing website for **Voltair Tech** (voltairtech.com) — Mumbai's AI build s
 
 Originally a static Babel/JSX single-page site; fully migrated to **Next.js 14 App Router with TypeScript**.
 
+## Copy voice (2026-09)
+All visible copy is written for a business owner who has never heard of a vector
+database. Three rules, applied to `lib/content.ts`, the components, **and** the
+DB-backed rows in Supabase:
+- **No `—` or `–`.** Commas, full stops, brackets, or "to" for ranges ("1 to 2
+  weeks"). A matched *pair* of em dashes is a parenthetical and becomes brackets.
+- **Less text.** Say it once.
+- **No unexplained jargon.** Lead with what it does for the reader; keep the
+  technical term once, labelled as such, so search still matches ("...answers
+  from your own documents. The technical name for this is RAG.").
+Exceptions, deliberate: `/career` (engineer audience), the `keywords` array and
+`knowsAbout` JSON-LD (machine-readable), a case study's `tech_stack` chips and a
+project's `stack`/`surfaces` (tool names are the point), and the blog (articles
+should use the word the reader searched for).
+`supabase/rewrite-copy.mjs` is the tool that applied this to the DB: it reads
+every live row, replaces reader-facing fields, and re-posts the WHOLE row
+through the admin API so nothing else is lost and the chatbot re-embeds from the
+same text the page shows. Re-runnable; `--dry` to preview, `--only=` to scope
+(`services|industries|projects|faqs`, plus opt-in `blog` for punctuation only).
+
 ## Stack
 - **Next.js** 14.2.29 (App Router). Marketing pages are static (`○`); the blog is
   ISR (`revalidate=300`) and `/api/*` are dynamic — so the site now needs the
@@ -24,7 +44,7 @@ Originally a static Babel/JSX single-page site; fully migrated to **Next.js 14 A
 | `app/terms/page.tsx` | Terms of service |
 | `app/contact/page.tsx` | Contact page — doubles as the Google Ads landing page |
 | `app/thank-you/page.tsx` | Post-submit confirmation — `noindex`, fires the Ads lead conversion |
-| `app/services/page.tsx` | Services detail page |
+| `app/services/page.tsx` | DB-backed services index (paginated) |
 | `app/industries/page.tsx` | DB-backed industries index (sector lens over services) |
 | `app/industries/[slug]/page.tsx` | Industry detail (ISR) — "what you get" + linked services |
 | `app/rag/page.tsx` | RAG showcase page |
@@ -109,6 +129,27 @@ Ported from the kauntech site; re-themed for Voltair. New Supabase project
   renders by key with a `default` fallback. The 6 original hardcoded services were
   migrated to the DB (`supabase/seed-services.mjs`). `lib/content.ts` `services` is now
   legacy/unused. Service docs are NOT in `knowledge-base.ts` — they sync from the DB.
+- **Photos + video on services & industries (migration `0038`):** `services.media`
+  and `industries.media` are `MediaItem[]`, the **same shape** as
+  `blog_posts.media` and `live_projects.media`; sector sub-pages keep theirs
+  inside `custom_services[].media` (JSONB, no migration). One normaliser
+  (`lib/media.ts` `normalizeMedia`, mirrored admin-side by `lib/media-parse.ts`)
+  guards every write path. **One player everywhere:**
+  `components/MediaFrame.tsx` renders a photo / self-hosted clip / YouTube-Vimeo
+  embed, and is used by `MediaGallery` (service + industry + sub-service pages),
+  `ProjectShowcase` (/live-projects dialog) and `BlogMedia`. Video mounts only
+  when the visitor selects that slide, so a page never boots several players on
+  arrival. Admin: one shared `components/MediaFields.tsx` (upload, caption,
+  reorder with ↑/↓ — array order IS display order) in the post, service,
+  industry, sub-service and live-project editors.
+- **Service / industry detail pages are NOT `ProsePage`:** that shell is for
+  /privacy and /terms (one narrow column, no visuals) and made a page whose job
+  is to sell a build read like a policy document. They now use
+  `components/DetailShell.tsx` (full-bleed, alternating paper/ink bands) +
+  `DetailHero` (breadcrumb, headline, lead, fact rail, picture beside the words)
+  + `PointGrid` ("what you get") + `MediaGallery` + prose + FAQ + lead form.
+  Markdown body typography is shared with the blog (`.blog-body,
+  .detail-prose__inner` in `globals.css`) rather than duplicated.
 - **Card order + page size:** the service, industry, and blog grids all run
   `DEFAULT_PER_PAGE = 8` — a full 4 x 2 on wide desktop (`.svc-grid` /
   `.post-list--grid` step 4 → 3 → 2 → 1 as the viewport narrows). Order is

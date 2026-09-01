@@ -2,10 +2,14 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 
+import { DetailHero, firstImage } from "@/components/DetailHero";
+import { DetailBand, DetailProse, DetailShell } from "@/components/DetailShell";
 import { FaqSection } from "@/components/FaqSection";
 import { LeadForm } from "@/components/LeadForm";
 import Markdown from "@/components/Markdown";
-import { ProsePage } from "@/components/ProsePage";
+import { MediaGallery } from "@/components/MediaGallery";
+import { PointGrid } from "@/components/PointGrid";
+import { ServiceGlyph } from "@/components/atoms/ServiceGlyph";
 import { faqPageLd } from "@/lib/faq/normalize";
 import { customServiceSlug, findCustomService } from "@/lib/industries/custom";
 import {
@@ -14,10 +18,9 @@ import {
 } from "@/lib/industries/db";
 import { customServiceShouldIndex } from "@/lib/industries/indexing";
 import { catalogueOptionId, customOptionId, type LeadOption } from "@/lib/lead-form";
-import { DEFAULT_OG_IMAGE } from "@/lib/seo";
+import { isMovingMedia } from "@/lib/media";
+import { DEFAULT_OG_IMAGE, SITE_URL } from "@/lib/seo";
 import { getPublishedServiceCardsBySlugs } from "@/lib/services/db";
-
-const SITE_URL = "https://www.voltairtech.com";
 
 export const revalidate = 300;
 export const dynamicParams = true;
@@ -41,7 +44,8 @@ export async function generateMetadata({
 
   const title = cs.headline ?? `${cs.title} | ${ind.title} | Voltair Tech`;
   const description = cs.summary ?? cs.lead ?? cs.headline ?? cs.title;
-  const ogImage = cs.cover_image?.url ?? DEFAULT_OG_IMAGE;
+  const ogImage =
+    cs.cover_image?.url ?? firstImage(cs.media ?? [])?.url ?? DEFAULT_OG_IMAGE;
   const url = `${SITE_URL}/industries/${ind.slug}/${customServiceSlug(cs)}`;
 
   return {
@@ -73,9 +77,12 @@ export default async function IndustryCustomServicePage({
   if (!cs) notFound();
 
   const url = `${SITE_URL}/industries/${ind.slug}/${customServiceSlug(cs)}`;
-  const metaLine = `${ind.title}${cs.eta ? ` · ${cs.eta}` : ""}`;
   const thisSlug = customServiceSlug(cs);
+  const media = cs.media ?? [];
   const faq = cs.faq ?? [];
+  const hero = cs.cover_image?.url
+    ? { url: cs.cover_image.url, alt: cs.cover_image.alt }
+    : firstImage(media);
 
   // Same picker as the parent sector page, so someone who landed straight on a
   // sub-page can still bolt on the rest of what that sector buys from us.
@@ -103,7 +110,7 @@ export default async function IndustryCustomServicePage({
     areaServed: { "@type": "Country", name: "India" },
     url,
     description: cs.summary ?? cs.lead ?? undefined,
-    ...(cs.cover_image?.url ? { image: [cs.cover_image.url] } : {}),
+    ...(hero?.url ? { image: [hero.url] } : {}),
     isRelatedTo: {
       "@type": "CollectionPage",
       name: ind.title,
@@ -120,67 +127,83 @@ export default async function IndustryCustomServicePage({
           dangerouslySetInnerHTML={{ __html: JSON.stringify(faqPageLd(faq)) }}
         />
       ) : null}
-      <ProsePage
-        crumbs={[
-          { label: "Home", href: "/" },
-          { label: "Industries", href: "/industries" },
-          { label: ind.title, href: `/industries/${ind.slug}` },
-          { label: cs.title },
-        ]}
-        title={cs.headline ?? cs.title}
-        meta={metaLine}
-        lead={cs.lead ?? cs.summary ?? undefined}
-      >
-        {cs.cover_image?.url ? (
-          <figure className="blog-cover">
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img
-              src={cs.cover_image.url}
-              alt={cs.cover_image.alt ?? cs.title}
-              decoding="async"
-            />
-          </figure>
-        ) : null}
 
-        {cs.body_md?.trim() ? <Markdown>{cs.body_md}</Markdown> : null}
+      <DetailShell>
+        <DetailHero
+          crumbs={[
+            { label: "Home", href: "/" },
+            { label: "Industries", href: "/industries" },
+            { label: ind.title, href: `/industries/${ind.slug}` },
+            { label: cs.title },
+          ]}
+          kicker={`Built for ${ind.title.toLowerCase()}`}
+          title={cs.headline ?? cs.title}
+          lead={cs.lead ?? cs.summary ?? undefined}
+          facts={[
+            ...(cs.eta ? [{ label: "Ready in", value: cs.eta }] : []),
+            { label: "Sector", value: ind.title },
+            { label: "First reply", value: "Within the hour" },
+          ]}
+          visual={hero?.url ?? null}
+          visualAlt={hero?.alt ?? cs.title}
+          clips={media.filter(isMovingMedia).length}
+          glyph={<ServiceGlyph kind={cs.icon} />}
+        />
 
         {cs.bullets.length ? (
-          <Markdown>{`## What you get\n\n${cs.bullets.map((b) => `- ${b}`).join("\n")}`}</Markdown>
+          <DetailBand tone="ink">
+            <PointGrid points={cs.bullets} />
+          </DetailBand>
         ) : null}
 
-        {cs.eta ? (
-          <p className="legal-page__meta">
-            Typical timeline: <b>{cs.eta}</b>
+        {media.length ? (
+          <DetailBand>
+            <MediaGallery media={media} heading="Take a look" />
+          </DetailBand>
+        ) : null}
+
+        {cs.body_md?.trim() ? (
+          <DetailProse>
+            <Markdown>{cs.body_md}</Markdown>
+          </DetailProse>
+        ) : null}
+
+        {faq.length ? (
+          <DetailProse>
+            <FaqSection faq={faq} id={`cs-${thisSlug}-faq`} />
+          </DetailProse>
+        ) : null}
+
+        <DetailProse>
+          <p className="detail-prose__note">
+            One of the builds we do for{" "}
+            <Link href={`/industries/${ind.slug}`}>{ind.title.toLowerCase()}</Link>.{" "}
+            <Link href="/services">See everything we build</Link>
           </p>
-        ) : null}
+        </DetailProse>
 
-        <FaqSection faq={faq} id={`cs-${thisSlug}-faq`} />
-
-        <p className="legal-page__meta" style={{ marginTop: 24 }}>
-          A sector-specific build for <Link href={`/industries/${ind.slug}`}>{ind.title}</Link>.{" "}
-          <Link href="/services">See our core services →</Link>
-        </p>
-
-        <LeadForm
-          variant="inline"
-          idPrefix="cs"
-          heading={
-            <>
-              Get <em>{cs.title}</em> built.
-            </>
-          }
-          lede={`Tell us where you're starting from. We reply within the hour with scope, a fixed price, and a start date.`}
-          context={{
-            kind: "industry-service",
-            industrySlug: ind.slug,
-            industryTitle: ind.title,
-            serviceSlug: thisSlug,
-            serviceTitle: cs.title,
-          }}
-          options={leadOptions}
-          initialSelected={[customOptionId(thisSlug)]}
-        />
-      </ProsePage>
+        <DetailBand id="enquire">
+          <LeadForm
+            variant="inline"
+            idPrefix="cs"
+            heading={
+              <>
+                Get <em>{cs.title.toLowerCase()}</em> built.
+              </>
+            }
+            lede="Tell us where you are starting from. We reply within the hour with a plan, a fixed price, and a start date."
+            context={{
+              kind: "industry-service",
+              industrySlug: ind.slug,
+              industryTitle: ind.title,
+              serviceSlug: thisSlug,
+              serviceTitle: cs.title,
+            }}
+            options={leadOptions}
+            initialSelected={[customOptionId(thisSlug)]}
+          />
+        </DetailBand>
+      </DetailShell>
     </>
   );
 }

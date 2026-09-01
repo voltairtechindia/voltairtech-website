@@ -18,12 +18,16 @@ export function toEmbedSrc(url: string, provider?: string): string {
       else if (u.pathname.startsWith("/embed/")) id = u.pathname.split("/")[2];
       else if (u.pathname.startsWith("/shorts/")) id = u.pathname.split("/")[2];
       else id = u.searchParams.get("v") ?? "";
-      return id ? `https://www.youtube-nocookie.com/embed/${id}` : url;
+      // rel=0 keeps "up next" inside the same channel, modestbranding trims the
+      // YouTube chrome, playsinline stops iOS hijacking into fullscreen.
+      return id
+        ? `https://www.youtube-nocookie.com/embed/${id}?rel=0&modestbranding=1&playsinline=1`
+        : url;
     }
 
     if (provider === "vimeo" || /vimeo\.com/.test(host)) {
       const id = u.pathname.split("/").filter(Boolean).pop() ?? "";
-      return id ? `https://player.vimeo.com/video/${id}` : url;
+      return id ? `https://player.vimeo.com/video/${id}?dnt=1&playsinline=1` : url;
     }
   } catch {
     /* fall through to raw url */

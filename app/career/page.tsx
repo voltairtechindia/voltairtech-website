@@ -14,9 +14,9 @@ import { DEFAULT_OG_IMAGE, SITE_URL } from "@/lib/seo";
 export const revalidate = 300;
 
 export const metadata: Metadata = {
-  title: "Careers — Build AI that ships, from Mumbai",
+  title: "Careers: Build AI that ships, from Mumbai",
   description:
-    "Open roles at Voltair Tech. We build production AI — apps, chatbots, RAG systems and automations — for Indian businesses. See what we're hiring for and apply with your résumé.",
+    "Open roles at Voltair Tech. We build production AI for Indian businesses: apps, chatbots, retrieval systems and automations. See what we are hiring for and apply with your résumé.",
   alternates: { canonical: `${SITE_URL}/career` },
   openGraph: {
     url: `${SITE_URL}/career`,
@@ -36,7 +36,7 @@ const WHY = [
   {
     n: "02",
     h: "Small team, real ownership",
-    p: "You own a surface end to end — the model, the API, the screen it lands on. No layers of hand-off between you and the person using it.",
+    p: "You own a surface end to end: the model, the API, the screen it lands on. No layers of hand-off between you and the person using it.",
   },
   {
     n: "03",
@@ -46,7 +46,7 @@ const WHY = [
   {
     n: "04",
     h: "Built in India, for India",
-    p: "Indian operators, Indian constraints, global standards — and DPDP compliance treated as engineering, not a checkbox.",
+    p: "Indian operators, Indian constraints, global standards, and DPDP compliance treated as engineering rather than a checkbox.",
   },
 ];
 
@@ -110,7 +110,7 @@ export default async function CareerPage() {
           </h1>
           <p className="lead careers-hero__lede">
             We&apos;re a small Mumbai studio putting production AI in front of real
-            Indian businesses — apps, chatbots, RAG systems, automations. If you like
+            Indian businesses: apps, chatbots, retrieval systems, automations. If you like
             owning something end to end and seeing it live the same week, we should
             talk.
           </p>
@@ -144,7 +144,7 @@ export default async function CareerPage() {
           <div className="section-head">
             <div className="section-head__left">
               <Kicker dot={false}>Open positions</Kicker>
-              <h2>{jobs.length ? "What we're hiring for" : "Nothing open — for now"}</h2>
+              <h2>{jobs.length ? "What we're hiring for" : "Nothing open right now"}</h2>
             </div>
             {jobs.length ? (
               <div className="section-head__right">
@@ -159,7 +159,7 @@ export default async function CareerPage() {
             <div className="careers-empty">
               <p>
                 We hire in bursts, and the best people rarely arrive on a posting.
-                Send us your résumé and a line about what you want to build — we keep
+                Send us your résumé and a line about what you want to build. We keep
                 every application and come back to it the moment a role opens.
               </p>
               <a className="btn btn-primary" href="#apply">
@@ -231,7 +231,7 @@ export default async function CareerPage() {
               </h2>
               <p className="lead">
                 Attach a résumé and tell us what you&apos;d want to build. A person reads
-                every one — and you&apos;ll hear back either way.
+                every one, and you&apos;ll hear back either way.
               </p>
             </div>
             <div className="careers-apply__card">

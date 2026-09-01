@@ -2,7 +2,13 @@
  * Built-in Voltair Tech knowledge base — the ground truth the chatbot answers
  * from. Edit an entry then re-seed via `POST /api/ingest {"seed":true}` with
  * the `X-Admin-Key` header; upserts on (doc_type, external_id) so edits update
- * in place. Keep facts here in sync with lib/content.ts / the public pages.
+ * in place. `npm run kb:check` reports drift between this file and the store.
+ *
+ * Written the way the site is: for someone who has not heard of a vector
+ * database. The chatbot's answers are read by the same person who reads the
+ * pages, so if the two vocabularies drift the bot starts explaining the site
+ * in words the site no longer uses. Technical names appear once, labelled as
+ * the technical name, so a visitor who searched for one still gets matched.
  *
  * doc_type buckets: company | service | pricing | process | rag | faq.
  * (Blog posts are added separately as doc_type "blog" by /api/blog.)
@@ -16,31 +22,31 @@ export const KNOWLEDGE_BASE: IngestDocument[] = [
     external_id: "about",
     title: "About Voltair Tech",
     content:
-      "Voltair Tech is a Mumbai-based AI build studio (AI services agency) headquartered in Andheri West, Mumbai, Maharashtra 400053. The team designs and ships production AI software — apps, automations, chatbots, RAG systems and full custom software — engineered with AI. Marketing websites ship in 48 hours. Voltair Tech works with Indian startups, enterprises and global teams that want a fast Indian build partner with global standards. The team is on the ground in IST and reachable on WhatsApp during business hours. 42+ AI products shipped since 2024.",
+      "Voltair Tech is an AI build studio in Andheri West, Mumbai, Maharashtra 400053. We build software that uses AI to do work a team is currently doing by hand: websites, chatbots that answer customers on WhatsApp, voice agents that pick up the phone, tools that read a company's own documents and answer questions from them, and custom software built around how a business actually works. Websites go live in 48 hours; bigger builds get a fixed price and a fixed date agreed before anything starts. We work with Indian businesses of every size, and with teams in Europe and Asia Pacific who want a fast Indian build partner. The team is in Mumbai on IST and reachable on WhatsApp during business hours. 42 products shipped since 2024 for 28 clients.",
     metadata: { url: "https://www.voltairtech.com/" },
   },
   {
     doc_type: "company",
     external_id: "contact",
-    title: "Contact & hours",
+    title: "How to get in touch",
     content:
-      "Email: business@voltairtech.com. Phone / WhatsApp: +91 70210 00764. Location: Andheri West, Mumbai, Maharashtra 400053, India. Business hours: Monday to Saturday, 10:00–20:00 IST. To reach the team, click the 'Contact us' button in the top navigation — it opens the Contact page (/contact), a short form where you tick the services you're interested in, describe what you want to build in one line, and choose a WhatsApp or email reply. Voltair gets back within an hour with a 48-hour plan. Every 'Contact us' button on the site opens that same page. You can also enquire without leaving the page you're on: every service page and every industry page ends with the same form, pre-ticked and pre-written for that service or sector, and you can add any other services you need before sending. Prefer not to use the form? Just email business@voltairtech.com or message +91 70210 00764 on WhatsApp.",
+      "Email: business@voltairtech.com. Phone and WhatsApp: +91 70210 00764. Location: Andheri West, Mumbai, Maharashtra 400053, India. Open Monday to Saturday, 10:00 to 20:00 IST. The quickest way is the 'Contact us' button in the top menu, which opens a short form: tick what you are interested in, say in one line what you want built, and choose whether we reply on WhatsApp or by email. We come back within the hour with a plan and a price. Every page about something we build ends with the same form, already filled in for that thing, and you can add anything else you need before sending. If you would rather not use a form, email or WhatsApp us directly.",
     metadata: { url: "https://www.voltairtech.com/contact" },
   },
   {
     doc_type: "company",
     external_id: "stack",
-    title: "Technology stack",
+    title: "What we build with",
     content:
-      "Voltair Tech builds with: Next.js (React Server Components, streaming UIs) and React Native + Expo for mobile; n8n for automation workflows; Claude, GPT and Gemini as LLMs; Pinecone or pgvector / Supabase for retrieval; Supabase or Postgres for data; Razorpay and Stripe for payments; ElevenLabs for voice; Three.js for 3D; Vision Camera for on-device capture. Hosting defaults to Vercel and AWS. The studio picks what fits the scope, not what is trendy.",
+      "For a client the short answer is: we pick whatever fits the job, we do not charge you to learn something new on your project, and you own everything at the end. For anyone who wants the technical detail: websites and web apps on Next.js; mobile apps on React Native and Expo, one build for both iPhone and Android; automation on n8n, self-hosted so there is no per-task fee; Claude, GPT and Gemini as the AI models; Supabase with pgvector, or Pinecone, for searching a company's own documents; Supabase or Postgres for data; Razorpay and Stripe for payments; ElevenLabs for voice. Hosting is usually Vercel or AWS, and data can stay on Indian servers when that matters.",
     metadata: { url: "https://www.voltairtech.com/" },
   },
   {
     doc_type: "company",
     external_id: "why-india",
-    title: "Why Voltair Tech vs in-house or freelancers",
+    title: "Voltair Tech compared to hiring in-house or freelancers",
     content:
-      "Compared to building in-house or hiring on Upwork: time to a live website is 48 hours with Voltair (vs 3–6 months in-house, 2–6 weeks freelance). Indic-language support is native (Hindi/Marathi/English). Razorpay / UPI is native from day one. Time-zone overlap covers EU + APAC + IST. Code ownership is 100% yours. Voltair does not sub-contract or share code with third parties.",
+      "Against building it in-house or hiring a freelancer: a website is live in 48 hours with us, against 3 to 6 months in-house or 2 to 6 weeks with a freelancer. Hindi and Marathi work out of the box rather than being extra work. UPI and Razorpay payments work from day one. We overlap with Indian, European and Asia Pacific hours. You own all of the code, in every case. We do not subcontract your work or share your code with anyone.",
     metadata: { url: "https://www.voltairtech.com/about" },
   },
 
@@ -53,9 +59,9 @@ export const KNOWLEDGE_BASE: IngestDocument[] = [
   {
     doc_type: "pricing",
     external_id: "pricing-overview",
-    title: "Pricing (fixed-price, India)",
+    title: "What things cost",
     content:
-      "Indicative fixed-price ranges: a production chatbot starts at ₹1.5L (1.5 lakh). A full RAG system or AI web app starts at ₹4–8L depending on scope. Mobile apps land at ₹8–15L. All quotes are fixed-price and include 30 days of free post-ship support (bug fixes, monitoring, small tweaks). Exact figures are confirmed at the 30-minute scoping call. After the 30 days, you can take full ownership of the code or put Voltair on a monthly retainer for ongoing changes and on-call.",
+      "Guide prices, all fixed before work starts: a website is from ₹75,000 and live in 48 hours. Automation is from ₹25,000 for one workflow. A chatbot is from ₹1.5L. A tool that answers from your own documents is from ₹4L, up to ₹8L for larger setups. A voice agent that answers your phone is from ₹2L. GST and data protection compliance is from ₹3L. An assistant that handles multi-step work is from ₹5L. Mobile apps are ₹8L to ₹15L. Custom software is from ₹1.5L and depends on what it does. Every quote is a fixed price, not an hourly rate, agreed at a free 30 minute call before you commit to anything, and every one includes 30 days of support after it goes live. After those 30 days you can take it over completely or keep us on a monthly retainer.",
     metadata: { url: "https://www.voltairtech.com/contact" },
   },
 
@@ -63,77 +69,79 @@ export const KNOWLEDGE_BASE: IngestDocument[] = [
   {
     doc_type: "process",
     external_id: "delivery-48h",
-    title: "The 48-hour delivery process",
+    title: "How a website gets built in 48 hours",
     content:
-      "Website timeline: Hour 00 — Discovery call (30-min scoping: stack, content, deadline, success metric). Hour 12 — Design + content lock (sections, copy, design tokens, repo created). Hour 36 — Build + integrate (real CMS, real auth, real LLM calls — no mock screens). Hour 48 — Deployed to production on Vercel with custom domain, analytics, error monitoring, and a handover doc. Larger product and mobile builds take longer and get a fixed timeline at scoping.",
+      "Hour 0: a 30 minute call where we agree exactly what the site says and does, and you send your logo, photos and price list. Hour 12: the words, the layout and the pages are settled. Hour 36: it is built, with payments connected and a way for you to edit the text and photos yourself. Hour 48: it is live on your own domain, with the tracking and error monitoring set up, and a short guide for whoever will look after it. Bigger builds like apps take longer and get their own fixed date agreed at that first call.",
     metadata: { url: "https://www.voltairtech.com/about" },
   },
   {
     doc_type: "process",
     external_id: "how-we-work",
-    title: "How we work (scope → ship → hand off)",
+    title: "How we work, start to finish",
     content:
-      "Four steps: 1) Scope — a 30-minute call, one success metric, one deadline, no upsell. 2) Lock — architecture, design tokens and repos signed off in writing. 3) Ship — build + integrate + deploy with daily Loom and WhatsApp updates. 4) Hand off — code, docs, dashboards and an on-call window; you own it. The code is 100% yours either way.",
+      "Four steps. One, talk: a 30 minute call about what is slow, what it is costing you, and when you need it. Two, agree: one price and one date, written down, with no hourly billing and no surprises. Three, build: we build it and show you progress every day on WhatsApp, so you are never waiting for a status call. Four, hand over: it goes live and you get the code, the logins and the documentation. You own all of it, whether or not you keep working with us afterwards.",
     metadata: { url: "https://www.voltairtech.com/about" },
   },
 
-  // ---------------------------------------------------------------- rag (pipeline)
+  // ---------------------------------------------------------------- rag (answering from your own documents)
   {
     doc_type: "rag",
     external_id: "rag-pipeline",
-    title: "How Voltair builds a RAG pipeline",
+    title: "How we build an assistant that answers from your documents",
     content:
-      "Voltair's RAG pipeline, step by step: 1) Document — ingest the whole corpus (PDFs, sites, Notion, Drive, audio transcripts), dedup and normalise. 2) Chunk — recursive splitting at semantic boundaries, overlap tuned per domain (default ~800-token chunks, 200-token overlap). 3) Embed — domain-appropriate embeddings (e.g. OpenAI text-3-large or BGE; Indic content gets Indic-aware encoders). 4) Vector DB — Pinecone (managed) or pgvector/Supabase, with metadata filters for tenant scope. 5) Retrieve — hybrid vector + BM25, re-rank top 20 with a cross-encoder, filter by tenant + recency. 6) LLM — Claude or a GPT-4-class model with a structured prompt, strict tool-use and JSON when needed. 7) Answer — a cited, sourced answer with inline footnotes that link back to the exact chunk and page. Measured RAG accuracy ~94% on eval.",
+      "In plain terms: you give us your files, we index them so they can be searched by meaning rather than exact words, and then when somebody asks a question the assistant finds the relevant passages and answers from those, showing which document and page it used. If the answer is not in your files it says so rather than inventing one. We hand over a way to keep it up to date as your documents change, a set of real test questions with correct answers so you can measure how well it is doing yourself, and a log of everything asked. The technical name for this approach is RAG, or retrieval-augmented generation. Under the hood: documents are cleaned and split into passages, indexed with Gemini embeddings, stored in your own Supabase database with pgvector (or Pinecone), retrieved with a combination of meaning-based and keyword search, sorted by relevance, and answered by Claude or Gemini with the sources attached.",
     metadata: { url: "https://www.voltairtech.com/services/rag-systems" },
   },
   {
     doc_type: "rag",
     external_id: "rag-when",
-    title: "What RAG is and when you need it",
+    title: "When you need an assistant trained on your own documents",
     content:
-      "RAG (retrieval-augmented generation) grounds a large language model in your own data instead of letting it guess from training. Use it when you need accurate, citable answers from a fixed corpus — policies, manuals, product docs, patient FAQs. Every answer links back to the source chunk so your team can verify it. RAG usually beats fine-tuning when the knowledge changes often or must be auditable.",
+      "Use it when people keep asking questions whose answers already exist somewhere in your files, and finding them takes too long. Common cases: a support chat that answers from your product documentation, an HR assistant that answers leave and policy questions from the handbook, a legal or accounting team searching years of matters, a clinic answering the same preparation questions from approved material only, or one search box across everything scattered in Drive and Notion. It is the right choice, rather than training a model on your data, whenever the information changes often or every answer has to be checkable. Every answer names its source, which is what makes it usable in a business where being wrong has a cost. The technical name is RAG.",
     metadata: { url: "https://www.voltairtech.com/services/rag-systems" },
   },
 
   // ---------------------------------------------------------------- faqs
+  // These mirror the /faq page (`site_faqs`) and CONTENT.faq. Keep all three in
+  // step: the bot should answer in the same words the page shows.
   {
     doc_type: "faq",
     external_id: "faq-who-mumbai",
-    title: "Who builds AI products in Mumbai?",
+    title: "What does Voltair Tech actually do?",
     content:
-      "Voltair Tech is an AI services studio based in Andheri West, Mumbai. It works with Indian startups, enterprises, and global teams that need a fast Indian build partner. The team is on the ground in IST and reachable on WhatsApp during business hours.",
+      "We build software that uses AI to do work your team is doing by hand. That usually looks like a website, a chatbot that answers customers on WhatsApp, a voice agent that picks up your phone, or a tool that reads your documents and answers questions about them. We are based in Andheri West, Mumbai, and we are reachable on WhatsApp during business hours.",
     metadata: { url: "https://www.voltairtech.com/faq" },
   },
   {
     doc_type: "faq",
     external_id: "faq-deploy-speed",
-    title: "How fast can you deploy a website?",
+    title: "How fast can my website be live?",
     content:
-      "AI-powered marketing websites go live in 48 hours from kickoff — design, copy, CMS, analytics, and a custom domain included. Larger product apps and mobile builds take longer; you get a fixed timeline at the scoping call.",
+      "48 hours from the day we start. That includes the design, the writing, the ability to edit it yourself later, and your own domain name. Bigger projects like apps take longer, and we give you the exact date before you pay anything.",
     metadata: { url: "https://www.voltairtech.com/faq" },
   },
   {
     doc_type: "faq",
     external_id: "faq-rag",
-    title: "What is a RAG system and when do I need one?",
+    title: "Can a bot answer questions about our own documents?",
     content:
-      "RAG grounds an LLM in your own data instead of letting it guess from training. Use it when you need accurate, citable answers from a fixed corpus — policies, manuals, product docs, patient FAQs. Every answer links back to the source chunk so your team can verify it.",
+      "Yes, and this is one of the most common things we build. You give it your policies, price lists, manuals or product information, and it answers staff or customer questions from those files only. Every answer shows which document it came from, so nobody has to take it on trust, and if the answer is not in your files it says so instead of guessing. The technical name for this is RAG, if you have heard it called that. From ₹4L, ready in two to three weeks.",
     metadata: { url: "https://www.voltairtech.com/faq" },
   },
   {
     doc_type: "faq",
     external_id: "faq-cost",
-    title: "How much does an AI app cost in India?",
+    title: "What does it cost?",
     content:
-      "A production chatbot starts at ₹1.5L. A full RAG system or AI web app starts at ₹4–8L depending on scope, and mobile apps land at ₹8–15L. All quotes are fixed-price and include 30 days of post-ship support.",
+      "A website starts at ₹75,000. A chatbot starts at ₹1.5L. Larger tools run ₹4L to ₹8L, and mobile apps ₹8L to ₹15L. Every quote is a fixed price agreed before we start, and includes 30 days of support after it goes live.",
     metadata: { url: "https://www.voltairtech.com/faq" },
   },
   {
     doc_type: "faq",
     external_id: "faq-best-agency-maharashtra",
-    title: "Best AI agency in Maharashtra?",
+    title: "Why should we trust you with this?",
     content:
-      "Voltair Tech is Mumbai-headquartered and serves clients across Maharashtra and the rest of India. It is Razorpay-native and has shipped 42+ AI products since 2024. References are available on request after an NDA.",
+      "We have shipped 42 products since 2024 for 28 clients across India, Europe and Asia Pacific. You can see real ones on the live projects page at voltairtech.com/live-projects, and we will put you in touch with references after an NDA. We are Mumbai based and serve clients across Maharashtra and the rest of India.",
     metadata: { url: "https://www.voltairtech.com/faq" },
   },
   {
@@ -141,39 +149,39 @@ export const KNOWLEDGE_BASE: IngestDocument[] = [
     external_id: "faq-whatsapp",
     title: "Do you build WhatsApp chatbots?",
     content:
-      "Yes — WhatsApp Business API is one of the most-requested channels. Voltair handles the Meta verification, the conversation flow, payment integrations, and grounding the bot on your own docs. Native support for Hindi, Marathi, and English on the same bot.",
+      "Yes, it is our most requested build. We handle the approval process with Meta, write the conversation, connect payments if you take them, and teach the bot from your own information. The same bot handles Hindi, Marathi and English, replying in whichever language the customer used.",
     metadata: { url: "https://www.voltairtech.com/faq" },
   },
   {
     doc_type: "faq",
     external_id: "faq-integrate-existing",
-    title: "Can you integrate AI into our existing software?",
+    title: "Can you add AI to the software we already have?",
     content:
-      "Almost always, yes. Voltair adds LLM features (summarization, search, copilots, agents) to existing web apps, mobile apps and internal tools without rewriting the stack. Common targets are CRMs, helpdesks, dashboards, and document workflows.",
+      "Usually yes, without rebuilding what you have. We add things like search, summaries, and assistants to existing websites, apps and internal tools. The usual candidates are your CRM, your support desk, your dashboards, and anything involving paperwork.",
     metadata: { url: "https://www.voltairtech.com/faq" },
   },
   {
     doc_type: "faq",
     external_id: "faq-stack",
-    title: "What tech stack do you use?",
+    title: "Will it work in Hindi and Marathi?",
     content:
-      "Next.js, React Native, n8n, Claude, GPT and Gemini for LLMs, Pinecone or pgvector for retrieval, Supabase or Postgres for data, and Razorpay or Stripe for payments. Voltair picks what fits your scope, not what's trendy. Hosting defaults to Vercel and AWS.",
+      "Yes. Chatbots and voice agents handle Hindi, Marathi and English on the same number, and reply in whichever language the customer used. If you want the technical detail on what we build with, ask about our stack.",
     metadata: { url: "https://www.voltairtech.com/faq" },
   },
   {
     doc_type: "faq",
     external_id: "faq-nda",
-    title: "Do you sign NDAs?",
+    title: "Do you sign an NDA?",
     content:
-      "Yes, before the first scoping call if requested. A standard mutual NDA, India jurisdiction, single page — usually signed the same day. Voltair does not sub-contract or share code with third parties.",
+      "Yes, before the first call if you want one. It is a standard one page mutual NDA under Indian law, usually signed the same day. We do not subcontract your work or share your code with anyone.",
     metadata: { url: "https://www.voltairtech.com/faq" },
   },
   {
     doc_type: "faq",
     external_id: "faq-after-ship",
-    title: "What happens after you ship?",
+    title: "What happens after it goes live?",
     content:
-      "Every project includes 30 days of free post-ship support — bug fixes, monitoring, and small tweaks. After that, you can take full ownership of the code or put Voltair on a monthly retainer for ongoing changes and on-call. The code is 100% yours either way.",
+      "You get 30 days of free support: fixes, monitoring, and small changes. After that you can take it over completely or keep us on a monthly retainer for ongoing changes. Either way the code is yours.",
     metadata: { url: "https://www.voltairtech.com/faq" },
   },
 ];

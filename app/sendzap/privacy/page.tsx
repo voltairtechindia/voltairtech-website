@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { LegalLayout } from "@/components/LegalLayout";
 
 export const metadata: Metadata = {
-  title: "SendZap — Privacy Policy",
+  title: "SendZap Privacy Policy",
   description:
     "Privacy policy for the SendZap Android app by Voltair Tech: what data is stored on your device, what Google AdMob collects, and your choices.",
   alternates: {
@@ -13,7 +13,7 @@ export const metadata: Metadata = {
 
 export default function SendZapPrivacyPage() {
   return (
-    <LegalLayout title="SendZap — Privacy Policy" lastUpdated="June 2026">
+    <LegalLayout title="SendZap Privacy Policy" lastUpdated="June 2026">
       <p>
         This Privacy Policy applies to the <strong>SendZap</strong> mobile application
         (Android package <strong>com.SendZap.app</strong>, the &quot;App&quot;), published by{" "}

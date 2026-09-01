@@ -615,7 +615,7 @@ function LeadForm() {
   if (state === "done")
     return (
       <div className="chat-lead-done">
-        Got it — the Voltair team will reach out shortly. ⚡
+        Got it. The Voltair team will reach out shortly. ⚡
       </div>
     );
 
@@ -643,13 +643,13 @@ function LeadForm() {
   return (
     <div className="chat-lead">
       <div className="chat-lead-title">Start your project</div>
-      <p className="chat-lead-sub">Drop your details and we&apos;ll map your build — usually within a day.</p>
+      <p className="chat-lead-sub">Drop your details and we&apos;ll map your build, usually within a day.</p>
       <div className="chat-fallback-form">
         <input type="text" placeholder="Your name" value={name} onChange={(e) => setName(e.target.value)} required />
         <input type="email" placeholder="Work email" value={email} onChange={(e) => setEmail(e.target.value)} required />
         <textarea placeholder="What do you want to build? (optional)" rows={2} value={message} onChange={(e) => setMessage(e.target.value)} />
         {state === "error" ? (
-          <div className="chat-lead-err">Couldn&apos;t send — please email business@voltairtech.com.</div>
+          <div className="chat-lead-err">Couldn&apos;t send. Please email business@voltairtech.com.</div>
         ) : null}
         <button type="button" onClick={send} disabled={state === "sending"}>
           {state === "sending" ? "Sending…" : "Send to Voltair"}
@@ -669,7 +669,7 @@ function FallbackForm() {
   if (state === "done")
     return (
       <div style={{ color: "var(--v-red)", fontWeight: 700, marginTop: 12 }}>
-        Thanks — we&apos;ve got your details and will email you shortly.
+        Thanks. We&apos;ve got your details and will email you shortly.
       </div>
     );
 
@@ -701,7 +701,7 @@ function FallbackForm() {
       <textarea placeholder="What do you want to build?" rows={3} value={message} onChange={(e) => setMessage(e.target.value)} required />
       {state === "error" ? (
         <div style={{ color: "var(--v-red-deep)", fontSize: 13, marginBottom: 6 }}>
-          Could not send — please email business@voltairtech.com.
+          Could not send. Please email business@voltairtech.com.
         </div>
       ) : null}
       <button type="button" onClick={send} disabled={state === "sending"}>

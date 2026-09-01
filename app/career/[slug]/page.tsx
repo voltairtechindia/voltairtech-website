@@ -41,10 +41,10 @@ export async function generateMetadata({
 
   const description =
     plain(job.description_md).slice(0, 155) ||
-    `Apply for ${job.title} at Voltair Tech — a Mumbai AI build studio.`;
+    `Apply for ${job.title} at Voltair Tech, a Mumbai AI build studio.`;
 
   return {
-    title: `${job.title} — Careers`,
+    title: `${job.title} | Careers`,
     description,
     alternates: { canonical: `${SITE_URL}/career/${job.slug}` },
     openGraph: {

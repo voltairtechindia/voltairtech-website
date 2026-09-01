@@ -8,7 +8,7 @@ export default function manifest(): MetadataRoute.Manifest {
     name: "Voltair Tech - AI Service provider in Mumbai",
     short_name: "Voltair Tech",
     description:
-      "Mumbai AI build studio shipping production apps, chatbots, automations and RAG systems. Websites in 48 hours.",
+      "Mumbai AI studio. Websites, chatbots, voice agents and software that does your repetitive work.",
     start_url: "/",
     scope: "/",
     display: "standalone",

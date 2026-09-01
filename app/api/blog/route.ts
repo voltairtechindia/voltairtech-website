@@ -34,6 +34,7 @@ import {
   slugify,
 } from "@/lib/blog/util";
 import { faqToPlainText, normalizeFaq } from "@/lib/faq/normalize";
+import { normalizeMedia } from "@/lib/media";
 import { deleteDocument } from "@/lib/rag/db";
 import { ingest } from "@/lib/rag/ingest";
 
@@ -42,7 +43,6 @@ export const dynamic = "force-dynamic";
 
 const SITE_URL = "https://www.voltairtech.com";
 const VALID_STATUS = new Set(["draft", "published", "archived"]);
-const VALID_MEDIA = new Set(["image", "video", "embed"]);
 
 function str(v: unknown): string {
   return typeof v === "string" ? v.trim() : "";
@@ -70,14 +70,7 @@ function normalize(
 
   const body_md = typeof p.body_md === "string" ? p.body_md : "";
 
-  // Keep only well-formed media items.
-  const media: MediaItem[] = Array.isArray(p.media)
-    ? (p.media.filter((m) => {
-        if (typeof m !== "object" || m === null) return false;
-        const item = m as Record<string, unknown>;
-        return VALID_MEDIA.has(str(item.type)) && !!str(item.url);
-      }) as MediaItem[])
-    : [];
+  const media: MediaItem[] = normalizeMedia(p.media);
 
   const tags = Array.isArray(p.tags)
     ? p.tags.filter((t): t is string => typeof t === "string")
