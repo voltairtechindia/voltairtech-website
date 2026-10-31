@@ -7,6 +7,8 @@
  * its own position in the run. The list is a dozen rows, so one query serves
  * both rather than a second lookup per slug.
  */
+import { DATABASE_CONFIGURED } from "@/lib/rag/supabase";
+
 import { listPublishedProjects } from "./db";
 import { FALLBACK_PROJECTS } from "./fallback";
 import type { LiveProject } from "./types";
@@ -17,7 +19,8 @@ export async function loadProjects(): Promise<LiveProject[]> {
     const rows = await listPublishedProjects();
     if (rows.length) return rows;
   } catch (err) {
-    console.error("[live-projects] load failed, using fallback", err);
+    // Expected on the static build (no database): the fallback IS the list.
+    if (DATABASE_CONFIGURED) console.error("[live-projects] load failed, using fallback", err);
   }
   return FALLBACK_PROJECTS;
 }

@@ -48,6 +48,9 @@ export function isValidIcon(key: string): boolean {
 export function industryIconSrc(key?: string | null): string {
   const k = key && isValidIcon(key) ? key : DEFAULT_INDUSTRY_ICON;
   const base = (process.env.SUPABASE_URL ?? "").replace(/\/$/, "");
+  // Static build (no database): the same badges ship with the site, resized
+  // to 400px WebP because GitHub Pages serves images as-is.
+  if (!base) return `/images/industries/${k}.webp`;
   return `${base}/storage/v1/object/public/blog-media/industries/icons/${k}.png`;
 }
 

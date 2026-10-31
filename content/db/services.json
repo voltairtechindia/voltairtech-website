@@ -1,0 +1,379 @@
+[
+  {
+    "id": "198c2611-0329-427b-89a6-7314c03ae2d7",
+    "title": "Websites in 48 hours",
+    "headline": "Your website, live in 48 hours",
+    "summary": "A fast, good-looking website that takes payments and that you can edit yourself. Live in two days.",
+    "bullets": [
+      "Live in 48 hours, not two months",
+      "Takes UPI and card payments from day one",
+      "You can edit the text and photos yourself",
+      "Loads fast on a phone, on Indian networks"
+    ],
+    "eta": "48 hrs",
+    "icon": "web",
+    "cover_image": null,
+    "media": [],
+    "lead": "Most agencies take two months and three rounds of approvals to put up a website. We do it in 48 hours, working from one call. You get a real site on your own domain, taking real payments, with a way to change the words and pictures yourself afterwards.",
+    "meta": "Website · live in 48 hours · fixed price",
+    "body_md": "## What you get\n\nA complete site, not a template with your logo on it. Pages written for what you actually sell, photos placed properly, and a contact form that reaches your phone.\n\nIt takes **UPI, cards and net banking** from the first day, through Razorpay or Stripe. If you sell something, people can buy it on day one.\n\nYou can **change the words and photos yourself** afterwards, from your phone, without calling us.\n\nIt **loads fast on a phone**, which is how nearly all of your customers will see it, and it is set up so Google can find it.\n\n## How the 48 hours go\n\nWe talk for 30 minutes and agree exactly what the site says and does. You send us your photos, your logo and your price list. We build it, put it on your domain, and show you. If something is wrong, we fix it before we call it done.\n\n## What it costs\n\nLive on your own domain in 48 hours, including the domain setup and the payment connection.\n\nEvery build is quoted on its own, so there is no price list here. You get one fixed price for the whole thing, agreed in writing before any work starts, and it does not move unless you ask for something that was not agreed. Thirty days of support after it goes live is included.\n\nTell us what you need and we come back within the hour with the scope, the price and a start date.\n\n",
+    "price": "75000",
+    "tags": [
+      "website",
+      "next.js",
+      "razorpay"
+    ],
+    "seo": {
+      "title": "AI Website Development Mumbai, Live in 48 Hours | Voltair Tech",
+      "description": "Production Next.js websites from brief to deployment in 48 hours. Razorpay & Stripe, auth, CMS, custom domain. Fixed price."
+    },
+    "faq": [
+      {
+        "q": "What does “live in 48 hours” actually include?",
+        "a": "The design, the words, a way for you to edit the text and photos yourself, logins if you need them, payments, visitor tracking, and the whole thing running on your own domain. A real site, not a demo. The clock starts once your photos, logo and content are with us, and we agree exactly what it covers on a 30 minute call first."
+      }
+    ],
+    "position": 1,
+    "status": "published",
+    "published_at": "2026-10-31T14:30:41.471Z",
+    "created_at": "2026-10-31T14:30:41.494Z",
+    "updated_at": "2026-10-31T14:32:06.292Z",
+    "slug": "ai-websites"
+  },
+  {
+    "id": "0fcf9971-b7f0-47c0-891c-68c800f04930",
+    "title": "Automate the repetitive work",
+    "headline": "Stop paying people to copy and paste",
+    "summary": "Connect the tools you already use so the boring work happens by itself, day and night.",
+    "bullets": [
+      "New enquiry reaches your team in seconds",
+      "Invoices, follow ups and reports send themselves",
+      "Works with WhatsApp, Sheets, Slack and your CRM",
+      "One price to build it, no charge per task"
+    ],
+    "eta": "1 to 2 weeks",
+    "icon": "auto",
+    "cover_image": null,
+    "media": [],
+    "lead": "Somebody on your team is copying information from one screen to another. That is a job a computer should be doing at three in the morning, for free. We connect the tools you already pay for so it happens by itself.",
+    "meta": "Automation · ready in 1 to 2 weeks · fixed price",
+    "body_md": "## Things we take off people's hands\n\n- An enquiry comes in, and within seconds it is in your system, the customer has a reply on WhatsApp, and your salesperson has been told.\n- An order is placed, so stock goes down, the customer gets a dispatch message, and a review request follows a week later.\n- A bill needs raising, so the invoice is made, sent, and recorded in your accounts.\n- A support message arrives, gets sorted into the right pile, and lands with the right person with a draft reply ready.\n- Every morning, yesterday's numbers are pulled together and sent to you before you open your laptop.\n\n## Why this is cheap to run\n\nTools like Zapier charge you every time something happens, which gets expensive fast once it is actually working. We build on **n8n**, which we host for you on a small server. You pay once to have it built, then a few hundred rupees a month to keep it running, no matter how many times it fires.\n\nIt also means your data can stay on a server in India, which some of our clients need.\n\n## What you get at the end\n\nThe working automation, a simple dashboard so you can see it running, a plain English guide so your team can pause or change things without calling us, and alerts if anything breaks so you find out before your customers do.\n\n## What it costs\n\nOne automation is ready in one to two weeks; a full set covering several parts of the business takes longer.\n\nEvery build is quoted on its own, so there is no price list here. You get one fixed price for the whole thing, agreed in writing before any work starts, and it does not move unless you ask for something that was not agreed. Thirty days of support after it goes live is included.\n\nTell us what you need and we come back within the hour with the scope, the price and a start date.\n\n",
+    "price": "25000",
+    "tags": [
+      "automation",
+      "workflow automation",
+      "workflows"
+    ],
+    "seo": {
+      "title": "AI Automation & workflow automation Workflows India | Voltair Tech",
+      "description": "workflow automation automation workflows connecting Slack, Sheets, WhatsApp, CRMs and custom APIs. Deployed in 1 to 2 weeks. Fixed price."
+    },
+    "faq": [
+      {
+        "q": "What kinds of processes can you automate?",
+        "a": "Anything that moves data between tools on a trigger: lead routing from forms into your CRM, invoice and document processing, WhatsApp and email follow-ups, report generation, and Slack or Sheets notifications. We build on workflow automation so the workflows stay readable and editable by your team."
+      },
+      {
+        "q": "How much does AI automation cost?",
+        "a": "One workflow is ready in one to two weeks; automations spanning several systems take longer. Either way you get a single fixed price, quoted after a short call and agreed before work starts, rather than a charge per task or per hour."
+      },
+      {
+        "q": "Will it work with the software we already use?",
+        "a": "In most cases, yes. If a tool has an API or webhook we can connect it, CRMs, helpdesks, accounting software, Google Workspace, Slack, and WhatsApp are routine. We confirm every integration during scoping, before you commit."
+      },
+      {
+        "q": "What happens if a workflow breaks?",
+        "a": "Every automation ships with error handling and failure alerts, so you find out before your customers do. The first 30 days of fixes are included; after that you can self-manage in workflow automation or keep us on a retainer."
+      }
+    ],
+    "position": 2,
+    "status": "published",
+    "published_at": "2026-10-31T14:30:41.501Z",
+    "created_at": "2026-10-31T14:30:41.505Z",
+    "updated_at": "2026-10-31T14:32:06.302Z",
+    "slug": "ai-automation"
+  },
+  {
+    "id": "a8d185f0-0729-4b21-93ff-5f34933a778d",
+    "title": "Answers from your own documents",
+    "headline": "An assistant that has read everything you have",
+    "summary": "Ask a question, get the answer from your own files, with the page it came from. No guessing.",
+    "bullets": [
+      "Answers only from your documents, never made up",
+      "Shows which file and page each answer came from",
+      "Handles PDFs, Word files, spreadsheets and web pages",
+      "Your files stay in your own database, in India"
+    ],
+    "eta": "2 to 3 weeks",
+    "icon": "rag",
+    "cover_image": null,
+    "media": [],
+    "lead": "Your policies, price lists, manuals and contracts hold the answers your staff and customers keep asking for, but nobody can find them fast enough. We build an assistant that has read all of it and answers in seconds, showing you the exact page it took the answer from. The technical name for this is RAG, if you have heard it called that.",
+    "meta": "Document assistant · ready in 2 to 3 weeks · fixed price",
+    "body_md": "## What it actually does\n\nYou give it your files. Somebody types a question in plain language. It finds the relevant passages, answers from those, and shows a link to the document and page.\n\nIf the answer is not in your files, it says so instead of inventing one. That single behaviour is the difference between a tool your team trusts and one they quietly stop using.\n\n## Where people use it\n\n- A support chat that answers from your product documentation rather than a script.\n- An HR assistant that answers leave and policy questions from your handbook.\n- A legal or accounting team searching contracts and flagging the clauses that matter.\n- A clinic answering the same pre and post treatment questions, from approved material only.\n- One search box across everything scattered in Drive, Notion and email.\n\n## What we hand over\n\nThe assistant itself, wherever you want it: a chat box on your site, a WhatsApp number, or inside a tool you already use. A pipeline that keeps it up to date as your documents change. A test set of real questions and correct answers, so you can measure how well it is doing rather than take our word for it. And a log of everything asked, so you learn what your customers actually want to know.\n\n## Where your files live\n\nIn your own database, in the region you choose, usually India. We do not copy your documents anywhere else, and they are never used to train anybody's model.\n\n## What it costs\n\nReady in two to three weeks for one set of documents. Larger setups covering several teams, languages or clients take longer.\n\nEvery build is quoted on its own, so there is no price list here. You get one fixed price for the whole thing, agreed in writing before any work starts, and it does not move unless you ask for something that was not agreed. Thirty days of support after it goes live is included.\n\nTell us what you need and we come back within the hour with the scope, the price and a start date.\n\n",
+    "price": "400000",
+    "tags": [
+      "rag",
+      "pinecone",
+      "your own database",
+      "search"
+    ],
+    "seo": {
+      "title": "RAG System Development India | Voltair Tech",
+      "description": "Production RAG systems grounded in your documents. Pinecone, your own database, Supabase. Every answer cites its source. 2 to 3 weeks."
+    },
+    "faq": [
+      {
+        "q": "How do you stop it making things up?",
+        "a": "It only answers from passages found in your own documents, and every answer names the file and page it came from. When nothing relevant turns up, it says so instead of guessing. We also hand over a set of real questions with correct answers, so you can measure how accurate it is yourself rather than take our word for it."
+      },
+      {
+        "q": "What does it cost and how long does it take?",
+        "a": "Ready in two to three weeks. The price depends on how much material you have and how many teams or languages it serves, so we quote it after a short call: one fixed figure covering loading your documents, the search, the testing and putting it live, plus 30 days of support."
+      }
+    ],
+    "position": 3,
+    "status": "published",
+    "published_at": "2026-10-31T14:30:41.513Z",
+    "created_at": "2026-10-31T14:30:41.517Z",
+    "updated_at": "2026-10-31T14:32:06.311Z",
+    "slug": "rag-systems"
+  },
+  {
+    "id": "a5215b81-86ae-4a35-aba5-ae799bf6f3c4",
+    "title": "AI that answers your phone",
+    "headline": "Nobody gets sent to voicemail again",
+    "summary": "A voice that picks up every call, speaks Hindi, Marathi or English, and handles the routine ones itself.",
+    "bullets": [
+      "Picks up every call, including nights and Sundays",
+      "Speaks Hindi, Marathi and English on the same number",
+      "Books, confirms and reschedules without a human",
+      "Passes the real ones to your team with the context"
+    ],
+    "eta": "2 to 3 weeks",
+    "icon": "voice",
+    "cover_image": null,
+    "media": [],
+    "lead": "Half the calls your office takes are the same four questions: are you open, where are you, how much is it, and can I book. A voice agent answers those instantly, at any hour, and puts the calls that actually need a person straight through to one.",
+    "meta": "Phone agent · ready in 2 to 3 weeks · fixed price",
+    "body_md": "## What it handles\n\nOpening hours, directions, prices, availability, order and delivery status, and booking or moving an appointment. It talks like a person, waits its turn, and understands somebody switching between Hindi and English mid sentence, which most callers do.\n\nWhen a call needs a human, it hands over along with everything already said, so your customer does not have to start again.\n\n## Where it plugs in\n\nOn your existing number, or a new one. It can also replace the press one for sales, press two for accounts menu that everybody hates, by simply asking what the caller needs and routing accordingly.\n\nEvery call is transcribed, so you can read what was said, see what people keep asking, and settle any dispute about what was promised.\n\n## What it costs\n\nReady in two to three weeks, covering the conversation design, the languages you need, and connecting it to your booking or order system.\n\nEvery build is quoted on its own, so there is no price list here. You get one fixed price for the whole thing, agreed in writing before any work starts, and it does not move unless you ask for something that was not agreed. Thirty days of support after it goes live is included.\n\nTell us what you need and we come back within the hour with the scope, the price and a start date.\n\n",
+    "price": null,
+    "tags": [
+      "voice",
+      "ivr",
+      "hindi",
+      "marathi"
+    ],
+    "seo": {},
+    "faq": [
+      {
+        "q": "What can a voice agent actually handle?",
+        "a": "Answering inbound calls, booking and rescheduling appointments, order and delivery status, qualifying inbound leads, and clean escalation to a human when the caller asks or the agent isn't confident. It runs 24/7 and nobody waits in a queue."
+      },
+      {
+        "q": "Does it speak Hindi and Marathi?",
+        "a": "Yes, Hindi, Marathi, and English on the same number, with the agent switching to whichever language the caller uses. Other Indian languages can be added during scoping."
+      },
+      {
+        "q": "How much does it cost and how fast can it go live?",
+        "a": "Live in two to three weeks. The build is one fixed price, quoted after a short call. Telephony and speech-provider usage is billed by those vendors directly, and we size that running cost with you before you commit."
+      },
+      {
+        "q": "Will callers know they're talking to an AI?",
+        "a": "We disclose it at the start of the call. It's the honest default and it sets expectations that make the conversation go better. The agent hands off to a human whenever the caller asks."
+      }
+    ],
+    "position": 4,
+    "status": "published",
+    "published_at": "2026-10-31T14:31:00.155Z",
+    "created_at": "2026-10-31T14:31:00.164Z",
+    "updated_at": "2026-10-31T14:32:06.320Z",
+    "slug": "voice-agents-ivr-automation"
+  },
+  {
+    "id": "61b14e18-7335-41b2-8f27-b8c0083979c6",
+    "title": "Mobile apps",
+    "headline": "One app, on both iPhone and Android",
+    "summary": "An app your customers or your staff actually use, built once and published to both stores.",
+    "bullets": [
+      "One build, published to both app stores",
+      "Works offline and syncs when the signal returns",
+      "Camera, scanning and location built in",
+      "We handle the store submissions and approvals"
+    ],
+    "eta": "4 to 8 weeks",
+    "icon": "mobile",
+    "cover_image": null,
+    "media": [],
+    "lead": "Building separately for iPhone and Android costs twice as much and drifts apart within a year. We build once and publish to both, and we deal with the store review process so you do not have to learn it.",
+    "meta": "Mobile app · ready in 4 to 8 weeks · fixed price",
+    "body_md": "## What we build\n\nApps for your customers, and apps for your own staff in the field. The second kind is usually where the money is: delivery runs, site inspections, stock counts, attendance, anything where somebody currently carries paper.\n\nThey keep working when the signal drops and sync up once it comes back, which matters more in India than most app agencies admit.\n\n## What comes as standard\n\nLogins, payments, notifications, camera and barcode scanning, location, and a dashboard for you to see what is happening. If the app needs to be smart about something, reading a document, sorting photos, understanding speech, that goes in too.\n\n## Getting it published\n\nWe submit to both stores, deal with the review comments, and stay on it until it is actually live. Apple in particular rejects first submissions for reasons that are not obvious the first time you meet them.\n\n## What it costs\n\nReady in four to eight weeks, depending on how much the app does.\n\nEvery build is quoted on its own, so there is no price list here. You get one fixed price for the whole thing, agreed in writing before any work starts, and it does not move unless you ask for something that was not agreed. Thirty days of support after it goes live is included.\n\nTell us what you need and we come back within the hour with the scope, the price and a start date.\n\n",
+    "price": "800000",
+    "tags": [
+      "mobile",
+      "react native",
+      "expo"
+    ],
+    "seo": {
+      "title": "React Native Mobile App Development Mumbai | Voltair Tech",
+      "description": "React Native + Expo apps for iOS and Android with AI built in. Play Store & App Store deployment. From ₹8L."
+    },
+    "faq": [
+      {
+        "q": "Can the app work without a signal?",
+        "a": "Yes. Where the job needs it, the app keeps working offline and syncs up once the signal comes back, which matters more in India than most app agencies admit. Some AI features can also run on the phone itself, so the data never leaves the handset."
+      }
+    ],
+    "position": 5,
+    "status": "published",
+    "published_at": "2026-10-31T14:30:41.519Z",
+    "created_at": "2026-10-31T14:30:41.522Z",
+    "updated_at": "2026-10-31T14:32:06.333Z",
+    "slug": "mobile-apps"
+  },
+  {
+    "id": "b447a130-6d05-4664-8748-3abaed8e9def",
+    "title": "Software built around your business",
+    "headline": "When nothing off the shelf fits how you work",
+    "summary": "The tool your business needs that nobody sells, built properly and handed over to you.",
+    "bullets": [
+      "Built for how you actually work, not the other way round",
+      "Fits alongside the software you already run",
+      "Fixed price and a fixed date before we start",
+      "You own the code and the accounts at the end"
+    ],
+    "eta": "scoped",
+    "icon": "code",
+    "cover_image": null,
+    "media": [],
+    "lead": "Sometimes the thing you need does not exist as a product, or the product that exists would force you to change how you work. This is for that: a tool built around your business, with AI doing the parts that need judgement.",
+    "meta": "Custom software · scoped to your problem · fixed price",
+    "body_md": "## What this usually turns out to be\n\nAn internal tool that replaces a spreadsheet ten people are editing at once. A dashboard that pulls numbers from four systems that do not talk to each other. An assistant that sits inside the software your team already uses and does the tedious half of their job.\n\nWe start from what is slow or getting missed today, not from a list of features.\n\n## How we keep it honest\n\nYou get a fixed price and a fixed date before you commit. Progress goes on WhatsApp every day, so you are never waiting for a status call. If AI is doing something that matters, we agree in advance what it is allowed to do on its own and what needs a person to approve, and we enforce that in the software rather than in a document.\n\n## What you own afterwards\n\nAll of it. The code, the accounts, the documentation, and a walkthrough for whoever will run it. You can keep us on for changes, or not.\n\n## What it costs\n\nThis one genuinely depends on what it is, which is why the call is free and there is no obligation.\n\nEvery build is quoted on its own, so there is no price list here. You get one fixed price for the whole thing, agreed in writing before any work starts, and it does not move unless you ask for something that was not agreed. Thirty days of support after it goes live is included.\n\nTell us what you need and we come back within the hour with the scope, the price and a start date.\n\n",
+    "price": "150000",
+    "tags": [
+      "custom",
+      "llm",
+      "agents",
+      "copilot"
+    ],
+    "seo": {
+      "title": "Custom AI Software & LLM Integration India | Voltair Tech",
+      "description": "LLM integrations, tool-use agents, AI copilots, eval pipelines, and guardrails, scoped, built, and handed over with the full codebase."
+    },
+    "faq": [
+      {
+        "q": "Can you add AI to software we already have?",
+        "a": "Almost always, without rebuilding what you have. We add search, summaries and assistants to existing websites, apps and internal tools. The usual candidates are your CRM, your support desk, your dashboards, and anything involving paperwork."
+      },
+      {
+        "q": "How is this different from the other things you build?",
+        "a": "The rest of what we do solves a shape of problem we have solved before: a website, a document assistant, a voice agent. This is for everything else. Internal tools, AI features inside a product you already own, and connections between systems that do not fit a template. We agree the price and the date after one call."
+      }
+    ],
+    "position": 6,
+    "status": "published",
+    "published_at": "2026-10-31T14:30:41.525Z",
+    "created_at": "2026-10-31T14:30:41.527Z",
+    "updated_at": "2026-10-31T14:32:06.342Z",
+    "slug": "custom-ai-software"
+  },
+  {
+    "id": "6f1b3ed6-b568-4875-aa79-6929ac53dca6",
+    "title": "AI assistants that learn your work",
+    "headline": "An assistant that gets better the longer you use it",
+    "summary": "A capable assistant that does multi step jobs, remembers your business, and improves with use.",
+    "bullets": [
+      "Handles jobs that take several steps, not one question",
+      "Remembers your business between conversations",
+      "Reachable on WhatsApp, Telegram or Slack",
+      "You decide what it can do without asking a person"
+    ],
+    "eta": "3 to 5 weeks",
+    "icon": "code",
+    "cover_image": null,
+    "media": [],
+    "lead": "A chatbot answers a question and forgets you. This is the next thing along: an assistant that takes on a whole job, works through it in steps, remembers what you told it last week, and gets better at it as you correct it.",
+    "meta": "AI assistant · ready in 3 to 5 weeks · fixed price",
+    "body_md": "## What it is good for\n\nWork that takes several steps and a bit of judgement. Researching and filling in details about new leads. Reading incoming email or documents and deciding where each one goes. Pulling a report together from three systems every Monday morning. Sitting with your team as an assistant that can actually look things up across everything you run.\n\n## What \"learns\" means here\n\nIt keeps a record of what it did and whether it worked, and that record shapes what it does next time. You get a screen showing whether it is getting better or worse, so this is a number you can check rather than a claim we make.\n\nIt also remembers your business between conversations: your products, your people, how you like things phrased.\n\n## Keeping it in bounds\n\nYou decide what it is allowed to do by itself and what needs a human to press the button. Anything that cannot be undone, sending money, emailing a customer, deleting records, waits for approval unless you say otherwise. Every action it takes is logged.\n\nWe agree these limits during scoping and build them in, rather than trusting it to behave.\n\n## What it costs\n\nReady in three to five weeks, covering the assistant, the things it is allowed to do, the way we measure whether it is working, and the limits above.\n\nEvery build is quoted on its own, so there is no price list here. You get one fixed price for the whole thing, agreed in writing before any work starts, and it does not move unless you ask for something that was not agreed. Thirty days of support after it goes live is included.\n\nTell us what you need and we come back within the hour with the scope, the price and a start date.\n\n",
+    "price": null,
+    "tags": [
+      "agents",
+      "assistant"
+    ],
+    "seo": {},
+    "faq": [
+      {
+        "q": "What makes it “learn”?",
+        "a": "It keeps a record of every job it ran and whether the result was right, and that record shapes what it does next time. You get a screen showing whether it is improving or getting worse, so it is a number you can check rather than a claim we make."
+      },
+      {
+        "q": "What kind of work can it take on?",
+        "a": "Jobs that take several steps and a bit of judgement: researching and filling in details about new leads, sorting and routing incoming queries, processing documents where the answer is not always obvious, and helping your team look things up across several systems at once."
+      },
+      {
+        "q": "What stops it doing something it should not?",
+        "a": "You decide what it can do on its own and what needs a person to approve. Anything that cannot be undone, sending money, emailing a customer, deleting records, waits for a human unless you say otherwise. Every action is logged. We agree those limits before we build and enforce them in the software."
+      },
+      {
+        "q": "What does it cost and how long does it take?",
+        "a": "Ready in three to five weeks. That covers the assistant, the things it is allowed to do, the way we measure whether it is working, and the limits above. The price is one fixed figure for the whole build, quoted after a short call and agreed in writing before anything starts, with 30 days of support included."
+      }
+    ],
+    "position": 7,
+    "status": "published",
+    "published_at": "2026-10-31T14:31:00.167Z",
+    "created_at": "2026-10-31T14:31:00.173Z",
+    "updated_at": "2026-10-31T14:32:06.350Z",
+    "slug": "custom-self-improving-ai-agents"
+  },
+  {
+    "id": "7ded1675-3732-4a4a-b242-80a957c76b3b",
+    "title": "GST and data law, handled automatically",
+    "headline": "Stop missing deadlines and paying penalties",
+    "summary": "GST filing, the new data protection law, and every deadline, tracked and mostly done for you.",
+    "bullets": [
+      "GST returns prepared and mismatches flagged early",
+      "Gets you ready for the DPDP data protection law",
+      "Deadline reminders on WhatsApp before it is too late",
+      "One screen showing what is done and what is not"
+    ],
+    "eta": "2 to 3 weeks",
+    "icon": "data",
+    "cover_image": null,
+    "media": [],
+    "lead": "Compliance is not hard, it is just relentless, and the penalty for forgetting is real money. We automate the repeating parts so the deadlines come to you instead of you chasing them.",
+    "meta": "Compliance · ready in 2 to 3 weeks · fixed price",
+    "body_md": "## GST\n\nYour returns get prepared from your own sales and purchase data, and anything that does not match your suppliers' filings is flagged before it becomes your problem at reconciliation time. You approve and file; you stop rebuilding the same spreadsheet every month.\n\n## The DPDP Act\n\nIndia's data protection law changes what you are allowed to do with customer information. We audit what you currently collect and store, tell you plainly where you are exposed, and build the parts you need: proper consent when you collect data, a record of who agreed to what, and a way to handle it when a customer asks you to delete their information.\n\n## Deadlines\n\nEvery filing date you are subject to, tracked, with reminders on WhatsApp and by phone before the date rather than after it.\n\n## The screen you actually look at\n\nOne page: what is filed, what is pending, what is at risk, and what needs you this week. Plus an assistant that answers questions about your own compliance position from your own documents.\n\n## What it costs\n\nReady in two to three weeks. Built for Indian small and mid sized businesses, not adapted from something American.\n\nEvery build is quoted on its own, so there is no price list here. You get one fixed price for the whole thing, agreed in writing before any work starts, and it does not move unless you ask for something that was not agreed. Thirty days of support after it goes live is included.\n\nTell us what you need and we come back within the hour with the scope, the price and a start date.\n\n",
+    "price": null,
+    "tags": [
+      "compliance",
+      "gst",
+      "dpdp"
+    ],
+    "seo": {},
+    "faq": [
+      {
+        "q": "What does the DPDP Act mean for our AI systems?",
+        "a": "India's Digital Personal Data Protection Act, 2023 governs how you collect, process, and store personal data, including anything you feed to an AI model. In practice that means consent tracking, purpose limitation, deletion on request, and breach notification. We build those controls into the system rather than bolting them on afterwards."
+      },
+      {
+        "q": "What do you actually build here?",
+        "a": "Consent and audit-trail infrastructure, data retention and deletion workflows, GST reconciliation and filing automation, and monitoring that flags exceptions before a deadline does. Delivered in two to three weeks, at one fixed price agreed before we start."
+      },
+      {
+        "q": "Is this legal advice?",
+        "a": "No. We're engineers, not a law firm, we build the systems that implement the policy your counsel sets. We're happy to work directly with your legal advisors so the implementation matches their reading of the rules."
+      },
+      {
+        "q": "Can the system keep our data inside India?",
+        "a": "Yes. We deploy to Indian regions and keep personal data in a database you control, which is the usual starting point for a DPDP-conscious architecture. Where a model call has to leave the region, we'll show you exactly what data does and doesn't go with it."
+      }
+    ],
+    "position": 8,
+    "status": "published",
+    "published_at": "2026-10-31T14:31:00.176Z",
+    "created_at": "2026-10-31T14:31:00.181Z",
+    "updated_at": "2026-10-31T14:32:06.359Z",
+    "slug": "ai-compliance-regtech-gst-dpdp-act"
+  }
+]

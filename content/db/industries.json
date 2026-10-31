@@ -1,0 +1,792 @@
+[
+  {
+    "id": "e952c00a-84a8-4728-85c1-2748f3aef65d",
+    "title": "D2C & E-commerce",
+    "headline": "AI for shops and online brands",
+    "summary": "Sell on WhatsApp, answer buyers instantly, and win back the carts people abandon.",
+    "bullets": [
+      "Customers order straight from WhatsApp",
+      "Instant answers on size, stock and delivery",
+      "Abandoned carts chased automatically"
+    ],
+    "icon": "d2c",
+    "cover_image": null,
+    "media": [],
+    "icon_image": null,
+    "lead": "Most online shops lose sales in the same two places: nobody answers the question fast enough, and the cart gets abandoned. Both are fixable without hiring anyone.",
+    "meta": "For online shops and D2C brands",
+    "body_md": "## Where the money is going\n\n**Nobody replies fast enough.** A buyer asks whether something is in stock, or which size to take, and gets an answer four hours later. By then they have bought it elsewhere. A bot that knows your catalogue answers in seconds, all night, in Hindi or English.\n\n**Carts get abandoned and stay abandoned.** A reminder on WhatsApp an hour later, a nudge the next day, and a small discount on the third day recovers a meaningful share of them. It runs by itself once it is set up.\n\n**Reviews never get asked for.** A message five days after delivery, asking for a photo and a line, quietly builds the social proof that sells the next order.\n\n## Buying inside WhatsApp\n\nFor a lot of Indian buyers, WhatsApp is the internet. We build the whole thing there: browse, ask, order, pay by UPI, track the parcel, and reorder in one tap. It usually converts better than the website does.\n\n## What it costs\n\nA full site with payments is live in 48 hours. Most brands start with either that or a WhatsApp ordering bot, and add the other once the first is earning. Both are quoted as one fixed price after a short call.",
+    "tags": [
+      "d2c",
+      "ecommerce",
+      "retail",
+      "whatsapp",
+      "razorpay"
+    ],
+    "service_slugs": [
+      "ai-websites",
+      "whatsapp-chatbot",
+      "ai-automation"
+    ],
+    "custom_services": [],
+    "case_studies": [],
+    "faq": [
+      {
+        "q": "Will it integrate with Shopify or WooCommerce?",
+        "a": "Yes, both are routine, along with Magento and custom carts. We connect over their APIs, so order status, catalogue, and customer data stay in your store as the single source of truth."
+      },
+      {
+        "q": "What's the fastest win for a D2C brand?",
+        "a": "Usually a WhatsApp order-status and support bot. It absorbs the “where is my order” volume that dominates D2C support and can go live in about a week. COD confirmation and abandoned-cart recovery flows are close behind."
+      },
+      {
+        "q": "Can it handle returns and COD confirmation?",
+        "a": "Yes. Return initiation, pickup scheduling, and COD confirmation are standard WhatsApp flows for us, and they hand off to a human the moment a case gets unusual."
+      },
+      {
+        "q": "How do you handle festive-season traffic spikes?",
+        "a": "The systems run serverless and scale with load rather than on fixed capacity, so a Diwali spike doesn't need re-architecting. We load-test ahead of peak season if you tell us the numbers you're expecting."
+      }
+    ],
+    "seo": {
+      "title": "AI for D2C & E-commerce Brands India | Voltair Tech",
+      "description": "Storefronts, WhatsApp order bots, Razorpay/UPI checkout and AI product search for D2C brands. Built in Mumbai, live fast."
+    },
+    "position": 1,
+    "homepage_featured": false,
+    "status": "published",
+    "published_at": "2026-10-31T14:30:41.634Z",
+    "created_at": "2026-10-31T14:30:41.637Z",
+    "updated_at": "2026-10-31T14:31:10.902Z",
+    "slug": "d2c-ecommerce"
+  },
+  {
+    "id": "ed5b150e-3bbe-499b-b822-7d6b2d90f419",
+    "title": "Healthcare & Clinics",
+    "headline": "AI for clinics and hospitals",
+    "summary": "Bookings and reminders handled automatically, and safe answers from your own protocols only.",
+    "bullets": [
+      "Bookings and reminders run themselves",
+      "Answers only from material you approved",
+      "Patient data stays in India and stays private"
+    ],
+    "icon": "healthcare",
+    "cover_image": null,
+    "media": [],
+    "icon_image": null,
+    "lead": "Your front desk spends most of the day on the phone booking appointments and repeating the same instructions. That work can run itself, safely, without anyone being given medical advice by a computer.",
+    "meta": "For clinics, hospitals and diagnostic centres",
+    "body_md": "## Booking and reminders\n\nPatients book, confirm and reschedule on WhatsApp, at whatever hour suits them. Reminders go out the day before, which is the single cheapest way to cut no shows. Your desk stops being a call centre and goes back to looking after the person standing in front of them.\n\nIf your practice management or records system has a connection available, we sync both ways so nothing gets double booked.\n\n## Answering questions safely\n\nThe assistant answers only from documents your doctors have approved: preparation instructions, timings, what to bring, what happens afterwards, your policies. Every answer shows which document it came from.\n\n**It does not give medical advice.** Anything clinical goes to your staff. We scope it that way deliberately, because in healthcare a confident wrong answer is a liability.\n\n## Patient data\n\nIt stays in a database you control, hosted in India. Access is logged. It is never used to train anybody's model.\n\n## Languages\n\nHindi, Marathi and English on the same number, replying in whichever the patient used.",
+    "tags": [
+      "healthcare",
+      "clinics",
+      "rag",
+      "appointments"
+    ],
+    "service_slugs": [
+      "whatsapp-chatbot",
+      "rag-systems",
+      "custom-ai-software"
+    ],
+    "custom_services": [],
+    "case_studies": [],
+    "faq": [
+      {
+        "q": "Is patient data safe with an AI system?",
+        "a": "Patient data stays in a database you control, hosted in India, and it is never used to train a model. Access is logged, and the assistant only answers from clinical documents you have approved."
+      },
+      {
+        "q": "Can it book and reschedule appointments in our existing system?",
+        "a": "Yes, wherever your practice-management or patient records system system exposes an API. We sync slots both ways so the bot can't double-book, and we confirm the integration during scoping before you commit."
+      },
+      {
+        "q": "Will the AI give medical advice?",
+        "a": "No. We scope these assistants to logistics and to answering from your own approved material, appointments, preparation instructions, timings, and policies. Anything clinical is routed to your staff."
+      },
+      {
+        "q": "Does it work for patients who don't speak English?",
+        "a": "Yes. Hindi, Marathi, and English run on the same WhatsApp number or phone line, with the assistant matching whichever language the patient uses."
+      }
+    ],
+    "seo": {
+      "title": "AI for Healthcare & Clinics India | Voltair Tech",
+      "description": "Appointment bots, patient-FAQ RAG grounded in your protocols, and secure patient-data handling for clinics and hospitals."
+    },
+    "position": 2,
+    "homepage_featured": false,
+    "status": "published",
+    "published_at": "2026-10-31T14:30:41.645Z",
+    "created_at": "2026-10-31T14:30:41.647Z",
+    "updated_at": "2026-10-31T14:31:05.811Z",
+    "slug": "healthcare-clinics"
+  },
+  {
+    "id": "dd005a82-4506-4640-99bf-785aac27312d",
+    "title": "Fintech & Payments",
+    "headline": "AI for finance and lending",
+    "summary": "Faster customer checks, support that knows the rules, and a record of every decision.",
+    "bullets": [
+      "Customer checks and document reading automated",
+      "Support answers from your actual policy",
+      "Every AI decision logged for the auditor"
+    ],
+    "icon": "fintech",
+    "cover_image": null,
+    "media": [],
+    "icon_image": null,
+    "lead": "In finance the problem is never the idea, it is the paperwork and the audit trail. We automate the repetitive checks and keep a record of everything, so faster does not mean looser.",
+    "meta": "For lenders, brokers, NBFCs and payment companies",
+    "body_md": "## Onboarding customers\n\nReading identity documents, checking them against the form, spotting the mismatches, and flagging the cases that need a human. What took a day of somebody's attention becomes minutes, and the exceptions get the attention instead.\n\n## Support that knows your rules\n\nYour team answers questions about charges, eligibility and process all day. An assistant trained on your actual policy documents answers those in seconds and shows the clause it came from, so nobody has to trust it blindly.\n\n## Built for the audit\n\nEvery answer traceable to a source. Every automated decision logged with what it saw and what it did. Clear limits on what the software may decide alone and what needs a person to sign off. Auditors ask these questions, so we build for them from the start rather than retrofitting.\n\n## Your data\n\nStays in your own database, in India, and is never used to train anybody's model.",
+    "tags": [
+      "fintech",
+      "payments",
+      "kyc",
+      "support",
+      "guardrails"
+    ],
+    "service_slugs": [
+      "custom-ai-software",
+      "ai-automation",
+      "whatsapp-chatbot"
+    ],
+    "custom_services": [],
+    "case_studies": [],
+    "faq": [
+      {
+        "q": "How do you handle RBI and DPDP compliance?",
+        "a": "We build to keep personal and financial data in Indian infrastructure you control, with consent tracking, audit trails, and retention rules implemented in the system itself. We're engineers rather than a compliance authority, so we build against the requirements your compliance team sets."
+      },
+      {
+        "q": "Can AI make lending or underwriting decisions?",
+        "a": "We build systems that gather, verify, and summarise for a human decision-maker, keeping an audit trail of what informed each recommendation. Fully automated adverse decisions are a policy call for your risk and compliance teams, not something we ship by default."
+      },
+      {
+        "q": "Which payment and data providers do you integrate?",
+        "a": "Razorpay and Stripe are routine, along with account-aggregator, KYC, and bureau APIs. If a provider has documented APIs we can connect it, and we confirm each one during scoping."
+      },
+      {
+        "q": "What's the most common first build in this sector?",
+        "a": "Document-heavy work: KYC and statement processing, and a RAG assistant over policy and product documentation so support and sales stop guessing. Both show measurable time savings quickly."
+      }
+    ],
+    "seo": {
+      "title": "AI for Fintech & Payments India | Voltair Tech",
+      "description": "KYC flows, support copilots, fraud-aware automations and audit-friendly LLM guardrails for fintech and payment companies."
+    },
+    "position": 3,
+    "homepage_featured": false,
+    "status": "published",
+    "published_at": "2026-10-31T14:30:41.652Z",
+    "created_at": "2026-10-31T14:30:41.655Z",
+    "updated_at": "2026-10-31T14:31:05.821Z",
+    "slug": "fintech-payments"
+  },
+  {
+    "id": "4fc425c5-c00d-4c03-94f4-87c91f58abbd",
+    "title": "Real Estate",
+    "headline": "AI for property and real estate",
+    "summary": "Every enquiry answered in seconds, and followed up until they book a visit.",
+    "bullets": [
+      "Enquiries answered the moment they arrive",
+      "Follow ups continue until they reply",
+      "Project sites live in 48 hours"
+    ],
+    "icon": "realestate",
+    "cover_image": null,
+    "media": [],
+    "icon_image": null,
+    "lead": "In property the first person to reply usually gets the visit. Portal leads go cold in under an hour and most of them never get called twice. Both problems are software problems.",
+    "meta": "For builders, brokers and property firms",
+    "body_md": "## Replying first\n\nAn enquiry arrives from a portal, an ad or your site, and gets a reply within seconds on WhatsApp: the price, the location, the floor plan, the availability. Then it asks the two or three questions your salesperson would ask, and books the site visit into a real calendar.\n\n## Following up properly\n\nMost buyers do not decide the first week. The follow ups continue on their own, spaced sensibly, until they respond or ask to stop. Your team gets the ones who are actually ready, with the whole conversation attached.\n\n## A site per project, in 48 hours\n\nLaunches will not wait for a two month website. We put up a proper project page with the plans, the gallery, the location and a working enquiry form, in two days, on its own domain.\n\n## Languages\n\nHindi, Marathi and English, on the same number, which matters more in this business than most.",
+    "tags": [
+      "real estate",
+      "leads",
+      "listings",
+      "whatsapp"
+    ],
+    "service_slugs": [
+      "ai-websites",
+      "whatsapp-chatbot",
+      "ai-automation"
+    ],
+    "custom_services": [],
+    "case_studies": [
+      {
+        "title": "AI lead-capture & listing search for a luxury developer",
+        "tech_stack": [
+          "WhatsApp API",
+          "Next.js",
+          "Supabase (pgvector)",
+          "n8n"
+        ],
+        "metrics": [
+          {
+            "label": "response time",
+            "value": "instant"
+          },
+          {
+            "label": "lead conversion",
+            "value": "3.4x"
+          }
+        ],
+        "challenge": "High-ad-spend campaigns generated clicks, but manual follow-up was slow, resulting in cold leads and missed sales.",
+        "outcome": "An instant WhatsApp AI agent qualifies buyers, shares brochures, and books site visits 24/7, securing hot leads immediately."
+      }
+    ],
+    "faq": [
+      {
+        "q": "How does AI help with property leads?",
+        "a": "It answers and qualifies inbound enquiries within seconds at any hour, then routes the serious ones to an agent with the context already collected. Speed of first response is the single biggest lever on portal leads, which go cold fast."
+      },
+      {
+        "q": "Can it answer questions about specific properties?",
+        "a": "Yes. We ground the assistant in your inventory (configurations, pricing, floor plans, amenities, and location detail) so answers come from your listings rather than a model's guesswork."
+      },
+      {
+        "q": "Does it work with our CRM and the portals we list on?",
+        "a": "Yes, wherever they expose APIs or webhooks. Leads from portals, your website, and WhatsApp land in one place with the qualification already attached."
+      },
+      {
+        "q": "Can it handle site-visit scheduling?",
+        "a": "Yes, booking, confirmation, reminders, and rescheduling, synced to your agents' calendars. The reminder flow is what cuts no-shows."
+      }
+    ],
+    "seo": {
+      "title": "AI for Real Estate India | Voltair Tech",
+      "description": "Lead-capture sites in 48 hours, AI listing search and multilingual WhatsApp follow-up agents for real estate."
+    },
+    "position": 4,
+    "homepage_featured": true,
+    "status": "published",
+    "published_at": "2026-10-31T14:30:41.659Z",
+    "created_at": "2026-10-31T14:30:41.660Z",
+    "updated_at": "2026-10-31T14:31:05.828Z",
+    "slug": "real-estate"
+  },
+  {
+    "id": "d97af4e8-c9ae-4966-ae34-9b6dd1f23031",
+    "title": "Education & EdTech",
+    "headline": "AI for schools, colleges and coaching",
+    "summary": "Doubts answered at midnight from your own material, and admissions enquiries never missed.",
+    "bullets": [
+      "Student doubts answered from your own notes",
+      "Admission enquiries answered instantly",
+      "Fee and attendance reminders sent automatically"
+    ],
+    "icon": "education",
+    "cover_image": null,
+    "media": [],
+    "icon_image": null,
+    "lead": "Students study at night and ask questions when no teacher is awake. Parents enquire about admissions and expect an answer the same day. Neither needs a person sitting there.",
+    "meta": "For schools, colleges, coaching classes and edtech",
+    "body_md": "## Doubt solving from your material\n\nStudents ask a question and get an explanation drawn from your own notes and textbooks, pointing at the chapter it came from. Not a generic internet answer, and not a different method from the one you teach, which is the thing that actually confuses students.\n\nYou also see what the whole batch is stuck on, which tells you what to reteach.\n\n## Admissions\n\nEvery enquiry gets an answer immediately: courses, fees, timings, eligibility, what to bring. The ones who are serious get booked in for a call or a visit. Nothing sits unanswered over a weekend.\n\n## The administrative grind\n\nFee reminders, attendance alerts to parents, timetable changes, exam notices. All of it on WhatsApp, sent automatically, in the language the parent reads.\n\n## Languages\n\nHindi, Marathi and English, so parents who are not comfortable in English still get answered properly.",
+    "tags": [
+      "education",
+      "edtech",
+      "tutors",
+      "rag",
+      "mobile"
+    ],
+    "service_slugs": [
+      "rag-systems",
+      "custom-ai-software",
+      "mobile-apps"
+    ],
+    "custom_services": [],
+    "case_studies": [],
+    "faq": [
+      {
+        "q": "What can AI do for an institute or edtech product?",
+        "a": "Admissions counselling and enquiry handling at scale, doubt-solving grounded in your own course material, and automated progress and attendance updates to parents. Admissions is usually where the return shows up first."
+      },
+      {
+        "q": "Will the assistant answer from our syllabus or from the internet?",
+        "a": "From your material. We ground it in your courseware so answers match what you actually teach, and it says it doesn't know rather than inventing an answer from outside the syllabus."
+      },
+      {
+        "q": "Is it appropriate for use by students, including minors?",
+        "a": "We scope these systems tightly, keep data handling minimal and consent-based, and build in escalation to staff. Where minors are involved, the guardrails and the data policy are agreed with you before the build starts."
+      },
+      {
+        "q": "Can parents get updates in their own language?",
+        "a": "Yes. Hindi, Marathi, and English are standard on the same WhatsApp number, and other Indian languages can be added during scoping."
+      }
+    ],
+    "seo": {
+      "title": "AI for Education & EdTech India | Voltair Tech",
+      "description": "Doubt-solving tutors, content generation and RAG over course material with citations for education and EdTech."
+    },
+    "position": 5,
+    "homepage_featured": false,
+    "status": "published",
+    "published_at": "2026-10-31T14:30:41.664Z",
+    "created_at": "2026-10-31T14:30:41.666Z",
+    "updated_at": "2026-10-31T14:31:05.836Z",
+    "slug": "education-edtech"
+  },
+  {
+    "id": "bb528591-810d-4180-84ef-a183cd88b61a",
+    "title": "Logistics & Supply Chain",
+    "headline": "AI for logistics and transport",
+    "summary": "Stop answering where is my shipment, and stop typing paperwork into spreadsheets.",
+    "bullets": [
+      "Customers track shipments themselves",
+      "Delivery notes and invoices read automatically",
+      "Systems that never talked, now connected"
+    ],
+    "icon": "logistics",
+    "cover_image": null,
+    "media": [],
+    "icon_image": null,
+    "lead": "Two jobs eat a logistics office: telling people where their shipment is, and typing paper documents into a computer. Both can go.",
+    "meta": "For transporters, warehouses and supply chain teams",
+    "body_md": "## Where is my shipment\n\nCustomers ask on WhatsApp and get the answer, with the expected time, without anybody picking up. When something slips, they are told before they ask, which is what actually keeps a customer.\n\n## The paperwork\n\nDelivery notes, invoices, lorry receipts and e way bills get read, checked, and entered into your system. Anything that does not add up gets flagged for a person instead of quietly going in wrong.\n\nThis is the highest value automation in the business and the least glamorous.\n\n## Joining up your systems\n\nYour transport system, your warehouse, your customer's portal and your accounts probably do not talk to each other, and somebody is bridging that gap by hand. We connect them so the data moves by itself, with alerts when something fails.\n\n## What it costs\n\nOne workflow takes one to two weeks. Most operations start with tracking or paperwork and add the rest once they see it working. Fixed price, agreed after a short call.",
+    "tags": [
+      "logistics",
+      "supply chain",
+      "automation",
+      "tracking",
+      "workflow automation"
+    ],
+    "service_slugs": [
+      "ai-automation",
+      "whatsapp-chatbot",
+      "custom-ai-software"
+    ],
+    "custom_services": [],
+    "case_studies": [],
+    "faq": [
+      {
+        "q": "What's the highest-value AI use case in logistics?",
+        "a": "Self-service shipment tracking. “Where is my consignment” is the bulk of inbound volume, and a WhatsApp bot wired to your tracking system absorbs it without adding headcount."
+      },
+      {
+        "q": "Can it plug into our transport system or WMS?",
+        "a": "Yes, wherever those systems expose APIs, and where they don't, we can work from scheduled exports. We confirm the integration path during scoping so there are no surprises mid-build."
+      },
+      {
+        "q": "Can it notify customers proactively instead of waiting to be asked?",
+        "a": "Yes, and that's usually the bigger win. Dispatch, out-for-delivery, delay, and exception notifications cut the inbound queries before they happen."
+      },
+      {
+        "q": "Does it work for drivers and field staff, not just customers?",
+        "a": "Yes. WhatsApp and voice suit field teams well, proof-of-delivery capture, exception reporting, and status updates, without asking anyone to install and learn a new app."
+      }
+    ],
+    "seo": {
+      "title": "AI for Logistics & Supply Chain India | Voltair Tech",
+      "description": "Tracking bots, document extraction and workflow automation automations across Sheets, Slack and WhatsApp for logistics operators."
+    },
+    "position": 6,
+    "homepage_featured": false,
+    "status": "published",
+    "published_at": "2026-10-31T14:30:41.669Z",
+    "created_at": "2026-10-31T14:30:41.670Z",
+    "updated_at": "2026-10-31T14:31:10.913Z",
+    "slug": "logistics-supply-chain"
+  },
+  {
+    "id": "352f9da2-829e-4901-8fb1-a87ab28801a5",
+    "title": "Professional Services",
+    "headline": "AI for lawyers, CAs and consultants",
+    "summary": "Find anything in your files in seconds, and stop losing enquiries to slow replies.",
+    "bullets": [
+      "Search every document you have ever filed",
+      "New client enquiries handled automatically",
+      "First drafts and summaries prepared for you"
+    ],
+    "icon": "proservices",
+    "cover_image": null,
+    "media": [],
+    "icon_image": null,
+    "lead": "Your firm's value is in its files, and finding anything in them takes a junior half a day. That is the problem worth fixing first.",
+    "meta": "For law firms, accountants and consultancies",
+    "body_md": "## Searching your own files\n\nAsk a question in plain language and get the answer out of your own contracts, filings, opinions and notes, with the document and page it came from. Every answer is checkable, which is the only way this is usable in a professional practice.\n\nTen years of matters becomes something you can actually consult.\n\n## Taking on new clients\n\nEnquiries get answered, the basic details collected, conflicts flagged, and the appointment booked, before anybody in the firm has looked at it. Nothing sits in an inbox over a weekend.\n\n## The first draft\n\nSummarising a long document, pulling the key dates and obligations out of a contract, comparing a new agreement against your standard terms, drafting a routine letter. The assistant produces the draft; your professional judgement stays exactly where it is.\n\n## Confidentiality\n\nYour documents stay in your own database, in India. They are never used to train anybody's model, and access is logged. We will sign your NDA before the first call.",
+    "tags": [
+      "legal",
+      "accounting",
+      "agency",
+      "rag",
+      "copilot"
+    ],
+    "service_slugs": [
+      "rag-systems",
+      "ai-automation",
+      "custom-ai-software"
+    ],
+    "custom_services": [],
+    "case_studies": [],
+    "faq": [
+      {
+        "q": "Is it safe to put client documents into an AI system?",
+        "a": "The documents stay in infrastructure you control, are never used to train a model, and access is logged. For firms with confidentiality obligations we scope data handling explicitly before the build, and we can keep everything in Indian regions."
+      },
+      {
+        "q": "What does AI actually do for a law or CA firm?",
+        "a": "It searches across your own matter files and precedents with citations, drafts first passes of routine documents, and automates GST and filing-deadline tracking. It compresses research and drafting time; it does not replace professional judgement."
+      },
+      {
+        "q": "Can it be trusted to be accurate on the law?",
+        "a": "It answers only from your own documents and cites the source for every claim, so a professional can verify in seconds. We build it as a research accelerator for a qualified reviewer, never as an unchecked authority."
+      },
+      {
+        "q": "Does it handle GST return and compliance deadlines?",
+        "a": "Yes, reconciliation, exception flagging, and deadline monitoring are a common first build, often paired with our AI Compliance & RegTech service."
+      }
+    ],
+    "seo": {
+      "title": "AI for Professional Services India, Legal, CA, Agencies | Voltair Tech",
+      "description": "Document RAG, intake automation and internal copilots for legal, CA and agency teams. Grounded in your own files."
+    },
+    "position": 7,
+    "homepage_featured": false,
+    "status": "published",
+    "published_at": "2026-10-31T14:30:41.674Z",
+    "created_at": "2026-10-31T14:30:41.675Z",
+    "updated_at": "2026-10-31T14:31:05.850Z",
+    "slug": "professional-services"
+  },
+  {
+    "id": "a1fcf70e-b99e-4514-9cd4-06982203cf1c",
+    "title": "Hospitality & Travel",
+    "headline": "AI for hotels and restaurants",
+    "summary": "Take bookings around the clock, answer guests in their language, and reply to every review.",
+    "bullets": [
+      "Bookings taken at any hour, in any language",
+      "Guest questions answered instantly",
+      "Every review replied to, quickly"
+    ],
+    "icon": "hospitality",
+    "cover_image": null,
+    "media": [],
+    "icon_image": null,
+    "lead": "Guests book late at night, ask questions in languages your reception does not cover, and judge you on how fast you reply to a review. All three can run themselves.",
+    "meta": "For hotels, restaurants and travel businesses",
+    "body_md": "## Bookings, all night\n\nTake reservations on WhatsApp and on your site at any hour, with confirmations and reminders going out on their own. Fewer no shows, and no missed booking because it came in at midnight.\n\n## The concierge questions\n\nTimings, directions, parking, what is on the menu, whether you allow dogs, how far the airport is. Answered instantly, in Hindi, Marathi, English or whatever your guests actually speak.\n\n## Reviews\n\nEvery review gets a reply, quickly, in your voice. Anything negative reaches your manager within the hour, while it can still be fixed. Review response speed moves your ranking on the booking platforms, and almost nobody keeps up with it by hand.\n\n## Your website\n\nA proper site with photos, menus, rooms and a working booking button, live in 48 hours.",
+    "tags": [
+      "hospitality",
+      "travel",
+      "booking",
+      "concierge",
+      "reviews"
+    ],
+    "service_slugs": [
+      "whatsapp-chatbot",
+      "ai-websites",
+      "ai-automation"
+    ],
+    "custom_services": [],
+    "case_studies": [],
+    "faq": [
+      {
+        "q": "Can AI take bookings and orders over the phone?",
+        "a": "Yes. A voice agent answers every call instantly, takes reservations and orders, handles the routine questions about timings and location, and hands off to staff when it should. Nobody sits on hold during a dinner rush."
+      },
+      {
+        "q": "Will it work with our POS or reservation system?",
+        "a": "Wherever those systems have APIs, yes, table availability and orders sync both ways so nothing gets double-booked. We confirm the integration during scoping."
+      },
+      {
+        "q": "What languages does it handle?",
+        "a": "Hindi, Marathi, and English on the same number, switching to whichever the guest speaks. Additional languages can be added if you serve a particular market."
+      },
+      {
+        "q": "Can it deal with a full house or a waitlist?",
+        "a": "Yes. It can offer alternative slots, take waitlist entries, and notify guests when a table frees up, rather than simply declining the booking."
+      }
+    ],
+    "seo": {
+      "title": "AI for Hospitality & Travel India | Voltair Tech",
+      "description": "Booking assistants, multilingual concierge bots and review-aware response automation for hotels, travel and hospitality."
+    },
+    "position": 8,
+    "homepage_featured": false,
+    "status": "published",
+    "published_at": "2026-10-31T14:30:41.679Z",
+    "created_at": "2026-10-31T14:30:41.682Z",
+    "updated_at": "2026-10-31T14:31:10.922Z",
+    "slug": "hospitality-travel"
+  },
+  {
+    "id": "39d769a6-c3c6-4420-9e0d-ab787b8dd12a",
+    "title": "Manufacturing & Industrial",
+    "headline": "AI for manufacturing and industry",
+    "summary": "Answers from the manual on the shop floor, and quotes out the same day.",
+    "bullets": [
+      "Manuals and procedures answerable on a phone",
+      "Quotes prepared in hours, not days",
+      "Paperwork read and entered automatically"
+    ],
+    "icon": "manufacturing",
+    "cover_image": null,
+    "media": [],
+    "icon_image": null,
+    "lead": "The knowledge that keeps your plant running is in manuals nobody reads and in the heads of people about to retire. Getting it out of both is worth more than any dashboard.",
+    "meta": "For factories, industrial and B2B businesses",
+    "body_md": "## The manual, on a phone\n\nAn operator or technician asks a question and gets the answer out of your own machine manuals, standard procedures and maintenance history, with the page it came from. Works on a phone, on the floor, in the language they speak.\n\nWhen your most experienced person retires, what they knew does not walk out with them.\n\n## Quoting faster\n\nEnquiries for custom or configured products take days to price because somebody has to work through specifications by hand. We automate the repeatable part so quotes go out the same day, which in B2B is very often the whole difference.\n\n## Paperwork\n\nPurchase orders, delivery challans, test certificates and invoices, read and entered into your system, with anything that does not match flagged for a person.\n\n## Maintenance\n\nWhere you already have sensor or machine data, we watch it for the patterns that come before a failure and warn your team early. Where you do not, the honest answer is to fix the paperwork and the manuals first, and we will tell you so.",
+    "tags": [
+      "manufacturing",
+      "industrial",
+      "automation",
+      "iot"
+    ],
+    "service_slugs": [
+      "ai-automation",
+      "custom-ai-software",
+      "rag-systems"
+    ],
+    "custom_services": [],
+    "case_studies": [],
+    "faq": [
+      {
+        "q": "What does AI change for a manufacturing business?",
+        "a": "The paperwork and enquiry load, mostly. quote request intake and quotation, order status for dealers and distributors, and search across specification and compliance documents are where the time goes, and where the return shows up first."
+      },
+      {
+        "q": "Can it handle technical product enquiries?",
+        "a": "Yes. We ground the assistant in your specification sheets, catalogues, and drawings so it answers with real numbers and cites the document, rather than approximating."
+      },
+      {
+        "q": "Does it integrate with our business software?",
+        "a": "Wherever the business software has APIs, yes, SAP, Tally, and Zoho are common. Where it doesn't, we can work from scheduled exports. Either way we confirm the path during scoping."
+      },
+      {
+        "q": "Is this worth it if our order volume is low but each order is large?",
+        "a": "Often yes, because the value is in response speed and quotation turnaround rather than in volume. Being first with an accurate quote is what wins high-value B2B enquiries."
+      }
+    ],
+    "seo": {
+      "title": "AI for Manufacturing & Industrial India | Voltair Tech",
+      "description": "Shop-floor automation, predictive-maintenance copilots and standard procedure/manual RAG for manufacturers. Built in Mumbai."
+    },
+    "position": 9,
+    "homepage_featured": true,
+    "status": "published",
+    "published_at": "2026-10-31T14:30:41.685Z",
+    "created_at": "2026-10-31T14:30:41.686Z",
+    "updated_at": "2026-10-31T14:31:05.868Z",
+    "slug": "manufacturing-industrial"
+  },
+  {
+    "id": "82089253-da00-4fdf-8a09-cae5df98006f",
+    "title": "Automotive & Mobility",
+    "headline": "AI for car dealers and workshops",
+    "summary": "Answer every enquiry in seconds and fill your service bays without phoning anyone.",
+    "bullets": [
+      "Enquiries answered before they call someone else",
+      "Service bookings and reminders run themselves",
+      "Launch and model sites live in 48 hours"
+    ],
+    "icon": "automotive",
+    "cover_image": null,
+    "media": [],
+    "icon_image": null,
+    "lead": "A car buyer enquires with four dealers and buys from whoever replies first with a real answer. Meanwhile your service department is phoning people all day to fill the bays.",
+    "meta": "For dealerships, workshops and EV brands",
+    "body_md": "## Sales enquiries\n\nAnswered within seconds on WhatsApp, with the variant, the on road price, the finance figure and what is actually in stock. Then it books the test drive into a real calendar and keeps following up until they respond.\n\n## The service department\n\nService reminders go out when they are due, customers book their own slot, and they get told when the car is ready. Nobody spends the morning on the phone. Bays fill and customers stop drifting to the local garage after the warranty ends.\n\n## Launches\n\nA new model or a new showroom needs a page now, not in two months. We put one up in 48 hours with the gallery, the specifications, the pricing and a working enquiry form.\n\n## Languages\n\nHindi, Marathi and English on the same number, which is how your customers actually talk.",
+    "tags": [
+      "automotive",
+      "mobility",
+      "dealership",
+      "ev"
+    ],
+    "service_slugs": [
+      "ai-websites",
+      "whatsapp-chatbot",
+      "ai-automation"
+    ],
+    "custom_services": [],
+    "case_studies": [],
+    "faq": [
+      {
+        "q": "What are dealerships using AI for?",
+        "a": "Instant response to enquiries from portals and the website, test-drive scheduling, service booking and reminders, and answering the routine questions about variants, pricing, and availability at any hour."
+      },
+      {
+        "q": "Can it book and remind for service?",
+        "a": "Yes, booking, confirmation, reminders, and follow-up after the visit, synced to your workshop calendar. The reminder flow is what brings lapsed customers back."
+      },
+      {
+        "q": "Does it know our current inventory and prices?",
+        "a": "It answers from your own data, so yes, provided we can connect to your DMS or inventory feed. That's what keeps it from quoting a variant or a price you no longer offer."
+      },
+      {
+        "q": "How fast does it respond to a lead?",
+        "a": "Within seconds, day or night. In automotive the first dealer to respond usually gets the test drive, so response time is effectively the whole game on portal leads."
+      }
+    ],
+    "seo": {
+      "title": "AI for Automotive & Mobility India | Voltair Tech",
+      "description": "Dealership lead bots, service-booking automation and AI sites for auto and EV brands. Multilingual, built fast."
+    },
+    "position": 10,
+    "homepage_featured": false,
+    "status": "published",
+    "published_at": "2026-10-31T14:30:41.689Z",
+    "created_at": "2026-10-31T14:30:41.690Z",
+    "updated_at": "2026-10-31T14:31:05.880Z",
+    "slug": "automotive-mobility"
+  },
+  {
+    "id": "8b798eef-ae9d-4b81-a866-215d01a3b724",
+    "title": "SaaS & B2B Tech",
+    "headline": "AI inside your product",
+    "summary": "Add the AI features your customers are asking for, without hiring a team to do it.",
+    "bullets": [
+      "Search and answers over your own documentation",
+      "An assistant built into your product",
+      "Onboarding that walks new users through it"
+    ],
+    "icon": "saas",
+    "cover_image": null,
+    "media": [],
+    "icon_image": null,
+    "lead": "Your customers are asking for AI features and your roadmap is already full. We build them alongside your team, to your standards, and hand them over.",
+    "meta": "For software and technology companies",
+    "body_md": "## Answers over your documentation\n\nUsers ask a question inside your product and get an answer from your own documentation and help articles, with a link to the source. Support volume drops, and you find out what people cannot figure out.\n\n## An assistant in the product\n\nSomething that helps users do the thing your product is for, rather than a chat window bolted to the corner. It can read what is on the user's screen, take actions on their behalf where you allow it, and hand over to a human where you do not.\n\n## Onboarding\n\nNew users get walked through setup, prompted at the right moments, and helped through the point where they usually give up. Activation is normally the cheapest number in the business to move.\n\n## How we work with you\n\nYour repository, your review process, your deployment. We write the tests and hand over documentation your engineers can maintain. You are not buying a black box you have to come back to us to change.",
+    "tags": [
+      "saas",
+      "b2b",
+      "ai-features",
+      "copilot"
+    ],
+    "service_slugs": [
+      "custom-ai-software",
+      "ai-websites",
+      "rag-systems"
+    ],
+    "custom_services": [],
+    "case_studies": [],
+    "faq": [
+      {
+        "q": "What's the fastest AI win for a SaaS product?",
+        "a": "A support assistant grounded in your docs and help centre. It deflects the repetitive tickets and cites the document it answered from, so trust stays intact. In-product onboarding copilots are the usual second step."
+      },
+      {
+        "q": "Can you build AI features into our existing product?",
+        "a": "Yes, that's most of this work. We add search, summarisation, copilots, and agents to your existing codebase without a rewrite, and hand the code to your team."
+      },
+      {
+        "q": "Will our customers' data be used to train models?",
+        "a": "No. Your data and your customers' data stay in your infrastructure and are never used for training. We can keep everything in a region you specify."
+      },
+      {
+        "q": "Which models and infrastructure do you use?",
+        "a": "Claude, GPT, or Gemini depending on cost, latency, and quality for the task, with your own database or Pinecone for retrieval, all kept behind an abstraction so you can swap providers without a rewrite."
+      }
+    ],
+    "seo": {
+      "title": "AI for SaaS & B2B Tech India | Voltair Tech",
+      "description": "Embed AI copilots, RAG search and onboarding automation into your SaaS product. Shipped fast with guardrails."
+    },
+    "position": 11,
+    "homepage_featured": true,
+    "status": "published",
+    "published_at": "2026-10-31T14:30:41.702Z",
+    "created_at": "2026-10-31T14:30:41.703Z",
+    "updated_at": "2026-10-31T14:31:05.886Z",
+    "slug": "saas-b2b-tech"
+  },
+  {
+    "id": "5086f57a-b283-420f-a4c8-c0bc857d76a9",
+    "title": "Travel & Tourism",
+    "headline": "AI for travel companies",
+    "summary": "Plan trips, answer travellers at any hour, and turn enquiries into confirmed bookings.",
+    "bullets": [
+      "Itineraries drafted from a short conversation",
+      "Travellers helped while they are away",
+      "Enquiries followed up until they book"
+    ],
+    "icon": "hospitality",
+    "cover_image": null,
+    "media": [],
+    "icon_image": null,
+    "lead": "Travel enquiries arrive at all hours and take days of back and forth before anything is booked. Most of that back and forth is the same questions every time.",
+    "meta": "For tour operators, travel agents and DMCs",
+    "body_md": "## Planning the trip\n\nA traveller says where they want to go, for how long, with whom and roughly what budget, and gets a sensible draft itinerary back within minutes. Your consultant then adjusts it and adds the judgement, instead of starting from a blank page.\n\n## While they are travelling\n\nTheir itinerary, tickets, timings, directions, and somebody to ask at two in the morning in a different timezone. It answers the routine ones and gets a real person for the rest.\n\n## Turning enquiries into bookings\n\nEvery enquiry is answered immediately and followed up on its own until they book or say no. In travel, the drop off between enquiry and booking is where the whole margin goes.\n\n## Keeping in touch afterwards\n\nPost trip thank you, review request, and a well timed offer for the next one, sent automatically to the people most likely to travel again.",
+    "tags": [
+      "travel",
+      "tourism"
+    ],
+    "service_slugs": [],
+    "custom_services": [],
+    "case_studies": [],
+    "faq": [
+      {
+        "q": "Can AI handle itinerary and booking enquiries?",
+        "a": "Yes, answering package questions, assembling itinerary options from your own inventory, and capturing booking details, at any hour and in the traveller's language. Enquiries arrive around the clock and across time zones; a bot doesn't mind."
+      },
+      {
+        "q": "Does it answer from our packages or make things up?",
+        "a": "From your packages. We ground it in your actual inventory, pricing, and terms, so it can't invent an itinerary or a price you don't sell."
+      },
+      {
+        "q": "What languages does it support?",
+        "a": "Hindi, Marathi, and English as standard on the same channel, with more added during scoping if you serve specific inbound markets."
+      },
+      {
+        "q": "Can it help after the traveller has booked?",
+        "a": "Yes, and that's where much of the load sits, pre-departure documents and reminders, itinerary changes, and in-trip questions, all on WhatsApp where travellers already are."
+      }
+    ],
+    "seo": {},
+    "position": 12,
+    "homepage_featured": false,
+    "status": "published",
+    "published_at": "2026-10-31T14:31:00.250Z",
+    "created_at": "2026-10-31T14:31:00.256Z",
+    "updated_at": "2026-10-31T14:31:05.894Z",
+    "slug": "travel-tourism"
+  },
+  {
+    "id": "9a163152-d9a3-47a8-b3c7-f83681428146",
+    "title": "Recruitment & HR",
+    "headline": "AI for recruiters and HR teams",
+    "summary": "Read every application, reply to every candidate, and stop scheduling interviews by hand.",
+    "bullets": [
+      "Every application read and shortlisted",
+      "Every candidate gets a reply",
+      "Interviews scheduled without the email chain"
+    ],
+    "icon": "default",
+    "cover_image": null,
+    "media": [],
+    "icon_image": null,
+    "lead": "Four hundred applications arrive, thirty get read properly, and the rest never hear back. That is how a hiring pipeline quietly damages the employer brand it depends on.",
+    "meta": "For recruitment agencies and HR teams",
+    "body_md": "## Reading the applications\n\nEvery CV read against what the role actually needs, shortlisted, and summarised with the reasons. You get a ranked list with the reasoning shown, so you can disagree with it.\n\nThe screening questions that eat a recruiter's morning, notice period, expected salary, location, work authorisation, get asked and answered on WhatsApp before anybody's time is spent.\n\n## Replying to everyone\n\nEvery candidate hears back, including the ones you are not taking forward. It costs nothing and it is most of the difference between a good and bad reputation as an employer.\n\n## Scheduling\n\nInterviews booked against your team's real calendars, with reminders and rescheduling handled automatically, without the eight email chain.\n\n## Onboarding\n\nOffer letter, documents collected, accounts requested, first week arranged, and a checklist that HR can see rather than remember.",
+    "tags": [
+      "recruitment",
+      "hr"
+    ],
+    "service_slugs": [],
+    "custom_services": [],
+    "case_studies": [],
+    "faq": [
+      {
+        "q": "Can AI screen résumés fairly?",
+        "a": "We build screening that ranks against criteria you define and shows its reasoning for each candidate, so a recruiter can audit and override it. It's a shortlisting aid for a human decision, not an automatic reject machine."
+      },
+      {
+        "q": "What else does it do beyond screening?",
+        "a": "Candidate Q&A about the role and the process, interview scheduling, and search across your résumé bank so past applicants surface for new roles instead of being lost."
+      },
+      {
+        "q": "Where does candidate data live, and how long is it kept?",
+        "a": "In a database you control, with retention and deletion rules we agree during scoping, which matters under the DPDP Act, since candidate data is personal data."
+      },
+      {
+        "q": "Does it integrate with our ATS?",
+        "a": "Wherever the ATS has an API, yes. Where it doesn't, we can work from exports, or build the workflow standalone and sync the outcome back."
+      }
+    ],
+    "seo": {},
+    "position": 13,
+    "homepage_featured": false,
+    "status": "published",
+    "published_at": "2026-10-31T14:31:00.258Z",
+    "created_at": "2026-10-31T14:31:00.262Z",
+    "updated_at": "2026-10-31T14:31:05.900Z",
+    "slug": "recruitment-hr"
+  }
+]
