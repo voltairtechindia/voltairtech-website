@@ -1,0 +1,174 @@
+[
+  {
+    "id": "88f7f17d-d7fc-4de0-b2a3-44579198f992",
+    "question": "What does Voltair Tech actually do?",
+    "answer": "We build software that uses AI to do work your team is doing by hand. That usually looks like a website, a chatbot that answers customers on WhatsApp, a voice agent that picks up your phone, or a tool that reads your documents and answers questions about them. We are based in Andheri West, Mumbai.",
+    "category": "About us",
+    "tags": [
+      "mumbai",
+      "about"
+    ],
+    "position": 1,
+    "homepage_featured": true,
+    "status": "published",
+    "published_at": "2026-10-31T14:31:05.907Z",
+    "created_at": "2026-10-31T14:31:05.908Z",
+    "updated_at": "2026-10-31T14:31:05.908Z",
+    "slug": "what-does-voltair-tech-actually-do"
+  },
+  {
+    "id": "ca655331-1aea-4521-a742-6b6074aba774",
+    "question": "Why should we trust you with this?",
+    "answer": "We have shipped 42 products since 2024 for 28 clients across India, Europe and Asia Pacific. You can see real ones on our live projects page, and we will put you in touch with references after an NDA.",
+    "category": "About us",
+    "tags": [
+      "trust",
+      "proof"
+    ],
+    "position": 2,
+    "homepage_featured": false,
+    "status": "published",
+    "published_at": "2026-10-31T14:31:05.909Z",
+    "created_at": "2026-10-31T14:31:05.910Z",
+    "updated_at": "2026-10-31T14:31:05.910Z",
+    "slug": "why-should-we-trust-you-with-this"
+  },
+  {
+    "id": "a1e828e5-01e1-4fe4-9f4b-c4e480dd6cb8",
+    "question": "How fast can my website be live?",
+    "answer": "48 hours from the day we start. That includes the design, the writing, the ability to edit it yourself later, and your own domain name. Bigger projects like apps take longer, and we give you the exact date before you pay anything.",
+    "category": "Time and money",
+    "tags": [
+      "speed",
+      "website"
+    ],
+    "position": 3,
+    "homepage_featured": true,
+    "status": "published",
+    "published_at": "2026-10-31T14:31:05.912Z",
+    "created_at": "2026-10-31T14:31:05.913Z",
+    "updated_at": "2026-10-31T14:31:05.913Z",
+    "slug": "how-fast-can-my-website-be-live"
+  },
+  {
+    "id": "d4baad03-a216-431c-996d-7e3987b9ff9b",
+    "question": "What does it cost?",
+    "answer": "Every build is quoted on its own, so we do not publish a price list. You get one fixed price for the whole thing, agreed in writing before any work starts. Never an hourly rate, and never a different number halfway through. Tell us what you need and we come back within the hour with the scope, the price and a start date. Thirty days of support after it goes live is included.",
+    "category": "Time and money",
+    "tags": [
+      "pricing",
+      "cost"
+    ],
+    "position": 4,
+    "homepage_featured": true,
+    "status": "published",
+    "published_at": "2026-10-31T14:31:05.915Z",
+    "created_at": "2026-10-31T14:31:05.916Z",
+    "updated_at": "2026-10-31T14:32:06.375Z",
+    "slug": "what-does-it-cost"
+  },
+  {
+    "id": "56f7abc6-e0e1-4d19-be1e-0e436892eeac",
+    "question": "What happens after it goes live?",
+    "answer": "You get 30 days of free support: fixes, monitoring, and small changes. After that you can take it over completely or keep us on a monthly retainer. Either way the code is yours.",
+    "category": "Time and money",
+    "tags": [
+      "support",
+      "handover"
+    ],
+    "position": 5,
+    "homepage_featured": false,
+    "status": "published",
+    "published_at": "2026-10-31T14:31:05.917Z",
+    "created_at": "2026-10-31T14:31:05.918Z",
+    "updated_at": "2026-10-31T14:31:05.918Z",
+    "slug": "what-happens-after-it-goes-live"
+  },
+  {
+    "id": "72b64752-c380-4e01-9730-da394bb156aa",
+    "question": "Can a bot answer questions about our own documents?",
+    "answer": "Yes, and this is one of the most common things we build. You give it your policies, price lists, manuals or product information, and it answers staff or customer questions from those files only. Every answer shows which document it came from, so nobody has to take it on trust. The technical name for this is RAG, if you have heard it called that.",
+    "category": "What we build",
+    "tags": [
+      "documents",
+      "rag",
+      "search"
+    ],
+    "position": 6,
+    "homepage_featured": true,
+    "status": "published",
+    "published_at": "2026-10-31T14:31:05.920Z",
+    "created_at": "2026-10-31T14:31:05.921Z",
+    "updated_at": "2026-10-31T14:31:05.921Z",
+    "slug": "can-a-bot-answer-questions-about-our-own-documents"
+  },
+  {
+    "id": "ec9ce691-58c2-42b3-b887-aaca12704761",
+    "question": "Do you build WhatsApp chatbots?",
+    "answer": "Yes, it is our most requested build. We handle the approval process with Meta, write the conversation, connect payments if you take them, and teach the bot from your own information. The same bot handles Hindi, Marathi and English.",
+    "category": "What we build",
+    "tags": [
+      "whatsapp",
+      "chatbot"
+    ],
+    "position": 7,
+    "homepage_featured": true,
+    "status": "published",
+    "published_at": "2026-10-31T14:31:05.923Z",
+    "created_at": "2026-10-31T14:31:05.505Z",
+    "updated_at": "2026-10-31T14:31:05.924Z",
+    "slug": "do-you-build-whatsapp-chatbots"
+  },
+  {
+    "id": "e51ff216-3bfa-4714-88fb-f37b98b3eadd",
+    "question": "Can you add AI to the software we already have?",
+    "answer": "Usually yes, without rebuilding what you have. We add things like search, summaries, and assistants to existing websites, apps and internal tools. The usual candidates are your CRM, your support desk, your dashboards, and anything involving paperwork.",
+    "category": "What we build",
+    "tags": [
+      "integration",
+      "existing"
+    ],
+    "position": 8,
+    "homepage_featured": true,
+    "status": "published",
+    "published_at": "2026-10-31T14:31:05.926Z",
+    "created_at": "2026-10-31T14:31:05.927Z",
+    "updated_at": "2026-10-31T14:31:05.927Z",
+    "slug": "can-you-add-ai-to-the-software-we-already-have"
+  },
+  {
+    "id": "a9a98844-8eee-4e70-a1f8-6c7a90235ac0",
+    "question": "Will it work in Hindi and Marathi?",
+    "answer": "Yes. Chatbots and voice agents handle Hindi, Marathi and English on the same number, and reply in whichever language the customer used.",
+    "category": "What we build",
+    "tags": [
+      "languages",
+      "hindi",
+      "marathi"
+    ],
+    "position": 9,
+    "homepage_featured": false,
+    "status": "published",
+    "published_at": "2026-10-31T14:31:05.929Z",
+    "created_at": "2026-10-31T14:31:05.930Z",
+    "updated_at": "2026-10-31T14:31:05.930Z",
+    "slug": "will-it-work-in-hindi-and-marathi"
+  },
+  {
+    "id": "a180d92e-7f6f-41ee-988a-e395cde6644d",
+    "question": "Do you sign an NDA?",
+    "answer": "Yes, before the first call if you want one. It is a standard one page mutual NDA under Indian law, usually signed the same day. We do not subcontract your work or share your code with anyone.",
+    "category": "Working together",
+    "tags": [
+      "nda",
+      "privacy"
+    ],
+    "position": 10,
+    "homepage_featured": false,
+    "status": "published",
+    "published_at": "2026-10-31T14:31:05.931Z",
+    "created_at": "2026-10-31T14:31:05.932Z",
+    "updated_at": "2026-10-31T14:31:05.932Z",
+    "slug": "do-you-sign-an-nda"
+  }
+]

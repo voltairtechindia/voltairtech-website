@@ -12,8 +12,11 @@ export const metadata: Metadata = {
 // 1. Cold-email click links on /api/leads/track/* go on to the admin app,
 //    which logs the click and forwards to the real destination.
 // 2. "/some/page/" (trailing slash) goes to "/some/page", where the file lives.
+// 3. An old link to an article, service or sector that is no longer published
+//    lands on that section's index instead of a dead end. The page itself
+//    still answers 404, so search engines drop the stale URL.
 const ADMIN_ORIGIN = "https://voltairtech-admin.vercel.app";
-const RESCUE = `(function(){var p=location.pathname;if(p.indexOf("/api/leads/track/")===0){location.replace("${ADMIN_ORIGIN}"+p+location.search);return;}if(p.length>1&&p.charAt(p.length-1)==="/"){location.replace(p.replace(/\\/+$/,"")+location.search+location.hash);}})();`;
+const RESCUE = `(function(){var p=location.pathname;if(p.indexOf("/api/leads/track/")===0){location.replace("${ADMIN_ORIGIN}"+p+location.search);return;}if(p.length>1&&p.charAt(p.length-1)==="/"){location.replace(p.replace(/\\/+$/,"")+location.search+location.hash);return;}var m=p.match(/^\\/(blog|services|industries|live-projects|career)\\/[^/]/);if(m){location.replace("/"+m[1]);}})();`;
 
 /* Rendered inside the root layout — no <html>/<body> here (nesting them caused
    React "cannot be a child of <body>" hydration errors on every 404). */
