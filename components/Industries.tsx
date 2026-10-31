@@ -33,7 +33,10 @@ export function Industries({
           Pick your trade to see what we would actually build for it.
         </p>
         {industries.length === 0 ? (
-          <p className="meta" style={{ marginTop: 24 }}>Nothing here yet.</p>
+          <p className="meta" style={{ marginTop: 24 }}>
+            We are refreshing this list. Tell us your trade and what slows you down, and we
+            will reply the same day. <Link href="/contact">Contact us</Link>
+          </p>
         ) : (
           <PagedGrid
             className="svc-grid"

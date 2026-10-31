@@ -78,7 +78,7 @@ export default async function BlogIndexPage() {
       >
         {posts.length === 0 ? (
           <p style={{ marginTop: "var(--s-6)", color: "var(--fg2)" }}>
-            No posts yet. Check back soon.
+            New articles are on their way. Check back soon.
           </p>
         ) : (
           <>
