@@ -21,16 +21,18 @@ import { catalogueOptionId, customOptionId, type LeadOption } from "@/lib/lead-f
 import { isMovingMedia } from "@/lib/media";
 import { DEFAULT_OG_IMAGE, SITE_URL } from "@/lib/seo";
 import { getPublishedServiceCardsBySlugs } from "@/lib/services/db";
+import { EMPTY_PARAM, orPlaceholder } from "@/lib/static-params";
 
-export const revalidate = 300;
-export const dynamicParams = true;
+export const dynamicParams = false;
 
 export async function generateStaticParams() {
+  let params: { slug: string; service: string }[] = [];
   try {
-    return await listPublishedCustomServiceParams();
+    params = await listPublishedCustomServiceParams();
   } catch {
-    return [];
+    // DB unreachable: build the placeholder only.
   }
+  return orPlaceholder(params, { slug: EMPTY_PARAM, service: EMPTY_PARAM });
 }
 
 export async function generateMetadata({

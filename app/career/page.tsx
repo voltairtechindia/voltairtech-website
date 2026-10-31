@@ -11,7 +11,6 @@ import { DEFAULT_OG_IMAGE, SITE_URL } from "@/lib/seo";
 
 // Openings change rarely, and the admin pings /api/revalidate the moment one is
 // created, closed or edited — so a 5-minute window is only ever the backstop.
-export const revalidate = 300;
 
 export const metadata: Metadata = {
   title: "Careers: Build AI that ships, from Mumbai",

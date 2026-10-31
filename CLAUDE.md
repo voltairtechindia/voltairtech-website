@@ -41,9 +41,10 @@ Product stat figures ("₹0 forever free" on SendZap) are facts about a product,
 not a quote for a build, and stay.
 
 ## Stack
-- **Next.js** 14.2.29 (App Router). Marketing pages are static (`○`); the blog is
-  ISR (`revalidate=300`) and `/api/*` are dynamic — so the site now needs the
-  **Vercel server deployment**, not a static-export / GitHub-Pages build.
+- **Next.js** 14.2.29 (App Router) with `output: "export"`: the whole site is
+  static HTML on **GitHub Pages** (since 31 Oct 2026, after Vercel paused the
+  project). No server, no `/api/*`, no ISR, no middleware, no `next/image`
+  optimizer. Data is read from Supabase at BUILD time only.
 - **React** 18, **TypeScript** 5
 - **next/font** — Inter Tight + JetBrains Mono (no Google Fonts CDN)
 - No UI library, no Tailwind — custom CSS only
@@ -98,10 +99,30 @@ npm run lint     # ESLint
   DB-backed llmstxt.org manifest for GEO/AEO that lists published services,
   industries, and blog posts (replaced the old static `public/llms.txt`).
 
-## Deployment
-- **Primary:** Vercel (zero-config, auto-deploys on push to `master`)
-- **Fallback:** GitHub Pages (static export)
-- `vercel.json` and `netlify.toml` both present
+## Deployment (GitHub Pages, static)
+- `.github/workflows/pages.yml` builds `out/` and deploys it to GitHub Pages on
+  every push to `main`, every 4 hours (new blog posts and admin edits show up
+  then), and on demand (Actions, Run workflow). Custom domain www.voltairtech.com.
+- Build-time data needs `SUPABASE_URL` + `SUPABASE_SERVICE_KEY`: repo secrets if
+  set, else pulled from the old Vercel project with the `VERCEL_TOKEN` secret.
+  The service key is only used during the build and never reaches the browser.
+- **Forms:** every form posts to the "Website Leads" Google Apps Script
+  (`lib/leads.ts`, owned by voltairtechindia@gmail.com): one row per submission in
+  the Website Leads Google Sheet (a tab per form) plus an email to
+  business@voltairtech.com. Résumés go to a private Drive folder (5 MB max).
+- **Chat widget:** no live AI. A question is sent to the team with a reply
+  address (`components/ChatWidget.tsx`, `AskForm`).
+- **Paging:** /services, /industries and /blog ship every card in the HTML and
+  page in the browser (`components/PagedGrid.tsx`, `?page=` still works).
+- **Empty lists:** a dynamic route with no rows builds one `_none` placeholder
+  that 404s (`lib/static-params.ts`), because export refuses empty params.
+- **404 page** also forwards cold-email click links (`/api/leads/track/*`) to
+  the admin app and strips trailing slashes.
+- The full server version (chatbot API, admin write APIs, ISR) is kept on the
+  `vercel-full` branch. The sections below describe that version where they
+  mention `/api/*`; on `main` those routes no longer exist, so the admin panel
+  and n8n must write to Supabase directly.
+- Local build: Google Fonts must be reachable (next/font downloads at build).
 
 ## RAG chatbot + Blog + Inquiries (Supabase + Gemini)
 Ported from the kauntech site; re-themed for Voltair. New Supabase project

@@ -5,6 +5,7 @@ import type { IndustryCustomService } from "@/lib/industries/types";
 import type { ServiceCard } from "@/lib/services/types";
 import { ServiceGlyph } from "./atoms/ServiceGlyph";
 import { CoverImage } from "./atoms/CoverImage";
+import { PagedGrid } from "./PagedGrid";
 
 /** Shared inner content for a service card (catalogue or custom). */
 function CardBody({
@@ -73,15 +74,17 @@ export function ServiceCardGrid({
   custom = [],
   customBaseHref,
   compact = false,
+  paged,
 }: {
   services: ServiceCard[];
   custom?: IndustryCustomService[];
   customBaseHref?: string;
   compact?: boolean;
+  /** Show one page of cards at a time (the /services index). */
+  paged?: { perPage: number; basePath: string; label: string };
 }) {
-  return (
-    <div className={`svc-grid${compact ? " svc-grid--compact" : ""}`}>
-      {services.map((s, i) => (
+  const cards = [
+      ...services.map((s, i) => (
         <Link
           key={s.slug}
           href={`/services/${s.slug}`}
@@ -100,9 +103,9 @@ export function ServiceCardGrid({
             showArrow
           />
         </Link>
-      ))}
+      )),
 
-      {custom.map((c, i) => {
+      ...custom.map((c, i) => {
         const slug = customServiceSlug(c);
         const href = customBaseHref ? `${customBaseHref}/${slug}` : undefined;
         const body = (
@@ -133,7 +136,15 @@ export function ServiceCardGrid({
             {body}
           </div>
         );
-      })}
-    </div>
+      }),
+  ];
+
+  const className = `svc-grid${compact ? " svc-grid--compact" : ""}`;
+  return paged ? (
+    <PagedGrid className={className} perPage={paged.perPage} basePath={paged.basePath} label={paged.label}>
+      {cards}
+    </PagedGrid>
+  ) : (
+    <div className={className}>{cards}</div>
   );
 }

@@ -84,16 +84,16 @@ export default function RecruitmentPrivacyPage() {
 
       <h2>4. Where it is stored, and who can see it</h2>
       <p>
-        Applications are stored in our Supabase project. Résumé files live in a{" "}
-        <strong>private</strong> storage bucket with no public access. Our hiring team
-        opens them through a signed, short-lived link behind an authenticated admin
-        login. Access is limited to the people at Voltair Tech involved in hiring.
+        Applications are stored in a <strong>private</strong> Google Sheet, and résumé
+        files in a <strong>private</strong> Google Drive folder, both owned by Voltair
+        Tech&apos;s Google account with no public access. Access is limited to the
+        people at Voltair Tech involved in hiring.
       </p>
       <p>
-        Our processors are Supabase (database and file storage), Vercel (hosting),
-        Google (Gemini API, and Gmail when we email you). Data may be processed on
-        servers outside India by these providers under their own contractual and
-        security commitments.
+        Our processors are Google (Sheets and Drive for storage, the Gemini API when we
+        screen applications, and Gmail when we email you) and GitHub (website hosting).
+        Data may be processed on servers outside India by these providers under their
+        own contractual and security commitments.
       </p>
 
       <h2>5. How long we keep it</h2>

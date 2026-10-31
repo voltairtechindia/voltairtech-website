@@ -12,7 +12,6 @@ import { listPublishedServices } from "@/lib/services/db";
 import type { ServiceCard } from "@/lib/services/types";
 import { SITE_URL } from "@/lib/seo";
 
-export const revalidate = 3600;
 
 export const metadata: Metadata = {
   title: "Voltair Tech - AI Service provider in Mumbai",

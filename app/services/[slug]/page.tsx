@@ -18,6 +18,7 @@ import {
   listPublishedServiceSlugs,
 } from "@/lib/services/db";
 import { DEFAULT_OG_IMAGE, SITE_URL } from "@/lib/seo";
+import { EMPTY_PARAM, orPlaceholder } from "@/lib/static-params";
 
 const ORG_ID = `${SITE_URL}/#organization`;
 const AREA_SERVED = [
@@ -26,16 +27,16 @@ const AREA_SERVED = [
   { "@type": "Place", name: "Asia-Pacific (APAC)" },
 ];
 
-export const revalidate = 300;
-export const dynamicParams = true;
+export const dynamicParams = false;
 
 export async function generateStaticParams() {
+  let slugs: string[] = [];
   try {
-    const slugs = await listPublishedServiceSlugs();
-    return slugs.map((slug) => ({ slug }));
+    slugs = await listPublishedServiceSlugs();
   } catch {
-    return [];
+    // DB unreachable: build the placeholder only.
   }
+  return orPlaceholder(slugs.map((slug) => ({ slug })), { slug: EMPTY_PARAM });
 }
 
 export async function generateMetadata({

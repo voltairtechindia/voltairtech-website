@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 
+import { PagedGrid } from "@/components/PagedGrid";
 import { ProsePage } from "@/components/ProsePage";
 import { CoverImage } from "@/components/atoms/CoverImage";
 import { DEFAULT_PER_PAGE, listPublishedPosts } from "@/lib/blog/db";
@@ -8,11 +9,9 @@ import type { BlogIndex } from "@/lib/blog/types";
 import { formatDate } from "@/lib/blog/util";
 import { DEFAULT_OG_IMAGE } from "@/lib/seo";
 
-// Render per-request: the listing is time-gated (published_at <= now()), and a
-// statically-cached page can't tell that a scheduled post's time has passed. The
-// query is a single cheap Supabase call, so a scheduled post appears the moment
-// it's due instead of waiting out an ISR window.
-export const dynamic = "force-dynamic";
+// Built into static HTML. The listing is time-gated (published_at <= now()), so a
+// scheduled post appears on the next site build after its time (the Pages
+// workflow rebuilds every few hours).
 
 export const metadata: Metadata = {
   title: "Blog: Practical AI Guides for Indian Businesses",
@@ -28,22 +27,16 @@ export const metadata: Metadata = {
   },
 };
 
-export default async function BlogIndexPage({
-  searchParams,
-}: {
-  searchParams: { page?: string };
-}) {
-  const page = Math.max(1, Number(searchParams?.page) || 1);
-
+export default async function BlogIndexPage() {
   let data: BlogIndex = {
     items: [],
     total: 0,
-    page,
+    page: 1,
     perPage: DEFAULT_PER_PAGE,
     pageCount: 1,
   };
   try {
-    data = await listPublishedPosts(page);
+    data = await listPublishedPosts(1, 1000);
   } catch {
     // DB unavailable (e.g. build before env is set) — render the empty state.
   }
@@ -89,7 +82,7 @@ export default async function BlogIndexPage({
           </p>
         ) : (
           <>
-            <div className="post-list post-list--grid">
+            <PagedGrid className="post-list post-list--grid" perPage={DEFAULT_PER_PAGE} basePath="/blog" label="Blog pages">
               {posts.map((p) => (
                 <Link
                   key={p.slug}
@@ -121,32 +114,7 @@ export default async function BlogIndexPage({
                   </div>
                 </Link>
               ))}
-            </div>
-
-            {data.pageCount > 1 ? (
-              <nav className="pagination" aria-label="Blog pages">
-                {page > 1 ? (
-                  <Link
-                    className="pagination__btn"
-                    href={page - 1 === 1 ? "/blog" : `/blog?page=${page - 1}`}
-                  >
-                    ← Prev
-                  </Link>
-                ) : (
-                  <span className="pagination__btn is-disabled">← Prev</span>
-                )}
-                <span className="pagination__status">
-                  Page {data.page} of {data.pageCount}
-                </span>
-                {page < data.pageCount ? (
-                  <Link className="pagination__btn" href={`/blog?page=${page + 1}`}>
-                    Next →
-                  </Link>
-                ) : (
-                  <span className="pagination__btn is-disabled">Next →</span>
-                )}
-              </nav>
-            ) : null}
+            </PagedGrid>
           </>
         )}
       </ProsePage>

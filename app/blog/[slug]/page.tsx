@@ -12,32 +12,23 @@ import {
 } from "@/lib/blog/db";
 import { formatDate } from "@/lib/blog/util";
 import { DEFAULT_OG_IMAGE, breadcrumbLd } from "@/lib/seo";
+import { EMPTY_PARAM, orPlaceholder } from "@/lib/static-params";
 
 const SITE_URL = "https://www.voltairtech.com";
 
-// ISR + dynamicParams: a scheduled post is never prerendered at build, so its
-// first visit once due renders fresh.
-//
-// The window is 30 min rather than the old 60s because this page is the main
-// ad landing surface: at 60s EVERY post regenerated up to 1,440x/day under paid
-// traffic, which is what exhausted the host's CPU allowance. Edits do NOT wait
-// this out — the admin pings /api/revalidate with the post's path on save, so
-// publishing and corrections still propagate immediately.
-//
-// Don't raise this much further without a scheduler: a URL visited BEFORE its
-// published_at is due renders notFound(), and that 404 is itself cached for the
-// window — so the window is also the worst-case delay before a scheduled post
-// stops 404ing for someone who had the link early.
-export const revalidate = 1800;
-export const dynamicParams = true;
+// Static site: every published post is built into HTML. A scheduled post shows
+// up on the first site build after its publish time (the Pages workflow
+// rebuilds every few hours, and on every push).
+export const dynamicParams = false;
 
 export async function generateStaticParams() {
+  let slugs: string[] = [];
   try {
-    const slugs = await listPublishedSlugs();
-    return slugs.map((slug) => ({ slug }));
+    slugs = await listPublishedSlugs();
   } catch {
-    return [];
+    // DB unreachable: build the placeholder only.
   }
+  return orPlaceholder(slugs.map((slug) => ({ slug })), { slug: EMPTY_PARAM });
 }
 
 export async function generateMetadata({

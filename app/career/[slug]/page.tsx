@@ -9,17 +9,18 @@ import { Arr } from "@/components/atoms/Arr";
 import { Kicker } from "@/components/atoms/Kicker";
 import { getJob, listOpenJobs } from "@/lib/careers/db";
 import { DEFAULT_OG_IMAGE, SITE_URL, breadcrumbLd } from "@/lib/seo";
+import { EMPTY_PARAM, orPlaceholder } from "@/lib/static-params";
 
-export const revalidate = 300;
-export const dynamicParams = true;
+export const dynamicParams = false;
 
 export async function generateStaticParams() {
+  let slugs: string[] = [];
   try {
-    const jobs = await listOpenJobs();
-    return jobs.map((j) => ({ slug: j.slug }));
+    slugs = (await listOpenJobs()).map((j) => j.slug);
   } catch {
-    return [];
+    // DB unreachable: build the placeholder only.
   }
+  return orPlaceholder(slugs.map((slug) => ({ slug })), { slug: EMPTY_PARAM });
 }
 
 /** Markdown → a clean one-paragraph description for meta/OG. */

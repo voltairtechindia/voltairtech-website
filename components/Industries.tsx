@@ -4,6 +4,7 @@ import Image from "next/image";
 import type { IndustryCard } from "@/lib/industries/types";
 import { industryIconSrc } from "@/lib/industries/icons";
 import { SectionHead } from "./atoms/SectionHead";
+import { PagedGrid } from "./PagedGrid";
 
 /**
  * The /industries index — a grid of sector cards. Each links to
@@ -13,12 +14,10 @@ import { SectionHead } from "./atoms/SectionHead";
  */
 export function Industries({
   industries,
-  page = 1,
-  pageCount = 1,
+  perPage = 8,
 }: {
   industries: IndustryCard[];
-  page?: number;
-  pageCount?: number;
+  perPage?: number;
 }) {
   return (
     <section id="industries" className="section">
@@ -36,7 +35,13 @@ export function Industries({
         {industries.length === 0 ? (
           <p className="meta" style={{ marginTop: 24 }}>Nothing here yet.</p>
         ) : (
-          <div className="svc-grid" style={{ marginTop: "var(--s-6)" }}>
+          <PagedGrid
+            className="svc-grid"
+            style={{ marginTop: "var(--s-6)" }}
+            perPage={perPage}
+            basePath="/industries"
+            label="Industries pages"
+          >
             {industries.map((it) => (
               <Link
                 key={it.slug}
@@ -75,24 +80,8 @@ export function Industries({
                 <div className="svc-card__cta">See what we build</div>
               </Link>
             ))}
-          </div>
+          </PagedGrid>
         )}
-
-        {pageCount > 1 ? (
-          <nav className="pagination" aria-label="Industries pages">
-            {page > 1 ? (
-              <Link className="pagination__btn" href={`/industries?page=${page - 1}`}>← Prev</Link>
-            ) : (
-              <span className="pagination__btn is-disabled">← Prev</span>
-            )}
-            <span className="pagination__status">Page {page} of {pageCount}</span>
-            {page < pageCount ? (
-              <Link className="pagination__btn" href={`/industries?page=${page + 1}`}>Next →</Link>
-            ) : (
-              <span className="pagination__btn is-disabled">Next →</span>
-            )}
-          </nav>
-        ) : null}
       </div>
     </section>
   );

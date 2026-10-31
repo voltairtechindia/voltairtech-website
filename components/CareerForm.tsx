@@ -3,13 +3,14 @@
 import { useEffect, useRef, useState } from "react";
 
 import { CONTENT } from "@/lib/content";
+import { sendLead } from "@/lib/leads";
 import { Arr } from "./atoms/Arr";
 
 type JobOption = { slug: string; title: string };
 type Status = "idle" | "sending" | "done" | "error";
 
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-const MAX_BYTES = 10 * 1024 * 1024; // matches the API + the bucket's own cap
+const MAX_BYTES = 5 * 1024 * 1024; // the Website Leads script saves up to 5 MB
 const ACCEPT =
   ".pdf,.docx,application/pdf,application/vnd.openxmlformats-officedocument.wordprocessingml.document";
 
@@ -117,7 +118,7 @@ export default function CareerForm({
     }
     if (f.size > MAX_BYTES) {
       setFile(null);
-      setFileError(`That file is ${fmtSize(f.size)}. The limit is 10 MB.`);
+      setFileError(`That file is ${fmtSize(f.size)}. The limit is 5 MB.`);
       return;
     }
     setFile(f);
@@ -130,37 +131,29 @@ export default function CareerForm({
     setStatus("sending");
     setError(null);
 
-    const data = new FormData();
-    data.set("full_name", name.trim());
-    data.set("email", email.trim());
-    if (phone.trim()) data.set("phone", phone.trim());
-    if (location.trim()) data.set("location", location.trim());
-    if (linkedin.trim()) data.set("linkedin_url", linkedin.trim());
-    if (portfolio.trim()) data.set("portfolio_url", portfolio.trim());
-    if (years.trim()) data.set("years_experience", years.trim());
-    if (note.trim()) data.set("cover_note", note.trim());
-    if (jobSlug) data.set("job_slug", jobSlug);
-    data.set("consent", "yes");
-    data.set("website", website);
-    data.set("resume", file!);
-    data.set("page_url", window.location.href);
-
+    const job = jobs.find((j) => j.slug === jobSlug);
     try {
-      const res = await fetch("/api/careers/apply", { method: "POST", body: data });
-      const json = (await res.json().catch(() => null)) as { detail?: string } | null;
-      if (!res.ok) {
-        setError(
-          json?.detail ??
-            `Could not submit. Please email ${CONTENT.brand.email} with your résumé.`,
-        );
-        setStatus("error");
-        return;
-      }
+      await sendLead(
+        "career",
+        {
+          name,
+          email,
+          phone,
+          location,
+          linkedin,
+          portfolio,
+          years_experience: years,
+          role: job?.title ?? jobSlug,
+          note,
+          consent: "yes",
+        },
+        { file, honeypot: website },
+      );
       setStatus("done");
       onSubmitted?.();
     } catch {
       setError(
-        `Could not submit. Check your connection, or email ${CONTENT.brand.email}.`,
+        `Could not submit. Check your connection, or email your résumé to ${CONTENT.brand.email}.`,
       );
       setStatus("error");
     }
@@ -330,7 +323,7 @@ export default function CareerForm({
 
       {/* Résumé — the one attachment, given room to be obvious. */}
       <div className="cf__field cf__field--wide">
-        <span className="cf__label">Résumé * <span className="cf__opt">PDF or DOCX, max 10 MB</span></span>
+        <span className="cf__label">Résumé * <span className="cf__opt">PDF or DOCX, max 5 MB</span></span>
         <div
           className={`cf__drop${dragOver ? " is-drag" : ""}${file ? " is-set" : ""}${fileError ? " is-bad" : ""}`}
           role="button"

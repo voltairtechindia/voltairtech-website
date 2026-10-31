@@ -10,9 +10,6 @@ import {
 import type { IndustryPage } from "@/lib/industries/types";
 import { DEFAULT_OG_IMAGE } from "@/lib/seo";
 
-// Revalidate every 5 min so admin edits appear without a redeploy.
-export const revalidate = 300;
-
 // Derived from the live catalogue so the meta copy can't drift from the DB as
 // sectors are added/removed in the admin (it used to hardcode 8 of 13).
 export async function generateMetadata(): Promise<Metadata> {
@@ -40,16 +37,10 @@ export async function generateMetadata(): Promise<Metadata> {
   };
 }
 
-export default async function IndustriesPage({
-  searchParams,
-}: {
-  searchParams: { page?: string };
-}) {
-  const page = Math.max(1, Number(searchParams?.page) || 1);
-
-  let data: IndustryPage = { items: [], total: 0, page, perPage: DEFAULT_PER_PAGE, pageCount: 1 };
+export default async function IndustriesPage() {
+  let data: IndustryPage = { items: [], total: 0, page: 1, perPage: DEFAULT_PER_PAGE, pageCount: 1 };
   try {
-    data = await listPublishedIndustries(page);
+    data = await listPublishedIndustries(1, 1000);
   } catch {
     // DB unavailable (e.g. build before env) — render the empty state.
   }
@@ -60,7 +51,7 @@ export default async function IndustriesPage({
     name: "Industries Voltair Tech builds for",
     itemListElement: data.items.map((it, i) => ({
       "@type": "ListItem",
-      position: (data.page - 1) * data.perPage + i + 1,
+      position: i + 1,
       name: it.title,
       url: `https://www.voltairtech.com/industries/${it.slug}`,
     })),
@@ -70,7 +61,7 @@ export default async function IndustriesPage({
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
       <PageLayout footerNum="03">
-        <Industries industries={data.items} page={data.page} pageCount={data.pageCount} />
+        <Industries industries={data.items} perPage={DEFAULT_PER_PAGE} />
         <Process
           num="02"
           title={<>How we build{" "}<br />for your trade.</>}
