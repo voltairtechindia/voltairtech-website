@@ -56,7 +56,7 @@ export default function PrivacyPage() {
         We do not sell, rent, or trade your personal data. We may share data with:
       </p>
       <ul>
-        <li><strong>Service providers</strong> acting as data processors (e.g., Vercel for hosting, Google Workspace for email, Razorpay/Stripe for payments), bound by data processing agreements.</li>
+        <li><strong>Service providers</strong> acting as data processors (e.g., GitHub Pages for hosting, Google Workspace and Google Sheets for email and enquiry records, Razorpay/Stripe for payments), bound by data processing agreements.</li>
         <li><strong>Legal authorities</strong> where required by law or a valid court order.</li>
       </ul>
       <p>We do not sub-contract your project work to third parties without written notice and your consent.</p>

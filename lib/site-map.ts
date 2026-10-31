@@ -191,7 +191,7 @@ export interface PageContext {
 }
 
 const DEFAULT_GREETING =
-  "Hi! I'm the **Voltair AI Specialist**. Ask me anything about what we build: websites in 48 hours, chatbots, phone agents, automation, or what it costs. Pick one below or just type.";
+  "Hi! Ask us anything about what we build: websites in 48 hours, chatbots, phone agents, automation, or what it costs. A person from our team replies, usually within a few hours.";
 
 const HOME_PRESETS = [
   "What can you build in 48 hours?",
@@ -222,13 +222,12 @@ export function pageContext(pathname: string, rawTitle: string): PageContext {
     const t = title || "this article";
     return {
       topic: t,
-      greeting: `I see you're reading **${t}**. Want the gist, or have a question about building something like it?`,
+      greeting: `Reading **${t}**? Ask us anything about it, or about building something like it.`,
       presets: [
-        `Give me the gist of "${t}"`,
         "Can Voltair build something like this?",
         "What would a project like this cost?",
       ],
-      peek: `Enjoying "${truncate(t, 40)}"? I can summarise it or answer questions.`,
+      peek: `Questions about "${truncate(t, 40)}"? Ask our team.`,
       peekDelayMs: 16000,
     };
   }
@@ -236,13 +235,13 @@ export function pageContext(pathname: string, rawTitle: string): PageContext {
     const t = title || "this service";
     return {
       topic: t,
-      greeting: `Looking at **${t}**? Ask me what's included, how fast we ship it, or what it costs.`,
+      greeting: `Looking at **${t}**? Ask us what's included, how fast we ship it, or what it costs.`,
       presets: [
         `What's included in ${t}?`,
         `How fast can you ship ${t}?`,
         `What does ${t} cost?`,
       ],
-      peek: `Questions about ${truncate(t, 40)}? I can break it down.`,
+      peek: `Questions about ${truncate(t, 40)}? Ask our team.`,
       peekDelayMs: 16000,
     };
   }
@@ -251,13 +250,13 @@ export function pageContext(pathname: string, rawTitle: string): PageContext {
     const name = t.replace(/^AI for\s+/i, "");
     return {
       topic: t,
-      greeting: `Exploring **${t}**? I can show what Voltair builds for ${name} teams.`,
+      greeting: `Exploring **${t}**? Ask us what Voltair builds for ${name} teams.`,
       presets: [
         `How does Voltair help ${name} teams?`,
         `Which services fit ${name}?`,
         `What would you build for ${name}?`,
       ],
-      peek: `Building for ${truncate(name, 34)}? I can suggest where to start.`,
+      peek: `Building for ${truncate(name, 34)}? Ask us where to start.`,
       peekDelayMs: 16000,
     };
   }
@@ -268,7 +267,7 @@ export function pageContext(pathname: string, rawTitle: string): PageContext {
       return {
         topic: "our services",
         greeting:
-          "Browsing what we build? Tell me your idea and I'll match it to the right service.",
+          "Browsing what we build? Tell us your idea and we'll match it to the right service.",
         presets: [
           "What can you build in 48 hours?",
           "How does pricing work?",
@@ -281,7 +280,7 @@ export function pageContext(pathname: string, rawTitle: string): PageContext {
       return {
         topic: "the sectors we serve",
         greeting:
-          "Looking for your sector? Tell me your industry and I'll show what we build for it.",
+          "Looking for your sector? Tell us your industry and we'll show what we build for it.",
         presets: [
           "Which sectors do you build for?",
           "Do you work with fintech?",
@@ -294,25 +293,25 @@ export function pageContext(pathname: string, rawTitle: string): PageContext {
       return {
         topic: "the Voltair blog",
         greeting:
-          "Looking for something to read? Tell me a topic and I'll point you to the right post.",
+          "Looking for something to read? Tell us a topic and we'll point you to the right post.",
         presets: [
           "What should I read first?",
           "Anything on chatbots?",
           "How does Voltair build AI apps?",
         ],
-        peek: "Looking for a specific topic? I can find the right post.",
+        peek: "Looking for a specific topic? Ask us.",
         peekDelayMs: 26000,
       };
     case "/faq":
       return {
         topic: "our FAQs",
-        greeting: "Can't find your answer below? Ask me directly.",
+        greeting: "Can't find your answer below? Ask us directly.",
         presets: [
           "How much does an AI app cost?",
           "How does the 48-hour build work?",
           "What would you build for my business?",
         ],
-        peek: "Didn't find your answer below? Ask me directly.",
+        peek: "Didn't find your answer below? Ask us directly.",
         peekDelayMs: 22000,
       };
     case "/about":
@@ -325,20 +324,20 @@ export function pageContext(pathname: string, rawTitle: string): PageContext {
           "How do you ship in 48 hours?",
           "Where are you based?",
         ],
-        peek: "Want the story behind Voltair? Ask me anything.",
+        peek: "Want the story behind Voltair? Ask us anything.",
         peekDelayMs: 24000,
       };
     case "/contact":
       return {
         topic: "starting a project",
         greeting:
-          "Ready to start? I can tell you exactly what to expect from a scoping call.",
+          "Ready to start? Ask us what to expect from a scoping call.",
         presets: [
           "What happens on a scoping call?",
           "What do you need from me to start?",
           "How fast can we begin?",
         ],
-        peek: "Ready to start? I can walk you through the first step.",
+        peek: "Ready to start? Ask us about the first step.",
         peekDelayMs: 22000,
       };
     case "/privacy":
@@ -352,7 +351,7 @@ export function pageContext(pathname: string, rawTitle: string): PageContext {
           "Where is my data stored?",
           "Do you sign NDAs?",
         ],
-        peek: "Questions about data or our terms? I can help.",
+        peek: "Questions about data or our terms? Ask us.",
         peekDelayMs: 28000,
       };
     case "/":
@@ -360,7 +359,7 @@ export function pageContext(pathname: string, rawTitle: string): PageContext {
         topic: null,
         greeting: DEFAULT_GREETING,
         presets: HOME_PRESETS,
-        peek: "New here? I can show you what Voltair ships in 48 hours.",
+        peek: "New here? Ask us what Voltair ships in 48 hours.",
         peekDelayMs: 34000,
       };
     default:

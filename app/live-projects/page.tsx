@@ -12,7 +12,6 @@ import type { LiveProject } from "@/lib/live-projects/types";
  * window as /services and /faq. The admin also pings /api/revalidate after a
  * save, which makes an edit show up immediately rather than up to 5 min later.
  */
-export const revalidate = 300;
 
 const TITLE = "Live Projects - AI Products Built & Shipped by VoltairTech";
 const DESCRIPTION =

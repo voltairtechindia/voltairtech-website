@@ -10,10 +10,9 @@ import { listPublishedProjectSlugs } from "@/lib/live-projects/db";
 import { loadProjectWithNeighbours, loadProjects } from "@/lib/live-projects/load";
 import { LIFECYCLE_LABEL, type LiveProject, type MediaItem } from "@/lib/live-projects/types";
 
-/** Same window as the index — the admin also pings /api/revalidate on save. */
-export const revalidate = 300;
+/** Every published project is built into static HTML. */
+export const dynamicParams = false;
 
-/** Prebuild the published set; anything else renders on first request. */
 export async function generateStaticParams() {
   try {
     return (await listPublishedProjectSlugs()).map((slug) => ({ slug }));

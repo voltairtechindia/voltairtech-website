@@ -9,7 +9,6 @@ import { DEFAULT_OG_IMAGE, breadcrumbLd } from "@/lib/seo";
 
 // The questions are admin-managed rows in `site_faqs`, so the page can't be
 // fully static any more; a short ISR window picks up edits without a deploy.
-export const revalidate = 300;
 
 export const metadata: Metadata = {
   title: "FAQ - AI Service provider in Mumbai | Common Questions Answered",

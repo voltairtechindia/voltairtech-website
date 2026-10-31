@@ -6,9 +6,6 @@ import { DEFAULT_PER_PAGE, listPublishedServices } from "@/lib/services/db";
 import type { ServicePage } from "@/lib/services/types";
 import { DEFAULT_OG_IMAGE } from "@/lib/seo";
 
-// Revalidate every 5 min so admin edits appear without a redeploy.
-export const revalidate = 300;
-
 export const metadata: Metadata = {
   title: "What We Build: Websites, Chatbots, Document Search & Automation",
   description:
@@ -23,16 +20,12 @@ export const metadata: Metadata = {
   },
 };
 
-export default async function ServicesPage({
-  searchParams,
-}: {
-  searchParams: { page?: string };
-}) {
-  const page = Math.max(1, Number(searchParams?.page) || 1);
-
-  let data: ServicePage = { items: [], total: 0, page, perPage: DEFAULT_PER_PAGE, pageCount: 1 };
+// Static site: every service is built into the page and the browser shows one
+// page of cards at a time (components/PagedGrid).
+export default async function ServicesPage() {
+  let data: ServicePage = { items: [], total: 0, page: 1, perPage: DEFAULT_PER_PAGE, pageCount: 1 };
   try {
-    data = await listPublishedServices(page);
+    data = await listPublishedServices(1, 1000);
   } catch {
     // DB unavailable (e.g. build before env) — render the empty state.
   }
@@ -43,7 +36,7 @@ export default async function ServicesPage({
     name: "Voltair Tech AI Services",
     itemListElement: data.items.map((s, i) => ({
       "@type": "ListItem",
-      position: (data.page - 1) * data.perPage + i + 1,
+      position: i + 1,
       name: s.title,
       url: `https://www.voltairtech.com/services/${s.slug}`,
     })),
@@ -53,7 +46,7 @@ export default async function ServicesPage({
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
       <PageLayout footerNum="03">
-        <Services services={data.items} page={data.page} pageCount={data.pageCount} />
+        <Services services={data.items} perPage={DEFAULT_PER_PAGE} />
         <Process
           num="02"
           title={<>How a build{" "}<br />actually goes.</>}

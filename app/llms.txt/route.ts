@@ -10,9 +10,8 @@ import { listPublishedSiteFaqs } from "@/lib/faq/db";
 import { listPublishedIndustries } from "@/lib/industries/db";
 import { listPublishedServices } from "@/lib/services/db";
 
-export const runtime = "nodejs";
+export const dynamic = "force-static";
 // Regenerate at most hourly; new published content appears within the window.
-export const revalidate = 3600;
 
 const SITE_URL = "https://www.voltairtech.com";
 

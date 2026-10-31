@@ -4,21 +4,14 @@ import { usePathname, useRouter } from "next/navigation";
 import { useCallback, useEffect, useRef, useState } from "react";
 
 import Markdown from "./Markdown";
-import {
-  getChatSessionId,
-  splitTrailer,
-  OPEN_CHAT_EVENT,
-} from "@/lib/chat-client";
+import { OPEN_CHAT_EVENT } from "@/lib/chat-client";
+import { sendLead } from "@/lib/leads";
 import {
   detectPages,
   isContactIntent,
-  isGetStarted,
   pageContext,
-  sourceLinks,
-  suggestFollowups,
   type NavLink,
   type PageContext,
-  type SourceRef,
 } from "@/lib/site-map";
 
 type Msg = {
@@ -31,6 +24,8 @@ type Msg = {
   followups?: string[];
   /** Inline lead-capture form (strong buying intent). */
   lead?: boolean;
+  /** The question a person on the team will answer; shown with a reply form. */
+  ask?: string;
   animate?: boolean;
 };
 
@@ -381,73 +376,28 @@ export default function ChatWidget() {
     setInput("");
     setBusy(true);
 
-    const pc = ctx;
-    const page = {
-      path: pathname || "/",
-      title: typeof document !== "undefined" ? document.title : "",
-      topic: pc.topic ?? "",
-    };
-
-    try {
-      const res = await fetch("/api/chat", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          message: trimmed,
-          session_id: getChatSessionId(),
-          page_url: typeof location !== "undefined" ? location.href : undefined,
-          page,
-        }),
-      });
-
-      if (!res.ok) {
-        // Rate-limit / quota / validation errors carry a friendly `detail`;
-        // show it as a normal reply. Only fall back to the lead-capture form
-        // when we got nothing usable back (a real outage).
-        const data = (await res.json().catch(() => null)) as { detail?: string } | null;
-        if (data?.detail) {
-          setMessages((prev) => [...prev, { from: "bot", text: data.detail!, animate: true }]);
-          return;
-        }
-        throw new Error(`Request failed (${res.status})`);
-      }
-
-      const text = await res.text();
-      const { reply, sources } = splitTrailer(text);
-      const links = sourceLinks(sources, pathname || "/", 2);
-      const navs = detectPages(`${trimmed} ${reply}`, { exclude: pathname || "/", limit: 2 }).map(
-        (p) => ({ href: p.href, label: p.label }),
-      );
-      let merged = [...links, ...navs];
-      // A visitor who wants to connect should always get a one-tap route to
-      // /contact — even if cited-source deep-links would fill both button slots.
-      if (isContactIntent(trimmed) && (pathname || "/") !== "/contact") {
-        const contact =
-          navs.find((n) => n.href === "/contact") ?? { href: "/contact", label: "Contact us" };
-        merged = [contact, ...merged.filter((m) => m.href !== "/contact")];
-      }
-      const actions = dedupeLinks(merged).slice(0, 2);
-      const lead = isGetStarted(trimmed) && !leadShown();
-      const followups = lead ? [] : suggestFollowups(trimmed, reply, pc);
-      if (lead) markLeadShown();
-
-      setMessages((prev) => [
-        ...prev,
-        { from: "bot", text: reply, actions, followups, lead, animate: true },
-      ]);
-    } catch (err) {
-      console.error("[voltair-chat]", err);
-      setMessages((prev) => [
-        ...prev,
-        {
-          from: "bot",
-          error: true,
-          text: "Sorry, I couldn't reach the assistant just now. Leave your details and the Voltair team will get back to you shortly.",
-        },
-      ]);
-    } finally {
-      setBusy(false);
+    // The site is static, so there is no live assistant. A person on the team
+    // answers: show where the question is going, collect a way to reply, and
+    // still offer the most relevant pages to read meanwhile.
+    const navs = detectPages(trimmed, { exclude: pathname || "/", limit: 2 }).map((p) => ({
+      href: p.href,
+      label: p.label,
+    }));
+    if (isContactIntent(trimmed) && (pathname || "/") !== "/contact") {
+      navs.unshift({ href: "/contact", label: "Contact us" });
     }
+    const actions = dedupeLinks(navs).slice(0, 2);
+    setMessages((prev) => [
+      ...prev,
+      {
+        from: "bot",
+        text: "Good question. A person from our team answers these, usually within a few hours. Leave your name and email or WhatsApp number and we'll reply there.",
+        actions,
+        ask: trimmed,
+        animate: true,
+      },
+    ]);
+    setBusy(false);
   };
 
   // Keep the latest submit reachable from the (mount-only) hero-launch listener.
@@ -466,12 +416,12 @@ export default function ChatWidget() {
           onKeyDown={(e) => {
             if (e.key === "Enter" || e.key === " ") openChat();
           }}
-          aria-label="Open chat with the Voltair AI Specialist"
+          aria-label="Ask the Voltair team a question"
         >
           <span className="chat-peek-avatar"><IconBot /></span>
           <span className="chat-peek-body">
             <span className="chat-peek-text">{peekText}</span>
-            <span className="chat-peek-cta">Ask the AI Specialist <IconArrow /></span>
+            <span className="chat-peek-cta">Ask the team <IconArrow /></span>
           </span>
           <button className="chat-peek-close" onClick={dismissPeek} type="button" aria-label="Dismiss">
             <IconClose />
@@ -481,25 +431,25 @@ export default function ChatWidget() {
 
       <button
         className="chat-widget-btn"
-        title="Chat with the Voltair AI Specialist"
+        title="Ask the Voltair team"
         aria-label="Open chat"
         onClick={openChat}
         type="button"
         style={open ? { transform: "scale(0)", opacity: 0 } : undefined}
       >
         <IconChat />
-        <span className="chat-widget-btn-label">Ask Voltair AI</span>
+        <span className="chat-widget-btn-label">Ask Voltair</span>
       </button>
 
-      <div ref={windowRef} className={`chat-widget-window${open ? " active" : ""}${isWide ? " wide" : ""}`} role="dialog" aria-label="Voltair AI Specialist">
+      <div ref={windowRef} className={`chat-widget-window${open ? " active" : ""}${isWide ? " wide" : ""}`} role="dialog" aria-label="Ask the Voltair team">
         <div className="chat-header">
           <div className="chat-header-info">
             <div className="chat-avatar"><IconBot /></div>
             <div className="chat-title-box">
-              <h2>Voltair AI Specialist</h2>
+              <h2>Ask the Voltair team</h2>
               <p>
                 <span className="status-dot" />
-                <span>Online &amp; Ready</span>
+                <span>Replies within a few hours</span>
               </p>
             </div>
           </div>
@@ -553,6 +503,7 @@ export default function ChatWidget() {
                 </div>
               )}
               {!m.animate && m.from === "bot" && m.lead && <LeadForm />}
+              {!m.animate && m.from === "bot" && m.ask && <AskForm question={m.ask} />}
               {!m.animate && m.from === "bot" && m.followups && m.followups.length > 0 && (
                 <div className="chat-followups">
                   <span className="chat-followups-label">Keep exploring</span>
@@ -605,7 +556,7 @@ export default function ChatWidget() {
   );
 }
 
-/** Inline lead capture shown on strong buying intent — posts to /api/contact. */
+/** Inline lead capture shown on strong buying intent. Goes to the Website Leads sheet. */
 function LeadForm() {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
@@ -623,18 +574,12 @@ function LeadForm() {
     if (!name.trim() || !email.trim()) return;
     setState("sending");
     try {
-      const res = await fetch("/api/contact", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          name,
-          email,
-          message: message.trim() || "Started a project via the chat assistant.",
-          channel: "email",
-          page_url: typeof location !== "undefined" ? location.href : undefined,
-        }),
+      await sendLead("chat", {
+        name,
+        email,
+        message: message.trim() || "Wants to start a project (from the chat).",
       });
-      setState(res.ok ? "done" : "error");
+      setState("done");
     } catch {
       setState("error");
     }
@@ -659,7 +604,7 @@ function LeadForm() {
   );
 }
 
-/** Shown only when the assistant is unreachable — captures a real lead via /api/contact. */
+/** Shown only when something went wrong. Goes to the Website Leads sheet. */
 function FallbackForm() {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
@@ -677,18 +622,8 @@ function FallbackForm() {
     if (!name.trim() || !email.trim() || !message.trim()) return;
     setState("sending");
     try {
-      const res = await fetch("/api/contact", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          name,
-          email,
-          message,
-          channel: "email",
-          page_url: typeof location !== "undefined" ? location.href : undefined,
-        }),
-      });
-      setState(res.ok ? "done" : "error");
+      await sendLead("chat", { name, email, message });
+      setState("done");
     } catch {
       setState("error");
     }
@@ -706,6 +641,61 @@ function FallbackForm() {
       ) : null}
       <button type="button" onClick={send} disabled={state === "sending"}>
         {state === "sending" ? "Sending…" : "Send to Voltair"}
+      </button>
+    </div>
+  );
+}
+
+/** Reply form under a question. Name plus email or WhatsApp, then it goes to the team. */
+function AskForm({ question }: { question: string }) {
+  const [name, setName] = useState("");
+  const [contact, setContact] = useState("");
+  const [state, setState] = useState<"idle" | "sending" | "done" | "error">("idle");
+
+  if (state === "done")
+    return (
+      <div className="chat-lead-done">
+        Got it. We&apos;ll reply to {contact.trim()} shortly.
+      </div>
+    );
+
+  const isEmail = /@/.test(contact);
+  const digits = contact.replace(/[^0-9]/g, "").length;
+  const ok = name.trim().length >= 2 && (isEmail ? /^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(contact.trim()) : digits >= 8 && digits <= 15);
+
+  const send = async () => {
+    if (!ok) return;
+    setState("sending");
+    try {
+      await sendLead("chat", {
+        name,
+        email: isEmail ? contact : "",
+        phone: isEmail ? "" : contact,
+        reply_on: isEmail ? "Email" : "WhatsApp",
+        question,
+      });
+      setState("done");
+    } catch {
+      setState("error");
+    }
+  };
+
+  return (
+    <div className="chat-fallback-form" style={{ marginTop: 12 }}>
+      <input type="text" placeholder="Your name" value={name} onChange={(e) => setName(e.target.value)} required />
+      <input
+        type="text"
+        inputMode="email"
+        placeholder="Email or WhatsApp number"
+        value={contact}
+        onChange={(e) => setContact(e.target.value)}
+        required
+      />
+      {state === "error" ? (
+        <div className="chat-lead-err">Couldn&apos;t send. Please email business@voltairtech.com.</div>
+      ) : null}
+      <button type="button" onClick={send} disabled={state === "sending" || !ok}>
+        {state === "sending" ? "Sending…" : "Send my question"}
       </button>
     </div>
   );

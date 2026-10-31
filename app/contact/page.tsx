@@ -8,7 +8,6 @@ import { listPublishedServiceOptions } from "@/lib/services/db";
 
 // The picker is the live catalogue, so the page is ISR rather than fully static.
 // It stays prerendered — the Ads landing page never waits on Supabase.
-export const revalidate = 3600;
 
 export const metadata: Metadata = {
   title: "Contact Us - AI Service provider in Mumbai",

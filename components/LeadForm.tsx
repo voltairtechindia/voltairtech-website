@@ -6,6 +6,7 @@ import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import type { ReactNode } from "react";
 
 import { CONTENT } from "@/lib/content";
+import { sendLead } from "@/lib/leads";
 import { LEAD_FLAG, trackWhatsAppClick } from "@/lib/gtag-events";
 import {
   MAX_SELECTED_SERVICES,
@@ -249,39 +250,23 @@ export function LeadForm({
     // serialising them.
     router.prefetch(THANK_YOU);
     try {
-      const res = await fetch("/api/contact", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
+      await sendLead(
+        "contact",
+        {
           name,
           email: chan === "email" ? email : "",
           phone: chan === "whatsapp" ? whatsapp : "",
+          reply_on: chan === "whatsapp" ? "WhatsApp" : "Email",
           message: val,
-          channel: chan,
-          // What they ticked and where they were — the sales context the free
+          // What they ticked and where they were, the sales context the free
           // text used to have to carry on its own.
-          services: selectedOptions.map((o) => ({
-            slug: o.slug,
-            title: o.title,
-            custom: Boolean(o.custom),
-          })),
-          context: {
-            kind: ctx.kind,
-            industry_slug: ctx.industrySlug,
-            industry_title: ctx.industryTitle,
-            service_slug: ctx.serviceSlug,
-            service_title: ctx.serviceTitle,
-          },
-          website, // honeypot — bots fill it, humans don't
-          page_url: typeof location !== "undefined" ? location.href : undefined,
-        }),
-      });
-      const data = (await res.json().catch(() => null)) as { detail?: string } | null;
-      if (!res.ok) {
-        setError(data?.detail ?? `Could not send. Please email ${CONTENT.brand.email}.`);
-        setStatus("error");
-        return;
-      }
+          services: selectedOptions.map((o) => o.title).join(", "),
+          industry: ctx.industryTitle,
+          service_page: ctx.serviceTitle,
+          source: ctx.kind,
+        },
+        { honeypot: website },
+      );
       // The Google Ads conversion fires on /thank-you, not here: a beacon sent
       // from a page we're about to navigate away from can be dropped in flight.
       // The flag proves this visit is a real lead; ?ref=form is the fallback for
