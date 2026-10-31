@@ -1,3 +1,4 @@
+import Link from "next/link";
 import type { ServiceCard } from "@/lib/services/types";
 import { SectionHead } from "./atoms/SectionHead";
 import { ServiceCardGrid } from "./ServiceCardGrid";
@@ -19,7 +20,10 @@ export function Services({
           right={<span className="tag"><span className="pulse" />websites go live in 48 hours</span>}
         />
         {services.length === 0 ? (
-          <p className="meta" style={{ marginTop: 24 }}>Nothing here yet.</p>
+          <p className="meta" style={{ marginTop: 24 }}>
+            We are refreshing this list. Tell us what you want built and we will reply the
+            same day. <Link href="/contact">Contact us</Link>
+          </p>
         ) : (
           <ServiceCardGrid
             services={services}
