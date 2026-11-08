@@ -72,3 +72,17 @@ export function trackCallClick() {
     });
   }
 }
+
+/**
+ * Tracks a Drone Simulator installer download (GA4's standard file_download
+ * event). Mark it as a key event in GA4 to import it into Google Ads.
+ */
+export function trackSimulatorDownload(os: "windows" | "mac") {
+  if (typeof window !== "undefined" && typeof window.gtag === "function") {
+    window.gtag("event", "file_download", {
+      event_category: "drone_simulator",
+      event_label: `simulator_${os}`,
+      file_name: os === "windows" ? "VoltairDroneSimulatorV3-Setup.exe" : "VoltairDroneSimulatorV3-mac.dmg",
+    });
+  }
+}

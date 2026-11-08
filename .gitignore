@@ -21,3 +21,7 @@ analytics_ads_report.json
 fetch_analytics_ads.py
 task.md
 .env*
+
+# wrangler local secrets
+.dev.vars
+.wrangler/

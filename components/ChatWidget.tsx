@@ -4,12 +4,15 @@ import { usePathname, useRouter } from "next/navigation";
 import { useCallback, useEffect, useRef, useState } from "react";
 
 import Markdown from "./Markdown";
-import { OPEN_CHAT_EVENT } from "@/lib/chat-client";
+import { getChatSessionId, splitTrailer, OPEN_CHAT_EVENT } from "@/lib/chat-client";
 import { sendLead } from "@/lib/leads";
 import {
   detectPages,
   isContactIntent,
+  isGetStarted,
   pageContext,
+  sourceLinks,
+  suggestFollowups,
   type NavLink,
   type PageContext,
 } from "@/lib/site-map";
@@ -376,28 +379,81 @@ export default function ChatWidget() {
     setInput("");
     setBusy(true);
 
-    // The site is static, so there is no live assistant. A person on the team
-    // answers: show where the question is going, collect a way to reply, and
-    // still offer the most relevant pages to read meanwhile.
-    const navs = detectPages(trimmed, { exclude: pathname || "/", limit: 2 }).map((p) => ({
-      href: p.href,
-      label: p.label,
-    }));
-    if (isContactIntent(trimmed) && (pathname || "/") !== "/contact") {
-      navs.unshift({ href: "/contact", label: "Contact us" });
+    const page = {
+      path: pathname || "/",
+      title: typeof document !== "undefined" ? document.title : "",
+      topic: ctx?.topic ?? "",
+    };
+
+    // A person on the team answers when the assistant can't: show where the
+    // question is going and collect a way to reply.
+    const handOff = () => {
+      const navs = detectPages(trimmed, { exclude: pathname || "/", limit: 2 }).map((p) => ({
+        href: p.href,
+        label: p.label,
+      }));
+      if (isContactIntent(trimmed) && (pathname || "/") !== "/contact") {
+        navs.unshift({ href: "/contact", label: "Contact us" });
+      }
+      setMessages((prev) => [
+        ...prev,
+        {
+          from: "bot",
+          text: "I couldn't reach the assistant just now. A person from our team will answer instead, usually within a few hours. Leave your name and email or WhatsApp number and we'll reply there.",
+          actions: dedupeLinks(navs).slice(0, 2),
+          ask: trimmed,
+          animate: true,
+        },
+      ]);
+    };
+
+    try {
+      // Answered by the Cloudflare Pages Function in functions/api/chat.ts.
+      const res = await fetch("/api/chat", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          message: trimmed,
+          session_id: getChatSessionId(),
+          page_url: typeof location !== "undefined" ? location.href : undefined,
+          page,
+        }),
+      });
+
+      if (!res.ok) {
+        // Rate limits and validation errors carry a friendly `detail`.
+        const data = (await res.json().catch(() => null)) as { detail?: string } | null;
+        if (data?.detail && res.status !== 500) {
+          setMessages((prev) => [...prev, { from: "bot", text: data.detail!, animate: true }]);
+          return;
+        }
+        throw new Error(`Request failed (${res.status})`);
+      }
+
+      const { reply, sources } = splitTrailer(await res.text());
+      if (!reply.trim()) throw new Error("Empty reply");
+      const links = sourceLinks(sources, pathname || "/", 2);
+      const navs = detectPages(`${trimmed} ${reply}`, { exclude: pathname || "/", limit: 2 }).map(
+        (p) => ({ href: p.href, label: p.label }),
+      );
+      let merged = [...links, ...navs];
+      if (isContactIntent(trimmed) && (pathname || "/") !== "/contact") {
+        const contact = navs.find((n) => n.href === "/contact") ?? { href: "/contact", label: "Contact us" };
+        merged = [contact, ...merged.filter((m) => m.href !== "/contact")];
+      }
+      const lead = isGetStarted(trimmed) && !leadShown();
+      const followups = lead || !ctx ? [] : suggestFollowups(trimmed, reply, ctx);
+      if (lead) markLeadShown();
+      setMessages((prev) => [
+        ...prev,
+        { from: "bot", text: reply, actions: dedupeLinks(merged).slice(0, 2), followups, lead, animate: true },
+      ]);
+    } catch (err) {
+      console.error("[voltair-chat]", err);
+      handOff();
+    } finally {
+      setBusy(false);
     }
-    const actions = dedupeLinks(navs).slice(0, 2);
-    setMessages((prev) => [
-      ...prev,
-      {
-        from: "bot",
-        text: "Good question. A person from our team answers these, usually within a few hours. Leave your name and email or WhatsApp number and we'll reply there.",
-        actions,
-        ask: trimmed,
-        animate: true,
-      },
-    ]);
-    setBusy(false);
   };
 
   // Keep the latest submit reachable from the (mount-only) hero-launch listener.
@@ -449,7 +505,7 @@ export default function ChatWidget() {
               <h2>Ask the Voltair team</h2>
               <p>
                 <span className="status-dot" />
-                <span>Replies within a few hours</span>
+                <span>AI assistant, replies instantly</span>
               </p>
             </div>
           </div>

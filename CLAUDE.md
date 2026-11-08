@@ -42,9 +42,10 @@ not a quote for a build, and stay.
 
 ## Stack
 - **Next.js** 14.2.29 (App Router) with `output: "export"`: the whole site is
-  static HTML on **GitHub Pages** (since 31 Oct 2026, after Vercel paused the
-  project). No server, no `/api/*`, no ISR, no middleware, no `next/image`
-  optimizer. Data is read from Supabase at BUILD time only.
+  static HTML on **Cloudflare Pages** (`voltairtech-website.pages.dev`, custom domain `www.voltairtech.com`).
+  No server, no `/api/*`, no ISR, no middleware, no `next/image` optimizer.
+  Data is read from Supabase at BUILD time only. Deploy via `npm run deploy:cf`.
+  Security headers (CSP/HSTS) and redirects live in `public/_headers` and `public/_redirects`.
 - **React** 18, **TypeScript** 5
 - **next/font** — Inter Tight + JetBrains Mono (no Google Fonts CDN)
 - No UI library, no Tailwind — custom CSS only
@@ -110,8 +111,16 @@ npm run lint     # ESLint
   (`lib/leads.ts`, owned by voltairtechindia@gmail.com): one row per submission in
   the Website Leads Google Sheet (a tab per form) plus an email to
   business@voltairtech.com. Résumés go to a private Drive folder (5 MB max).
-- **Chat widget:** no live AI. A question is sent to the team with a reply
-  address (`components/ChatWidget.tsx`, `AskForm`).
+- **Chat widget + enquiries (Cloudflare Pages Functions, 2026-11):** the static
+  site in `out/` is deployed together with `functions/` (config in `wrangler.toml`,
+  `nodejs_compat`). `functions/api/chat.ts` is the live Gemini RAG assistant (same
+  `lib/rag` engine, logs to `conversations`/`messages` for the admin); if it fails the
+  widget falls back to the "a person will reply" form. `functions/api/inquiry.ts`
+  saves contact and chat enquiries to `contact_submissions` (admin Inquiries page);
+  `lib/leads.ts` calls it alongside the Google Sheet script, which still emails the
+  team. Secrets live on the Pages project (`wrangler pages secret list`). Deploy with
+  `npx wrangler pages deploy out --project-name=<project> --branch=main` from the
+  project folder so the Functions are uploaded too.
 - **Paging:** /services, /industries and /blog ship every card in the HTML and
   page in the browser (`components/PagedGrid.tsx`, `?page=` still works).
 - **Empty lists:** a dynamic route with no rows builds one `_none` placeholder

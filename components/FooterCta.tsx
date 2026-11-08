@@ -99,6 +99,9 @@ export function FooterCta({ num }: { num?: string }) {
                 <Link href="/about">About Us</Link>
               </li>
               <li>
+                <Link href="/drones">Drones</Link>
+              </li>
+              <li>
                 <Link href="/services">Services</Link>
               </li>
               <li>

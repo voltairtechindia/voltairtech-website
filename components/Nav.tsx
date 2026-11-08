@@ -88,6 +88,7 @@ export async function Nav({ showContactCta = true }: { showContactCta?: boolean 
    */
   const navLinks: NavLink[] = [
     { label: "About us", href: "/about" },
+    { label: "Drones", href: "/drones" },
     {
       label: "Industries",
       href: "/industries",

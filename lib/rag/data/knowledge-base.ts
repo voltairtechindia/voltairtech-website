@@ -49,6 +49,38 @@ export const KNOWLEDGE_BASE: IngestDocument[] = [
       "Against building it in-house or hiring a freelancer: a website is live in 48 hours with us, against 3 to 6 months in-house or 2 to 6 weeks with a freelancer. Hindi and Marathi work out of the box rather than being extra work. UPI and Razorpay payments work from day one. We overlap with Indian, European and Asia Pacific hours. You own all of the code, in every case. We do not subcontract your work or share your code with anyone.",
     metadata: { url: "https://www.voltairtech.com/about" },
   },
+  {
+    doc_type: "company",
+    external_id: "drones",
+    title: "Voltair Drones: drone products made in India",
+    content:
+      "Drones are now the biggest part of what Voltair Tech does, alongside AI and robotics. The Drones section of the site (top menu, Drones) lists our drone products. Available now: the Voltair Drone Simulator, a free RPTO drone pilot training simulator for Windows and Mac. Coming soon: Defense Drones (for surveillance and field work by defence and security teams), Commercial Drones with type certification (TC) for survey, agriculture and inspection work, College and Defense Training (drone pilot training programmes run at a college or unit), and Drone Lab Setup (a complete drone lab for an institute: simulators, kits and training). For any of the coming-soon products, use the Contact us form or WhatsApp +91 70210 00764 and we call back.",
+    metadata: { url: "https://www.voltairtech.com/drones" },
+  },
+  {
+    doc_type: "company",
+    external_id: "drone-simulator",
+    title: "Voltair Drone Simulator (free RPTO training simulator)",
+    content:
+      "Voltair Drone Simulator V3 is a drone flight simulator built by Voltair Tech as per DGCA guidelines for RPTO training (the DGCA RPC syllabus DTC 02 of 2022 and the simulator rules DTC 01 of 2026). It is free to download for Windows 10 and 11 (64 bit) and for Macs with Apple silicon (M1 or later, macOS 11 or newer) from https://www.voltairtech.com/drones/simulator. No sign up, no time limit, and it works offline after download. The free edition includes: the RPTO practice test with marks (pre-flight check 25 marks, the 13 DGCA flying exercises R1.F.3 to R1.F.18 at 10 marks each, post-flight check 25 marks, 180 marks in total, 108 to pass); practice of any exercise in any flight mode; theory lessons T1.1 to T1.11 with quizzes and a 40 minute theory test graded A to E; a pre-flight walk-around (chipped propellers, worn motors, cracked arms, swollen batteries); accelerometer and compass calibration; motor test; free flight; drone tuning; radio setup. Flight modes: Stabilize, Alt Hold, Loiter (GPS), Auto missions and Return home. Places to fly: an RPTO training ground with the 60 m by 60 m training area, a farm and a cricket stadium, with wind, gusts, time of day and night flying. Controls: any RC transmitter, USB dongle or gamepad the computer sees as a game controller (EdgeTX and OpenTX radios in USB joystick mode), set up in Mode 2, or the keyboard (W and S throttle, A and D yaw, arrow keys pitch and roll). Graphics can be set Low, Medium or High so it runs on laptops without a graphics card, and screen shape and text size settings suit a TV or projector. On a Mac, the first time only, right click the app and choose Open. On Windows, if a blue SmartScreen box appears, click More info then Run anyway.",
+    metadata: { url: "https://www.voltairtech.com/drones/simulator" },
+  },
+  {
+    doc_type: "company",
+    external_id: "drone-simulator-av3",
+    title: "Voltair Drone Simulator AV3 for RPTOs, colleges and defence",
+    content:
+      "AV3 is the advanced version of the Voltair Drone Simulator, for RPTOs (remote pilot training organisations), colleges and defence training units. It is switched on inside the same free download with a serial number, one serial per PC, and keeps working offline. AV3 adds: the full DGCA RPC course for rotorcraft (theory with a 188 question bank and 70% pass mark, simulator exercises R1.S.1 to R1.S.11 and the simulator test, practical flying R1.F.1 to R1.F.18 with the progress check and final test, assembly and maintenance R1.A.1 to R1.A.6); every manoeuvre graded A to E with the measured error; every flight logged and replayable in 3D with date, time, site and coordinates; a trainee roster with records kept for 5 years and sealed so any change shows; logbook, skill test reports and the final training report; instructor mode with take-over and failure buttons. A DGCA compliance list (PDF) is on the simulator page. The price is not published: it depends on how many PCs, and we quote it on a call. To get AV3, use Get AV3 inside the simulator, the Contact us form, or WhatsApp +91 70210 00764.",
+    metadata: { url: "https://www.voltairtech.com/drones/simulator#av3" },
+  },
+  {
+    doc_type: "company",
+    external_id: "drones-advisory",
+    title: "Advisory: Indian drone companies Voltair Tech works with (Preflight Labs)",
+    content:
+      "Voltair Tech is an advisor to Indian drone companies. We work alongside them to advance drone technology and to promote drones and components made in India; the page is Drones, then Advisory (https://www.voltairtech.com/drones/advisory). Our first advisory partner is Preflight Labs LLP of Goa, India (https://preflightlabs.in), which designs and builds unmanned systems. Their drones: TALON-1, a flagship hybrid VTOL UAV (900 mm wingspan, 1,350 g, 4S 5000 mAh battery, 640x512 thermal camera plus a day camera, vertical take-off with no runway, autonomous waypoint missions, day and night surveillance). COBRA VTOL, a long-endurance surveillance UAV (2 m wingspan, 6 kg max takeoff, about 1.5 hours endurance, 500 g payload, stabilised thermal gimbal with object tracking; used for border and coastline surveillance, search and rescue, infrastructure inspection and force protection). PFL TRAINER, a training and utility quadcopter (20+ minutes flight, 1080p 2-axis gimbal camera, up to 500 g payload with a dropper, 4S 74 Wh battery, one-key take-off and return to home; used for pilot training, small deliveries and inspection). SHRIKE, a counter-drone net-projectile interceptor (X8 eight-rotor platform, 3 x 3 m net, 10 to 15 m range; brings down hostile drones with a net, with no rounds fired and no debris, for force protection, critical infrastructure, borders and VIP security). For full details, prices or orders, visit preflightlabs.in. More Indian drone makers are joining; companies building drones or components in India can contact Voltair Tech through the Contact us form or WhatsApp +91 70210 00764.",
+    metadata: { url: "https://www.voltairtech.com/drones/advisory" },
+  },
 
   // NOTE: `service` documents are NOT seeded here — they are synced into the RAG
   // store automatically from the DB by POST /api/services (admin panel / n8n),
