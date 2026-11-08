@@ -12,40 +12,40 @@ export function Hero() {
       <div className="hero__grid">
         <div className="hero__copy">
           <div className="hero__eyebrow">
-            <Kicker>AI build studio · Mumbai</Kicker>
+            <Kicker>Drones · AI · Robotics · Made in India</Kicker>
           </div>
           <h1 className="hero__h">
-            Build <span className="red">AI</span>{" "}
+            <span className="red">Drones</span> &amp; AI{" "}
             <br />
             for India.
           </h1>
           <p className="hero__sub">
-            We build the <strong>websites, chatbots and software</strong> that answer
-            your customers and do your repetitive work.{" "}
-            <strong className="red-strong">Websites go live in 48 hours.</strong> Bigger
-            builds get a fixed price and a fixed date.
+            We build <strong>drone technology, AI software and connected devices</strong>{" "}
+            in Mumbai, and back drones and parts made in India. Start with our{" "}
+            <strong className="red-strong">free RPTO drone simulator</strong>, or tell us
+            what you want built.
           </p>
           <HeroPrompt />
           <div className="hero__ctas">
-            <Link className="btn btn-primary" href="/contact">
-              Contact us <Arr />
+            <Link className="btn btn-primary" href="/drones">
+              Explore drones <Arr />
             </Link>
-            <Link className="btn btn-ghost" href="/services">
-              See what we build
+            <Link className="btn btn-ghost" href="/drones/simulator">
+              Free drone simulator
             </Link>
           </div>
           <div className="hero__proof">
             <div className="hero__proof-item">
-              <b>42+</b>built since 2024
+              <b>42+</b>products built since 2024
             </div>
             <div className="hero__proof-item">
               <b>28</b>clients in India &amp; abroad
             </div>
             <div className="hero__proof-item">
-              <b>99.9%</b>uptime, last 90 days
+              <b>13</b>DGCA exercises in our simulator
             </div>
             <div className="hero__proof-item">
-              <b>10+</b>languages, typed or spoken
+              <b>4</b>Indian drones we advise on
             </div>
           </div>
         </div>

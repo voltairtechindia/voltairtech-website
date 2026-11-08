@@ -17,19 +17,25 @@ const SITE_URL = "https://www.voltairtech.com";
 
 const HEADER = `# Voltair Tech
 
-> Voltair Tech is an AI build studio in Mumbai. We build websites, chatbots, voice agents, document assistants and custom software that takes repetitive work off a business. Websites go live in 48 hours; everything else gets a fixed price and a fixed date. Clients across India, the EU, and APAC.
+> Voltair Tech is a Mumbai technology company working on drones, AI, and robotics and IoT, with drones first. We make the free Voltair Drone Simulator for RPTO pilot training (as per DGCA guidelines, Windows and Mac), advise Indian drone makers such as Preflight Labs, and build AI chatbots, voice agents, automation and websites. We back drones and components made in India. Clients across India, the EU, and APAC.
 
 ## About
 - Location: Andheri West, Mumbai, Maharashtra 400053, India
 - Contact: business@voltairtech.com · +91 70210 00764 (call/WhatsApp)
 - Hours: Mon to Sat, 10:00 to 20:00 IST
 - Languages: English, Hindi, Marathi
-- Tagline: "Ship AI in 48 hours."
+- Tagline: "Drones, AI and robotics, made in India."
+- Focus: drones first, then AI, then robotics and IoT.
 - Stack (technical detail, for reference): document search (RAG) on pgvector/Supabase, WhatsApp Business API & voice/IVR agents, custom self-improving AI agents, Next.js/React Native apps. LLMs: Claude, GPT, Gemini.
 - Reach: serves clients across India, the EU, and APAC. Indian-operated, global engineering standards.
 
+## Drones
+- [Drones](${SITE_URL}/drones): Voltair drone products and what is coming: defence drones, type certified commercial drones, college and defence pilot training, drone lab setup.
+- [Drone Simulator](${SITE_URL}/drones/simulator): Free RPTO drone simulator for Windows 10/11 and Apple silicon Macs, as per DGCA guidelines (DTC 02 of 2022, DTC 01 of 2026). RPTO practice test with marks (180, pass 108), 13 DGCA flying exercises R1.F.3 to R1.F.18, theory T1.1 to T1.11, works with any RC radio, gamepad or keyboard. AV3 edition for RPTOs adds the full DGCA RPC course, grades, flight replay, trainee records and reports.
+- [Advisory](${SITE_URL}/drones/advisory): Voltair Tech advises Indian drone companies. First partner: Preflight Labs LLP, Goa (https://preflightlabs.in): TALON-1 hybrid VTOL UAV, COBRA VTOL long-endurance surveillance UAV, PFL Trainer quadcopter, SHRIKE net-projectile counter-drone interceptor.
+
 ## Core pages
-- [Home](${SITE_URL}/): What Voltair Tech builds and how fast.
+- [Home](${SITE_URL}/): Drones, AI, and robotics and IoT, made in India.
 - [About](${SITE_URL}/about): Who we are, the Voltair edge, our mission.
 - [Services](${SITE_URL}/services): Full catalogue of AI build services.
 - [Industries](${SITE_URL}/industries): Sector-shaped AI for D2C, healthcare, fintech, and more.

@@ -1,8 +1,9 @@
 [
   {
-    "id": "88f7f17d-d7fc-4de0-b2a3-44579198f992",
+    "id": "d212b7e7-a24e-4b16-b8b2-6c86966b830c",
+    "slug": "what-does-voltair-tech-actually-do",
     "question": "What does Voltair Tech actually do?",
-    "answer": "We build software that uses AI to do work your team is doing by hand. That usually looks like a website, a chatbot that answers customers on WhatsApp, a voice agent that picks up your phone, or a tool that reads your documents and answers questions about them. We are based in Andheri West, Mumbai.",
+    "answer": "Three things, with drones first. Drones: a free RPTO drone simulator, advisory for Indian drone makers, and drone training and labs on the way. AI: chatbots on WhatsApp, voice agents and tools that answer from your own documents. Robotics and IoT: connecting machines and sensors to software. We are based in Andheri West, Mumbai.",
     "category": "About us",
     "tags": [
       "mumbai",
@@ -11,13 +12,84 @@
     "position": 1,
     "homepage_featured": true,
     "status": "published",
-    "published_at": "2026-10-31T14:31:05.907Z",
-    "created_at": "2026-10-31T14:31:05.908Z",
-    "updated_at": "2026-10-31T14:31:05.908Z",
-    "slug": "what-does-voltair-tech-actually-do"
+    "published_at": "2026-09-01T08:56:49.856+00:00",
+    "created_at": "2026-09-01T08:56:49.92513+00:00",
+    "updated_at": "2026-11-08T10:16:39.941121+00:00"
   },
   {
-    "id": "ca655331-1aea-4521-a742-6b6074aba774",
+    "id": "06a37ce6-afd8-4803-9117-0aaa1f535f2f",
+    "slug": "does-voltair-tech-build-drones",
+    "question": "Does Voltair Tech build drones?",
+    "answer": "Yes. Drones are now the biggest part of our work, alongside AI and robotics. We make a free RPTO drone simulator for Windows and Mac, and we advise Indian drone makers such as Preflight Labs. Defence drones, type certified commercial drones, pilot training and drone labs for colleges are coming soon. We back drones and components made in India.",
+    "category": "Drones, robotics and IoT",
+    "tags": [
+      "drones",
+      "about"
+    ],
+    "position": 2,
+    "homepage_featured": true,
+    "status": "published",
+    "published_at": "2026-11-08T10:16:37.581764+00:00",
+    "created_at": "2026-11-08T10:16:39.989659+00:00",
+    "updated_at": "2026-11-08T10:16:39.989659+00:00"
+  },
+  {
+    "id": "efb7d320-7fc6-4408-bd4b-f38374b33f67",
+    "slug": "is-the-voltair-drone-simulator-free",
+    "question": "Is the Voltair Drone Simulator free?",
+    "answer": "Yes. Download it free for Windows 10 and 11 or an Apple silicon Mac from voltairtech.com/drones/simulator. It is built as per DGCA guidelines and includes the RPTO practice test with marks, all 13 DGCA flying exercises and the theory lessons. Training organisations can switch on AV3, the advanced version, with full records and reports.",
+    "category": "Drones, robotics and IoT",
+    "tags": [
+      "drones",
+      "simulator",
+      "rpto",
+      "dgca"
+    ],
+    "position": 3,
+    "homepage_featured": true,
+    "status": "published",
+    "published_at": "2026-11-08T10:16:37.581764+00:00",
+    "created_at": "2026-11-08T10:16:40.045977+00:00",
+    "updated_at": "2026-11-08T10:16:40.045977+00:00"
+  },
+  {
+    "id": "98437e19-8d18-4d62-86c6-ecbb5ad21206",
+    "slug": "do-you-work-with-indian-drone-and-component-makers",
+    "question": "Do you work with Indian drone and component makers?",
+    "answer": "Yes. We are an advisor to Indian drone companies and work alongside them to advance the technology and reach more customers. Our first partner is Preflight Labs in Goa, maker of the TALON-1 and COBRA VTOL, the PFL Trainer and the SHRIKE interceptor. If you build drones or parts in India, talk to us.",
+    "category": "Drones, robotics and IoT",
+    "tags": [
+      "drones",
+      "advisory",
+      "make in india"
+    ],
+    "position": 4,
+    "homepage_featured": false,
+    "status": "published",
+    "published_at": "2026-11-08T10:16:37.581764+00:00",
+    "created_at": "2026-11-08T10:16:40.132441+00:00",
+    "updated_at": "2026-11-08T10:16:40.132441+00:00"
+  },
+  {
+    "id": "3b866865-f616-4f99-909d-e90ef4ebf3ad",
+    "slug": "do-you-work-on-robotics-and-iot",
+    "question": "Do you work on robotics and IoT?",
+    "answer": "Yes. Robotics and IoT is the third part of what we do: connecting machines, sensors and devices to software and AI, so you can see and control them from a dashboard or your phone. Tell us what you want to connect and we will scope it with you.",
+    "category": "Drones, robotics and IoT",
+    "tags": [
+      "robotics",
+      "iot"
+    ],
+    "position": 5,
+    "homepage_featured": false,
+    "status": "published",
+    "published_at": "2026-11-08T10:16:37.581764+00:00",
+    "created_at": "2026-11-08T10:16:40.216167+00:00",
+    "updated_at": "2026-11-08T10:16:40.216167+00:00"
+  },
+  {
+    "id": "22531afd-def2-40ff-a02c-835fb39ebdc4",
+    "slug": "why-should-we-trust-you-with-this",
     "question": "Why should we trust you with this?",
     "answer": "We have shipped 42 products since 2024 for 28 clients across India, Europe and Asia Pacific. You can see real ones on our live projects page, and we will put you in touch with references after an NDA.",
     "category": "About us",
@@ -25,16 +97,16 @@
       "trust",
       "proof"
     ],
-    "position": 2,
+    "position": 6,
     "homepage_featured": false,
     "status": "published",
-    "published_at": "2026-10-31T14:31:05.909Z",
-    "created_at": "2026-10-31T14:31:05.910Z",
-    "updated_at": "2026-10-31T14:31:05.910Z",
-    "slug": "why-should-we-trust-you-with-this"
+    "published_at": "2026-09-01T08:56:51.213+00:00",
+    "created_at": "2026-09-01T08:56:51.233426+00:00",
+    "updated_at": "2026-11-08T10:16:38.183888+00:00"
   },
   {
-    "id": "a1e828e5-01e1-4fe4-9f4b-c4e480dd6cb8",
+    "id": "7c83b282-7ad1-4d6e-aef0-782f3c393bce",
+    "slug": "how-fast-can-my-website-be-live",
     "question": "How fast can my website be live?",
     "answer": "48 hours from the day we start. That includes the design, the writing, the ability to edit it yourself later, and your own domain name. Bigger projects like apps take longer, and we give you the exact date before you pay anything.",
     "category": "Time and money",
@@ -42,16 +114,16 @@
       "speed",
       "website"
     ],
-    "position": 3,
+    "position": 7,
     "homepage_featured": true,
     "status": "published",
-    "published_at": "2026-10-31T14:31:05.912Z",
-    "created_at": "2026-10-31T14:31:05.913Z",
-    "updated_at": "2026-10-31T14:31:05.913Z",
-    "slug": "how-fast-can-my-website-be-live"
+    "published_at": "2026-09-01T08:56:51.784+00:00",
+    "created_at": "2026-09-01T08:56:51.834322+00:00",
+    "updated_at": "2026-11-08T10:16:38.301955+00:00"
   },
   {
-    "id": "d4baad03-a216-431c-996d-7e3987b9ff9b",
+    "id": "713fe527-d5b2-4402-b390-5363a52bd722",
+    "slug": "what-does-it-cost",
     "question": "What does it cost?",
     "answer": "Every build is quoted on its own, so we do not publish a price list. You get one fixed price for the whole thing, agreed in writing before any work starts. Never an hourly rate, and never a different number halfway through. Tell us what you need and we come back within the hour with the scope, the price and a start date. Thirty days of support after it goes live is included.",
     "category": "Time and money",
@@ -59,16 +131,16 @@
       "pricing",
       "cost"
     ],
-    "position": 4,
+    "position": 8,
     "homepage_featured": true,
     "status": "published",
-    "published_at": "2026-10-31T14:31:05.915Z",
-    "created_at": "2026-10-31T14:31:05.916Z",
-    "updated_at": "2026-10-31T14:32:06.375Z",
-    "slug": "what-does-it-cost"
+    "published_at": "2026-09-01T08:56:52.486+00:00",
+    "created_at": "2026-09-01T08:56:52.509205+00:00",
+    "updated_at": "2026-11-08T10:16:38.761772+00:00"
   },
   {
-    "id": "56f7abc6-e0e1-4d19-be1e-0e436892eeac",
+    "id": "3952cbee-dd4b-4a52-9bd8-d546ca522934",
+    "slug": "what-happens-after-it-goes-live",
     "question": "What happens after it goes live?",
     "answer": "You get 30 days of free support: fixes, monitoring, and small changes. After that you can take it over completely or keep us on a monthly retainer. Either way the code is yours.",
     "category": "Time and money",
@@ -76,16 +148,16 @@
       "support",
       "handover"
     ],
-    "position": 5,
+    "position": 9,
     "homepage_featured": false,
     "status": "published",
-    "published_at": "2026-10-31T14:31:05.917Z",
-    "created_at": "2026-10-31T14:31:05.918Z",
-    "updated_at": "2026-10-31T14:31:05.918Z",
-    "slug": "what-happens-after-it-goes-live"
+    "published_at": "2026-09-01T08:56:53.095+00:00",
+    "created_at": "2026-09-01T08:56:53.112553+00:00",
+    "updated_at": "2026-11-08T10:16:38.959551+00:00"
   },
   {
-    "id": "72b64752-c380-4e01-9730-da394bb156aa",
+    "id": "4cdca4c2-2fca-4e46-bb28-175921795102",
+    "slug": "can-a-bot-answer-questions-about-our-own-documents",
     "question": "Can a bot answer questions about our own documents?",
     "answer": "Yes, and this is one of the most common things we build. You give it your policies, price lists, manuals or product information, and it answers staff or customer questions from those files only. Every answer shows which document it came from, so nobody has to take it on trust. The technical name for this is RAG, if you have heard it called that.",
     "category": "What we build",
@@ -94,16 +166,16 @@
       "rag",
       "search"
     ],
-    "position": 6,
+    "position": 10,
     "homepage_featured": true,
     "status": "published",
-    "published_at": "2026-10-31T14:31:05.920Z",
-    "created_at": "2026-10-31T14:31:05.921Z",
-    "updated_at": "2026-10-31T14:31:05.921Z",
-    "slug": "can-a-bot-answer-questions-about-our-own-documents"
+    "published_at": "2026-09-01T08:56:53.674+00:00",
+    "created_at": "2026-09-01T08:56:53.692543+00:00",
+    "updated_at": "2026-11-08T10:16:39.355817+00:00"
   },
   {
-    "id": "ec9ce691-58c2-42b3-b887-aaca12704761",
+    "id": "8277c769-8c08-4fe5-ba5a-9ba45684711e",
+    "slug": "do-you-build-whatsapp-chatbots",
     "question": "Do you build WhatsApp chatbots?",
     "answer": "Yes, it is our most requested build. We handle the approval process with Meta, write the conversation, connect payments if you take them, and teach the bot from your own information. The same bot handles Hindi, Marathi and English.",
     "category": "What we build",
@@ -111,16 +183,16 @@
       "whatsapp",
       "chatbot"
     ],
-    "position": 7,
+    "position": 11,
     "homepage_featured": true,
     "status": "published",
-    "published_at": "2026-10-31T14:31:05.923Z",
-    "created_at": "2026-10-31T14:31:05.505Z",
-    "updated_at": "2026-10-31T14:31:05.924Z",
-    "slug": "do-you-build-whatsapp-chatbots"
+    "published_at": "2026-09-01T08:56:54.327+00:00",
+    "created_at": "2026-07-30T15:45:06.558+00:00",
+    "updated_at": "2026-11-08T10:16:39.411059+00:00"
   },
   {
-    "id": "e51ff216-3bfa-4714-88fb-f37b98b3eadd",
+    "id": "37a9c36a-701b-4163-955d-e7fd0f03e508",
+    "slug": "can-you-add-ai-to-the-software-we-already-have",
     "question": "Can you add AI to the software we already have?",
     "answer": "Usually yes, without rebuilding what you have. We add things like search, summaries, and assistants to existing websites, apps and internal tools. The usual candidates are your CRM, your support desk, your dashboards, and anything involving paperwork.",
     "category": "What we build",
@@ -128,16 +200,16 @@
       "integration",
       "existing"
     ],
-    "position": 8,
+    "position": 12,
     "homepage_featured": true,
     "status": "published",
-    "published_at": "2026-10-31T14:31:05.926Z",
-    "created_at": "2026-10-31T14:31:05.927Z",
-    "updated_at": "2026-10-31T14:31:05.927Z",
-    "slug": "can-you-add-ai-to-the-software-we-already-have"
+    "published_at": "2026-09-01T08:56:54.953+00:00",
+    "created_at": "2026-09-01T08:56:54.975159+00:00",
+    "updated_at": "2026-11-08T10:16:39.473314+00:00"
   },
   {
-    "id": "a9a98844-8eee-4e70-a1f8-6c7a90235ac0",
+    "id": "84fe2d04-3a74-431b-9b54-52685fcc7d3b",
+    "slug": "will-it-work-in-hindi-and-marathi",
     "question": "Will it work in Hindi and Marathi?",
     "answer": "Yes. Chatbots and voice agents handle Hindi, Marathi and English on the same number, and reply in whichever language the customer used.",
     "category": "What we build",
@@ -146,16 +218,16 @@
       "hindi",
       "marathi"
     ],
-    "position": 9,
+    "position": 13,
     "homepage_featured": false,
     "status": "published",
-    "published_at": "2026-10-31T14:31:05.929Z",
-    "created_at": "2026-10-31T14:31:05.930Z",
-    "updated_at": "2026-10-31T14:31:05.930Z",
-    "slug": "will-it-work-in-hindi-and-marathi"
+    "published_at": "2026-09-01T08:56:55.655+00:00",
+    "created_at": "2026-09-01T08:56:55.675345+00:00",
+    "updated_at": "2026-11-08T10:16:39.667469+00:00"
   },
   {
-    "id": "a180d92e-7f6f-41ee-988a-e395cde6644d",
+    "id": "2f06c929-b249-435b-8952-4cd5caef8278",
+    "slug": "do-you-sign-an-nda",
     "question": "Do you sign an NDA?",
     "answer": "Yes, before the first call if you want one. It is a standard one page mutual NDA under Indian law, usually signed the same day. We do not subcontract your work or share your code with anyone.",
     "category": "Working together",
@@ -163,12 +235,11 @@
       "nda",
       "privacy"
     ],
-    "position": 10,
+    "position": 14,
     "homepage_featured": false,
     "status": "published",
-    "published_at": "2026-10-31T14:31:05.931Z",
-    "created_at": "2026-10-31T14:31:05.932Z",
-    "updated_at": "2026-10-31T14:31:05.932Z",
-    "slug": "do-you-sign-an-nda"
+    "published_at": "2026-09-01T08:56:56.37+00:00",
+    "created_at": "2026-09-01T08:56:56.391148+00:00",
+    "updated_at": "2026-11-08T10:16:39.864098+00:00"
   }
 ]

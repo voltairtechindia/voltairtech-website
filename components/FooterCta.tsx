@@ -63,7 +63,7 @@ export function FooterCta({ num }: { num?: string }) {
               </div>
             </div>
             <p className="foot__sub">
-              Mumbai AI build studio. We build websites, chatbots and software that do your repetitive work.
+              Drones, AI, and robotics and IoT, made in India. A free RPTO drone simulator, partnerships with Indian drone makers, and AI that does your repetitive work.
             </p>
             <div className="foot__socials">
               <a className="foot__social-link" href="https://www.linkedin.com/company/voltairtech/" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn">

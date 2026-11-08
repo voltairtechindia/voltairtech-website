@@ -13,6 +13,8 @@ export type NavLink = {
   menuTitle?: string;
   /** Tints the label vermilion so one item leads the bar. */
   emphasis?: boolean;
+  /** Small pill after the label, e.g. "New". */
+  badge?: string;
 };
 
 function Brand({ size = 18 }: { size?: number }) {
@@ -43,6 +45,7 @@ function DesktopItem({ link }: { link: NavLink }) {
     return (
       <Link className={"nav__item" + accent} href={link.href}>
         {link.label}
+        {link.badge ? <span className="nav__new">{link.badge}</span> : null}
       </Link>
     );
   }
@@ -50,6 +53,7 @@ function DesktopItem({ link }: { link: NavLink }) {
     <div className="nav__item nav__item--menu">
       <Link className={"nav__item nav__item-trigger" + accent} href={link.href}>
         {link.label}
+        {link.badge ? <span className="nav__new">{link.badge}</span> : null}
         <Caret />
       </Link>
       <div className="nav__dropdown" role="menu" aria-label={link.label}>
@@ -83,12 +87,22 @@ export async function Nav({ showContactCta = true }: { showContactCta?: boolean 
 
   /**
    * Header order is deliberate and short. Blog and FAQ are off the bar on
-   * purpose (the footer still links both, so neither is orphaned) so that
-   * "Our Projects" is the one item the eye lands on.
+   * purpose (the footer still links both, so neither is orphaned). "Drones"
+   * leads the bar (first, vermilion, "New" pill): drones are the main focus.
    */
   const navLinks: NavLink[] = [
+    {
+      label: "Drones",
+      href: "/drones",
+      emphasis: true,
+      badge: "New",
+      menuTitle: "Drones made in India",
+      children: [
+        { label: "Drone Simulator (free)", href: "/drones/simulator" },
+        { label: "Advisory: Preflight Labs", href: "/drones/advisory" },
+      ],
+    },
     { label: "About us", href: "/about" },
-    { label: "Drones", href: "/drones" },
     {
       label: "Industries",
       href: "/industries",
@@ -101,7 +115,7 @@ export async function Nav({ showContactCta = true }: { showContactCta?: boolean 
       menuTitle: "What we build",
       children: groups.services,
     },
-    { label: "Our Projects", href: "/live-projects", emphasis: true },
+    { label: "Our Projects", href: "/live-projects" },
     { label: "Career", href: "/career" },
   ];
 

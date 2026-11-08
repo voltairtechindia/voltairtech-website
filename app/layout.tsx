@@ -37,12 +37,20 @@ export const viewport: Viewport = {
 export const metadata: Metadata = {
   metadataBase: new URL("https://www.voltairtech.com"),
   title: {
-    default: "Voltair Tech - AI Service provider in Mumbai",
+    default: "Voltair Tech - Drones, AI and Robotics, Made in India",
     template: "%s | Voltair Tech",
   },
   description:
-    "Voltair Tech builds websites, chatbots, voice agents and software that does your repetitive work. Mumbai based, fixed price, websites live in 48 hours.",
+    "Voltair Tech builds drone technology, AI software, robotics and IoT in Mumbai. Free RPTO drone simulator as per DGCA guidelines, Indian drone partnerships, AI chatbots and automation.",
   keywords: [
+    "drone simulator India",
+    "RPTO simulator",
+    "DGCA drone training",
+    "made in India drones",
+    "Indian drone components",
+    "VTOL drone India",
+    "drone company Mumbai",
+    "robotics and IoT Mumbai",
     "AI services Mumbai",
     "AI agency India",
     "chatbot development India",
@@ -58,21 +66,21 @@ export const metadata: Metadata = {
     locale: "en_IN",
     url: "https://www.voltairtech.com",
     siteName: "Voltair Tech",
-    title: "Voltair Tech - AI Service provider in Mumbai",
-    description: "Mumbai AI studio. Websites, chatbots, voice agents and software that does your repetitive work. Websites live in 48 hours.",
+    title: "Voltair Tech - Drones, AI and Robotics, Made in India",
+    description: "Voltair Tech builds drone technology, AI software, robotics and IoT in Mumbai. Free RPTO drone simulator as per DGCA guidelines, Indian drone partnerships, AI chatbots and automation.",
     images: [
       {
         url: "/assets/og-image.jpg",
         width: 1200,
         height: 630,
-        alt: "Voltair Tech - AI Service provider in Mumbai",
+        alt: "Voltair Tech: drones, AI and robotics, made in India",
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "Voltair Tech - AI Service provider in Mumbai",
-    description: "Mumbai AI studio. Websites, chatbots, voice agents and software that does your repetitive work. Websites live in 48 hours.",
+    title: "Voltair Tech - Drones, AI and Robotics, Made in India",
+    description: "Voltair Tech builds drone technology, AI software, robotics and IoT in Mumbai. Free RPTO drone simulator as per DGCA guidelines, Indian drone partnerships, AI chatbots and automation.",
     images: ["/assets/og-image.jpg"],
   },
   icons: {

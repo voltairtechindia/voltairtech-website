@@ -11,8 +11,8 @@
 export const CONTENT = {
   brand: {
     name: "Voltair Tech",
-    tagline: "AI that does the work, built in Mumbai.",
-    sub: "We build websites, chatbots, phone agents and software that take the repetitive work off your team. Websites go live in 48 hours.",
+    tagline: "Drones, AI and robotics, made in India.",
+    sub: "We build drone technology, AI software and connected devices in Mumbai, and back drones and parts made in India.",
     location: "Andheri West, Mumbai",
     locationFull: "Andheri West, Mumbai · Maharashtra · 400053",
     email: "business@voltairtech.com",
@@ -23,10 +23,10 @@ export const CONTENT = {
   },
 
   stack: [
-    "Websites", "Chatbots", "WhatsApp",
-    "Voice agents", "Mobile apps", "Automation",
-    "Document search", "Payments", "Dashboards",
-    "Hindi & Marathi", "Fixed price", "48 hours",
+    "Drones", "RPTO simulator", "Made in India",
+    "VTOL", "Pilot training", "Indian components",
+    "Robotics", "IoT", "AI chatbots",
+    "Voice agents", "Automation", "Websites",
   ],
 
   process: [
@@ -51,8 +51,24 @@ export const CONTENT = {
    */
   faq: [
     {
+      q: "Does Voltair Tech build drones?",
+      a: "Yes. Drones are now the biggest part of our work, alongside AI and robotics. We make a free RPTO drone simulator for Windows and Mac, and we advise Indian drone makers such as Preflight Labs. Defence drones, type certified commercial drones, pilot training and drone labs for colleges are coming soon. We back drones and components made in India.",
+    },
+    {
+      q: "Is the Voltair Drone Simulator free?",
+      a: "Yes. Download it free for Windows 10 and 11 or an Apple silicon Mac from voltairtech.com/drones/simulator. It is built as per DGCA guidelines and includes the RPTO practice test with marks, all 13 DGCA flying exercises and the theory lessons. Training organisations can switch on AV3, the advanced version, with full records and reports.",
+    },
+    {
+      q: "Do you work with Indian drone and component makers?",
+      a: "Yes. We are an advisor to Indian drone companies and work alongside them to advance the technology and reach more customers. Our first partner is Preflight Labs in Goa, maker of the TALON-1 and COBRA VTOL, the PFL Trainer and the SHRIKE interceptor. If you build drones or parts in India, talk to us.",
+    },
+    {
+      q: "Do you work on robotics and IoT?",
+      a: "Yes. Robotics and IoT is the third part of what we do: connecting machines, sensors and devices to software and AI, so you can see and control them from a dashboard or your phone. Tell us what you want to connect and we will scope it with you.",
+    },
+    {
       q: "What does Voltair Tech actually do?",
-      a: "We build software that uses AI to do work your team is doing by hand. That usually looks like a website, a chatbot that answers customers on WhatsApp, a voice agent that picks up your phone, or a tool that reads your documents and answers questions about them. We are based in Andheri West, Mumbai.",
+      a: "Three things, with drones first. Drones: a free RPTO drone simulator, advisory for Indian drone makers, and drone training and labs on the way. AI: chatbots on WhatsApp, voice agents and tools that answer from your own documents. Robotics and IoT: connecting machines and sensors to software. We are based in Andheri West, Mumbai.",
     },
     {
       q: "How fast can my website be live?",

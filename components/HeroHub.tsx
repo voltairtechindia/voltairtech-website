@@ -21,15 +21,16 @@ const EDGE = 132;
 
 type Node = { icon: string; label: string; row: number; side: -1 | 1 };
 
+/** Left: drones and hardware (the lead). Right: the AI and software side. */
 const NODES: Node[] = [
-  { icon: "web", label: "Websites", row: 0, side: -1 },
-  { icon: "chat", label: "WhatsApp chatbots", row: 1, side: -1 },
-  { icon: "voice", label: "Phone agents", row: 2, side: -1 },
-  { icon: "mobile", label: "Mobile apps", row: 3, side: -1 },
-  { icon: "auto", label: "Automation", row: 0, side: 1 },
-  { icon: "rag", label: "Answers from your files", row: 1, side: 1 },
-  { icon: "soft", label: "Custom software", row: 2, side: 1 },
-  { icon: "data", label: "Dashboards", row: 3, side: 1 },
+  { icon: "drone", label: "Indian drones", row: 0, side: -1 },
+  { icon: "sim", label: "Drone simulator", row: 1, side: -1 },
+  { icon: "robot", label: "Robotics", row: 2, side: -1 },
+  { icon: "iot", label: "IoT devices", row: 3, side: -1 },
+  { icon: "chat", label: "AI chatbots", row: 0, side: 1 },
+  { icon: "voice", label: "Voice agents", row: 1, side: 1 },
+  { icon: "auto", label: "Automation", row: 2, side: 1 },
+  { icon: "web", label: "Websites and apps", row: 3, side: 1 },
 ];
 
 function wire({ row, side }: Node) {

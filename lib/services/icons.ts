@@ -19,6 +19,10 @@ export const SERVICE_ICONS: { key: string; label: string }[] = [
   { key: "code", label: "Custom software / Dev" },
   { key: "data", label: "Data / Analytics" },
   { key: "ai", label: "AI / Generic" },
+  { key: "drone", label: "Drone / UAV" },
+  { key: "sim", label: "Simulator / Training" },
+  { key: "robot", label: "Robotics" },
+  { key: "iot", label: "IoT / Connected devices" },
   { key: "default", label: "Default (bolt)" },
 ];
 

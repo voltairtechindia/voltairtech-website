@@ -68,6 +68,44 @@ const GLYPHS: Record<string, ReactElement> = {
       <path d="M32 8 L24 48" stroke="#F4F2EA" strokeWidth={sw} strokeLinecap="round" opacity="0.6" />
     </svg>
   ),
+  drone: (
+    <svg viewBox="0 0 56 56" fill="none">
+      <rect x="22" y="23" width="12" height="10" rx="3" stroke={stroke} strokeWidth={sw} />
+      <path d="M22 25 L13 16 M34 25 L43 16 M22 31 L13 40 M34 31 L43 40" stroke={stroke} strokeWidth={sw} strokeLinecap="round" />
+      <ellipse cx="13" cy="16" rx="7" ry="2" stroke="#F4F2EA" strokeWidth="1" opacity="0.6" />
+      <ellipse cx="43" cy="16" rx="7" ry="2" stroke="#F4F2EA" strokeWidth="1" opacity="0.6" />
+      <ellipse cx="13" cy="40" rx="7" ry="2" stroke="#F4F2EA" strokeWidth="1" opacity="0.6" />
+      <ellipse cx="43" cy="40" rx="7" ry="2" stroke="#F4F2EA" strokeWidth="1" opacity="0.6" />
+      <circle cx="28" cy="28" r="1.6" fill="#5C77FF" />
+    </svg>
+  ),
+  sim: (
+    <svg viewBox="0 0 56 56" fill="none">
+      <rect x="6" y="10" width="44" height="28" rx="3" stroke={stroke} strokeWidth={sw} />
+      <path d="M22 46 H34 M28 38 V46" stroke={stroke} strokeWidth={sw} strokeLinecap="round" />
+      <path d="M12 32 L22 24 L30 28 L44 16" stroke="#5C77FF" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" />
+      <circle cx="44" cy="16" r="2" fill="#F4F2EA" />
+    </svg>
+  ),
+  robot: (
+    <svg viewBox="0 0 56 56" fill="none">
+      <rect x="14" y="18" width="28" height="22" rx="4" stroke={stroke} strokeWidth={sw} />
+      <path d="M28 18 V11 M8 27 V33 M48 27 V33 M20 40 V47 M36 40 V47" stroke={stroke} strokeWidth={sw} strokeLinecap="round" />
+      <circle cx="28" cy="9" r="2" fill="#5C77FF" />
+      <circle cx="22" cy="28" r="2.2" fill="#F4F2EA" />
+      <circle cx="34" cy="28" r="2.2" fill="#F4F2EA" />
+      <path d="M23 34 H33" stroke="#F4F2EA" strokeWidth="1" opacity="0.6" />
+    </svg>
+  ),
+  iot: (
+    <svg viewBox="0 0 56 56" fill="none">
+      <rect x="20" y="30" width="16" height="16" rx="2" stroke={stroke} strokeWidth={sw} />
+      <circle cx="28" cy="38" r="2" fill="#5C77FF" />
+      <path d="M18 22 A14 14 0 0 1 38 22" stroke={stroke} strokeWidth={sw} strokeLinecap="round" />
+      <path d="M12 16 A22 22 0 0 1 44 16" stroke="#F4F2EA" strokeWidth="1" strokeLinecap="round" opacity="0.6" />
+      <path d="M23.5 26 A7 7 0 0 1 32.5 26" stroke="#F4F2EA" strokeWidth="1" strokeLinecap="round" opacity="0.8" />
+    </svg>
+  ),
   ai: (
     <svg viewBox="0 0 56 56" fill="none">
       <path d="M28 8 L33 23 L48 28 L33 33 L28 48 L23 33 L8 28 L23 23 Z" stroke={stroke} strokeWidth={sw} strokeLinejoin="round" />

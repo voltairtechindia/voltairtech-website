@@ -21,7 +21,7 @@ export const metadata: Metadata = {
     url: `${SITE_URL}/career`,
     title: "Careers at Voltair Tech",
     description:
-      "Open roles at a Mumbai AI build studio shipping real products, fast. Apply with your résumé.",
+      "Open roles at Voltair Tech, a Mumbai company building drones, AI and robotics. Apply with your résumé.",
     images: [DEFAULT_OG_IMAGE],
   },
 };

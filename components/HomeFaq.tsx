@@ -14,6 +14,8 @@ import type { FaqItem } from "@/lib/faq/types";
  * 40 to 60 word answer for AEO/passage citability.
  */
 const HOME_FAQ_QUESTIONS = [
+  "Does Voltair Tech build drones?",
+  "Is the Voltair Drone Simulator free?",
   "What does Voltair Tech actually do?",
   "How fast can my website be live?",
   "What does it cost?",

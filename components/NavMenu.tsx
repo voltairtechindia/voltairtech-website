@@ -92,10 +92,11 @@ export function NavMenu({ links }: { links: NavLink[] }) {
                 <div className="nav__group-head">
                   <Link
                     href={n.href}
-                    className="nav__link nav__link--group"
+                    className={"nav__link nav__link--group" + (n.emphasis ? " nav__link--accent" : "")}
                     onClick={() => setOpen(false)}
                   >
                     {n.label}
+                    {n.badge ? <span className="nav__new">{n.badge}</span> : null}
                   </Link>
                   <button
                     type="button"

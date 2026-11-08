@@ -9,24 +9,24 @@ import { DEFAULT_OG_IMAGE } from "@/lib/seo";
 import Link from "next/link";
 
 export const metadata: Metadata = {
-  title: "About Voltair Tech - Mumbai AI Studio Building Software That Ships",
+  title: "About Voltair Tech - Drones, AI and Robotics, Made in India",
   description:
-    "Voltair Tech is an AI studio in Mumbai. We build websites, chatbots, voice agents and software that takes repetitive work off your team. Fixed price, fixed date.",
+    "Voltair Tech is a Mumbai technology company working on drones, AI, and robotics and IoT. Free RPTO drone simulator, advisory for Indian drone makers, AI chatbots and automation.",
   alternates: { canonical: "https://www.voltairtech.com/about" },
   openGraph: {
     url: "https://www.voltairtech.com/about",
-    title: "About Voltair Tech - Mumbai AI Studio Building Software That Ships",
+    title: "About Voltair Tech - Drones, AI and Robotics, Made in India",
     description:
-      "An AI studio in Mumbai building websites, chatbots, voice agents and software that takes repetitive work off your team.",
+      "A Mumbai technology company working on drones, AI, and robotics and IoT, and backing drones made in India.",
     images: [DEFAULT_OG_IMAGE],
   },
 };
 
 const CAPABILITIES = [
-  { icon: "rag",  title: "Answers from your files", line: "Ask a question, get the page it came from." },
-  { icon: "web",  title: "Websites and web apps",   line: "Live in 48 hours, taking payments." },
-  { icon: "auto", title: "Automating the busywork", line: "The copy and paste jobs, gone." },
-  { icon: "chat", title: "Chat and voice agents",  line: "Answering customers at any hour." },
+  { icon: "drone", title: "Drones",                line: "A free RPTO simulator and Indian drone partners." },
+  { icon: "chat",  title: "Chat and voice agents", line: "Answering customers at any hour." },
+  { icon: "auto",  title: "Automating the busywork", line: "The copy and paste jobs, gone." },
+  { icon: "robot", title: "Robotics and IoT",      line: "Machines and sensors that talk to software." },
 ];
 
 const STEPS = [
@@ -45,13 +45,13 @@ export default function AboutPage() {
           <SectionHead
             as="h1"
             kicker="Who We Are"
-            title={<>Mumbai's AI{" "}<br />build studio.</>}
+            title={<>Drones, AI and{" "}<br />robotics. Made in India.</>}
             right={<span className="tag"><span className="pulse" />Mumbai, India</span>}
           />
           <p className="about-intro">
-            VoltairTech is a high-velocity AI development firm.
-            We turn complicated AI into software people actually use, for startups
-            and enterprises across India, the EU, and APAC.
+            Voltair Tech is a Mumbai technology company. Drones come first: we make a free
+            RPTO drone simulator and advise Indian drone makers. Alongside, we build AI
+            software and connect robots and devices, for teams across India, the EU, and APAC.
           </p>
         </div>
       </section>

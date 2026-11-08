@@ -42,7 +42,7 @@ export async function generateMetadata({
 
   const description =
     plain(job.description_md).slice(0, 155) ||
-    `Apply for ${job.title} at Voltair Tech, a Mumbai AI build studio.`;
+    `Apply for ${job.title} at Voltair Tech, a Mumbai drones, AI and robotics company.`;
 
   return {
     title: `${job.title} | Careers`,

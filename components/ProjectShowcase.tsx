@@ -34,7 +34,7 @@ function Card({ project, index }: { project: LiveProject; index: number }) {
         {project.cover_image?.url ? (
           <Image
             src={project.cover_image.url}
-            alt=""
+            alt={`${project.name} by Voltair Tech, product screenshot`}
             fill
             sizes="(max-width: 620px) 92vw, (max-width: 1000px) 46vw, 24vw"
             style={{ objectFit: "cover", objectPosition: "top center" }}

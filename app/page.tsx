@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Nav } from "@/components/Nav";
 import { Hero } from "@/components/Hero";
+import { HomePillars } from "@/components/HomePillars";
 import { HomeProof } from "@/components/HomeProof";
 import { HomeServices } from "@/components/HomeServices";
 import { HomeHub } from "@/components/HomeHub";
@@ -14,9 +15,9 @@ import { SITE_URL } from "@/lib/seo";
 
 
 export const metadata: Metadata = {
-  title: "Voltair Tech - AI Service provider in Mumbai",
+  title: { absolute: "Voltair Tech - Drones, AI and Robotics, Made in India" },
   description:
-    "Voltair Tech builds websites, chatbots, voice agents and software that does your repetitive work. Mumbai based, fixed price, websites live in 48 hours.",
+    "Voltair Tech builds drone technology, AI software, robotics and IoT in Mumbai. Free RPTO drone simulator as per DGCA guidelines, Indian drone partnerships, AI chatbots and automation.",
   alternates: {
     canonical: "https://www.voltairtech.com/",
   },
@@ -95,13 +96,34 @@ function buildJsonLd(services: ServiceCard[], homeFaq: FaqItem[]) {
       email: "business@voltairtech.com",
       telephone: "+91 70210 00764",
       foundingDate: "2024",
-      slogan: "Ship AI in 48 hours.",
+      slogan: "Drones, AI and robotics, made in India.",
       description:
-        "Mumbai AI build studio. Websites, chatbots, voice agents and software that does your repetitive work. Websites live in 48 hours.",
+        "Mumbai technology company focused on drones, AI, and robotics and IoT, with drones first. We make a free RPTO drone simulator as per DGCA guidelines, advise Indian drone makers such as Preflight Labs, and build AI chatbots, voice agents, automation and websites.",
       address: ADDRESS,
       areaServed: AREA_SERVED,
       ...(catalog ? { hasOfferCatalog: catalog } : {}),
+      makesOffer: {
+        "@type": "Offer",
+        price: "0",
+        priceCurrency: "INR",
+        itemOffered: {
+          "@type": "SoftwareApplication",
+          name: "Voltair Drone Simulator",
+          applicationCategory: "GameApplication",
+          operatingSystem: "Windows 10, Windows 11, macOS 11 or later",
+          url: `${SITE_URL}/drones/simulator`,
+        },
+      },
       knowsAbout: [
+        "Unmanned aerial vehicles (drones)",
+        "Drone pilot training (RPTO)",
+        "DGCA drone rules and the Remote Pilot Certificate",
+        "Drone flight simulators",
+        "VTOL drones",
+        "Counter-drone systems",
+        "Made in India drones and components",
+        "Robotics",
+        "Internet of Things (IoT)",
         "Artificial Intelligence",
         "Retrieval-Augmented Generation (RAG)",
         "Chatbot development",
@@ -203,6 +225,7 @@ export default async function HomePage() {
         <Nav />
         <main>
           <Hero />
+          <HomePillars />
           <HomeProof />
           <HomeServices />
           <HomeHub />
