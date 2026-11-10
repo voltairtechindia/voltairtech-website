@@ -18,7 +18,7 @@ export const metadata: Metadata = {
     url: `${SITE_URL}/drones`,
     title: TITLE,
     description: DESCRIPTION,
-    images: [SIMULATOR.img("hero")],
+    images: [SIMULATOR.img("v35-home")],
   },
 };
 
@@ -57,7 +57,7 @@ export default function DronesPage() {
             <Link key={p.slug} href={p.href!} className="drone-feature">
               <div className="drone-feature__media">
                 {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img src={SIMULATOR.img("hero")} alt="Voltair Drone Simulator home screen" width={1600} height={900} />
+                <img src={SIMULATOR.img("v35-home")} alt="Voltair Drone Simulator V3.5 home screen" width={1600} height={748} />
               </div>
               <div className="drone-feature__body">
                 <span className="drone-status drone-status--live">Free download</span>

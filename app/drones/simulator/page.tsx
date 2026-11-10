@@ -31,7 +31,7 @@ export const metadata: Metadata = {
     url: URL,
     title: "Voltair Drone Simulator: free RPTO training simulator",
     description: DESCRIPTION,
-    images: [SIMULATOR.img("hero")],
+    images: [SIMULATOR.img("v35-home")],
   },
 };
 
@@ -42,26 +42,44 @@ const STATS = [
   { n: "₹0", l: "To download and practise" },
 ];
 
-const FEATURES = [
+const FEATURES: { img: string; title: string; text: string; isNew?: boolean }[] = [
   {
     img: "exam",
     title: "Take the RPTO test with marks",
     text: "Pre-flight check (25 marks), the 13 DGCA flying exercises (10 marks each) and the post-flight check (25 marks). 180 marks, 108 to pass, exactly how the real test runs.",
   },
   {
-    img: "flight",
+    img: "v35-rpto",
     title: "Fly the real exercises",
     text: "Square circuits, circles, figure of 8, night flying, emergencies and more, inside the 60 m by 60 m training area. Live instruments, a drone camera and a map show you what is happening.",
   },
   {
-    img: "preflight",
-    title: "Check the drone before you fly",
-    text: "Walk around the drone and find the problems: a chipped propeller, a worn motor, a cracked arm or a swollen battery. Then calibrate and test the motors, as you would on the field.",
+    img: "v35-fpv",
+    title: "FPV Racing",
+    text: "Fly Acro through 10 gates on a new random course every run, through the FPV camera, with the race clock, gate count and your best time on screen.",
+    isNew: true,
   },
   {
-    img: "compass",
-    title: "Learn calibration properly",
-    text: "Accelerometer and compass calibration step by step, using the same methods as Mission Planner, DJI, Betaflight and INAV.",
+    img: "v35-quad",
+    title: "A new quad trainer",
+    text: "Built from Voltairtech's own drone: carbon arms, cone legs with nav lights, a 2K gimbal camera and a battery hatch you can lift.",
+    isNew: true,
+  },
+  {
+    img: "v35-stadium",
+    title: "Places that look real",
+    text: "New sky and clouds, distant villages and hills, 3D grass and the drone's real sun shadow, at the RPTO ground, a farm and a cricket stadium.",
+    isNew: true,
+  },
+  {
+    img: "v35-preflight",
+    title: "Check the drone before you fly",
+    text: "Walk around the drone and find the problems: a chipped propeller, a worn motor, a cracked arm or a swollen battery under the hatch. Then calibrate the accelerometer and compass (Mission Planner, DJI, Betaflight and INAV methods) and test the motors.",
+  },
+  {
+    img: "v35-night",
+    title: "Fly at night",
+    text: "The DGCA night flying exercise with pad lights, corner lights and a windsock, under a sky full of stars on a clear night.",
   },
   {
     img: "lesson",
@@ -69,9 +87,9 @@ const FEATURES = [
     text: "Lessons T1.1 to T1.11 from the DGCA syllabus, each with a 5 question quiz, then a 40 minute theory test with marks and a grade from A to E.",
   },
   {
-    img: "settings",
+    img: "v35-graphics",
     title: "Runs on any computer",
-    text: "Low, medium or high graphics, so it runs on laptops without a graphics card. Text size and screen shape settings make it work on a TV or projector in a classroom.",
+    text: "Low, Medium, High or Ultra graphics, plus a setting that keeps the frame rate smooth on ordinary laptops. Text size and screen shape settings suit a TV or projector in a classroom.",
   },
 ];
 
@@ -156,8 +174,8 @@ export default function SimulatorPage() {
     description: DESCRIPTION,
     url: URL,
     downloadUrl: [SIMULATOR.windowsUrl, SIMULATOR.macUrl],
-    image: `${SITE_URL}${SIMULATOR.img("hero")}`,
-    screenshot: ["flight", "exam", "preflight"].map((s) => `${SITE_URL}${SIMULATOR.img(s)}`),
+    image: `${SITE_URL}${SIMULATOR.img("v35-home")}`,
+    screenshot: ["v35-rpto", "v35-fpv", "v35-preflight", "exam"].map((s) => `${SITE_URL}${SIMULATOR.img(s)}`),
     offers: { "@type": "Offer", price: "0", priceCurrency: "INR" },
     publisher: { "@type": "Organization", name: "Voltair Tech", url: SITE_URL },
   };
@@ -190,7 +208,7 @@ export default function SimulatorPage() {
           </nav>
           <div className="sim-hero__grid">
             <div>
-              <Kicker>Voltair Drone Simulator V3</Kicker>
+              <Kicker>Voltair Drone Simulator V3.5</Kicker>
               <h1 className="h-display sim-hero__h">
                 Train for your RPTO test. <em>Free.</em>
               </h1>
@@ -202,7 +220,7 @@ export default function SimulatorPage() {
             </div>
             <div className="sim-hero__media">
               {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src={SIMULATOR.img("hero")} alt="Voltair Drone Simulator V3 home screen" width={1600} height={900} />
+              <img src={SIMULATOR.img("v35-home")} alt="Voltair Drone Simulator V3.5 home screen: RPTO Test, DGCA Syllabus, FPV Racing, Free Flight, Training and Radio Setup" width={1600} height={748} />
             </div>
           </div>
           <div className="sim-stats">
@@ -231,6 +249,7 @@ export default function SimulatorPage() {
                   {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img src={SIMULATOR.img(f.img)} alt={f.title} width={1600} height={900} loading="lazy" />
                 </div>
+                {f.isNew ? <span className="sim-feature__new">New in V3.5</span> : null}
                 <h3 className="sim-feature__t">{f.title}</h3>
                 <p className="sim-feature__d">{f.text}</p>
               </article>

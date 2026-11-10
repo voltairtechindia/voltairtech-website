@@ -25,10 +25,10 @@ export function HomePillars() {
             <div className="pillar__media">
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
-                src={SIMULATOR.img("flight")}
-                alt="Voltair Drone Simulator: a drone flying a DGCA square circuit on the RPTO training ground"
-                width={1600}
-                height={900}
+                src={SIMULATOR.img("v35-rpto")}
+                alt="Voltair Drone Simulator V3.5: the RPTO training ground with its DGCA exercise patterns and race gates"
+                width={1280}
+                height={720}
                 loading="lazy"
               />
             </div>
