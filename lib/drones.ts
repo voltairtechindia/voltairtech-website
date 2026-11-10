@@ -7,14 +7,20 @@
  * version only needs the same two file names attached on GitHub.
  */
 
-const RELEASE = "https://github.com/harshal-aka-mady/Drone_Simulator_V2/releases/latest/download";
+const RELEASES = "https://github.com/harshal-aka-mady/Drone_Simulator_V2/releases";
 
 export const SIMULATOR = {
   name: "Voltair Drone Simulator",
-  version: "3.1.1",
-  windowsUrl: `${RELEASE}/VoltairDroneSimulatorV3-Setup.exe`,
+  /** Newest version (Windows); the Mac build can lag behind. */
+  version: "3.5.0",
+  windowsVersion: "3.5",
+  macVersion: "3.1.1",
+  // Windows follows the latest GitHub release. The Mac link is pinned to the
+  // release that holds the V3 Mac build, so a newer release published without
+  // a .dmg cannot break it; repoint it when a new Mac build is attached.
+  windowsUrl: `${RELEASES}/latest/download/VoltairDroneSimulatorV3-Setup.exe`,
   windowsSize: "84 MB",
-  macUrl: `${RELEASE}/VoltairDroneSimulatorV3-mac.dmg`,
+  macUrl: `${RELEASES}/download/Drone_trainer_V3/VoltairDroneSimulatorV3-mac.dmg`,
   macSize: "101 MB",
   compliancePdf: "/brochures/DGCA_Compliance_Matrix.pdf",
   img: (name: string) => `/images/drones/simulator/${name}.webp`,
