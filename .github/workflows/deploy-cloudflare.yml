@@ -10,8 +10,8 @@
 #   - by hand: Actions > Deploy to Cloudflare Pages > Run workflow
 #
 # Repo secrets it needs: CLOUDFLARE_API_TOKEN ("Cloudflare Pages: Edit") and
-# SUPABASE_SERVICE_KEY. Without the Cloudflare token the build still runs and
-# the deploy step is skipped with a notice.
+# SUPABASE_SERVICE_KEY. Without either one the build still runs and the deploy
+# step is skipped with a notice, so the live site is never replaced by a bad build.
 name: Deploy to Cloudflare Pages
 
 on:
@@ -67,9 +67,12 @@ jobs:
         id: cf
         env:
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          SUPABASE_SERVICE_KEY: ${{ secrets.SUPABASE_SERVICE_KEY }}
         run: |
-          if [ -n "$CLOUDFLARE_API_TOKEN" ]; then echo "ok=true" >> "$GITHUB_OUTPUT";
-          else echo "::notice::CLOUDFLARE_API_TOKEN secret is not set, so the deploy was skipped."; fi
+          # Never replace the live site with a snapshot build that lacks the DB content.
+          if [ -z "$SUPABASE_SERVICE_KEY" ]; then echo "::warning::SUPABASE_SERVICE_KEY secret is not set, so the deploy was skipped.";
+          elif [ -z "$CLOUDFLARE_API_TOKEN" ]; then echo "::notice::CLOUDFLARE_API_TOKEN secret is not set, so the deploy was skipped.";
+          else echo "ok=true" >> "$GITHUB_OUTPUT"; fi
 
       - name: Deploy to Cloudflare Pages
         if: steps.cf.outputs.ok == 'true'
