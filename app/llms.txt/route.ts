@@ -17,7 +17,7 @@ const SITE_URL = "https://www.voltairtech.com";
 
 const HEADER = `# Voltair Tech
 
-> Voltair Tech is a Mumbai technology company working on drones, AI, and robotics and IoT, with drones first. We make the free Voltair Drone Simulator for RPTO pilot training (as per DGCA guidelines, Windows and Mac), advise Indian drone makers such as Preflight Labs, and build AI chatbots, voice agents, automation and websites. We back drones and components made in India. Clients across India, the EU, and APAC.
+> Voltair Tech is a Mumbai technology company working on drones, AI, and robotics and IoT, with drones first. We make the Voltair Drone Simulator (Trial Version) for RPTO pilot training (as per DGCA guidelines, Windows and Mac), advise Indian drone makers such as Preflight Labs, and build AI chatbots, voice agents, automation and websites. We back drones and components made in India. Clients across India, the EU, and APAC.
 
 ## About
 - Location: Andheri West, Mumbai, Maharashtra 400053, India
@@ -31,7 +31,7 @@ const HEADER = `# Voltair Tech
 
 ## Drones
 - [Drones](${SITE_URL}/drones): Voltair drone products and what is coming: defence drones, type certified commercial drones, college and defence pilot training, drone lab setup.
-- [Drone Simulator](${SITE_URL}/drones/simulator): Free RPTO drone simulator for Windows 10/11 and Apple silicon Macs, as per DGCA guidelines (DTC 02 of 2022, DTC 01 of 2026). RPTO practice test with marks (180, pass 108), 13 DGCA flying exercises R1.F.3 to R1.F.18, theory T1.1 to T1.11, works with any RC radio, gamepad or keyboard. AV3 edition for RPTOs adds the full DGCA RPC course, grades, flight replay, trainee records and reports.
+- [Drone Simulator](${SITE_URL}/drones/simulator): Voltair Drone Simulator Trial Version for Windows 10/11 and Apple silicon Macs, as per DGCA guidelines (DTC 02 of 2022, DTC 01 of 2026). RPTO practice test with marks (180, pass 108), 13 DGCA flying exercises R1.F.3 to R1.F.18, theory T1.1 to T1.11, works with any RC radio, gamepad or keyboard. AV3 edition for RPTOs adds the full DGCA RPC course, grades, flight replay, trainee records and reports.
 - [Advisory](${SITE_URL}/drones/advisory): Voltair Tech advises Indian drone companies. First partner: Preflight Labs LLP, Goa (https://preflightlabs.in): TALON-1 hybrid VTOL UAV, COBRA VTOL long-endurance surveillance UAV, PFL Trainer quadcopter, SHRIKE net-projectile counter-drone interceptor.
 
 ## Core pages

@@ -8,7 +8,7 @@ export default function manifest(): MetadataRoute.Manifest {
     name: "Voltair Tech - Drones, AI and Robotics, Made in India",
     short_name: "Voltair Tech",
     description:
-      "Drones, AI and robotics, made in India. Free RPTO drone simulator, Indian drone partnerships, AI chatbots and automation.",
+      "Drones, AI and robotics, made in India. Voltair Drone Simulator Trial Version, Indian drone partnerships, AI chatbots and automation.",
     start_url: "/",
     scope: "/",
     display: "standalone",

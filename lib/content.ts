@@ -52,11 +52,11 @@ export const CONTENT = {
   faq: [
     {
       q: "Does Voltair Tech build drones?",
-      a: "Yes. Drones are now the biggest part of our work, alongside AI and robotics. We make a free RPTO drone simulator for Windows and Mac, and we advise Indian drone makers such as Preflight Labs. Defence drones, type certified commercial drones, pilot training and drone labs for colleges are coming soon. We back drones and components made in India.",
+      a: "Yes. Drones are now the biggest part of our work, alongside AI and robotics. We make the Voltair Drone Simulator (Trial Version) for Windows and Mac, and we advise Indian drone makers such as Preflight Labs. Defence drones, type certified commercial drones, pilot training and drone labs for colleges are coming soon. We back drones and components made in India.",
     },
     {
-      q: "Is the Voltair Drone Simulator free?",
-      a: "Yes. Download it free for Windows 10 and 11 or an Apple silicon Mac from voltairtech.com/drones/simulator. It is built as per DGCA guidelines and includes the RPTO practice test with marks, all 13 DGCA flying exercises and the theory lessons. Training organisations can switch on AV3, the advanced version, with full records and reports.",
+      q: "Is there a trial version of the Voltair Drone Simulator?",
+      a: "Yes. Download the Trial Version for Windows 10 and 11 or an Apple silicon Mac from voltairtech.com/drones/simulator. It is built as per DGCA guidelines and includes the RPTO practice test with marks, all 13 DGCA flying exercises and the theory lessons. Training organisations can switch on AV3, the advanced version, with full records and reports.",
     },
     {
       q: "Do you work with Indian drone and component makers?",
@@ -68,7 +68,7 @@ export const CONTENT = {
     },
     {
       q: "What does Voltair Tech actually do?",
-      a: "Three things, with drones first. Drones: a free RPTO drone simulator, advisory for Indian drone makers, and drone training and labs on the way. AI: chatbots on WhatsApp, voice agents and tools that answer from your own documents. Robotics and IoT: connecting machines and sensors to software. We are based in Andheri West, Mumbai.",
+      a: "Three things, with drones first. Drones: the Drone Simulator Trial Version, advisory for Indian drone makers, and drone training and labs on the way. AI: chatbots on WhatsApp, voice agents and tools that answer from your own documents. Robotics and IoT: connecting machines and sensors to software. We are based in Andheri West, Mumbai.",
     },
     {
       q: "How fast can my website be live?",

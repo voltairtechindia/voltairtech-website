@@ -4,7 +4,7 @@ const HUB_ITEMS = [
   {
     n: "02",
     label: "Drones",
-    desc: "A free RPTO simulator, Indian drone partners, and training and drone labs on the way.",
+    desc: "Drone simulator (Trial Version), Indian drone partners, and training and drone labs on the way.",
     eta: "made in India",
     href: "/drones",
   },

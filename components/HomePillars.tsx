@@ -41,7 +41,7 @@ export function HomePillars() {
               <ul className="pillar__links">
                 <li>
                   <Link href="/drones/simulator">
-                    <span>Free RPTO drone simulator</span>
+                    <span>Drone Simulator (Trial Version)</span>
                     <small>Windows and Mac · as per DGCA guidelines</small>
                     <Arr />
                   </Link>

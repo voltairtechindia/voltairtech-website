@@ -15,7 +15,7 @@ import type { FaqItem } from "@/lib/faq/types";
  */
 const HOME_FAQ_QUESTIONS = [
   "Does Voltair Tech build drones?",
-  "Is the Voltair Drone Simulator free?",
+  "Is there a trial version of the Voltair Drone Simulator?",
   "What does Voltair Tech actually do?",
   "How fast can my website be live?",
   "What does it cost?",

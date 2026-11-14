@@ -100,10 +100,21 @@ npm run lint     # ESLint
   DB-backed llmstxt.org manifest for GEO/AEO that lists published services,
   industries, and blog posts (replaced the old static `public/llms.txt`).
 
-## Deployment (GitHub Pages, static)
-- `.github/workflows/pages.yml` builds `out/` and deploys it to GitHub Pages on
-  every push to `main`, every 4 hours (new blog posts and admin edits show up
-  then), and on demand (Actions, Run workflow). Custom domain www.voltairtech.com.
+## Deployment (Cloudflare Pages, static + Functions) — updated 2026-11-14
+- `.github/workflows/deploy-cloudflare.yml` builds `out/` from the live DB and
+  deploys it (with `functions/`) to Cloudflare Pages on every push to `main`,
+  every 6 hours, by hand, and **whenever the admin saves anything**: the admin
+  calls `POST /api/revalidate`, which dispatches the workflow
+  (`server/rebuild.ts`, Pages secret `GITHUB_DEPLOY_TOKEN`). Repo secrets:
+  `CLOUDFLARE_API_TOKEN`, `SUPABASE_SERVICE_KEY`. `pages.yml` (GitHub Pages) is
+  retired, manual only.
+- **Admin write APIs are back** as Pages Functions: `/api/{blog,services,
+  industries,faqs,live-projects}` (+ `/reorder`), `/api/careers/parse`,
+  `/api/revalidate`. Handlers live in `server/routes/*` (ported from
+  `vercel-full`, `next/server` + `next/cache` swapped for `server/shims/*`);
+  `functions/_lib/route.ts` wraps them. Job applications: `functions/api/career.ts`.
+- `npm run build` first deletes `.next/cache/fetch-cache`, else Next reuses
+  stale Supabase answers from an earlier build.
 - Build-time data needs `SUPABASE_URL` + `SUPABASE_SERVICE_KEY`: repo secrets if
   set, else pulled from the old Vercel project with the `VERCEL_TOKEN` secret.
   The service key is only used during the build and never reaches the browser.

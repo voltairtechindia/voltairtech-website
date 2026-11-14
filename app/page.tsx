@@ -17,7 +17,7 @@ import { SITE_URL } from "@/lib/seo";
 export const metadata: Metadata = {
   title: { absolute: "Voltair Tech - Drones, AI and Robotics, Made in India" },
   description:
-    "Voltair Tech builds drone technology, AI software, robotics and IoT in Mumbai. Free RPTO drone simulator as per DGCA guidelines, Indian drone partnerships, AI chatbots and automation.",
+    "Voltair Tech builds drone technology, AI software, robotics and IoT in Mumbai. Voltair Drone Simulator Trial Version as per DGCA guidelines, Indian drone partnerships, AI chatbots and automation.",
   alternates: {
     canonical: "https://www.voltairtech.com/",
   },
@@ -98,7 +98,7 @@ function buildJsonLd(services: ServiceCard[], homeFaq: FaqItem[]) {
       foundingDate: "2024",
       slogan: "Drones, AI and robotics, made in India.",
       description:
-        "Mumbai technology company focused on drones, AI, and robotics and IoT, with drones first. We make a free RPTO drone simulator as per DGCA guidelines, advise Indian drone makers such as Preflight Labs, and build AI chatbots, voice agents, automation and websites.",
+        "Mumbai technology company focused on drones, AI, and robotics and IoT, with drones first. We make the Voltair Drone Simulator (Trial Version) as per DGCA guidelines, advise Indian drone makers such as Preflight Labs, and build AI chatbots, voice agents, automation and websites.",
       address: ADDRESS,
       areaServed: AREA_SERVED,
       ...(catalog ? { hasOfferCatalog: catalog } : {}),

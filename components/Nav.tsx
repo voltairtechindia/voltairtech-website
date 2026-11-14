@@ -98,7 +98,7 @@ export async function Nav({ showContactCta = true }: { showContactCta?: boolean 
       badge: "New",
       menuTitle: "Drones made in India",
       children: [
-        { label: "Drone Simulator (free)", href: "/drones/simulator" },
+        { label: "Drone Simulator (Trial Version)", href: "/drones/simulator" },
         { label: "Advisory: Preflight Labs", href: "/drones/advisory" },
       ],
     },

@@ -22,7 +22,7 @@ export function Hero() {
           <p className="hero__sub">
             We build <strong>drone technology, AI software and connected devices</strong>{" "}
             in Mumbai, and back drones and parts made in India. Start with our{" "}
-            <strong className="red-strong">free RPTO drone simulator</strong>, or tell us
+            <strong className="red-strong">Drone Simulator Trial Version</strong>, or tell us
             what you want built.
           </p>
           <HeroPrompt />
@@ -31,7 +31,7 @@ export function Hero() {
               Explore drones <Arr />
             </Link>
             <Link className="btn btn-ghost" href="/drones/simulator">
-              Free drone simulator
+              Simulator Trial Version
             </Link>
           </div>
           <div className="hero__proof">

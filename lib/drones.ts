@@ -38,7 +38,7 @@ export const DRONE_PRODUCTS: DroneProduct[] = [
   {
     slug: "simulator",
     title: "Drone Simulator",
-    line: "Practise for the RPTO test on your own computer. Free to download for Windows and Mac.",
+    line: "Practise for the RPTO test on your own computer. Download the Trial Version for Windows and Mac.",
     href: "/drones/simulator",
     status: "live",
   },

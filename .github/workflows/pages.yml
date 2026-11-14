@@ -9,14 +9,9 @@
 # during the build and never reaches the site.
 name: Deploy to GitHub Pages
 
+# RETIRED 2026-11-14: the site moved to Cloudflare Pages
+# (deploy-cloudflare.yml). Kept for manual use only.
 on:
-  push:
-    branches: [main]
-    paths-ignore:
-      - ".github/workflows/**"
-      - "changes.bundle"
-  schedule:
-    - cron: "17 */4 * * *"
   workflow_dispatch:
 
 permissions:

@@ -43,4 +43,4 @@ jobs:
       - name: Deploy the site
         env:
           GH_TOKEN: ${{ github.token }}
-        run: gh workflow run pages.yml --ref main
+        run: gh workflow run deploy-cloudflare.yml --ref main

@@ -41,7 +41,7 @@ export const metadata: Metadata = {
     template: "%s | Voltair Tech",
   },
   description:
-    "Voltair Tech builds drone technology, AI software, robotics and IoT in Mumbai. Free RPTO drone simulator as per DGCA guidelines, Indian drone partnerships, AI chatbots and automation.",
+    "Voltair Tech builds drone technology, AI software, robotics and IoT in Mumbai. Voltair Drone Simulator Trial Version as per DGCA guidelines, Indian drone partnerships, AI chatbots and automation.",
   keywords: [
     "drone simulator India",
     "RPTO simulator",
@@ -67,7 +67,7 @@ export const metadata: Metadata = {
     url: "https://www.voltairtech.com",
     siteName: "Voltair Tech",
     title: "Voltair Tech - Drones, AI and Robotics, Made in India",
-    description: "Voltair Tech builds drone technology, AI software, robotics and IoT in Mumbai. Free RPTO drone simulator as per DGCA guidelines, Indian drone partnerships, AI chatbots and automation.",
+    description: "Voltair Tech builds drone technology, AI software, robotics and IoT in Mumbai. Voltair Drone Simulator Trial Version as per DGCA guidelines, Indian drone partnerships, AI chatbots and automation.",
     images: [
       {
         url: "/assets/og-image.jpg",
@@ -80,7 +80,7 @@ export const metadata: Metadata = {
   twitter: {
     card: "summary_large_image",
     title: "Voltair Tech - Drones, AI and Robotics, Made in India",
-    description: "Voltair Tech builds drone technology, AI software, robotics and IoT in Mumbai. Free RPTO drone simulator as per DGCA guidelines, Indian drone partnerships, AI chatbots and automation.",
+    description: "Voltair Tech builds drone technology, AI software, robotics and IoT in Mumbai. Voltair Drone Simulator Trial Version as per DGCA guidelines, Indian drone partnerships, AI chatbots and automation.",
     images: ["/assets/og-image.jpg"],
   },
   icons: {

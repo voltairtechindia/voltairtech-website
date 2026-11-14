@@ -147,7 +147,7 @@ export default function CareerForm({
           note,
           consent: "yes",
         },
-        { file, honeypot: website },
+        { file, honeypot: website, jobSlug },
       );
       setStatus("done");
       onSubmitted?.();

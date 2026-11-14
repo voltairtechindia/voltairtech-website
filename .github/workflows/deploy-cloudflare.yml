@@ -1,0 +1,80 @@
+# Builds the static site from the database and deploys it (with functions/) to
+# Cloudflare Pages: www.voltairtech.com.
+#
+# Runs when:
+#   - code is pushed to main
+#   - the admin panel saves something: it calls /api/revalidate on the site,
+#     which starts this workflow (server/rebuild.ts, Pages secret
+#     GITHUB_DEPLOY_TOKEN)
+#   - every 6 hours, as a backstop
+#   - by hand: Actions > Deploy to Cloudflare Pages > Run workflow
+#
+# Repo secrets it needs: CLOUDFLARE_API_TOKEN ("Cloudflare Pages: Edit") and
+# SUPABASE_SERVICE_KEY. Without the Cloudflare token the build still runs and
+# the deploy step is skipped with a notice.
+name: Deploy to Cloudflare Pages
+
+on:
+  push:
+    branches: [main]
+    paths-ignore:
+      - "changes.bundle"
+      - "**.md"
+  schedule:
+    - cron: "23 */6 * * *"
+  workflow_dispatch:
+    inputs:
+      reason:
+        description: "Why (shown in the run name)"
+        required: false
+        default: "manual"
+
+run-name: "Deploy: ${{ github.event.inputs.reason || github.event.head_commit.message || github.event_name }}"
+
+# One run at a time; further requests wait as a single queued run, so a burst
+# of admin saves costs at most two builds and the last one has everything.
+concurrency:
+  group: cloudflare-pages
+  cancel-in-progress: false
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: npm
+
+      - run: npm ci --no-audit --no-fund
+
+      - name: Build static export
+        env:
+          SUPABASE_URL: https://asipqnvxmtzllivlyibh.supabase.co
+          SUPABASE_SERVICE_KEY: ${{ secrets.SUPABASE_SERVICE_KEY }}
+          NEXT_PUBLIC_LEADS_URL: ${{ secrets.NEXT_PUBLIC_LEADS_URL }}
+        run: |
+          if [ -z "$SUPABASE_SERVICE_KEY" ]; then
+            echo "::warning::SUPABASE_SERVICE_KEY secret is not set: building from the content snapshot, so admin changes will NOT appear."
+            unset SUPABASE_URL
+          fi
+          npm run build
+
+      - name: Check the Cloudflare token
+        id: cf
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+        run: |
+          if [ -n "$CLOUDFLARE_API_TOKEN" ]; then echo "ok=true" >> "$GITHUB_OUTPUT";
+          else echo "::notice::CLOUDFLARE_API_TOKEN secret is not set, so the deploy was skipped."; fi
+
+      - name: Deploy to Cloudflare Pages
+        if: steps.cf.outputs.ok == 'true'
+        uses: cloudflare/wrangler-action@v3
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: 153d80f996023354da4464f037f461d2
+          command: pages deploy out --project-name=voltairtech-website --branch=main

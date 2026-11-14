@@ -6,7 +6,7 @@ import { OPEN_CHAT_EVENT } from "@/lib/chat-client";
 
 /** Placeholder questions the input types out on a loop. First is the default. */
 const PLACEHOLDERS = [
-  "Is your drone simulator free?",
+  "How do I get the Drone Simulator Trial Version?",
   "Which Indian drones do you work with?",
   "Ask what we'd build for your business…",
   "How fast can you ship my website?",

@@ -31,7 +31,7 @@ function fileToBase64(file: File): Promise<string> {
 export async function sendLead(
   form: string,
   fields: Record<string, Value>,
-  opts: { file?: File | null; honeypot?: string } = {},
+  opts: { file?: File | null; honeypot?: string; jobSlug?: string } = {},
 ): Promise<void> {
   const payload: Record<string, unknown> = { site: SITE, form };
   for (const [k, v] of Object.entries(fields)) {
@@ -48,15 +48,18 @@ export async function sendLead(
     };
   }
 
-  // Enquiries (not job applications) also go to the admin panel's Inquiries
-  // page through our own Function (functions/api/inquiry.ts). Best effort: the
-  // Sheet and the email below are what the visitor's success depends on.
-  if (form !== "career" && typeof window !== "undefined") {
-    fetch("/api/inquiry", {
+  // Every submission also goes to the admin panel through our own Functions:
+  // enquiries to Inquiries (functions/api/inquiry.ts), job applications with
+  // their résumé to Careers > Applications (functions/api/career.ts). Best
+  // effort: the Sheet and the email below are what the visitor's success
+  // depends on. No keepalive on career: a résumé body is over its 64 KB cap.
+  if (typeof window !== "undefined") {
+    const isCareer = form === "career";
+    fetch(isCareer ? "/api/career" : "/api/inquiry", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(payload),
-      keepalive: true,
+      body: JSON.stringify(isCareer ? { ...payload, job_slug: opts.jobSlug } : payload),
+      keepalive: !isCareer,
     }).catch(() => {});
   }
 

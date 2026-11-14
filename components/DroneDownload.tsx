@@ -64,7 +64,7 @@ export function DroneDownload({ dark = false }: { dark?: boolean }) {
         </a>
       </div>
       <p className="drone-dl__meta">
-        Free · Windows V{SIMULATOR.windowsVersion} for Windows 10 and 11 ({SIMULATOR.windowsSize}) · Mac
+        Trial Version · Windows V{SIMULATOR.windowsVersion} for Windows 10 and 11 ({SIMULATOR.windowsSize}) · Mac
         V{SIMULATOR.macVersion} for Apple M1 or later ({SIMULATOR.macSize})
       </p>
       {os === "mobile" ? (

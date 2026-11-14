@@ -8,9 +8,9 @@ import { DroneDownload } from "@/components/DroneDownload";
 import { SIMULATOR } from "@/lib/drones";
 import { SITE_URL, breadcrumbLd } from "@/lib/seo";
 
-const TITLE = "Free Drone Simulator for RPTO Training (DGCA) - Windows and Mac | Voltair";
+const TITLE = "Voltair Drone Simulator Trial Version (DGCA) - Windows and Mac | Voltair";
 const DESCRIPTION =
-  "Download Voltair Drone Simulator free for Windows and Mac. Practise the RPTO test with marks, the 13 DGCA flying exercises and theory lessons, with your RC radio or keyboard. Made in India.";
+  "Download the Voltair Drone Simulator Trial Version for Windows and Mac. Practise the RPTO test with marks, the 13 DGCA flying exercises and theory lessons, with your RC radio or keyboard. Made in India.";
 const URL = `${SITE_URL}/drones/simulator`;
 
 export const metadata: Metadata = {
@@ -21,7 +21,7 @@ export const metadata: Metadata = {
     "RPTO simulator",
     "DGCA drone simulator",
     "drone pilot training simulator India",
-    "free drone simulator Windows",
+    "drone simulator trial version Windows",
     "drone simulator Mac",
     "RPC drone course",
     "remote pilot certificate practice",
@@ -29,7 +29,7 @@ export const metadata: Metadata = {
   alternates: { canonical: URL },
   openGraph: {
     url: URL,
-    title: "Voltair Drone Simulator: free RPTO training simulator",
+    title: "Voltair Drone Simulator: Trial Version",
     description: DESCRIPTION,
     images: [SIMULATOR.img("v35-home")],
   },
@@ -39,7 +39,7 @@ const STATS = [
   { n: "180", l: "Marks in the RPTO practice test" },
   { n: "13", l: "DGCA flying exercises (R1.F.3 to R1.F.18)" },
   { n: "11", l: "Theory lessons with quizzes" },
-  { n: "₹0", l: "To download and practise" },
+  { n: "Trial", l: "Trial Version for Windows and Mac" },
 ];
 
 const FEATURES: { img: string; title: string; text: string; isNew?: boolean }[] = [
@@ -115,7 +115,7 @@ const COMPARE: { f: string; free: Cell; av3: Cell }[] = [
   { f: "Logbook, skill test and final training reports", free: false, av3: true },
   { f: "Instructor mode: take over, add failures", free: false, av3: true },
   { f: "Assembly and maintenance R1.A.1 to R1.A.6", free: false, av3: true },
-  { f: "Price", free: "Free", av3: "One serial per PC" },
+  { f: "Edition", free: "Trial Version", av3: "One serial per PC" },
 ];
 
 const AV3_SHOTS = [
@@ -127,8 +127,8 @@ const AV3_SHOTS = [
 
 const FAQS = [
   {
-    q: "Is the drone simulator really free?",
-    a: "Yes. The free edition has no time limit and no sign up. It includes the RPTO practice test with marks, all 13 DGCA flying exercises, the theory lessons and test, free flight and radio setup. Results in the free edition are not saved.",
+    q: "What is included in the Trial Version?",
+    a: "The Trial Version has no sign up. It includes the RPTO practice test with marks, all 13 DGCA flying exercises, the theory lessons and test, free flight and radio setup. Results in the Trial Version are not saved.",
   },
   {
     q: "Is it as per DGCA guidelines?",
@@ -148,7 +148,7 @@ const FAQS = [
   },
   {
     q: "What is AV3 and who is it for?",
-    a: "AV3 is the advanced version for RPTOs, colleges and defence training units. It adds the full DGCA RPC course with grades, flight logs and 3D replay, trainee records, reports and instructor mode. It is switched on inside the same download with one serial per PC.",
+    a: "AV3 is the advanced version for RPTOs, colleges and defence training units. It adds the full DGCA RPC course with grades, flight logs and 3D replay, trainee records, reports and instructor mode. It is switched on inside the same Trial Version download with one serial per PC.",
   },
   {
     q: "The Mac says the app cannot be opened. What do I do?",
@@ -210,7 +210,7 @@ export default function SimulatorPage() {
             <div>
               <Kicker>Voltair Drone Simulator V3.5</Kicker>
               <h1 className="h-display sim-hero__h">
-                Train for your RPTO test. <em>Free.</em>
+                Train for your RPTO test. <em>Trial Version.</em>
               </h1>
               <p className="sim-hero__lead">
                 A drone flight simulator built as per DGCA guidelines. Take the RPTO practice test with marks,
@@ -238,7 +238,7 @@ export default function SimulatorPage() {
       <section className="section">
         <div className="container">
           <SectionHead
-            kicker="In the free download"
+            kicker="In the Trial Version"
             title={<>Everything you need{" "}<br />to practise.</>}
             right={<span className="tag"><span className="pulse" />No sign up</span>}
           />
@@ -292,22 +292,22 @@ export default function SimulatorPage() {
         </div>
       </section>
 
-      {/* ── Free vs AV3 ── */}
+      {/* ── Trial Version vs AV3 ── */}
       <section className="section" id="av3">
         <div className="container">
           <SectionHead
             kicker="For RPTOs, colleges and defence"
-            title={<>Free to practise.{" "}<br />AV3 to train pilots.</>}
+            title={<>Start with the Trial Version.{" "}<br />AV3 to train pilots.</>}
             right={<span className="tag"><span className="pulse" />Same download</span>}
           />
           <p className="sim-av3__lead">
             AV3 is the advanced version for training organisations. It turns the simulator into the full DGCA RPC course,
             with grades, records and reports you can show DGCA. It is switched on inside the same download, one serial per PC.
           </p>
-          <div className="cmp sim-cmp" role="table" aria-label="Free and AV3 editions compared">
+          <div className="cmp sim-cmp" role="table" aria-label="Trial Version and AV3 editions compared">
             <div className="cmp__row cmp__row--head" role="row">
               <div className="cmp__cell" role="columnheader">Feature</div>
-              <div className="cmp__cell" role="columnheader">Free</div>
+              <div className="cmp__cell" role="columnheader">Trial Version</div>
               <div className="cmp__cell us" role="columnheader">AV3</div>
             </div>
             {COMPARE.map((r) => (

@@ -10,8 +10,9 @@
   ],
   "scripts": {
     "dev": "next dev",
+    "prebuild": "node -e \"require('fs').rmSync('.next/cache/fetch-cache',{recursive:true,force:true})\"",
     "build": "next build",
-    "deploy:cf": "wrangler pages deploy out --project-name=voltairtech-website --branch=main",
+    "deploy:cf": "npm run build && wrangler pages deploy out --project-name=voltairtech-website --branch=main",
     "start": "next start",
     "lint": "next lint",
     "kb:check": "node scripts/check-kb-drift.mjs",
